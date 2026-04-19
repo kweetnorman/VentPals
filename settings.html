@@ -23,12 +23,35 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
+
+    /* Toggle switch */
+    .toggle-track {
+      position: relative; display: inline-block;
+      width: 52px; height: 28px;
+    }
+    .toggle-track input { opacity:0; width:0; height:0; }
+    .toggle-slider {
+      position:absolute; cursor:pointer;
+      top:0; left:0; right:0; bottom:0;
+      background:#d1d5db; border-radius:999px;
+      transition: background .2s;
+    }
+    .toggle-slider:before {
+      content:''; position:absolute;
+      height:22px; width:22px; left:3px; bottom:3px;
+      background:#fff; border-radius:50%;
+      transition: transform .2s;
+    }
+    .toggle-track input:checked + .toggle-slider { background:#A259FF; }
+    .toggle-track input:checked + .toggle-slider:before { transform:translateX(24px); }
+    .vp-hidden { display: none; }
   </style>
 </head>
 
 <body class="text-gray-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
   <script src="assets/js/session.js"></script>
+  <script src="assets/js/native-bridge.js"></script>
 
   <!-- HEADER -->
   <section class="text-center py-12 px-6">
@@ -111,6 +134,52 @@
       </a>
     </div>
 
+    <!-- INVITE PARENT (native share) -->
+    <div class="bg-white rounded-3xl shadow p-8">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Invite a Grown-Up</h2>
+      <p class="text-gray-600 text-sm mb-4">
+        Share your Connection Code with a trusted grown-up so they can join your VentPals family.
+      </p>
+
+      <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center mb-4">
+        <p id="shareParentCode" class="text-2xl font-bold text-purple-700 tracking-widest">—</p>
+      </div>
+
+      <button id="inviteParentBtn"
+              class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full flex items-center justify-center gap-2">
+        <span>📤</span> Invite Grown-Up
+      </button>
+
+      <p class="text-xs text-gray-500 mt-3">
+        Only you can share this code. Grown-ups cannot join without it.
+      </p>
+    </div>
+
+    <!-- CHECK-IN REMINDERS (local notifications) -->
+    <div class="bg-white rounded-3xl shadow p-8">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Daily Check-In Reminder</h2>
+      <p class="text-gray-600 text-sm mb-4">
+        Get a gentle nudge each day to check in with your feelings.
+      </p>
+
+      <div class="flex items-center justify-between mb-5">
+        <span class="text-sm font-semibold text-gray-700">Remind me daily</span>
+        <label class="toggle-track" aria-label="Toggle daily reminder">
+          <input type="checkbox" id="notifToggle" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div id="notifTimeRow" class="vp-hidden flex items-center gap-3">
+        <label class="text-sm font-semibold text-gray-700 flex-1" for="notifTime">Reminder time</label>
+        <input type="time" id="notifTime"
+               class="border border-purple-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+               value="09:00" />
+      </div>
+
+      <p id="notifStatus" class="text-xs text-gray-500 mt-3 hidden"></p>
+    </div>
+
     <!-- LOGOUT -->
     <div class="bg-white rounded-3xl shadow p-8 text-center">
       <button id="logoutBtn" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 rounded-full">
@@ -141,6 +210,7 @@
 
     const parentCode = user.parentCode || '—';
     document.getElementById('settingsParentCode').textContent = parentCode;
+    document.getElementById('shareParentCode').textContent    = parentCode;
 
     document.getElementById('saveNameBtn').addEventListener('click', () => {
       try {
@@ -150,6 +220,7 @@
         localStorage.setItem('ventpals_user', JSON.stringify(user));
         const btn = document.getElementById('saveNameBtn');
         btn.textContent = 'Saved ✓';
+        if (window.VentPalsNative) window.VentPalsNative.Haptics.success();
         setTimeout(() => { btn.textContent = 'Save Name'; }, 2000);
       } catch(e) {}
     });
@@ -157,6 +228,7 @@
     document.getElementById('settingsCopyBtn').addEventListener('click', () => {
       const code = user.parentCode || '';
       if (!code) return;
+      if (window.VentPalsNative) window.VentPalsNative.Haptics.tap();
       function flash() {
         const btn = document.getElementById('settingsCopyBtn');
         btn.textContent = 'Copied! ✓';
@@ -175,6 +247,64 @@
         fallback(code);
       }
     });
+
+    // ── Invite Parent (native share) ──
+    document.getElementById('inviteParentBtn').addEventListener('click', () => {
+      if (window.VentPalsNative) window.VentPalsNative.Haptics.tap();
+      const code = user.parentCode || '—';
+      const shareOpts = {
+        title:       'Join my VentPals family!',
+        text:        `Hi! I'm using VentPals to explore my feelings. Use my Connection Code to join my family: ${code}\n\nDownload VentPals at https://ventpals.com`,
+        url:         'https://ventpals.com',
+        dialogTitle: 'Invite a Grown-Up',
+      };
+      if (window.VentPalsNative) {
+        window.VentPalsNative.Share.share(shareOpts);
+      } else if (navigator.share) {
+        navigator.share({ title: shareOpts.title, text: shareOpts.text, url: shareOpts.url });
+      } else {
+        prompt('Share this with a grown-up:', shareOpts.text);
+      }
+    });
+
+    // ── Notification toggle ──
+    (function initNotifUI() {
+      const native = window.VentPalsNative;
+      if (!native) return;
+
+      const toggle  = document.getElementById('notifToggle');
+      const timeRow = document.getElementById('notifTimeRow');
+      const timeIn  = document.getElementById('notifTime');
+      const status  = document.getElementById('notifStatus');
+
+      function setTimeRowVisible(on) {
+        timeRow.classList.toggle('vp-hidden', !on);
+      }
+
+      const enabled = native.Notifications.isEnabled();
+      toggle.checked = enabled;
+      timeIn.value   = native.Notifications.getTime();
+      setTimeRowVisible(enabled);
+
+      toggle.addEventListener('change', () => {
+        native.Haptics.tap();
+        const on = toggle.checked;
+        native.Notifications.setEnabled(on);
+        setTimeRowVisible(on);
+        if (on) {
+          status.textContent = '✓ Reminder set for ' + timeIn.value;
+          status.classList.remove('hidden');
+        } else {
+          status.classList.add('hidden');
+        }
+      });
+
+      timeIn.addEventListener('change', () => {
+        native.Notifications.setTime(timeIn.value);
+        status.textContent = '✓ Reminder updated to ' + timeIn.value;
+        status.classList.remove('hidden');
+      });
+    })();
 
     document.getElementById("logoutBtn").addEventListener("click", () => {
       localStorage.removeItem("ventpals_logged_in");

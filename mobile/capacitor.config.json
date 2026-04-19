@@ -1,0 +1,36 @@
+{
+  "appId": "com.ventpals.app",
+  "appName": "VentPals",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "App": {
+      "appUrlOpen": {
+        "schemes": ["ventpals"]
+      }
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon",
+      "iconColor": "#A259FF",
+      "sound": "default"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#F7F4FF",
+      "showSpinner": false
+    }
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#F7F4FF",
+    "appendUserAgent": "VentPalsApp/1.0"
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "backgroundColor": "#F7F4FF",
+    "appendUserAgent": "VentPalsApp/1.0",
+    "scheme": "ventpals"
+  }
+}

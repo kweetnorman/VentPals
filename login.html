@@ -195,7 +195,7 @@
       color: rgba(31,41,55,0.65);
       font-size: 12px;
     }
-  </style>
+    <script src="assets/js/native-bridge.js"></script>
 </head>
 <body>
   <header>
@@ -319,6 +319,7 @@
 
       const storedUser = localStorage.getItem('ventpals_user');
       if (!storedUser) {
+        if (window.VentPalsNative) window.VentPalsNative.Haptics.error();
         showError('No account found on this device yet. Please sign up first.');
         return;
       }
@@ -329,6 +330,7 @@
                       (identifier.toLowerCase() === String(user.username || '').toLowerCase());
 
       if (!idMatch) {
+        if (window.VentPalsNative) window.VentPalsNative.Haptics.error();
         showError('Username not found. Please check and try again.');
         return;
       }
@@ -338,10 +340,12 @@
       if (storedPinHash) {
         // ── PIN login ──
         if (enteredPin.length !== 4) {
+          if (window.VentPalsNative) window.VentPalsNative.Haptics.warning();
           showError('Please enter your 4-digit secret code.');
           return;
         }
         if (btoa(enteredPin) !== storedPinHash) {
+          if (window.VentPalsNative) window.VentPalsNative.Haptics.error();
           showError('That secret code is wrong. Try again!');
           return;
         }
@@ -352,6 +356,7 @@
         return;
       }
 
+      if (window.VentPalsNative) window.VentPalsNative.Haptics.success();
       localStorage.setItem('ventpals_logged_in', 'true');
 
       // Resume last page if present

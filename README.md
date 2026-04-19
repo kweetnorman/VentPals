@@ -57,6 +57,21 @@ open index.html   # or serve with any static file server
 
 No build step required — the site is plain HTML/CSS/JS with Tailwind CSS loaded via CDN.
 
+## 📱 Mobile App (iOS & Android)
+
+A [Capacitor](https://capacitorjs.com/)-based mobile app lives in the `mobile/` directory.  
+It bundles the existing web assets offline and adds native features (haptics, share sheet, local notifications, deep links).
+
+```bash
+cd mobile
+npm install
+npm run cap:sync   # generates ios/ and android/ projects
+```
+
+See **[mobile/README.md](mobile/README.md)** for full build and release instructions.
+
+App identifiers: `com.ventpals.app` • Display name: **VentPals**
+
 ## 🌐 Live Site
 
 [ventpals.com](https://www.ventpals.com)

@@ -1,0 +1,197 @@
+# VentPals — Mobile App
+
+This directory contains the [Capacitor](https://capacitorjs.com/) project that wraps the VentPals static-site assets into a native iOS and Android app.
+
+---
+
+## Quick start
+
+```bash
+# 1. Install dependencies
+cd mobile
+npm install
+
+# 2. Copy web assets from repo root → mobile/www/ and sync native projects
+npm run cap:sync
+```
+
+That's it for a first-time setup. The commands above:
+- Run `scripts/prepare-www.js`, which copies all HTML/CSS/JS/assets from the repo root into `mobile/www/`.
+- Run `npx cap sync`, which generates (or updates) the `ios/` and `android/` Capacitor projects and installs any native plugin code.
+
+---
+
+## Prerequisites
+
+| Tool | Version | Install |
+|------|---------|---------|
+| Node.js | ≥ 18 | [nodejs.org](https://nodejs.org) |
+| npm | ≥ 9 | bundled with Node |
+| Xcode | ≥ 15 | Mac App Store (iOS only) |
+| Android Studio | ≥ Hedgehog | [developer.android.com](https://developer.android.com/studio) |
+| CocoaPods | ≥ 1.14 | `sudo gem install cocoapods` (iOS only) |
+| Java (JDK) | ≥ 17 | via Android Studio or [adoptium.net](https://adoptium.net) |
+
+---
+
+## npm scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run prepare-www` | Copy web assets from repo root → `www/` |
+| `npm run build` | Alias for `prepare-www` |
+| `npm run cap:sync` | `build` + `npx cap sync` (generates native projects) |
+| `npm run cap:run:android` | Build and run on connected Android device/emulator |
+| `npm run cap:run:ios` | Build and run on connected iOS device/simulator |
+| `npm run cap:open:android` | Open Android project in Android Studio |
+| `npm run cap:open:ios` | Open iOS project in Xcode |
+
+---
+
+## Detailed workflows
+
+### Android
+
+```bash
+# Install deps and sync
+npm install
+npm run cap:sync
+
+# Option A — run directly on device / emulator
+npm run cap:run:android
+
+# Option B — open in Android Studio
+npm run cap:open:android
+# Then: Build → Generate Signed Bundle/APK (for release)
+```
+
+**Producing a release AAB:**
+
+1. `npm run cap:open:android`
+2. In Android Studio: **Build → Generate Signed Bundle/APK → Android App Bundle**
+3. Create or select your keystore, fill in alias/passwords.
+4. Choose **release** build variant.
+5. Output `.aab` is in `android/app/release/`.
+
+### iOS
+
+> macOS + Xcode required.
+
+```bash
+# Install deps and sync
+npm install
+npm run cap:sync
+
+# Option A — run on simulator
+npm run cap:run:ios
+
+# Option B — open in Xcode
+npm run cap:open:ios
+# Then: Product → Archive (for App Store / TestFlight)
+```
+
+**Producing a TestFlight / App Store build:**
+
+1. `npm run cap:open:ios`
+2. In Xcode, select the `App` target.
+3. Set the signing team (Xcode → Signing & Capabilities).
+4. **Product → Archive**.
+5. In Organizer: **Distribute App → App Store Connect**.
+
+---
+
+## App configuration
+
+Edit `capacitor.config.json` in this directory:
+
+| Key | Value | Notes |
+|-----|-------|-------|
+| `appId` | `com.ventpals.app` | iOS Bundle ID + Android Application ID |
+| `appName` | `VentPals` | Display name under the icon |
+| `webDir` | `www` | Populated by `npm run build` |
+
+---
+
+## Native features
+
+The bridge script at `/assets/js/native-bridge.js` (in the repo root, bundled into `www/`) exposes:
+
+| Feature | API | Trigger |
+|---------|-----|---------|
+| **Haptics** | `VentPalsNative.Haptics.success()` etc. | PIN login, CTAs |
+| **Native share** | `VentPalsNative.Share.share(opts)` | Settings → "Invite Grown-Up" |
+| **Local notifications** | `VentPalsNative.Notifications.setEnabled(true)` | Settings → reminder toggle |
+| **Offline banner** | Auto-injected | Any page when device is offline |
+| **Deep links** | `ventpals://<route>` | External URL open |
+| **In-app browser** | `VentPalsNative.Browser.open(url)` | External links |
+
+### Deep link routes
+
+| URL | Page |
+|-----|------|
+| `ventpals://` | `index.html` |
+| `ventpals://login` | `login.html` |
+| `ventpals://dashboard` | `dashboard.html` |
+| `ventpals://onboarding` | `onboarding/onboarding.html` |
+| `ventpals://settings` | `settings.html` |
+| `ventpals://nest` | `circles-dashboard.html` |
+| `ventpals://world` | `world.html` |
+| `ventpals://calming` | `calming-skills.html` |
+| `ventpals://feelings` | `start-feeling.html` |
+
+---
+
+## App icons & splash screens
+
+See [`icons/README.md`](icons/README.md) for instructions on generating correctly-sized icon and splash assets for both platforms.
+
+---
+
+## Web asset updates
+
+Any time you change an HTML/CSS/JS file in the repo root, run:
+
+```bash
+npm run cap:sync
+```
+
+to copy the updated files into `www/` and sync with the native projects. You do **not** need to reinstall npm packages.
+
+---
+
+## Project structure
+
+```
+mobile/
+├── capacitor.config.json   ← App ID, display name, webDir, plugin settings
+├── package.json            ← Node project + Capacitor/plugin deps
+├── scripts/
+│   └── prepare-www.js      ← Copies web assets from repo root → www/
+├── icons/
+│   └── README.md           ← Instructions for icon/splash artwork
+├── www/                    ← Generated by `npm run build` (gitignored)
+├── android/                ← Generated by `npx cap sync` (gitignored)
+└── ios/                    ← Generated by `npx cap sync` (gitignored)
+```
+
+The `www/`, `android/`, and `ios/` directories are gitignored — they are regenerated from source on each developer's machine.
+
+---
+
+## Keeping root site unaffected
+
+The root of the repo remains a plain static site (GitHub Pages / any static host). The `mobile/` directory is entirely self-contained and does not change any root deployment behaviour.
+
+---
+
+## Store review notes
+
+See [`../STORE_REVIEW_NOTES.md`](../STORE_REVIEW_NOTES.md) for demo credentials and reviewer instructions.
+
+## Privacy policy
+
+See [`../PRIVACY.md`](../PRIVACY.md).
+
+## Support
+
+See [`../SUPPORT.md`](../SUPPORT.md).

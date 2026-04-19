@@ -1,0 +1,15 @@
+# Node
+node_modules/
+
+# Mobile generated artifacts (recreated by `npm run cap:sync` in mobile/)
+mobile/www/
+mobile/android/
+mobile/ios/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp

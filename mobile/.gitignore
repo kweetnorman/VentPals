@@ -1,0 +1,14 @@
+# Generated Capacitor web assets
+www/
+
+# Node dependencies
+node_modules/
+
+# Generated native projects (recreated by: npm run cap:sync)
+android/
+ios/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
