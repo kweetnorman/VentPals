@@ -406,6 +406,17 @@
     </div>
   </div>
 
+  <script>
+    /* Guard: kids must create an account and a secret code before onboarding.
+       Signup (signup.html) shows the PIN screen; set-pin.html covers older accounts. */
+    (function () {
+      if (!localStorage.getItem('ventpals_user')) {
+        window.location.replace('../signup.html');
+      } else if (!localStorage.getItem('ventpals_pin_hash')) {
+        window.location.replace('../set-pin.html');
+      }
+    })();
+  </script>
   <script src="onboarding.js"></script>
   <script>
     /* ───────────────────────────────
