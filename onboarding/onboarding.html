@@ -407,15 +407,28 @@
   </div>
 
   <script>
-    /* Guard: kids must create an account and a secret code before onboarding.
-       Signup (signup.html) shows the PIN screen; set-pin.html covers older accounts. */
+    /* Guard: a child must pick their profile and enter their secret code first
+       (login.html), so onboarding always belongs to a real child profile. */
     (function () {
-      if (!localStorage.getItem('ventpals_user')) {
-        window.location.replace('../signup.html');
-      } else if (!localStorage.getItem('ventpals_pin_hash')) {
-        window.location.replace('../set-pin.html');
+      if (localStorage.getItem('ventpals_logged_in') !== 'true' ||
+          !localStorage.getItem('ventpals_child_id')) {
+        window.location.replace('../login.html');
       }
     })();
+  </script>
+  <script type="module">
+    import { saveChildProfile, activeChildIds } from '../assets/js/vp-auth.js';
+    // Called by finishOnboarding(); saves the child's choices to Firestore.
+    window.VPSaveChild = async function (user) {
+      const ids = activeChildIds();
+      if (!ids.parentUid || !ids.childId) return;
+      await saveChildProfile(ids.parentUid, ids.childId, {
+        birdId: user.birdId, birdName: user.birdName, birdEmoji: user.birdEmoji,
+        avatarColour: user.avatarColour, pronouns: user.pronouns,
+        powerWord: user.powerWord, displayName: user.displayName,
+        stage: 'baby', onboardingComplete: true,
+      });
+    };
   </script>
   <script src="onboarding.js"></script>
   <script>
@@ -656,7 +669,13 @@
       localStorage.setItem('ventpals_onboarding_complete','true');
       localStorage.setItem('ventpals_logged_in',          'true');
 
-      window.location.href = '../dashboard.html';
+      // Save to the family account, then continue. If saving fails (offline, rules not
+      // published yet) the child can still continue; we just retry next time.
+      var go = function () { window.location.href = '../dashboard.html'; };
+      var saved = window.VPSaveChild ? window.VPSaveChild(user) : Promise.resolve();
+      Promise.race([saved, new Promise(function (r) { setTimeout(r, 4000); })])
+        .catch(function (e) { console.warn('Could not save profile yet', e); })
+        .then(go);
     }
 
     /* ───────────────────────────────

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Family – VentPals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="index.html" aria-label="VentPals home"><span class="mark" aria-hidden="true">🐦</span><span>VentPals</span></a>
+        <div>
+          <a class="back" href="notifications.html">Notifications</a>
+          <button class="linkbtn" id="logoutBtn" type="button">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card wide" id="familyCard" style="display:none" aria-label="Your family">
+      <div class="card-head">
+        <div class="icon" aria-hidden="true">🏡</div>
+        <h1 id="hello">Your Family</h1>
+        <p class="subtitle">Add a profile for each child. They'll pick their own profile and type their 4-digit code to get in.</p>
+      </div>
+
+      <div class="pad">
+        <div id="welcomeBox" class="ok" role="status">Welcome to VentPals! Add your first child below to get started.</div>
+        <div id="errorBox" class="alert" role="alert"></div>
+        <div id="childList" style="display:flex;flex-direction:column;gap:10px;"></div>
+        <div id="emptyMsg" class="hint" style="text-align:center;display:none;">No children added yet.</div>
+        <button class="btn secondary" id="addBtn" type="button">＋ Add a child</button>
+        <a class="btn" id="kidViewBtn" href="login.html">Switch to kid view 🐦</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>VentPals • Supporting families with emotional growth.</footer>
+
+  <!-- Grown-up check -->
+  <div class="overlay" id="gateOverlay" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="modal">
+      <div class="icon" aria-hidden="true">🔐</div>
+      <h2 id="gateTitle">Grown-up check</h2>
+      <p class="subtitle">Please type your password to open the family page.</p>
+      <div id="gateError" class="alert" role="alert"></div>
+      <form id="gateForm" style="padding:0">
+        <input id="gatePassword" type="password" autocomplete="current-password" placeholder="Your password" required />
+        <button class="btn" type="submit">Continue</button>
+        <a class="btn secondary" href="login.html">I'm a kid — take me back</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add child -->
+  <div class="overlay" id="addOverlay" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <div class="modal" style="max-height:92vh;overflow:auto;">
+      <div class="icon" aria-hidden="true">🐣</div>
+      <h2 id="addTitle">Add a child</h2>
+      <div id="addError" class="alert" role="alert"></div>
+      <form id="addForm" style="padding:0;text-align:left;">
+        <div>
+          <label for="childName">Nickname</label>
+          <input id="childName" type="text" maxlength="20" placeholder="StarKid" required />
+          <div class="hint">Please use a nickname, not a full name.</div>
+        </div>
+        <div>
+          <label for="ageBand">Age range</label>
+          <select id="ageBand" required>
+            <option value="" disabled selected>Choose one…</option>
+            <option>5–7</option><option>8–10</option><option>11–13</option><option>14–17</option>
+          </select>
+        </div>
+        <div>
+          <label>Secret code (4 numbers)</label>
+          <div class="pin-row" id="addPin1"></div>
+        </div>
+        <div>
+          <label>Type it again</label>
+          <div class="pin-row" id="addPin2"></div>
+        </div>
+        <button class="btn" id="addSubmit" type="submit">Save profile</button>
+        <button class="btn secondary" type="button" data-close="addOverlay">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Change code -->
+  <div class="overlay" id="pinOverlay" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+    <div class="modal">
+      <div class="icon" aria-hidden="true">🔑</div>
+      <h2 id="pinTitle">New secret code</h2>
+      <p class="subtitle" id="pinFor"></p>
+      <div id="pinError" class="alert" role="alert"></div>
+      <form id="pinForm" style="padding:0">
+        <div class="pin-row" id="pinA"></div>
+        <div class="pin-row" id="pinB"></div>
+        <button class="btn" type="submit">Save code</button>
+        <button class="btn secondary" type="button" data-close="pinOverlay">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import {
+      onParent, getParentDoc, gateIsOpen, passGate, listChildren, addChild,
+      setChildPin, removeChild, logOutEverything, friendlyAuthError,
+    } from './assets/js/vp-auth.js';
+
+    const $ = (id) => document.getElementById(id);
+    let uid = null;
+    let pinTarget = null;
+
+    /* ── PIN boxes ── */
+    function buildPinRow(rowId) {
+      const row = $(rowId); row.innerHTML = '';
+      for (let i = 0; i < 4; i++) {
+        const input = document.createElement('input');
+        input.className = 'pin-digit'; input.type = 'password';
+        input.inputMode = 'numeric'; input.maxLength = 1; input.autocomplete = 'off';
+        input.setAttribute('aria-label', 'Digit ' + (i + 1));
+        input.addEventListener('input', () => {
+          input.value = input.value.replace(/[^0-9]/g, '').slice(-1);
+          if (input.value && input.nextElementSibling) input.nextElementSibling.focus();
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !input.value && input.previousElementSibling) input.previousElementSibling.focus();
+        });
+        row.appendChild(input);
+      }
+    }
+    const readPin = (rowId) => Array.from($(rowId).children).map(i => i.value).join('');
+    const clearPin = (rowId) => { Array.from($(rowId).children).forEach(i => i.value = ''); };
+    ['addPin1', 'addPin2', 'pinA', 'pinB'].forEach(buildPinRow);
+
+    function msg(id, text) { const b = $(id); b.textContent = text; b.classList.add('show'); }
+    function clearMsg(id) { $(id).classList.remove('show'); }
+    function open(id) { $(id).classList.add('show'); }
+    function close(id) { $(id).classList.remove('show'); }
+    document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => close(b.dataset.close)));
+
+    /* ── page flow ── */
+    onParent(async (user) => {
+      if (!user) { window.location.replace('adult-login.html'); return; }
+      uid = user.uid;
+      if (!gateIsOpen()) { open('gateOverlay'); setTimeout(() => $('gatePassword').focus(), 50); return; }
+      await showFamily(user);
+    });
+
+    $('gateForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); clearMsg('gateError');
+      try {
+        await passGate($('gatePassword').value);
+        close('gateOverlay');
+        await showFamily({ uid });
+      } catch (err) { msg('gateError', friendlyAuthError(err)); }
+    });
+
+    async function showFamily(user) {
+      $('familyCard').style.display = '';
+      try {
+        const p = await getParentDoc(user.uid);
+        if (p && p.firstName) $('hello').textContent = p.firstName + "'s Family";
+      } catch (e) {}
+      if (new URLSearchParams(location.search).get('welcome') === '1') $('welcomeBox').classList.add('show');
+      await refresh();
+    }
+
+    async function refresh() {
+      clearMsg('errorBox');
+      let kids = [];
+      try { kids = await listChildren(uid); }
+      catch (err) { msg('errorBox', friendlyAuthError(err)); return; }
+      const list = $('childList'); list.innerHTML = '';
+      $('emptyMsg').style.display = kids.length ? 'none' : '';
+      kids.forEach(k => {
+        const row = document.createElement('div'); row.className = 'listrow';
+        const who = document.createElement('div');
+        const name = document.createElement('div'); name.className = 'who';
+        name.textContent = (k.birdEmoji || '🐣') + ' ' + k.nickname;
+        const meta = document.createElement('div'); meta.className = 'meta';
+        meta.textContent = 'Age ' + k.ageBand + (k.onboardingComplete ? ' • set up' : ' • needs setup on first login');
+        who.append(name, meta);
+        const actions = document.createElement('div'); actions.className = 'actions';
+        const pinBtn = document.createElement('button'); pinBtn.className = 'btn secondary small'; pinBtn.type = 'button'; pinBtn.textContent = 'Change code';
+        pinBtn.onclick = () => { pinTarget = k; $('pinFor').textContent = 'For ' + k.nickname; clearPin('pinA'); clearPin('pinB'); clearMsg('pinError'); open('pinOverlay'); $('pinA').firstChild.focus(); };
+        const rmBtn = document.createElement('button'); rmBtn.className = 'btn danger small'; rmBtn.type = 'button'; rmBtn.textContent = 'Remove';
+        rmBtn.onclick = async () => {
+          if (!confirm('Remove ' + k.nickname + "'s profile? This cannot be undone.")) return;
+          try { await removeChild(uid, k.id); await refresh(); } catch (err) { msg('errorBox', friendlyAuthError(err)); }
+        };
+        actions.append(pinBtn, rmBtn);
+        row.append(who, actions); list.appendChild(row);
+      });
+    }
+
+    $('addBtn').addEventListener('click', () => {
+      $('addForm').reset(); clearPin('addPin1'); clearPin('addPin2'); clearMsg('addError');
+      open('addOverlay'); setTimeout(() => $('childName').focus(), 50);
+    });
+
+    $('addForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); clearMsg('addError');
+      const nickname = $('childName').value.trim();
+      const p1 = readPin('addPin1'), p2 = readPin('addPin2');
+      if (nickname.length < 2) { msg('addError', 'Please enter a nickname.'); return; }
+      if (!/^\d{4}$/.test(p1)) { msg('addError', 'Please enter all 4 digits for the secret code.'); return; }
+      if (p1 !== p2) { msg('addError', 'The two codes do not match.'); clearPin('addPin2'); return; }
+      $('addSubmit').disabled = true;
+      try {
+        await addChild(uid, { nickname, ageBand: $('ageBand').value, pin: p1 });
+        close('addOverlay'); await refresh();
+      } catch (err) { msg('addError', friendlyAuthError(err)); }
+      $('addSubmit').disabled = false;
+    });
+
+    $('pinForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); clearMsg('pinError');
+      const a = readPin('pinA'), b = readPin('pinB');
+      if (!/^\d{4}$/.test(a)) { msg('pinError', 'Please enter all 4 digits (top row).'); return; }
+      if (a !== b) { msg('pinError', 'The two codes do not match.'); clearPin('pinB'); return; }
+      try { await setChildPin(uid, pinTarget.id, a); close('pinOverlay'); await refresh(); }
+      catch (err) { msg('pinError', friendlyAuthError(err)); }
+    });
+
+    $('logoutBtn').addEventListener('click', async () => {
+      await logOutEverything();
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

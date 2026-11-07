@@ -17,7 +17,14 @@
 </head>
 
 <body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_parent_logged_in')!=='true'){window.location.replace('adult-login.html');}</script>
+  <script type="module">
+    import { onParent, gateIsOpen } from './assets/js/vp-auth.js';
+    // Grown-ups only: must be signed in and past the grown-up check (family.html asks for the password).
+    onParent((user) => {
+      if (!user) window.location.replace('adult-login.html');
+      else if (!gateIsOpen()) window.location.replace('family.html');
+    });
+  </script>
 
   <!-- NAV -->
   <nav class="bg-white shadow-sm sticky top-0 z-40">
@@ -28,7 +35,8 @@
       </a>
 
       <ul class="flex gap-6 text-sm font-semibold text-purple-700">
-        <li><a href="adult-login.html" onclick="localStorage.removeItem('ventpals_parent_logged_in');localStorage.removeItem('ventpals_parent_email');" class="hover:text-purple-900">Log Out</a></li>
+        <li><a href="family.html" class="hover:text-purple-900">Family</a></li>
+        <li><a href="#" id="logoutLink" class="hover:text-purple-900">Log Out</a></li>
       </ul>
     </div>
   </nav>
@@ -99,6 +107,15 @@
   <footer class="py-6 text-center text-gray-500 text-xs">
     VentPals • Supporting families with emotional growth.
   </footer>
+
+  <script type="module">
+    import { logOutEverything } from './assets/js/vp-auth.js';
+    document.getElementById('logoutLink').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await logOutEverything();
+      window.location.href = 'index.html';
+    });
+  </script>
 
 </body>
 </html>

@@ -1,0 +1,70 @@
+rules_version = '2';
+
+// VentPals Firestore rules — parent-owned accounts.
+// Paste into: Firebase console → Build → Firestore Database → Rules → Publish.
+//
+//   parents/{uid}                 readable/writable only by that signed-in grown-up
+//   parents/{uid}/children/{id}   readable/writable only by that same grown-up
+//   everything else               denied (Nests rules come in the next step)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // Optional string field: missing, null, or a string up to `max` characters.
+    function optStr(d, k, max) {
+      return !(k in d) || d[k] == null || (d[k] is string && d[k].size() <= max);
+    }
+
+    function validChild(d) {
+      return d.keys().hasOnly([
+               'nickname', 'ageBand', 'pin', 'birdId', 'birdName', 'birdEmoji',
+               'avatarColour', 'pronouns', 'powerWord', 'displayName', 'stage',
+               'onboardingComplete', 'createdAt'])
+        && d.nickname is string && d.nickname.size() >= 2 && d.nickname.size() <= 20
+        && d.ageBand in ['5–7', '8–10', '11–13', '14–17']
+        && d.pin is map
+        && d.pin.keys().hasOnly(['salt', 'hash', 'iter'])
+        && d.pin.salt is string && d.pin.salt.size() <= 64
+        && d.pin.hash is string && d.pin.hash.size() <= 64
+        && d.pin.iter is int
+        && optStr(d, 'birdId', 20) && optStr(d, 'birdName', 30) && optStr(d, 'birdEmoji', 16)
+        && optStr(d, 'avatarColour', 32) && optStr(d, 'pronouns', 30)
+        && optStr(d, 'powerWord', 40) && optStr(d, 'displayName', 40)
+        && optStr(d, 'stage', 20)
+        && d.onboardingComplete is bool
+        && d.createdAt is timestamp;
+    }
+
+    match /parents/{uid} {
+      allow get: if isOwner(uid);
+
+      allow create: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(
+             ['firstName', 'lastName', 'relationship', 'email', 'consent', 'createdAt'])
+        && request.resource.data.firstName is string && request.resource.data.firstName.size() <= 60
+        && request.resource.data.lastName is string && request.resource.data.lastName.size() <= 60
+        && request.resource.data.consent.keys().hasOnly(['acceptedAt', 'version'])
+        && request.resource.data.consent.version is string;
+
+      allow update: if isOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['firstName', 'lastName', 'relationship']);
+
+      // Lets a grown-up delete their own record (data-deletion request).
+      allow delete: if isOwner(uid);
+
+      match /children/{childId} {
+        allow read: if isOwner(uid);
+        allow create, update: if isOwner(uid) && validChild(request.resource.data);
+        allow delete: if isOwner(uid);
+      }
+    }
+
+    // Default: deny everything else.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

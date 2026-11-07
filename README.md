@@ -27,8 +27,10 @@
 | Page | Description |
 |------|-------------|
 | `index.html` | Public landing page |
-| `signup.html` / `login.html` | Child auth |
-| `adult-signup.html` / `adult-login.html` | Parent auth |
+| `signup.html` | Chooser: grown-up vs. kid |
+| `login.html` | Kid "Who's here?" profile picker + secret code |
+| `family.html` | Grown-up page: add children, change codes |
+| `adult-signup.html` / `adult-login.html` | Grown-up auth (Firebase) |
 | `onboarding/onboarding.html` | Child onboarding wizard |
 | `dashboard.html` | Child home dashboard |
 | `circles-dashboard.html` | Nests hub (all 16 birds) |
@@ -39,13 +41,13 @@
 
 ## 🔐 Auth Model
 
-The app uses **localStorage** for demo authentication:
+Accounts use **Firebase Auth + Firestore** with a parent-owned model:
 
-- **Child session:** `ventpals_logged_in`, `ventpals_user` (username, birdId, parentCode, stage…)
-- **Parent session:** `ventpals_parent_logged_in`, `ventpals_parent_email`, `ventpals_parents[]`
-- **Onboarding flag:** `ventpals_onboarding_complete`
-
-> ⚠️ The localStorage auth is intentionally simple for demo/prototype purposes. Production deployment should use Firebase Auth (already configured in `assets/js/firebase-config.js`).
+- **Grown-up** signs up with email + password (`adult-signup.html`, consent checkbox required) and logs in at `adult-login.html`.
+- **Children** have no email or password. A grown-up adds a profile per child on `family.html` (nickname, age range, 4-digit secret code). Kids pick their profile on `login.html` and type their code.
+- Secret codes are salted PBKDF2 hashes stored on the child's profile. They act as a **profile lock**; the real protection is the grown-up's Firebase login plus `firestore.rules`.
+- Data: `parents/{uid}` and `parents/{uid}/children/{childId}`. Publish `firestore.rules` in the Firebase console (Firestore Database → Rules).
+- `assets/js/vp-auth.js` holds all account logic. It also keeps the older kid pages working by mirroring the active child into `ventpals_user` / `ventpals_logged_in` in localStorage.
 
 ## 🚀 Running Locally
 

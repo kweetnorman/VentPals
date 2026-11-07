@@ -4,371 +4,169 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Log In – VentPals</title>
-
+  <title>Who's Here? – VentPals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    :root {
-      --primary:#A259FF;
-      --secondary:#7ED957;
-      --accent:#C9A7FF;
-      --text-dark:#2E1A47;
-      --ink:#1F2937;
-      --muted:#6B7280;
-      --ring: rgba(162, 89, 255, 0.25);
-    }
-    body {
-      font-family:'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: linear-gradient(135deg, #f5e6ff 0%, #fff8d6 50%, #e0f4ff 100%);
-      min-height: 100vh;
-      color: var(--ink);
-      display:flex;
-      flex-direction:column;
-    }
-    a:focus-visible, button:focus-visible, input:focus-visible {
-      outline: 3px solid var(--ring);
-      outline-offset: 3px;
-      border-radius: 12px;
-    }
-
-    header {
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(17,24,39,0.06);
-    }
-    .container { max-width: 980px; margin: 0 auto; padding: 0 18px; width:100%; }
-    .nav {
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 16px 0; gap: 12px;
-    }
-    .brand {
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none;
-      color: var(--primary);
-      font-weight: 800;
-      letter-spacing:-0.02em;
-    }
-    .brand .mark { font-size: 24px; }
-    .nav a.back {
-      color: var(--primary);
-      text-decoration:none;
-      font-weight:700;
-      font-size: 14px;
-      padding: 8px 12px;
-      border-radius: 999px;
-    }
-    .nav a.back:hover { background: rgba(139,92,246,0.10); }
-
-    main { flex:1; display:flex; align-items:center; justify-content:center; padding: 34px 18px; }
-
-    .card {
-      width: 100%;
-      max-width: 520px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(17,24,39,0.08);
-      border-radius: 26px;
-      box-shadow: 0 18px 48px rgba(17,24,39,0.10);
-      overflow:hidden;
-    }
-    .card-head {
-      padding: 28px 26px 0;
-      text-align:center;
-    }
-    .icon {
-      font-size: 56px;
-      margin-bottom: 10px;
-      animation: floaty 4s ease-in-out infinite;
-    }
-    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-    h1 {
-      color: var(--primary);
-      font-size: 1.7rem;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      font-weight: 800;
-    }
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 18px;
-    }
-
-    form { padding: 8px 26px 26px; display:flex; flex-direction:column; gap: 14px; }
-
-    label {
-      display:block;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-    }
-    input {
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 2px solid rgba(17,24,39,0.12);
-      background: #fff;
-      font-size: 14px;
-    }
-    input:focus {
-      outline:none;
-      border-color: rgba(139,92,246,0.55);
-      box-shadow: 0 0 0 4px rgba(139,92,246,0.12);
-    }
-
-    /* ── PIN row ── */
-    .pin-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-    .pin-digit {
-      width: 56px;
-      height: 64px;
-      border-radius: 14px;
-      border: 2px solid rgba(17,24,39,0.12);
-      background: #fff;
-      font-size: 28px;
-      font-weight: 800;
-      text-align: center;
-      color: var(--text-dark);
-      caret-color: var(--primary);
-      padding: 0;
-      -moz-appearance: textfield;
-    }
-    .pin-digit::-webkit-outer-spin-button,
-    .pin-digit::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    .pin-digit:focus {
-      outline:none;
-      border-color: rgba(139,92,246,0.55);
-      box-shadow: 0 0 0 4px rgba(139,92,246,0.12);
-    }
-    .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
-
-    .alert {
-      display:none;
-      border-radius: 16px;
-      padding: 12px 12px;
-      font-size: 13px;
-      border: 1px solid rgba(239,68,68,0.25);
-      background: rgba(239,68,68,0.08);
-      color: #991B1B;
-    }
-    .alert.show { display:block; }
-
-    .btn {
-      width:100%;
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      padding: 13px 16px;
-      border-radius: 999px;
-      border: 2px solid transparent;
-      font-weight: 800;
-      cursor:pointer;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color:#fff;
-      box-shadow: 0 14px 28px rgba(162,89,255,0.18);
-      transition: transform .15s ease, box-shadow .2s ease;
-      font-size: 14px;
-    }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 18px 34px rgba(162,89,255,0.24); }
-
-    .foot {
-      padding: 16px 26px 22px;
-      border-top: 1px solid rgba(17,24,39,0.06);
-      text-align:center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .foot a { color: var(--primary); font-weight: 800; text-decoration:none; }
-    .foot a:hover { text-decoration: underline; }
-
-    footer {
-      padding: 18px 0 26px;
-      text-align:center;
-      color: rgba(31,41,55,0.65);
-      font-size: 12px;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/auth.css">
   <script src="assets/js/native-bridge.js"></script>
 </head>
 <body>
   <header>
     <div class="container">
       <div class="nav">
-        <a class="brand" href="index.html" aria-label="VentPals home">
-          <span class="mark" aria-hidden="true">🐦</span>
-          <span>VentPals</span>
-        </a>
+        <a class="brand" href="index.html" aria-label="VentPals home"><span class="mark" aria-hidden="true">🐦</span><span>VentPals</span></a>
         <a class="back" href="index.html">← Back</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="card" aria-label="Log in">
+    <section class="card" aria-label="Pick your profile">
       <div class="card-head">
-        <div class="icon" aria-hidden="true">🔐</div>
-        <h1>Welcome back</h1>
-        <p class="subtitle">Log in to continue your journey with your VentPal.</p>
+        <div class="icon" aria-hidden="true">🐦</div>
+        <h1 id="title">Who's here?</h1>
+        <p class="subtitle" id="sub">Tap your name to log in.</p>
       </div>
 
-      <form id="loginForm">
-        <div id="errorBox" class="alert" role="alert"></div>
+      <div id="loading" class="pad" style="text-align:center;color:var(--muted);font-size:14px;">Getting your profiles…</div>
 
-        <div>
-          <label for="identifier">Username</label>
-          <input id="identifier" name="identifier" type="text" autocomplete="username" placeholder="StarKid42" required />
-          <div class="hint">Enter the username you created your account with.</div>
-        </div>
+      <!-- No grown-up signed in on this device -->
+      <div id="noParent" class="pad" style="display:none">
+        <p class="subtitle" style="text-align:center">A grown-up needs to log in on this device first. After that, you can pick your name here.</p>
+        <a class="btn" href="adult-login.html">Grown-up log in</a>
+        <a class="btn secondary" href="adult-signup.html">Create a family account</a>
+      </div>
 
-        <div>
-          <label>Your 4-digit secret code</label>
-          <div class="pin-row" id="pinRow">
-            <input class="pin-digit" type="number" min="0" max="9" inputmode="numeric" autocomplete="off" aria-label="PIN digit 1" />
-            <input class="pin-digit" type="number" min="0" max="9" inputmode="numeric" autocomplete="off" aria-label="PIN digit 2" />
-            <input class="pin-digit" type="number" min="0" max="9" inputmode="numeric" autocomplete="off" aria-label="PIN digit 3" />
-            <input class="pin-digit" type="number" min="0" max="9" inputmode="numeric" autocomplete="off" aria-label="PIN digit 4" />
-          </div>
-          <div class="hint" style="text-align:center;">The 4-digit code you created when you signed up.</div>
-        </div>
-
-        <button class="btn" type="submit">Log In 🚀</button>
-      </form>
-
-      <div class="foot" id="noPinHint" style="display:none; border-top:none; padding-top:0;">
-        <span style="font-size:13px; color:var(--muted);">Don't have a secret code yet?</span>
-        <a href="set-pin.html" id="setPinLink" style="display:inline-block; margin-left:4px;">Set one now →</a>
+      <!-- Profiles -->
+      <div id="profilesWrap" style="display:none">
+        <div class="profiles" id="profiles"></div>
+        <p id="noKids" class="subtitle" style="display:none;text-align:center;padding:0 26px 18px;">No profiles yet. Ask a grown-up to add you on the family page.</p>
       </div>
 
       <div class="foot">
-        New here? <a href="signup.html">Create an account</a>
-        <div style="margin-top:10px; font-size:12px;">
-          For grown‑ups managing accounts, go to <a href="adult-login.html">Adult Login</a>
-        </div>
+        <a href="family.html" id="grownupLink">Grown-ups: manage profiles</a>
       </div>
     </section>
   </main>
 
-  <footer>
-    VentPals • The Journey of Growing Up.
-  </footer>
+  <footer>VentPals • The Journey of Growing Up.</footer>
 
-  <script>
-    function showError(msg) {
-      const box = document.getElementById('errorBox');
-      box.textContent = msg;
-      box.classList.add('show');
+  <!-- Code entry -->
+  <div class="overlay" id="pinOverlay" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+    <div class="modal">
+      <div class="icon" id="pinFace" aria-hidden="true">🔑</div>
+      <h2 id="pinTitle">Enter your secret code</h2>
+      <p class="subtitle" id="pinFor"></p>
+      <div id="pinError" class="alert" role="alert"></div>
+      <div class="pin-row" id="pinRow"></div>
+      <div class="stack">
+        <button class="btn" id="pinGo" type="button">Log In 🚀</button>
+        <button class="btn secondary" id="pinCancel" type="button">Not me</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import {
+      onParent, listChildren, checkPin, activateChild,
+      lockState, recordPinFailure, clearPinFailures,
+    } from './assets/js/vp-auth.js';
+
+    const $ = (id) => document.getElementById(id);
+    const haptic = (kind) => { try { if (window.VentPalsNative) window.VentPalsNative.Haptics[kind](); } catch (e) {} };
+    let parentUid = null, kids = [], chosen = null;
+
+    onParent(async (user) => {
+      $('loading').style.display = 'none';
+      if (!user) { $('noParent').style.display = ''; $('title').textContent = 'Welcome back!'; $('sub').textContent = ''; $('grownupLink').textContent = 'Grown-up log in'; $('grownupLink').href = 'adult-login.html'; return; }
+      parentUid = user.uid;
+      try { kids = await listChildren(user.uid); }
+      catch (e) { $('noParent').style.display = ''; return; }
+      renderProfiles();
+    });
+
+    function renderProfiles() {
+      $('profilesWrap').style.display = '';
+      const box = $('profiles'); box.innerHTML = '';
+      $('noKids').style.display = kids.length ? 'none' : '';
+      kids.forEach(k => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'profile';
+        const face = document.createElement('span'); face.className = 'face'; face.textContent = k.birdEmoji || '🐣';
+        const name = document.createElement('span'); name.className = 'name'; name.textContent = k.nickname;
+        const sub = document.createElement('span'); sub.className = 'sub'; sub.textContent = k.birdName ? k.birdName + ' the bird' : 'New here!';
+        b.append(face, name, sub);
+        b.addEventListener('click', () => openPin(k));
+        box.appendChild(b);
+      });
     }
 
-    // ── PIN digit auto-advance ──
-    (function wirePinRow() {
-      const digits = document.getElementById('pinRow').querySelectorAll('.pin-digit');
-      digits.forEach((input, idx) => {
+    /* ── code entry ── */
+    function buildPinRow() {
+      const row = $('pinRow'); row.innerHTML = '';
+      for (let i = 0; i < 4; i++) {
+        const input = document.createElement('input');
+        input.className = 'pin-digit'; input.type = 'password';
+        input.inputMode = 'numeric'; input.maxLength = 1; input.autocomplete = 'off';
+        input.setAttribute('aria-label', 'Secret code digit ' + (i + 1));
         input.addEventListener('input', () => {
-          const val = input.value.replace(/[^0-9]/g, '');
-          input.value = val ? val[val.length - 1] : '';
-          if (val && idx < digits.length - 1) digits[idx + 1].focus();
+          input.value = input.value.replace(/[^0-9]/g, '').slice(-1);
+          if (input.value && input.nextElementSibling) input.nextElementSibling.focus();
+          else if (input.value && !input.nextElementSibling) submitPin();
         });
         input.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && !input.value && idx > 0) digits[idx - 1].focus();
+          if (e.key === 'Backspace' && !input.value && input.previousElementSibling) input.previousElementSibling.focus();
+          if (e.key === 'Enter') submitPin();
         });
-        input.addEventListener('keypress', (e) => {
-          if (!/[0-9]/.test(e.key)) e.preventDefault();
-        });
-      });
-    })();
-
-    function getPin() {
-      return Array.from(document.getElementById('pinRow').querySelectorAll('.pin-digit'))
-        .map(digit => digit.value).join('');
+        row.appendChild(input);
+      }
     }
+    const readPin = () => Array.from($('pinRow').children).map(i => i.value).join('');
+    const clearPin = () => Array.from($('pinRow').children).forEach(i => i.value = '');
+    function showErr(t) { const b = $('pinError'); b.textContent = t; b.classList.add('show'); }
 
-    // Show "no PIN" hint if account exists but has no PIN
-    // Attach the "set PIN" link handler once, outside the blur callback
-    document.getElementById('setPinLink').addEventListener('click', function (ev) {
-      ev.preventDefault();
-      localStorage.setItem('ventpals_logged_in', 'true');
-      window.location.href = 'set-pin.html';
-    });
-
-    function checkForNoPinAccount() {
-      const identifier = document.getElementById('identifier').value.trim();
-      if (!identifier) return;
-      const storedUser = localStorage.getItem('ventpals_user');
-      if (!storedUser) return;
-      const user = JSON.parse(storedUser);
-      const idMatch = (identifier.toLowerCase() === String(user.email    || '').toLowerCase()) ||
-                      (identifier.toLowerCase() === String(user.username || '').toLowerCase());
-      const hasPinStored = !!localStorage.getItem('ventpals_pin_hash');
-      const hint = document.getElementById('noPinHint');
-      hint.style.display = (idMatch && !hasPinStored) ? '' : 'none';
+    function openPin(k) {
+      chosen = k; buildPinRow();
+      $('pinError').classList.remove('show');
+      $('pinFace').textContent = k.birdEmoji || '🔑';
+      $('pinFor').textContent = 'Hi ' + k.nickname + '!';
+      $('pinOverlay').classList.add('show');
+      const lock = lockState(k.id);
+      if (lock.locked) showErr('Too many tries. Wait ' + lock.seconds + ' seconds, or ask a grown-up to help.');
+      setTimeout(() => $('pinRow').firstChild.focus(), 50);
     }
-    document.getElementById('identifier').addEventListener('blur', checkForNoPinAccount);
+    $('pinCancel').addEventListener('click', () => { $('pinOverlay').classList.remove('show'); chosen = null; });
+    $('pinGo').addEventListener('click', submitPin);
 
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const identifier = document.getElementById('identifier').value.trim();
-      const enteredPin = getPin();
-
-      const storedUser = localStorage.getItem('ventpals_user');
-      if (!storedUser) {
-        if (window.VentPalsNative) window.VentPalsNative.Haptics.error();
-        showError('No account found on this device yet. Please sign up first.');
+    let busy = false;
+    async function submitPin() {
+      if (!chosen || busy) return;
+      $('pinError').classList.remove('show');
+      const lock = lockState(chosen.id);
+      if (lock.locked) { showErr('Too many tries. Wait ' + lock.seconds + ' seconds, or ask a grown-up to help.'); return; }
+      const pin = readPin();
+      if (pin.length !== 4) { haptic('warning'); showErr('Please enter all 4 numbers.'); return; }
+      busy = true;
+      let ok = false;
+      try { ok = await checkPin(chosen, pin); } catch (e) { ok = false; }
+      busy = false;
+      if (!ok) {
+        haptic('error');
+        const s = recordPinFailure(chosen.id);
+        showErr(s.locked ? 'Too many tries. Wait ' + s.seconds + ' seconds, or ask a grown-up to help.' : 'That code is not right. Try again!');
+        clearPin(); $('pinRow').firstChild.focus();
         return;
       }
-
-      const user = JSON.parse(storedUser);
-
-      const idMatch = (identifier.toLowerCase() === String(user.email    || '').toLowerCase()) ||
-                      (identifier.toLowerCase() === String(user.username || '').toLowerCase());
-
-      if (!idMatch) {
-        if (window.VentPalsNative) window.VentPalsNative.Haptics.error();
-        showError('Username not found. Please check and try again.');
-        return;
-      }
-
-      const storedPinHash = localStorage.getItem('ventpals_pin_hash');
-
-      if (storedPinHash) {
-        // ── PIN login ──
-        if (enteredPin.length !== 4) {
-          if (window.VentPalsNative) window.VentPalsNative.Haptics.warning();
-          showError('Please enter your 4-digit secret code.');
-          return;
-        }
-        if (btoa(enteredPin) !== storedPinHash) {
-          if (window.VentPalsNative) window.VentPalsNative.Haptics.error();
-          showError('That secret code is wrong. Try again!');
-          return;
-        }
-      } else {
-        // ── No PIN set yet: log in and redirect to set-pin ──
-        localStorage.setItem('ventpals_logged_in', 'true');
-        window.location.href = 'set-pin.html';
-        return;
-      }
-
-      if (window.VentPalsNative) window.VentPalsNative.Haptics.success();
-      localStorage.setItem('ventpals_logged_in', 'true');
-
-      // Resume last page if present
-      const lastUrl = localStorage.getItem('ventpals_last_url');
-      const allowed = lastUrl &&
-                      lastUrl.indexOf('login')        === -1 &&
-                      lastUrl.indexOf('signup')       === -1 &&
-                      lastUrl.indexOf('set-pin')      === -1 &&
-                      lastUrl.indexOf('app-switcher') === -1;
-      window.location.href = allowed ? lastUrl : 'app-switcher.html';
-    });
+      clearPinFailures(chosen.id);
+      haptic('success');
+      activateChild(parentUid, chosen);
+      if (!chosen.onboardingComplete) { window.location.href = 'onboarding/onboarding.html'; return; }
+      const last = localStorage.getItem('ventpals_last_url');
+      const bad = ['login', 'signup', 'set-pin', 'app-switcher', 'onboarding', 'family', 'adult-'];
+      const okLast = last && !bad.some(s => last.indexOf(s) !== -1);
+      window.location.href = okLast ? last : 'dashboard.html';
+    }
   </script>
 </body>
 </html>
