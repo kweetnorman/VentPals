@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="0; url=../adult-login.html" />
+  <title>VentPals Grown-Ups</title>
+</head>
+<body>
+  <p>Taking you to the grown-up area… <a href="../adult-login.html">Tap here if nothing happens.</a></p>
+  <script>
+    if (localStorage.getItem('ventpals_parent_logged_in') === 'true') {
+      window.location.replace('adult-dashboard.html');
+    } else {
+      window.location.replace('../adult-login.html');
+    }
+  </script>
+</body>
+</html>

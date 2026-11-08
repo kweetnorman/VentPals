@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notifications – VentPals Grown‑Ups</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #eef2ff, #fdf2f8);
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+  <script>if(localStorage.getItem('ventpals_parent_logged_in')!=='true'){window.location.replace('../adult-login.html');}</script>
+
+  <!-- NAV -->
+  <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="adult-dashboard.html" class="flex items-center gap-2">
+        <span class="text-2xl leading-none" aria-hidden="true">🌿</span>
+        <span class="font-bold text-lg text-purple-700">VentPals Grown‑Ups</span>
+      </a>
+
+      <ul class="flex gap-4 text-sm font-semibold text-purple-700">
+        <li><a href="adult-dashboard.html" class="hover:text-purple-900">Dashboard</a></li>
+        <li><a href="adult-children.html" class="hover:text-purple-900">Children</a></li>
+        <li><a href="adult-profile.html" class="hover:text-purple-900">Profile</a></li>
+        <li><a href="../adult-login.html" id="logoutLink" class="hover:text-red-500">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <section class="text-center py-10 px-4">
+    <div class="text-5xl mb-4">🔔</div>
+    <h1 class="text-3xl font-bold text-purple-700 mb-2">Notifications</h1>
+    <p class="text-gray-600 max-w-xl mx-auto text-sm">
+      Review updates, confirmations, and invitations from the children you support.
+    </p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section class="max-w-5xl mx-auto px-4 pb-20 space-y-8">
+
+    <!-- WITNESS CONFIRMATIONS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Witness Confirmations</h2>
+
+      <div class="bg-yellow-50 rounded-xl p-4 mb-4">
+        <p class="font-semibold text-purple-700 text-sm">Star SilentWing</p>
+        <p class="text-gray-700 text-sm">Used a calming skill today.</p>
+
+        <div class="flex gap-3 mt-3">
+          <button class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-full">
+            Confirm
+          </button>
+          <button class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 rounded-full">
+            Not Yet
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEEPSAKE APPROVALS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Keepsake Approvals</h2>
+
+      <div class="bg-blue-50 rounded-xl p-4 mb-4">
+        <p class="font-semibold text-purple-700 text-sm">Star SilentWing</p>
+        <p class="text-gray-700 text-sm">Completed Baby Stage.</p>
+
+        <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full mt-3">
+          Approve Keepsake
+        </button>
+      </div>
+    </div>
+
+    <!-- CIRCLE INVITATIONS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Circle Invitations</h2>
+
+      <div class="bg-green-50 rounded-xl p-4 mb-4">
+        <p class="font-semibold text-purple-700 text-sm">Star SilentWing</p>
+        <p class="text-gray-700 text-sm">Invited you to their private circle.</p>
+
+        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-full mt-3">
+          Join Circle
+        </button>
+      </div>
+    </div>
+
+    <!-- CONVERSATION PROMPTS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Conversation Prompts</h2>
+
+      <div class="bg-purple-50 rounded-xl p-4 mb-4">
+        <p class="font-semibold text-purple-700 text-sm">Star SilentWing</p>
+        <p class="text-gray-700 text-sm">
+          Ask them what helped their body feel calm today.
+        </p>
+      </div>
+    </div>
+
+    <!-- MODULE UPDATES -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Module Updates</h2>
+
+      <div class="bg-pink-50 rounded-xl p-4 mb-4">
+        <p class="font-semibold text-purple-700 text-sm">Star SilentWing</p>
+        <p class="text-gray-700 text-sm">
+          Started a new module: Understanding Frustration.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-6 text-center text-gray-500 text-xs">
+    VentPals Grown‑Ups • Support Their Journey.
+  </footer>
+
+
+  <script>
+    document.getElementById('logoutLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('ventpals_parent_logged_in');
+      localStorage.removeItem('ventpals_parent_email');
+      window.location.href = '../adult-login.html';
+    });
+  </script>
+
+</body>
+</html>

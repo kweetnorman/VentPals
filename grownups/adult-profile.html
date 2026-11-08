@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Profile – VentPals Grown‑Ups</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #eef2ff, #fdf2f8);
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+  <script>if(localStorage.getItem('ventpals_parent_logged_in')!=='true'){window.location.replace('../adult-login.html');}</script>
+
+  <!-- NAV -->
+  <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="adult-dashboard.html" class="flex items-center gap-2">
+        <span class="text-2xl leading-none" aria-hidden="true">🌿</span>
+        <span class="font-bold text-lg text-purple-700">VentPals Grown‑Ups</span>
+      </a>
+
+      <ul class="flex gap-4 text-sm font-semibold text-purple-700">
+        <li><a href="adult-dashboard.html" class="hover:text-purple-900">Dashboard</a></li>
+        <li><a href="adult-children.html" class="hover:text-purple-900">Children</a></li>
+        <li><a href="adult-notifications.html" class="hover:text-purple-900">Notifications</a></li>
+        <li><a href="../adult-login.html" id="logoutLink" class="hover:text-red-500">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <section class="text-center py-10 px-4">
+    <div class="text-5xl mb-4">👤</div>
+    <h1 class="text-3xl font-bold text-purple-700 mb-2">Your Profile</h1>
+    <p class="text-gray-600 max-w-xl mx-auto text-sm">
+      Update your information and manage how you support the children in your care.
+    </p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section class="max-w-5xl mx-auto px-4 pb-20 space-y-10">
+
+    <!-- PERSONAL INFO -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Personal Information</h2>
+
+      <div class="space-y-4">
+        <input type="text" id="profileName" placeholder="Full name"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+        <input type="text" id="profilePronouns" placeholder="Pronouns (optional)"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+        <input type="email" id="profileEmail" placeholder="Email"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+        <input type="tel" id="profilePhone" placeholder="Phone number (optional)"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+      </div>
+
+      <button id="saveInfoBtn" class="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
+        Save Changes
+      </button>
+    </div>
+
+    <!-- ROLE -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Role</h2>
+
+      <select id="profileRole" class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <option>Parent</option>
+        <option>Guardian</option>
+        <option>Teacher</option>
+        <option>Counselor</option>
+        <option>Other Trusted Adult</option>
+      </select>
+
+      <button id="saveRoleBtn" class="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
+        Update Role
+      </button>
+    </div>
+
+    <!-- NOTIFICATION SETTINGS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Notification Settings</h2>
+
+      <div class="space-y-3 text-sm text-gray-700">
+
+        <label class="flex items-center gap-3">
+          <input type="checkbox" id="notifyWitness" checked class="h-4 w-4 text-purple-600">
+          Email me when a child requests a witness confirmation
+        </label>
+
+        <label class="flex items-center gap-3">
+          <input type="checkbox" id="notifyKeepsake" checked class="h-4 w-4 text-purple-600">
+          Email me when a child earns a keepsake
+        </label>
+
+        <label class="flex items-center gap-3">
+          <input type="checkbox" id="notifyCircle" checked class="h-4 w-4 text-purple-600">
+          Email me when a child invites me to a circle
+        </label>
+
+        <label class="flex items-center gap-3">
+          <input type="checkbox" id="notifyPrompts" class="h-4 w-4 text-purple-600">
+          Email me weekly conversation prompts
+        </label>
+
+      </div>
+
+      <button id="saveNotifBtn" class="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
+        Save Notification Settings
+      </button>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Change Password</h2>
+
+      <div class="space-y-4">
+        <input type="password" id="currentPassword" placeholder="Current password"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+        <input type="password" id="newPassword" placeholder="New password"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+        <input type="password" id="confirmNewPassword" placeholder="Confirm new password"
+               class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+      </div>
+
+      <div id="pwError" class="hidden bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-2 mt-3" role="alert"></div>
+      <button id="savePasswordBtn" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-full">
+        Update Password
+      </button>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-6 text-center text-gray-500 text-xs">
+    VentPals Grown‑Ups • Support Their Journey.
+  </footer>
+
+
+  <script>
+    // Load saved profile data from localStorage
+    const email = localStorage.getItem('ventpals_parent_email') || '';
+    const parents = JSON.parse(localStorage.getItem('ventpals_parents') || '[]');
+    const parent = parents.find(p => p.email === email) || {};
+    const profile = JSON.parse(localStorage.getItem('ventpals_parent_profile') || '{}');
+    const notifPrefs = JSON.parse(localStorage.getItem('ventpals_parent_notif') || '{}');
+
+    if (profile.name)     document.getElementById('profileName').value     = profile.name;
+    if (profile.pronouns) document.getElementById('profilePronouns').value = profile.pronouns;
+    if (email)            document.getElementById('profileEmail').value     = email;
+    if (profile.phone)    document.getElementById('profilePhone').value     = profile.phone;
+    if (parent.role || profile.role) {
+      const sel = document.getElementById('profileRole');
+      const roleVal = parent.role || profile.role;
+      for (const opt of sel.options) {
+        if (opt.value === roleVal || opt.text === roleVal) { opt.selected = true; break; }
+      }
+    }
+    if (typeof notifPrefs.witness   !== 'undefined') document.getElementById('notifyWitness').checked  = notifPrefs.witness;
+    if (typeof notifPrefs.keepsake  !== 'undefined') document.getElementById('notifyKeepsake').checked = notifPrefs.keepsake;
+    if (typeof notifPrefs.circle    !== 'undefined') document.getElementById('notifyCircle').checked   = notifPrefs.circle;
+    if (typeof notifPrefs.prompts   !== 'undefined') document.getElementById('notifyPrompts').checked  = notifPrefs.prompts;
+
+    function flash(btn, label) {
+      btn.textContent = 'Saved ✓';
+      setTimeout(() => { btn.textContent = label; }, 2000);
+    }
+
+    document.getElementById('saveInfoBtn').addEventListener('click', () => {
+      profile.name     = document.getElementById('profileName').value.trim();
+      profile.pronouns = document.getElementById('profilePronouns').value.trim();
+      profile.phone    = document.getElementById('profilePhone').value.trim();
+      localStorage.setItem('ventpals_parent_profile', JSON.stringify(profile));
+      flash(document.getElementById('saveInfoBtn'), 'Save Changes');
+    });
+
+    document.getElementById('saveRoleBtn').addEventListener('click', () => {
+      const role = document.getElementById('profileRole').value;
+      const idx = parents.findIndex(p => p.email === email);
+      if (idx > -1) { parents[idx].role = role; localStorage.setItem('ventpals_parents', JSON.stringify(parents)); }
+      flash(document.getElementById('saveRoleBtn'), 'Update Role');
+    });
+
+    document.getElementById('saveNotifBtn').addEventListener('click', () => {
+      const prefs = {
+        witness:  document.getElementById('notifyWitness').checked,
+        keepsake: document.getElementById('notifyKeepsake').checked,
+        circle:   document.getElementById('notifyCircle').checked,
+        prompts:  document.getElementById('notifyPrompts').checked,
+      };
+      localStorage.setItem('ventpals_parent_notif', JSON.stringify(prefs));
+      flash(document.getElementById('saveNotifBtn'), 'Save Notification Settings');
+    });
+
+    document.getElementById('savePasswordBtn').addEventListener('click', () => {
+      const current = document.getElementById('currentPassword').value;
+      const next    = document.getElementById('newPassword').value;
+      const confirm = document.getElementById('confirmNewPassword').value;
+      const errBox  = document.getElementById('pwError');
+      errBox.classList.add('hidden');
+
+      const idx = parents.findIndex(p => p.email === email);
+      if (idx === -1) return;
+
+      // ⚠️  DEMO ONLY: atob() is trivially reversible. Replace with server-side verification.
+      if (atob(parents[idx].passwordHash) !== current) {
+        errBox.textContent = 'Current password is incorrect.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (next.length < 6) {
+        errBox.textContent = 'New password must be at least 6 characters.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      if (next !== confirm) {
+        errBox.textContent = 'New passwords do not match.';
+        errBox.classList.remove('hidden');
+        return;
+      }
+      // ⚠️  DEMO ONLY: btoa() is not a real hash. Replace with server-side hashing.
+      parents[idx].passwordHash = btoa(next);
+      localStorage.setItem('ventpals_parents', JSON.stringify(parents));
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmNewPassword').value = '';
+      flash(document.getElementById('savePasswordBtn'), 'Update Password');
+    });
+  </script>
+
+  <script>
+    document.getElementById('logoutLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('ventpals_parent_logged_in');
+      localStorage.removeItem('ventpals_parent_email');
+      window.location.href = '../adult-login.html';
+    });
+  </script>
+
+</body>
+</html>

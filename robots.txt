@@ -24,6 +24,9 @@ Disallow: /notifications.html
 Disallow: /app-switcher.html
 Disallow: /onboarding/
 Disallow: /world/
+Disallow: /grownups/
+Disallow: /adult-login.html
+Disallow: /adult-signup.html
 
 # Disallow all nest pages
 Disallow: /aura-nest.html
@@ -43,4 +46,4 @@ Disallow: /sable-nest.html
 Disallow: /solace-nest.html
 Disallow: /twig-nest.html
 
-Sitemap: https://www.ventpals.com/sitemap.xml
+Sitemap: https://ventpals.org/sitemap.xml

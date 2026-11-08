@@ -3,7 +3,7 @@
  *
  * Handles:
  *  1. Tracking the last visited child page (ventpals_last_url)
- *  2. Injecting a visible "Log Out" button on every child page
+ *  2. Injecting a shared bottom tab bar (Home, World, Nests, My Bird, Me, Log Out)
  *  3. Logout function that clears the session but preserves user data
  *
  * Scoped to child sessions only (ventpals_logged_in === 'true').
@@ -42,50 +42,50 @@
     window.location.href = resolveRoot() + 'login.html';
   }
 
-  /* ── 4. Inject floating logout button ── */
-  function injectLogoutButton() {
-    if (document.getElementById('vp-logout-btn')) return;
-
-    var btn = document.createElement('button');
-    btn.id = 'vp-logout-btn';
-    btn.setAttribute('aria-label', 'Log out of VentPals');
-    btn.innerHTML = '&#x1F6AA; Log Out';
-    btn.style.cssText = [
-      'position:fixed',
-      'bottom:22px',
-      'right:22px',
-      'z-index:9999',
-      'background:#A259FF',
-      'color:#fff',
-      'border:none',
-      'border-radius:999px',
-      'padding:11px 22px',
-      'font-size:14px',
-      'font-weight:700',
-      'cursor:pointer',
-      'box-shadow:0 4px 18px rgba(162,89,255,0.35)',
-      'font-family:inherit',
-      'transition:background 0.2s,transform 0.15s',
-      'letter-spacing:0.01em',
-    ].join(';');
-
-    btn.addEventListener('mouseenter', function () {
-      btn.style.background = '#7c3aed';
-      btn.style.transform  = 'translateY(-2px)';
+  /* ── 4. Inject the shared bottom tab bar (same on every child page) ── */
+  function injectTabBar() {
+    if (document.getElementById('vp-tabbar')) return;
+    var root = resolveRoot();
+    var tabs = [
+      { href: 'dashboard.html',  icon: '\u{1F3E0}', label: 'Home',    match: ['dashboard'] },
+      { href: 'world.html',      icon: '\u{1F30D}', label: 'World',   match: ['world'] },
+      { href: 'nest-hub.html',   icon: '\u{1FAB9}', label: 'Nests',   match: ['nest', 'circle'] },
+      { href: 'bird-growth.html',icon: '\u{1F423}', label: 'My Bird', match: ['bird-growth'] },
+      { href: 'profile.html',    icon: '\u{1F642}', label: 'Me',      match: ['profile', 'settings'] }
+    ];
+    var file = (window.location.pathname.split('/').pop() || '').replace('.html', '');
+    var bar = document.createElement('nav');
+    bar.id = 'vp-tabbar';
+    bar.setAttribute('aria-label', 'VentPals navigation');
+    bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;justify-content:space-around;' +
+      'background:rgba(255,255,255,.96);border-top:1px solid rgba(17,24,39,.1);box-shadow:0 -4px 18px rgba(46,26,71,.08);' +
+      'padding:6px 4px calc(6px + env(safe-area-inset-bottom));font-family:inherit';
+    function item(href, icon, label, active, onclick) {
+      var a = document.createElement(onclick ? 'button' : 'a');
+      if (!onclick) a.href = href;
+      a.style.cssText = 'flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 2px;' +
+        'border:none;background:none;cursor:pointer;text-decoration:none;font:inherit;font-size:11px;font-weight:700;' +
+        'color:' + (active ? '#A259FF' : '#6B7280') + ';border-radius:12px;' + (active ? 'background:rgba(162,89,255,.1)' : '');
+      a.innerHTML = '<span style="font-size:20px;line-height:1.1" aria-hidden="true">' + icon + '</span><span>' + label + '</span>';
+      if (onclick) a.addEventListener('click', onclick);
+      return a;
+    }
+    tabs.forEach(function (t) {
+      var active = t.match.some(function (m) { return file.indexOf(m) !== -1; });
+      bar.appendChild(item(root + t.href, t.icon, t.label, active));
     });
-    btn.addEventListener('mouseleave', function () {
-      btn.style.background = '#A259FF';
-      btn.style.transform  = 'translateY(0)';
-    });
-    btn.addEventListener('click', doLogout);
-
-    document.body.appendChild(btn);
+    var out = item('', '\u{1F6AA}', 'Log Out', false, doLogout);
+    out.id = 'vp-logout-btn';
+    out.setAttribute('aria-label', 'Log out of VentPals');
+    bar.appendChild(out);
+    document.body.appendChild(bar);
+    document.body.style.paddingBottom = 'calc(' + (parseInt(document.body.style.paddingBottom) || 0) + 'px + 72px)';
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectLogoutButton);
+    document.addEventListener('DOMContentLoaded', injectTabBar);
   } else {
-    injectLogoutButton();
+    injectTabBar();
   }
 
   /* ── 5. Expose helpers for other scripts ── */

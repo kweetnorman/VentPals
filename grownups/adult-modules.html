@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Regrowth Modules – VentPals Grown‑Ups</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #eef2ff, #fdf2f8);
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+  <script>if(localStorage.getItem('ventpals_parent_logged_in')!=='true'){window.location.replace('../adult-login.html');}</script>
+
+  <!-- NAV -->
+  <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="adult-dashboard.html" class="flex items-center gap-2">
+        <span class="text-2xl leading-none" aria-hidden="true">🌿</span>
+        <span class="font-bold text-lg text-purple-700">VentPals Grown‑Ups</span>
+      </a>
+
+      <ul class="flex gap-4 text-sm font-semibold text-purple-700">
+        <li><a href="adult-dashboard.html" class="hover:text-purple-900">Dashboard</a></li>
+        <li><a href="adult-children.html" class="hover:text-purple-900">Children</a></li>
+        <li><a href="adult-notifications.html" class="hover:text-purple-900">Notifications</a></li>
+        <li><a href="adult-profile.html" class="hover:text-purple-900">Profile</a></li>
+        <li><a href="../adult-login.html" id="logoutLink" class="hover:text-red-500">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <section class="text-center py-10 px-4">
+    <div class="text-5xl mb-4">📘</div>
+    <h1 class="text-3xl font-bold text-purple-700 mb-2">Your Regrowth Modules</h1>
+    <p class="text-gray-600 max-w-xl mx-auto text-sm">
+      Explore gentle, reflective lessons designed to support your emotional growth as you support the children in your care.
+    </p>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <section class="max-w-5xl mx-auto px-4 pb-20 space-y-10">
+
+    <!-- INTRO CARD -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Journey Begins Here</h2>
+      <p class="text-gray-700 text-sm leading-relaxed">
+        These modules are designed to help you reconnect with your own emotional world, understand your patterns,
+        and build healthier communication habits. Each lesson is gentle, reflective, and grounded in emotional safety.
+      </p>
+    </div>
+
+    <!-- MODULE LIST -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Available Soon</h2>
+
+      <div class="space-y-4">
+
+        <!-- MODULE CARD -->
+        <div class="bg-purple-50 rounded-xl p-4">
+          <p class="font-semibold text-purple-700">Understanding Your Emotional Triggers</p>
+          <p class="text-gray-700 text-sm">
+            Learn how your body and mind respond to stress — and how to find calm again.
+          </p>
+        </div>
+
+        <div class="bg-purple-50 rounded-xl p-4">
+          <p class="font-semibold text-purple-700">Healing Your Inner Child</p>
+          <p class="text-gray-700 text-sm">
+            Explore the younger parts of yourself that still need care, safety, and understanding.
+          </p>
+        </div>
+
+        <div class="bg-purple-50 rounded-xl p-4">
+          <p class="font-semibold text-purple-700">Relearning Calm</p>
+          <p class="text-gray-700 text-sm">
+            Gentle tools to help your nervous system settle, soften, and reset.
+          </p>
+        </div>
+
+        <div class="bg-purple-50 rounded-xl p-4">
+          <p class="font-semibold text-purple-700">Parenting Yourself While Parenting Others</p>
+          <p class="text-gray-700 text-sm">
+            Build emotional resilience by caring for your own needs alongside your child’s.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="bg-purple-600 rounded-3xl shadow p-6 text-center text-white">
+      <h2 class="text-xl font-semibold mb-3">Modules Are Growing</h2>
+      <p class="text-sm mb-4">
+        We’re building these lessons with care. Soon, you’ll have a guided path to your own emotional regrowth.
+      </p>
+      <button class="bg-white text-purple-700 font-bold py-3 px-6 rounded-full hover:bg-purple-100">
+        Notify Me When Modules Launch
+      </button>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-6 text-center text-gray-500 text-xs">
+    VentPals Grown‑Ups • Support Their Journey.
+  </footer>
+
+
+  <script>
+    document.getElementById('logoutLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('ventpals_parent_logged_in');
+      localStorage.removeItem('ventpals_parent_email');
+      window.location.href = '../adult-login.html';
+    });
+  </script>
+
+</body>
+</html>

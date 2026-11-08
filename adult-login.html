@@ -179,6 +179,11 @@
   <footer>VentPals • Supporting families with emotional growth.</footer>
 
   <script>
+    // Already signed in? Skip straight to the grown-up dashboard.
+    if (localStorage.getItem('ventpals_parent_logged_in') === 'true') {
+      window.location.replace('grownups/adult-dashboard.html');
+    }
+
     function showError(msg) {
       const box = document.getElementById('errorBox');
       box.textContent = msg;
@@ -209,7 +214,7 @@
       localStorage.setItem('ventpals_parent_logged_in', 'true');
       localStorage.setItem('ventpals_parent_email', email);
 
-      window.location.href = 'notifications.html';
+      window.location.href = 'grownups/adult-dashboard.html';
     });
   </script>
 </body>
