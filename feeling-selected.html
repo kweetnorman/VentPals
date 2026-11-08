@@ -30,7 +30,8 @@
 
   <!-- HEADER -->
   <section class="text-center py-12 px-6">
-    <div id="feelingEmoji" class="text-6xl float mb-4">💛</div>
+    <div id="feelingEmoji" class="text-6xl float mb-2">💛</div>
+    <div id="myBird" class="flex flex-col items-center mb-3"></div>
 
     <h1 class="text-3xl font-bold text-purple-700 mb-2">
       You’re Feeling <span id="feelingName">Something</span>
@@ -96,6 +97,15 @@
 
     document.getElementById("feelingName").textContent = feeling;
     document.getElementById("feelingEmoji").textContent = emoji;
+
+    // Your own bird (chosen in setup, never changes) stays with you for every check-in.
+    window.addEventListener("load", function () {
+      if (!window.VPGrowth) return;
+      var b = VPGrowth.getBird(), st = VPGrowth.getProgress().stage.id;
+      document.getElementById("myBird").innerHTML =
+        '<img src="assets/images/' + b.id + '-' + (st === 'egg' ? 'egg' : st) + '.png" class="h-20" alt="" onerror="this.style.display=\'none\'">' +
+        '<p class="text-sm text-purple-600 font-semibold">' + b.name + ' is here with you</p>';
+    });
   </script>
 
 </body>
