@@ -182,9 +182,7 @@
       var active = mine && i === p.index, past = mine && i < p.index;
       var div = document.createElement('div');
       div.className = 'text-center p-2 rounded-2xl border-2 ' + (active ? 'border-purple-400 bg-purple-50' : past ? 'border-green-300 bg-green-50 opacity-70' : 'border-gray-200 bg-gray-50 opacity-40');
-      var art = st.id === 'egg'
-        ? '<div style="font-size:30px;height:48px;line-height:48px">🥚</div>'
-        : '<img src="assets/images/' + birdId + '-' + st.id + '.png" class="h-12 mx-auto mb-1 object-contain" alt="' + st.name + '" onerror="this.style.display=\'none\'">';
+      var art = '<img src="assets/images/' + birdId + '-' + (st.id === 'egg' ? 'egg' : st.id) + '.png" class="h-12 mx-auto mb-1 object-contain" alt="' + st.name + '" onerror="this.style.display=\'none\'">';
       div.innerHTML = art + '<p class="text-xs font-semibold text-gray-600">' + st.name + '</p>' +
         (active ? '<p class="text-xs text-purple-500 mt-1">★ Now</p>' : '') + (past ? '<p class="text-xs text-green-500 mt-1">✔</p>' : '');
       el.appendChild(div);

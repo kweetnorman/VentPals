@@ -113,9 +113,8 @@
       if (!G) return;
       var bird = G.getBird(), p = G.getProgress();
       function art(stageId, cls) {
-        return stageId === 'egg'
-          ? '<span style="font-size:' + (cls === 'hero' ? '72' : '44') + 'px;line-height:1">🥚</span>'
-          : '<img src="assets/images/' + bird.id + '-' + stageId + '.png" class="' + (cls === 'hero' ? 'h-28' : 'h-16') + '" alt="" onerror="this.outerHTML=\'<span style=&quot;font-size:44px&quot;>' + bird.emoji + '</span>\'">';
+        var file = stageId === 'egg' ? 'egg' : stageId;
+        return '<img src="assets/images/' + bird.id + '-' + file + '.png" class="' + (cls === 'hero' ? 'h-28' : 'h-16') + '" alt="" onerror="this.outerHTML=\'<span style=&quot;font-size:44px&quot;>' + (stageId === 'egg' ? '🥚' : bird.emoji) + '</span>\'">';
       }
       document.getElementById('heroArt').innerHTML = art(p.stage.id, 'hero');
       document.getElementById('birdName').textContent = bird.name;

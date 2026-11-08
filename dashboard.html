@@ -228,10 +228,7 @@
     const bird     = BIRDS[birdId];
     const prog     = window.VPGrowth ? VPGrowth.getProgress() : { index: 0, stage: { id: 'egg', name: 'Egg' }, next: { name: 'Baby' }, pct: 0, toNext: 10, badges: {} };
     const stage    = prog.stage.id;
-    // egg has no artwork: show the egg emoji until it hatches
-    const art = (st, cls) => st === 'egg'
-      ? `<div style="font-size:64px;line-height:1">🥚</div>`
-      : `<img src="assets/images/${birdId}-${st}.png" class="${cls}" alt="${bird.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:56px;">${bird.emoji}</div>`;
+    const art = (st, cls) => `<img src="assets/images/${birdId}-${st}.png" class="${cls}" alt="${bird.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:56px;">${st === 'egg' ? '🥚' : bird.emoji}</div>`;
 
     document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + nickname + '!';
 
@@ -246,8 +243,7 @@
 
     // Journey section
     const jb = document.getElementById('journeyBird');
-    if (stage === 'egg') { jb.outerHTML = '<div id="journeyBird" style="font-size:64px;line-height:1">🥚</div>'; }
-    else { jb.src = 'assets/images/' + birdId + '-' + stage + '.png'; jb.alt = bird.name; }
+    jb.src = 'assets/images/' + birdId + '-' + stage + '.png'; jb.alt = bird.name;
     document.getElementById('journeyText').innerHTML = prog.next
       ? `<strong>${bird.name}</strong> is a <strong>${prog.stage.name}</strong>. Earn <strong>${prog.toNext} more points</strong> by checking in with a feeling, breathing, or writing a reflection to reach <strong>${prog.next.name}</strong>.`
       : `<strong>${bird.name}</strong> is a fully grown <strong>Percher</strong>. Keep going to collect every badge!`;
