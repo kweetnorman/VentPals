@@ -4,254 +4,114 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Keepsakes Shop – VentPals</title>
+  <title>Keepsakes – VentPals</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #f0f9ff, #F7F4FF);
-    }
-
-    .product-card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }
-
-    .product-img-wrap {
-      background: #f5f0ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      min-height: 160px;
-    }
-
-    .placeholder-img {
-      width: 120px;
-      height: 120px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #e0d7ff, #C9A7FF);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
-    }
-
-    .float {
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(to bottom right, #F7F4FF, #f0f9ff); }
+    dialog { border: none; border-radius: 24px; padding: 0; max-width: 92vw; width: 420px; box-shadow: 0 20px 60px rgba(46,26,71,.35); }
+    dialog::backdrop { background: rgba(46,26,71,.45); }
   </style>
 </head>
-
 <body class="text-gray-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
+  <script src="assets/js/shop-config.js"></script>
+  <script src="assets/js/keepsakes.js"></script>
 
-  <!-- NAV -->
-  <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="dashboard.html" class="flex items-center gap-2">
-        <img src="assets/images/logo.png" class="h-8" alt="VentPals Logo">
-        <span class="font-bold text-lg text-purple-700">VentPals</span>
-      </a>
+  <main class="max-w-3xl mx-auto px-4 pt-8 pb-10 space-y-8">
+    <header class="text-center">
+      <h1 class="text-3xl font-bold text-purple-700">Keepsakes</h1>
+      <p class="text-gray-600 text-sm max-w-md mx-auto mt-2">Real VentPals gear you earn by growing. Spend feathers, and your grown-up gets your request.</p>
+      <div class="inline-flex items-center gap-3 bg-white rounded-full shadow px-5 py-2 mt-4">
+        <span class="text-xl" aria-hidden="true">🪶</span>
+        <span><b id="feathers" class="text-purple-700 text-lg">0</b> <span class="text-sm text-gray-500">feathers to spend</span></span>
+        <a href="rewards.html" class="text-sm font-semibold text-purple-700 underline">How to earn more</a>
+      </div>
+    </header>
 
-      <button class="sm:hidden text-purple-700 text-2xl" id="menuToggle">☰</button>
+    <section aria-label="Keepsakes you can ask for">
+      <div id="shop" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
+    </section>
 
-      <ul id="mobileMenu"
-          class="hidden sm:flex flex-col sm:flex-row gap-4 text-sm font-semibold text-purple-700 sm:static absolute right-4 top-14 bg-white/90 sm:bg-transparent p-4 sm:p-0 rounded-xl shadow sm:shadow-none">
-        <li><a href="profile.html" class="hover:text-purple-900">Profile</a></li>
-        <li><a href="settings.html" class="hover:text-purple-900">Settings</a></li>
-      </ul>
+    <section class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-3">My requests</h2>
+      <ul id="myRequests" class="space-y-2 text-sm"></ul>
+      <p id="noRequests" class="text-sm text-gray-500">You haven't asked for anything yet.</p>
+    </section>
+
+    <p class="text-center text-xs text-gray-500">Grown-ups can also shop any time at <a class="underline text-purple-700" href="https://keepsakes.ventpals.com" target="_blank" rel="noopener">keepsakes.ventpals.com</a>.</p>
+  </main>
+
+  <dialog id="askDialog" aria-labelledby="askTitle">
+    <div class="p-6">
+      <h2 id="askTitle" class="text-xl font-bold text-purple-700 mb-1">Ask your grown-up?</h2>
+      <p id="askBody" class="text-sm text-gray-600 mb-4"></p>
+      <label for="askNote" class="block text-xs font-semibold text-gray-600 mb-1">Add a note (optional)</label>
+      <input id="askNote" maxlength="140" class="w-full border border-purple-300 rounded-xl px-3 py-2 text-sm mb-4" placeholder="I earned this by practicing breathing!">
+      <p id="askErr" class="text-sm text-red-600 mb-3 hidden" role="alert"></p>
+      <div class="flex gap-3">
+        <button id="askCancel" class="flex-1 bg-gray-100 hover:bg-gray-200 font-bold py-3 rounded-full text-sm">Not now</button>
+        <button id="askSend" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full text-sm">Send request</button>
+      </div>
     </div>
-  </nav>
+  </dialog>
 
   <script>
-    document.getElementById('menuToggle').onclick = () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    };
+    (function () {
+      var G = window.VPGrowth, S = window.VPShop, current = null;
+      var $ = function (id) { return document.getElementById(id); };
+      var STATUS = {
+        requested: ['Waiting for your grown-up', 'bg-yellow-100 text-yellow-800'],
+        approved:  ['Approved! Your grown-up is ordering it', 'bg-green-100 text-green-800'],
+        ordered:   ['Ordered 🎉', 'bg-green-100 text-green-800'],
+        declined:  ['Not this time. Feathers returned', 'bg-gray-100 text-gray-600']
+      };
+
+      function render() {
+        var fe = G.getFeathers(); $('feathers').textContent = fe.balance;
+        var shop = $('shop'); shop.innerHTML = '';
+        S.config.items.forEach(function (it) {
+          var req = S.activeFor(it.id), can = fe.balance >= it.cost;
+          var card = document.createElement('div');
+          card.className = 'bg-white rounded-3xl shadow overflow-hidden flex flex-col';
+          var action;
+          if (req) action = '<p class="text-center text-xs font-bold rounded-full py-2 ' + STATUS[req.status][1] + '">' + STATUS[req.status][0] + '</p>';
+          else if (can) action = '<button data-ask="' + it.id + '" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full text-sm">Ask my grown-up</button>';
+          else action = '<div><div class="w-full bg-purple-100 rounded-full h-3 overflow-hidden"><div class="bg-purple-400 h-3 rounded-full" style="width:' + Math.max(4, Math.round(fe.balance / it.cost * 100)) + '%"></div></div><p class="text-xs text-gray-500 mt-2 text-center">' + (it.cost - fe.balance) + ' more feathers to unlock</p></div>';
+          card.innerHTML =
+            '<div class="bg-purple-50 h-40 flex items-center justify-center"><img src="' + it.image + '" alt="" class="h-32 object-contain" onerror="this.outerHTML=\'<span style=&quot;font-size:64px&quot;>' + it.emoji + '</span>\'"></div>' +
+            '<div class="p-5 flex-1 flex flex-col gap-3"><div class="flex justify-between items-start gap-2"><h3 class="font-bold text-purple-700">' + it.name + '</h3><span class="text-sm font-bold text-purple-600 whitespace-nowrap">🪶 ' + it.cost + '</span></div>' +
+            '<p class="text-gray-500 text-sm flex-1">' + it.blurb + '</p>' + action + '</div>';
+          shop.appendChild(card);
+        });
+
+        var list = $('myRequests'); list.innerHTML = '';
+        var reqs = S.requests().slice().reverse();
+        $('noRequests').classList.toggle('hidden', reqs.length > 0);
+        reqs.forEach(function (r) {
+          var li = document.createElement('li'); li.className = 'flex items-center justify-between gap-3 bg-gray-50 rounded-xl px-3 py-2';
+          li.innerHTML = '<span class="font-semibold">' + r.name + '</span><span class="text-xs font-bold rounded-full px-3 py-1 ' + STATUS[r.status][1] + '">' + STATUS[r.status][0] + '</span>';
+          list.appendChild(li);
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-ask]'); if (!b) return;
+        current = S.item(b.getAttribute('data-ask'));
+        $('askBody').textContent = 'Spend ' + current.cost + ' feathers on the ' + current.name + '. Your grown-up will see your request and decide.';
+        $('askNote').value = ''; $('askErr').classList.add('hidden');
+        $('askDialog').showModal();
+      });
+      $('askCancel').onclick = function () { $('askDialog').close(); };
+      $('askSend').onclick = function () {
+        var r = S.submitRequest(current.id, $('askNote').value);
+        if (!r.ok) { $('askErr').textContent = r.error; $('askErr').classList.remove('hidden'); return; }
+        $('askDialog').close(); render();
+      };
+      render();
+    })();
   </script>
-
-  <!-- HEADER -->
-  <section class="text-center py-10 px-4">
-    <div class="text-6xl float mb-4">🪶</div>
-    <h1 class="text-3xl font-bold text-purple-700 mb-2">VentPals Keepsakes</h1>
-    <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Wear your VentPal with pride. Real products featuring your favourite bird — find them at
-      <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-         class="text-purple-600 font-semibold hover:underline">keepsakes.ventpals.com</a>.
-    </p>
-  </section>
-
-  <!-- PRODUCTS -->
-  <section class="max-w-4xl mx-auto px-4 pb-20">
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <!-- T-SHIRT -->
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="assets/images/keepsakes-tee.png" onerror="this.onerror=null;this.src='assets/images/logo.png';this.style.objectFit='contain';this.style.padding='28px';this.style.opacity='.55'"
-               alt="VentPals T-Shirt"
-               class="h-32 object-contain"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="placeholder-img" style="display:none;">👕</div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-purple-700 text-lg mb-1">VentPals T-Shirt</h3>
-          <p class="text-gray-500 text-sm mb-4">
-            Soft, comfortable tee featuring your VentPal bird. Available in all sizes.
-          </p>
-          <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-             class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">
-            Shop Now →
-          </a>
-        </div>
-      </div>
-
-      <!-- SWEATSHIRT -->
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="assets/images/keepsakes-sweatshirt.png" onerror="this.onerror=null;this.src='assets/images/logo.png';this.style.objectFit='contain';this.style.padding='28px';this.style.opacity='.55'"
-               alt="VentPals Sweatshirt"
-               class="h-32 object-contain"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="placeholder-img" style="display:none;">🧥</div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-purple-700 text-lg mb-1">VentPals Sweatshirt</h3>
-          <p class="text-gray-500 text-sm mb-4">
-            Cosy hoodie with your favourite VentPal. Perfect for big feelings days.
-          </p>
-          <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-             class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">
-            Shop Now →
-          </a>
-        </div>
-      </div>
-
-      <!-- JOURNAL -->
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="assets/images/keepsakes-journal.png" onerror="this.onerror=null;this.src='assets/images/logo.png';this.style.objectFit='contain';this.style.padding='28px';this.style.opacity='.55'"
-               alt="VentPals Journal"
-               class="h-32 object-contain"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="placeholder-img" style="display:none;">📓</div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-purple-700 text-lg mb-1">VentPals Journal</h3>
-          <p class="text-gray-500 text-sm mb-4">
-            A guided feelings journal to write, draw, and reflect on your journey.
-          </p>
-          <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-             class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">
-            Shop Now →
-          </a>
-        </div>
-      </div>
-
-      <!-- PINS -->
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="assets/images/keepsakes-pins.png" onerror="this.onerror=null;this.src='assets/images/logo.png';this.style.objectFit='contain';this.style.padding='28px';this.style.opacity='.55'"
-               alt="VentPals Pins"
-               class="h-32 object-contain"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="placeholder-img" style="display:none;">📌</div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-purple-700 text-lg mb-1">VentPals Bird Pins</h3>
-          <p class="text-gray-500 text-sm mb-4">
-            Enamel pins of your VentPal bird. Collect all 16 — one for every bird in the flock!
-          </p>
-          <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-             class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">
-            Shop Now →
-          </a>
-        </div>
-      </div>
-
-      <!-- MUG -->
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="assets/images/keepsakes-mug.png" onerror="this.onerror=null;this.src='assets/images/logo.png';this.style.objectFit='contain';this.style.padding='28px';this.style.opacity='.55'"
-               alt="VentPals Mug"
-               class="h-32 object-contain"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="placeholder-img" style="display:none;">☕</div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-purple-700 text-lg mb-1">VentPals Mug</h3>
-          <p class="text-gray-500 text-sm mb-4">
-            Sip something warm while your VentPal keeps you company. Great for grown-ups too!
-          </p>
-          <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-             class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">
-            Shop Now →
-          </a>
-        </div>
-      </div>
-
-      <!-- STICKER -->
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="assets/images/keepsakes-sticker.png" onerror="this.onerror=null;this.src='assets/images/logo.png';this.style.objectFit='contain';this.style.padding='28px';this.style.opacity='.55'"
-               alt="VentPals Sticker"
-               class="h-32 object-contain"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="placeholder-img" style="display:none;">✨</div>
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-purple-700 text-lg mb-1">VentPals Sticker Pack</h3>
-          <p class="text-gray-500 text-sm mb-4">
-            Waterproof vinyl stickers featuring your VentPal birds. Stick them everywhere!
-          </p>
-          <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-             class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">
-            Shop Now →
-          </a>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- SHOP CTA -->
-    <div class="mt-12 text-center">
-      <p class="text-gray-600 text-sm mb-4">All products are available at the VentPals Keepsakes shop.</p>
-      <a href="https://keepsakes.ventpals.com" target="_blank" rel="noopener"
-         class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg">
-        Visit keepsakes.ventpals.com →
-      </a>
-    </div>
-
-    <!-- BACK -->
-    <div class="text-center mt-8">
-      <a href="dashboard.html"
-         class="inline-block text-purple-600 hover:text-purple-800 font-semibold text-sm">
-        ← Back to Dashboard
-      </a>
-    </div>
-
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals • The Journey of Growing Up.
-  </footer>
-
 </body>
 </html>

@@ -36,88 +36,136 @@
     </div>
   </nav>
 
+  <script src="../assets/js/growth.js"></script>
+  <script src="../assets/js/shop-config.js"></script>
+  <script src="../assets/js/keepsakes.js"></script>
+
   <!-- HEADER -->
   <section class="text-center py-10 px-4">
     <div class="text-5xl mb-4">🎖️</div>
     <h1 class="text-3xl font-bold text-purple-700 mb-2">Keepsakes</h1>
-    <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Celebrate the emotional milestones your child has earned on their journey.
-    </p>
+    <p class="text-gray-600 max-w-xl mx-auto text-sm">See how your child is growing, celebrate their milestones, and approve the keepsakes they've earned.</p>
   </section>
 
-  <!-- MAIN CONTENT -->
-  <section class="max-w-5xl mx-auto px-4 pb-20 space-y-10">
+  <section class="max-w-3xl mx-auto px-4 pb-20 space-y-8">
 
-    <!-- CHILD SELECTOR -->
-    <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Select a Child</h2>
-
-      <select class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-        <option>Star SilentWing (Aura Bird)</option>
-        <!-- Future children appear here -->
-      </select>
+    <div id="storeWarning" class="hidden bg-yellow-50 border border-yellow-300 text-yellow-900 rounded-2xl p-4 text-sm">
+      <b>The store isn't fully connected yet.</b> Approving will open the shop so you can order by hand. To get the one-click cart, add each product's variant ID in <code>assets/js/shop-config.js</code>.
     </div>
 
-    <!-- KEEPSAKE LIST -->
+    <!-- CHILD PROGRESS -->
     <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Earned Keepsakes</h2>
+      <h2 class="text-xl font-semibold text-purple-700 mb-4">Your child's progress</h2>
+      <div id="childCard" class="flex items-center gap-4"></div>
+      <div class="w-full bg-purple-100 rounded-full h-3 mt-4 overflow-hidden"><div id="childBar" class="bg-purple-500 h-3 rounded-full" style="width:4%"></div></div>
+      <p id="childNext" class="text-sm text-gray-600 mt-2"></p>
+      <div id="stageChips" class="flex flex-wrap gap-2 mt-4"></div>
+    </div>
 
-      <div class="space-y-4">
+    <!-- REQUESTS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-1">Keepsake requests</h2>
+      <p class="text-gray-500 text-xs mb-4">Your child spent feathers they earned. Nothing is ordered until you say yes.</p>
+      <ul id="reqList" class="space-y-3"></ul>
+      <p id="reqEmpty" class="text-sm text-gray-500">No requests yet. They'll show up here when your child asks for a keepsake.</p>
+    </div>
 
-        <!-- KEEPSAKE CARD -->
-        <div class="bg-purple-50 rounded-xl p-4">
-          <p class="font-semibold text-purple-700">Baby Stage Completion</p>
-          <p class="text-gray-700 text-sm mb-2">
-            Star SilentWing completed the Baby Stage — a major emotional milestone.
-          </p>
-
-          <p class="text-gray-600 text-xs mb-3">
-            This means they learned the basics of naming feelings, calming their body, and asking for help.
-          </p>
-
-          <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full">
-            View Details
-          </button>
-        </div>
-
-        <!-- FUTURE KEEPSAKE -->
-        <div class="bg-gray-100 rounded-xl p-4 opacity-60">
-          <p class="font-semibold text-gray-500">Nestling Stage Completion</p>
-          <p class="text-gray-500 text-sm">
-            Coming soon as your child continues their journey.
-          </p>
-        </div>
-
-      </div>
+    <!-- SHARED COMPLETIONS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-xl font-semibold text-purple-700 mb-1">Shared with you</h2>
+      <p class="text-gray-500 text-xs mb-4">Milestones your child chose to tell you about.</p>
+      <ul id="sharedList" class="space-y-3"></ul>
+      <p id="sharedEmpty" class="text-sm text-gray-500">Nothing shared yet.</p>
     </div>
 
     <!-- HOW TO CELEBRATE -->
     <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">How to Celebrate Keepsakes</h2>
-
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">How to celebrate</h2>
       <ul class="text-gray-700 text-sm space-y-2">
-        <li>• Ask your child what they’re proud of.</li>
-        <li>• Share a gentle reflection about what you’ve noticed.</li>
+        <li>• Ask your child what they're proud of.</li>
+        <li>• Share a gentle reflection about what you've noticed.</li>
         <li>• Celebrate progress, not perfection.</li>
         <li>• Keep the moment small, warm, and meaningful.</li>
       </ul>
     </div>
-
-    <!-- FUTURE ADULT KEEPSAKES -->
-    <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Regrowth Keepsakes (Coming Soon)</h2>
-      <p class="text-gray-700 text-sm">
-        In the future, adults will earn their own keepsakes as they grow through the Regrowth modules.
-      </p>
-    </div>
-
   </section>
 
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals Grown‑Ups • Support Their Journey.
-  </footer>
+  <footer class="py-6 text-center text-gray-500 text-xs">VentPals Grown‑Ups • Support Their Journey.</footer>
 
+  <script>
+    (function () {
+      var G = window.VPGrowth, S = window.VPShop, $ = function (id) { return document.getElementById(id); };
+      var u = {}; try { u = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
+      var P = { new: 0 };
+      function fmt(t) { var d = new Date(t); return (d.getMonth() + 1) + '/' + d.getDate(); }
+
+      if (S.config.items.some(function (i) { return !S.isConnected(i); })) $('storeWarning').classList.remove('hidden');
+
+      function render() {
+        var p = G.getProgress(), fe = G.getFeathers(), bird = G.getBird();
+        var name = u.displayName || u.nickname;
+        if (!name) {
+          $('childCard').innerHTML = '<p class="text-sm text-gray-500">No child account has been set up in this browser yet.</p>';
+        } else {
+          var art = p.stage.id === 'egg' ? 'egg' : p.stage.id;
+          $('childCard').innerHTML = '<img src="../assets/images/' + bird.id + '-' + art + '.png" class="h-20" alt="" onerror="this.style.display=\'none\'">' +
+            '<div><p class="font-bold text-purple-700 text-lg">' + name + '</p><p class="text-sm text-gray-600">' + bird.name + ' · ' + p.stage.name + ' stage</p>' +
+            '<p class="text-sm text-gray-600">⭐ ' + p.xp + ' points &nbsp; 🪶 ' + fe.balance + ' feathers &nbsp; 🏅 ' + Object.keys(p.badges).length + ' badges</p></div>';
+        }
+        $('childBar').style.width = Math.max(4, p.pct) + '%';
+        $('childNext').textContent = p.next ? p.toNext + ' more points until ' + p.next.name + '.' : 'Fully grown!';
+        $('stageChips').innerHTML = '';
+        G.STAGES.forEach(function (st, i) {
+          var c = document.createElement('span'); c.className = 'text-xs font-bold rounded-full px-3 py-1 ' + (i <= p.index ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400');
+          c.textContent = (i <= p.index ? '✔ ' : '') + st.name; $('stageChips').appendChild(c);
+        });
+
+        // requests
+        var list = $('reqList'); list.innerHTML = '';
+        var reqs = S.requests().slice().reverse();
+        $('reqEmpty').classList.toggle('hidden', reqs.length > 0);
+        reqs.forEach(function (r) {
+          var li = document.createElement('li'); li.className = 'border border-purple-100 rounded-2xl p-4';
+          var top = '<div class="flex justify-between gap-3"><div><p class="font-bold text-purple-700">' + r.name + '</p><p class="text-xs text-gray-500">' + r.childName + ' · ' + fmt(r.createdAt) + ' · 🪶 ' + r.cost + '</p></div>';
+          var note = r.note ? '<p class="text-sm text-gray-700 italic mt-2">“' + r.note.replace(/</g, '&lt;') + '”</p>' : '';
+          var actions = '';
+          if (r.status === 'requested') actions = '<div class="flex gap-2 mt-3"><button data-act="approve" data-id="' + r.id + '" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-full text-sm">Approve and order</button><button data-act="decline" data-id="' + r.id + '" class="flex-1 bg-gray-100 hover:bg-gray-200 font-bold py-2 rounded-full text-sm">Decline</button></div>';
+          else if (r.status === 'approved') actions = '<div class="flex gap-2 mt-3"><button data-act="open" data-id="' + r.id + '" class="flex-1 bg-purple-100 text-purple-800 font-bold py-2 rounded-full text-sm">Open checkout again</button><button data-act="ordered" data-id="' + r.id + '" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-full text-sm">I placed the order</button></div>';
+          var badge = {requested:'Waiting for you',approved:'Approved',ordered:'Ordered',declined:'Declined'}[r.status];
+          li.innerHTML = top + '<span class="text-xs font-bold rounded-full px-3 py-1 h-fit ' + (r.status === 'ordered' ? 'bg-green-100 text-green-700' : r.status === 'declined' ? 'bg-gray-100 text-gray-500' : 'bg-yellow-100 text-yellow-800') + '">' + badge + '</span></div>' + note + actions;
+          list.appendChild(li);
+        });
+
+        // shared completions
+        var sl = $('sharedList'); sl.innerHTML = '';
+        var inbox = S.inbox().slice().reverse();
+        $('sharedEmpty').classList.toggle('hidden', inbox.length > 0);
+        inbox.forEach(function (x) {
+          var li = document.createElement('li'); li.className = 'flex items-center gap-3 bg-purple-50 rounded-2xl p-3';
+          li.innerHTML = '<span class="text-2xl" aria-hidden="true">' + x.icon + '</span><div class="flex-1"><p class="font-semibold text-sm text-purple-700">' + x.childName + ' earned the ' + x.label + '</p><p class="text-xs text-gray-500">' + fmt(x.ts) + '</p></div>' +
+            (x.celebrated ? '<span class="text-xs font-bold text-green-700">Celebrated ✓</span>' : '<button data-act="celebrate" data-id="' + x.id + '" class="text-xs font-bold bg-purple-600 text-white rounded-full px-3 py-2">Celebrate 🎉</button>');
+          sl.appendChild(li);
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-act]'); if (!b) return;
+        var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
+        var req = S.requests().filter(function (r) { return r.id === id; })[0];
+        if (act === 'approve') {
+          S.setStatus(id, 'approved'); S.notifyWebhook(req);
+          var url = S.cartUrl(req);
+          window.open(url || ('https://' + S.config.domain), '_blank', 'noopener');
+        } else if (act === 'open') {
+          window.open(S.cartUrl(req) || ('https://' + S.config.domain), '_blank', 'noopener');
+        } else if (act === 'decline') { S.setStatus(id, 'declined'); }
+        else if (act === 'ordered') { S.setStatus(id, 'ordered'); }
+        else if (act === 'celebrate') { S.celebrate(id); }
+        render();
+      });
+      render();
+    })();
+  </script>
 
   <script>
     document.getElementById('logoutLink').addEventListener('click', (e) => {

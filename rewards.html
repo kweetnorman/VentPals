@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Keepsakes – VentPals</title>
+  <title>My Rewards – VentPals</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -30,82 +30,134 @@
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
+  <script src="assets/js/shop-config.js"></script>
+  <script src="assets/js/keepsakes.js"></script>
 
-  <!-- HEADER -->
-  <section class="text-center py-12 px-6">
-    <div class="text-6xl float mb-4">🎁</div>
+  <main class="max-w-xl mx-auto px-4 pt-8 pb-10 space-y-6">
 
-    <h1 class="text-3xl font-bold text-purple-700 mb-2">Your Keepsakes</h1>
-    <p class="text-gray-600 text-sm max-w-md mx-auto">
-      Keepsakes are special items you earn by growing with your VentPal.  
-      Each one represents a real moment of courage, calm, or understanding.
-    </p>
-  </section>
+    <!-- WHERE YOU ARE -->
+    <section class="bg-white rounded-3xl shadow p-6 text-center">
+      <div id="heroArt" class="flex justify-center float"></div>
+      <h1 id="heroTitle" class="text-2xl font-bold text-purple-700 mt-2">My Rewards</h1>
+      <p id="heroSub" class="text-purple-500 font-semibold text-sm"></p>
+      <div class="w-full bg-purple-100 rounded-full h-4 mt-4 overflow-hidden"><div id="heroBar" class="bg-purple-500 h-4 rounded-full" style="width:4%"></div></div>
+      <p id="heroNext" class="text-gray-600 text-sm mt-2"></p>
+    </section>
 
-  <!-- MAIN CONTENT -->
-  <section class="max-w-md mx-auto px-6 pb-20 space-y-10">
+    <!-- BALANCES -->
+    <section class="grid grid-cols-3 gap-3 text-center" aria-label="Balances">
+      <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">⭐</div><p id="balPoints" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Points</p></div>
+      <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">🪶</div><p id="balFeathers" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Feathers to spend</p></div>
+      <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">🎁</div><p id="balKeepsakes" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Keepsakes asked for</p></div>
+    </section>
 
-    <!-- WHAT ARE KEEPSAKES -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">What Are Keepsakes?</h2>
-      <p class="text-gray-700 text-sm leading-relaxed">
-        Keepsakes are gentle reminders of how far you’ve come.  
-        They aren’t prizes or points — they’re symbols of real emotional moments you’ve had with your VentPal.
-      </p>
-    </div>
+    <!-- WHAT'S NEXT -->
+    <section class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-3">What's next</h2>
+      <ul id="nextList" class="space-y-3 text-sm"></ul>
+    </section>
 
-    <!-- EXAMPLE KEEPSAKE -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Latest Keepsake</h2>
+    <!-- EARNED -->
+    <section class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700">Badges you've earned</h2>
+      <p id="earnedCount" class="text-xs text-gray-500 mb-4"></p>
+      <div id="earnedGrid" class="space-y-3"></div>
+      <p id="earnedEmpty" class="text-sm text-gray-500 hidden">No badges yet. Check in with a feeling or try a calming skill to earn your first one!</p>
+    </section>
 
-      <div class="flex items-center gap-4 mb-4">
-        <div class="text-4xl">🪶</div>
-        <div>
-          <p class="font-semibold text-purple-700">Feather of Calm</p>
-          <p class="text-xs text-gray-600">Earned after practicing a calming skill</p>
-        </div>
-      </div>
+    <!-- STILL TO EARN -->
+    <section class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-3">Still to earn</h2>
+      <div id="lockedGrid" class="grid grid-cols-3 gap-3"></div>
+    </section>
 
-      <p class="text-gray-700 text-sm leading-relaxed mb-4">
-        This keepsake shows a moment when you slowed down, breathed, and took care of yourself.
-      </p>
-
-      <a href="keepsakes.html"
-         class="inline-block text-purple-700 font-semibold text-sm hover:text-purple-900">
-        View All Keepsakes →
-      </a>
-    </div>
-
-    <!-- HOW TO EARN -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">How You Earn Them</h2>
-
-      <ul class="text-sm text-gray-700 space-y-3">
-        <li>🌱 When you reflect on a feeling</li>
-        <li>🪶 When you practice a calming skill</li>
-        <li>💬 When you share in a Nest</li>
-        <li>✨ When you notice something new about yourself</li>
+    <!-- FEATHERS -->
+    <section class="bg-white rounded-3xl shadow p-6 text-sm text-gray-700">
+      <h2 class="text-lg font-bold text-purple-700 mb-2">How feathers work</h2>
+      <ul class="space-y-1">
+        <li>🏅 Each new badge: <b id="fBadge"></b> feathers</li>
+        <li>🪺 Each time your bird grows a stage: <b id="fStage"></b> feathers</li>
+        <li>⭐ Every <b id="fXp"></b> points: 1 feather</li>
       </ul>
+      <p class="text-xs text-gray-500 mt-3">Spend feathers on real keepsakes. A grown-up always says yes before anything is ordered.</p>
+      <a href="keepsakes.html" class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full mt-4">Choose a keepsake</a>
+    </section>
 
-      <p class="text-xs text-gray-500 mt-4">
-        You don’t earn keepsakes by being perfect — you earn them by growing.
-      </p>
-    </div>
+    <!-- RECENT -->
+    <section class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-3">Recent activity</h2>
+      <ul id="logList" class="space-y-2 text-sm text-gray-700"></ul>
+      <p id="logEmpty" class="text-sm text-gray-500 hidden">Nothing yet. Your first activity will show up here.</p>
+    </section>
+  </main>
 
-    <!-- BACK -->
-    <div class="text-center">
-      <a href="dashboard.html"
-         class="inline-block text-purple-600 hover:text-purple-800 font-semibold text-sm">
-        ← Back to Dashboard
-      </a>
-    </div>
+  <script>
+    (function () {
+      var G = window.VPGrowth, S = window.VPShop;
+      var bird = G.getBird(), p = G.getProgress(), fe = G.getFeathers();
+      var $ = function (id) { return document.getElementById(id); };
 
-  </section>
+      // where you are
+      var file = p.stage.id === 'egg' ? 'egg' : p.stage.id;
+      $('heroArt').innerHTML = '<img src="assets/images/' + bird.id + '-' + file + '.png" class="h-28" alt="" onerror="this.outerHTML=\'<span style=&quot;font-size:64px&quot;>' + bird.emoji + '</span>\'">';
+      $('heroTitle').textContent = bird.name + ' is ' + (p.stage.id === 'egg' ? 'still an egg' : 'a ' + p.stage.name);
+      $('heroSub').textContent = p.stage.name + ' stage';
+      $('heroBar').style.width = Math.max(4, p.pct) + '%';
+      $('heroNext').textContent = p.next ? p.toNext + ' more points to reach ' + p.next.name : 'Fully grown. Keep collecting badges!';
 
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals • The Journey of Growing Up.
-  </footer>
+      // balances
+      var asked = S.requests().filter(function (r) { return r.status !== 'declined'; }).length;
+      $('balPoints').textContent = p.xp; $('balFeathers').textContent = fe.balance; $('balKeepsakes').textContent = asked;
+      $('fBadge').textContent = G.FEATHER_RULES.perBadge; $('fStage').textContent = G.FEATHER_RULES.perStage; $('fXp').textContent = G.FEATHER_RULES.xpPerFeather;
 
+      // what's next
+      var next = $('nextList');
+      function li(icon, html) { var e = document.createElement('li'); e.className = 'flex gap-3 items-start bg-purple-50 rounded-xl p-3'; e.innerHTML = '<span class="text-xl" aria-hidden="true">' + icon + '</span><span>' + html + '</span>'; next.appendChild(e); }
+      if (p.next) li('🐣', '<b>' + p.next.name + ' stage</b><br><span class="text-gray-600">' + p.toNext + ' more points. Try a feeling check-in, breathing, or a reflection.</span>');
+      var locked = Object.keys(G.BADGES).filter(function (k) { return !p.badges[k] && ['hatched','nestling','feathered','percher'].indexOf(k) === -1; });
+      locked.slice(0, 2).forEach(function (k) { var b = G.BADGES[k]; li(b.icon, '<b>' + b.name + ' badge</b><br><span class="text-gray-600">' + b.how + '</span>'); });
+      var cheapest = S.config.items.slice().sort(function (a, b) { return a.cost - b.cost; }).filter(function (i) { return i.cost > fe.balance && !S.activeFor(i.id); })[0];
+      var affordable = S.config.items.filter(function (i) { return i.cost <= fe.balance && !S.activeFor(i.id); })[0];
+      if (affordable) li('🎁', '<b>You can ask for the ' + affordable.name + '!</b><br><a class="text-purple-700 font-semibold underline" href="keepsakes.html">Go to keepsakes</a>');
+      else if (cheapest) li('🪶', '<b>' + cheapest.name + '</b><br><span class="text-gray-600">' + (cheapest.cost - fe.balance) + ' more feathers to unlock.</span>');
+
+      // earned badges (can be shared with a grown-up)
+      var earned = Object.keys(p.badges), grid = $('earnedGrid');
+      $('earnedCount').textContent = earned.length + ' of ' + Object.keys(G.BADGES).length + ' collected';
+      if (!earned.length) $('earnedEmpty').classList.remove('hidden');
+      earned.forEach(function (k) {
+        var b = G.BADGES[k], row = document.createElement('div');
+        row.className = 'flex items-center gap-3 border-2 border-yellow-200 bg-yellow-50 rounded-2xl p-3';
+        var shared = S.isShared('badge', k);
+        row.innerHTML = '<div class="text-3xl" aria-hidden="true">' + b.icon + '</div><div class="flex-1"><p class="font-bold text-purple-700 text-sm">' + b.name + '</p><p class="text-xs text-gray-500">Earned ' + p.badges[k] + '</p></div>';
+        var btn = document.createElement('button');
+        btn.className = 'text-xs font-bold rounded-full px-3 py-2 ' + (shared ? 'bg-green-100 text-green-700' : 'bg-purple-600 text-white hover:bg-purple-700');
+        btn.textContent = shared ? 'Shared ✓' : 'Tell my grown-up';
+        btn.disabled = shared;
+        btn.onclick = function () { S.shareCompletion('badge', k, b.name + ' badge', b.icon); btn.textContent = 'Shared ✓'; btn.disabled = true; btn.className = 'text-xs font-bold rounded-full px-3 py-2 bg-green-100 text-green-700'; };
+        row.appendChild(btn); grid.appendChild(row);
+      });
+
+      // still to earn
+      var lg = $('lockedGrid');
+      Object.keys(G.BADGES).filter(function (k) { return !p.badges[k]; }).forEach(function (k) {
+        var b = G.BADGES[k], d = document.createElement('div');
+        d.className = 'text-center rounded-2xl p-3 border-2 border-gray-200 bg-gray-50';
+        d.innerHTML = '<div style="font-size:28px;filter:grayscale(1);opacity:.4">' + b.icon + '</div><p class="text-xs font-bold text-gray-500 mt-1">' + b.name + '</p><p class="text-[10px] text-gray-400">' + b.how + '</p>';
+        lg.appendChild(d);
+      });
+      if (!lg.children.length) lg.parentElement.classList.add('hidden');
+
+      // recent activity
+      var log = G.getLog(), ll = $('logList');
+      if (!log.length) $('logEmpty').classList.remove('hidden');
+      log.slice(0, 8).forEach(function (e) {
+        var d = new Date(e.t), li2 = document.createElement('li');
+        li2.className = 'flex justify-between bg-gray-50 rounded-xl px-3 py-2';
+        li2.innerHTML = '<span>' + e.label + '</span><span class="text-gray-400 text-xs">+' + e.xp + ' · ' + (d.getMonth() + 1) + '/' + d.getDate() + '</span>';
+        ll.appendChild(li2);
+      });
+    })();
+  </script>
 </body>
 </html>

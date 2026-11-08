@@ -10,7 +10,8 @@
  */
 (function () {
   'use strict';
-  if (localStorage.getItem('ventpals_logged_in') !== 'true') return;
+  // Parent pages also load this file to READ progress; only a signed-in child can earn.
+  var IS_KID = localStorage.getItem('ventpals_logged_in') === 'true';
 
   var GROWTH_KEY = 'ventpals_growth';
   var USER_KEY = 'ventpals_user';
@@ -73,6 +74,16 @@
     s.xp = s.xp || 0; s.badges = s.badges || {}; s.daily = s.daily || {}; s.days = s.days || [];
     return s;
   }
+  // Feathers: the spendable keepsake currency, always derived (never drifts out of sync).
+  var FEATHER_RULES = { perBadge: 5, perStage: 20, xpPerFeather: 10 };
+  function getFeathers() {
+    var s = getState(), stageIdx = stageIndexFor(s.xp);
+    var earned = Object.keys(s.badges).length * FEATHER_RULES.perBadge + stageIdx * FEATHER_RULES.perStage + Math.floor(s.xp / FEATHER_RULES.xpPerFeather);
+    var spent = 0;
+    readJSON('ventpals_keepsake_requests', []).forEach(function (r) { if (r.status !== 'declined') spent += r.cost || 0; });
+    return { earned: earned, spent: spent, balance: earned - spent };
+  }
+  function getLog() { return (getState().log || []).slice().reverse(); }
   function saveState(s) { try { localStorage.setItem(GROWTH_KEY, JSON.stringify(s)); } catch (e) {} }
 
   function stageIndexFor(xp) {
@@ -119,7 +130,7 @@
 
   function award(activityId) {
     var act = ACTIVITIES[activityId];
-    if (!act) return null;
+    if (!act || !IS_KID) return null;
     var s = getState(), d = today();
     s.daily[d] = s.daily[d] || {};
     // prune old days
@@ -134,6 +145,7 @@
       s.xp += gained;
       if (s.days.indexOf(d) === -1) s.days.push(d);
       s.days = s.days.slice(-60);
+      s.log = (s.log || []).concat([{ t: Date.now(), id: activityId, label: act.label, xp: gained }]).slice(-20);
     }
     function give(id) { if (!s.badges[id]) { s.badges[id] = d; newBadges.push(id); } }
     if (act.badge) give(act.badge);
@@ -209,10 +221,10 @@
 
   window.VPGrowth = {
     STAGES: STAGES, BADGES: BADGES, ACTIVITIES: ACTIVITIES,
+    FEATHER_RULES: FEATHER_RULES, getFeathers: getFeathers, getLog: getLog,
     getBird: getBird, getProgress: getProgress, award: award, renderStagesGrid: renderStagesGrid,
     streak: function () { return streakLength(getState().days); }
   };
 
-  syncUserStage();
-  wirePage();
+  if (IS_KID) { syncUserStage(); wirePage(); }
 })();
