@@ -49,7 +49,7 @@
     var tabs = [
       { href: 'dashboard.html',  icon: '\u{1F3E0}', label: 'Home',    match: ['dashboard'] },
       { href: 'world.html',      icon: '\u{1F30D}', label: 'World',   match: ['world'] },
-      { href: 'nest-hub.html',   icon: '\u{1FAB9}', label: 'Nests',   match: ['nest', 'circle'] },
+      { href: 'circles-dashboard.html', icon: '\u{1FAB9}', label: 'Nests',   match: ['nest', 'circle'] },
       { href: 'bird-growth.html',icon: '\u{1F423}', label: 'My Bird', match: ['bird-growth'] },
       { href: 'profile.html',    icon: '\u{1F642}', label: 'Me',      match: ['profile', 'settings'] }
     ];

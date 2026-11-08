@@ -419,6 +419,8 @@
   </script>
   <script src="onboarding.js"></script>
   <script>
+    try { if (JSON.parse(localStorage.getItem('ventpals_user')||'{}').birdLocked) { window.location.replace('../dashboard.html'); } } catch (e) {}
+
     /* ───────────────────────────────
        DATA
     ─────────────────────────────── */
@@ -515,6 +517,7 @@
         document.getElementById('alertBird').classList.add('show');
         return;
       }
+      if (!confirm('Your VentPal is for keeps! Once you pick ' + state.selectedBird.name + ', your bird and its name can\'t be changed, so it can grow with you. Pick ' + state.selectedBird.name + '?')) return;
       goTo(3);
     }
 
@@ -648,9 +651,12 @@
         pronouns:    state.pronouns,
         avatarColour:state.colour,
         parentCode:  state.parentCode,
-        stage:       'baby',
+        stage:       'egg',
         status:      'pending',
+        birdLocked:  true,   // bird + names are permanent once onboarding finishes
+        namesLocked: true,
       });
+      localStorage.setItem('ventpals_growth', JSON.stringify({ xp: 0, badges: {}, daily: {}, days: [] }));
 
       localStorage.setItem('ventpals_user',               JSON.stringify(user));
       localStorage.setItem('ventpals_onboarding_complete','true');

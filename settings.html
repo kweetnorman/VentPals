@@ -51,6 +51,7 @@
 <body class="text-gray-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
   <script src="assets/js/session.js"></script>
+  <script src="assets/js/growth.js"></script>
   <script src="assets/js/native-bridge.js"></script>
 
   <!-- HEADER -->
@@ -70,18 +71,14 @@
 
     <!-- DISPLAY NAME -->
     <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Display Name</h2>
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Display Name 🔒</h2>
       <p class="text-gray-600 text-sm mb-4">
-        This is the name your VentPal and your Nests will see.
+        This is the name your VentPal and your Nests will see. You chose it when you joined, and it stays the same so your growth stays with you.
       </p>
 
-      <input id="settingsDisplayName" type="text"
+      <input id="settingsDisplayName" type="text" readonly aria-readonly="true"
              placeholder="Enter your display name"
-             class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4">
-
-      <button id="saveNameBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
-        Save Name
-      </button>
+             class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-1 bg-gray-50 text-gray-600 cursor-not-allowed">
     </div>
 
     <!-- YOUR VENTPAL -->
@@ -212,19 +209,6 @@
     const parentCode = user.parentCode || '—';
     document.getElementById('settingsParentCode').textContent = parentCode;
     document.getElementById('shareParentCode').textContent    = parentCode;
-
-    document.getElementById('saveNameBtn').addEventListener('click', () => {
-      try {
-        const val = displayNameInput.value.trim();
-        if (!val) return;
-        user.displayName = val;
-        localStorage.setItem('ventpals_user', JSON.stringify(user));
-        const btn = document.getElementById('saveNameBtn');
-        btn.textContent = 'Saved ✓';
-        if (window.VentPalsNative) window.VentPalsNative.Haptics.success();
-        setTimeout(() => { btn.textContent = 'Save Name'; }, 2000);
-      } catch(e) {}
-    });
 
     document.getElementById('settingsCopyBtn').addEventListener('click', () => {
       const code = user.parentCode || '';

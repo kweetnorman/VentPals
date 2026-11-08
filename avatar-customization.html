@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Your Avatar – VentPals</title>
+  <title>Your Avatar – VentPals</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -27,6 +27,7 @@
 <body class="text-gray-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
   <script src="assets/js/session.js"></script>
+  <script src="assets/js/growth.js"></script>
 
   <!-- NAV -->
   <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
@@ -60,42 +61,28 @@
 
     <h1 class="text-3xl font-bold text-purple-700 mb-2">Create Your Avatar</h1>
     <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Choose a nickname, customize your look, and let your VentPal help you discover your PowerWord.
+      Your names are locked in. Customize how you look!
     </p>
   </section>
 
   <!-- MAIN CONTENT -->
   <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-10">
 
-    <!-- NICKNAME -->
-    <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Nickname</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        Pick a name you feel comfortable being called. It doesn’t have to be your real name.
-      </p>
-
-      <input id="nicknameInput"
-             type="text"
-             placeholder="Enter your nickname..."
-             class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4" />
-
-      <button id="generatePowerWord"
-              class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
-        Generate My PowerWord
-      </button>
+    <div class="bg-white rounded-3xl shadow p-6 text-center">
+      <h2 class="text-xl font-semibold text-purple-700 mb-2">Your Name 🔒</h2>
+      <p class="text-gray-600 text-sm mb-4">You picked your names when you joined. They stay the same so your VentPal's growth always belongs to you.</p>
+      <div class="bg-yellow-100 rounded-xl p-4 text-purple-800 font-bold text-xl mb-3" id="lockedDisplayName">…</div>
+      <p class="text-sm text-gray-600">Nickname: <strong id="lockedNick">…</strong> &bull; PowerWord: <strong id="lockedPower">…</strong></p>
+      <p class="text-sm text-gray-600 mt-1">Your VentPal: <strong id="lockedBird">…</strong></p>
     </div>
-
-    <!-- POWERWORD -->
-    <div id="powerWordCard" class="bg-white rounded-3xl shadow p-6 hidden">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your PowerWord</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        This magical word is inspired by your VentPal and your emotional style.
-      </p>
-
-      <div id="powerWordDisplay"
-           class="text-center text-2xl font-bold text-purple-700 mb-4">
-      </div>
-    </div>
+    <script>
+      (function () {
+        var u = {}; try { u = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
+        var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v || '—'; };
+        set('lockedDisplayName', u.displayName || u.nickname); set('lockedNick', u.nickname);
+        set('lockedPower', u.powerWord); set('lockedBird', u.birdName || u.birdId);
+      })();
+    </script>
 
     <!-- APPEARANCE -->
     <div class="bg-white rounded-3xl shadow p-6 space-y-6">
@@ -185,27 +172,22 @@
 
   <!-- SCRIPT -->
   <script>
-    const nicknameInput = document.getElementById("nicknameInput");
-    const powerWordCard = document.getElementById("powerWordCard");
-    const powerWordDisplay = document.getElementById("powerWordDisplay");
-    const avatarName = document.getElementById("avatarName");
-    const avatarPronouns = document.getElementById("avatarPronouns");
-
-    document.getElementById("generatePowerWord").onclick = () => {
-      const nickname = nicknameInput.value.trim();
-      if (!nickname) return;
-
-      const powerWords = ["Brightwing", "Softglow", "Embercrest", "Starstep", "Willowcrest"];
-      const randomWord = powerWords[Math.floor(Math.random() * powerWords.length)];
-
-      powerWordDisplay.textContent = randomWord;
-      powerWordCard.classList.remove("hidden");
-
-      avatarName.textContent = nickname + " " + randomWord;
-    };
-
-    document.getElementById("pronounSelect").onchange = (e) => {
-      avatarPronouns.textContent = e.target.value;
+    var user = {}; try { user = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
+    var avatarName = document.getElementById("avatarName");
+    var avatarPronouns = document.getElementById("avatarPronouns");
+    avatarName.textContent = user.displayName || user.nickname || 'Friend';
+    var st = (window.VPGrowth ? VPGrowth.getProgress().stage.id : 'baby');
+    var bird = document.getElementById("avatarBird");
+    bird.src = 'assets/images/' + (user.birdId || 'aura') + '-' + (st === 'egg' ? 'baby' : st) + '.png';
+    var pr = document.getElementById("pronounSelect");
+    pr.value = user.pronouns || '';
+    avatarPronouns.textContent = pr.value;
+    pr.onchange = function (e) { avatarPronouns.textContent = e.target.value; };
+    document.getElementById("saveAvatar").onclick = function () {
+      user.pronouns = pr.value;
+      user.appearance = { color: document.getElementById("colorSelect").value, accessory: document.getElementById("accessorySelect").value, background: document.getElementById("backgroundSelect").value };
+      try { localStorage.setItem('ventpals_user', JSON.stringify(user)); } catch (e) {}
+      this.textContent = 'Saved ✓'; var b = this; setTimeout(function () { b.textContent = 'Save My Avatar'; }, 2000);
     };
   </script>
 

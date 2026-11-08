@@ -36,6 +36,7 @@
 <body class="text-gray-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
   <script src="assets/js/session.js"></script>
+  <script src="assets/js/growth.js"></script>
 
   <!-- NAV -->
   <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
@@ -62,130 +63,100 @@
   </script>
 
   <!-- HEADER -->
-  <section class="text-center py-10 px-4">
-    <div class="relative overflow-visible h-24 sm:h-32">
-      <div id="birdEmoji"
-           class="absolute top-6 left-4 sm:top-10 sm:left-20 text-4xl sm:text-6xl float">
-        🐦
-      </div>
-    </div>
-
-    <h1 id="birdName" class="text-3xl font-bold text-purple-700 mb-2">
-      Your Bird’s Growth
-    </h1>
-
-    <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Every VentPal grows with you. These are the gentle stages your bird moves through as you explore your feelings together.
-    </p>
+  <section class="text-center pt-8 pb-4 px-4">
+    <div id="heroArt" class="float flex justify-center items-center h-28"></div>
+    <h1 id="birdName" class="text-3xl font-bold text-purple-700 mt-2 mb-1">Your VentPal</h1>
+    <p id="stageLine" class="text-purple-500 font-semibold text-sm"></p>
+    <p class="text-xs text-gray-400 mt-1">🔒 Your bird is yours for keeps. It grows as you do.</p>
   </section>
 
-  <!-- MAIN CONTENT -->
-  <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-10">
+  <section class="max-w-xl mx-auto px-4 sm:px-6 pb-24 space-y-8">
 
-    <!-- GROWTH STAGES -->
-    <div class="space-y-6">
-
-      <!-- Baby Stage -->
-      <div id="stage-baby" class="bg-white rounded-3xl shadow p-6 border-2">
-        <div class="flex items-center gap-4">
-          <img id="img-baby" src="assets/images/aura-baby.png" class="h-20" alt="Baby Stage">
-          <div>
-            <h3 class="text-lg font-semibold text-purple-700">Baby</h3>
-            <p class="text-gray-600 text-sm">This is where your journey begins — soft, new, and full of possibility.</p>
-          </div>
-        </div>
+    <!-- PROGRESS -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <div class="flex justify-between text-xs font-semibold text-purple-700 mb-2">
+        <span id="xpLabel"></span><span id="nextLabel"></span>
       </div>
-
-      <!-- Nestling Stage -->
-      <div id="stage-nestling" class="bg-white rounded-3xl shadow p-6 border-2">
-        <div class="flex items-center gap-4">
-          <img id="img-nestling" src="assets/images/aura-nestling.png" class="h-20" alt="Nestling Stage">
-          <div>
-            <h3 class="text-lg font-semibold text-purple-700">Nestling</h3>
-            <p class="text-gray-600 text-sm">You’re learning, growing, and finding your voice — one gentle step at a time.</p>
-          </div>
-        </div>
+      <div class="w-full bg-purple-100 rounded-full h-4 overflow-hidden">
+        <div id="xpBar" class="bg-purple-500 h-4 rounded-full transition-all duration-700" style="width:4%"></div>
       </div>
-
-      <!-- Feathered Stage -->
-      <div id="stage-feathered" class="bg-white rounded-3xl shadow p-6 border-2">
-        <div class="flex items-center gap-4">
-          <img id="img-feathered" src="assets/images/aura-feathered.png" class="h-20" alt="Feathered Stage">
-          <div>
-            <h3 class="text-lg font-semibold text-purple-700">Feathered</h3>
-            <p class="text-gray-600 text-sm">You’re becoming more confident and steady — your feelings make more sense now.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Percher Stage -->
-      <div id="stage-percher" class="bg-white rounded-3xl shadow p-6 border-2">
-        <div class="flex items-center gap-4">
-          <img id="img-percher" src="assets/images/aura-percher.png" class="h-20" alt="Percher Stage">
-          <div>
-            <h3 class="text-lg font-semibold text-purple-700">Percher</h3>
-            <p class="text-gray-600 text-sm">This is your bird’s calm, wise form — steady, grounded, and always here for you.</p>
-          </div>
-        </div>
-      </div>
-
+      <p id="xpHint" class="text-gray-600 text-sm mt-3"></p>
+      <p id="streakLine" class="text-sm text-orange-600 font-semibold mt-1"></p>
     </div>
 
-    <!-- ACTIONS -->
-    <div class="bg-white rounded-3xl shadow p-6 space-y-4">
-      <a href="nest-hub.html"
-         class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
-        Back to My Nest
-      </a>
-
-      <a href="dashboard.html"
-         class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-full">
-        Back to Dashboard
-      </a>
+    <!-- STAGES -->
+    <div>
+      <h2 class="text-lg font-bold text-purple-700 mb-3">Growth stages</h2>
+      <div id="stageList" class="space-y-3"></div>
     </div>
 
+    <!-- WAYS TO GROW -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-1">Ways to help your bird grow</h2>
+      <p class="text-gray-500 text-xs mb-4">Each one counts once a day.</p>
+      <ul id="waysList" class="space-y-2 text-sm"></ul>
+    </div>
+
+    <!-- BADGES -->
+    <div class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-1">Your badges</h2>
+      <p id="badgeCount" class="text-gray-500 text-xs mb-4"></p>
+      <div id="badgeGrid" class="grid grid-cols-3 gap-3"></div>
+    </div>
+
+    <a href="dashboard.html" class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-full">Back to Home</a>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals • The Journey of Growing Up.
-  </footer>
-
-  <!-- SCRIPT: Highlight current stage + load user’s bird images -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const stageParam = params.get("stage");
+    (function () {
+      var G = window.VPGrowth;
+      if (!G) return;
+      var bird = G.getBird(), p = G.getProgress();
+      function art(stageId, cls) {
+        return stageId === 'egg'
+          ? '<span style="font-size:' + (cls === 'hero' ? '72' : '44') + 'px;line-height:1">🥚</span>'
+          : '<img src="assets/images/' + bird.id + '-' + stageId + '.png" class="' + (cls === 'hero' ? 'h-28' : 'h-16') + '" alt="" onerror="this.outerHTML=\'<span style=&quot;font-size:44px&quot;>' + bird.emoji + '</span>\'">';
+      }
+      document.getElementById('heroArt').innerHTML = art(p.stage.id, 'hero');
+      document.getElementById('birdName').textContent = bird.name;
+      document.getElementById('stageLine').textContent = p.stage.name + ' stage';
+      document.getElementById('xpLabel').textContent = p.xp + ' points';
+      document.getElementById('nextLabel').textContent = p.next ? p.next.name + ' at ' + p.next.min : 'Fully grown!';
+      document.getElementById('xpBar').style.width = Math.max(4, p.pct) + '%';
+      document.getElementById('xpHint').textContent = p.next
+        ? (p.stage.id === 'egg' ? 'Your egg is waiting to hatch. ' : '') + p.toNext + ' more points to reach ' + p.next.name + '.'
+        : 'Your VentPal reached the top stage. Keep collecting badges!';
+      var st = G.streak();
+      document.getElementById('streakLine').textContent = st > 0 ? '🔥 ' + st + '-day streak' : '';
 
-    // Resolve bird id: URL param → localStorage → fallback 'aura'
-    let birdId = params.get("bird");
-    if (!birdId) {
-      try {
-        const stored = JSON.parse(localStorage.getItem('ventpals_user') || '{}');
-        birdId = stored.birdId || 'aura';
-      } catch(e) { birdId = 'aura'; }
-    }
-    const birdName = birdId.charAt(0).toUpperCase() + birdId.slice(1);
-
-    document.getElementById("birdName").textContent = birdName + "’s Growth";
-
-    // Set correct bird images for all four stages
-    ['baby', 'nestling', 'feathered', 'percher'].forEach(stage => {
-      const img = document.getElementById('img-' + stage);
-      if (img) img.src = 'assets/images/' + birdId + '-' + stage + '.png';
-    });
-
-    if (stageParam) {
-      document.getElementById("stage-" + stageParam).classList.add("stage-active");
-
-      const stages = ["baby", "nestling", "feathered", "percher"];
-      const currentIndex = stages.indexOf(stageParam);
-
-      stages.forEach((s, i) => {
-        if (i < currentIndex) {
-          document.getElementById("stage-" + s).classList.add("stage-complete");
-        }
+      var list = document.getElementById('stageList');
+      G.STAGES.forEach(function (s, i) {
+        var cls = i === p.index ? 'border-purple-400 bg-purple-50' : i < p.index ? 'border-green-300 opacity-70' : 'border-gray-200 opacity-50';
+        var tag = i === p.index ? '<span class="text-xs font-bold text-purple-600">★ Now</span>' : i < p.index ? '<span class="text-xs font-bold text-green-600">✔ Done</span>' : '<span class="text-xs text-gray-400">' + s.min + ' points</span>';
+        var d = document.createElement('div');
+        d.className = 'bg-white rounded-3xl shadow p-4 border-2 flex items-center gap-4 ' + cls;
+        d.innerHTML = '<div style="width:72px;text-align:center">' + art(s.id, 'small') + '</div><div class="flex-1"><div class="flex justify-between items-center"><h3 class="font-semibold text-purple-700">' + s.name + '</h3>' + tag + '</div><p class="text-gray-600 text-sm">' + s.blurb + '</p></div>';
+        list.appendChild(d);
       });
-    }
+
+      var ways = document.getElementById('waysList');
+      Object.keys(G.ACTIVITIES).forEach(function (k) {
+        var a = G.ACTIVITIES[k], li = document.createElement('li');
+        li.className = 'flex justify-between bg-purple-50 rounded-xl px-3 py-2';
+        li.innerHTML = '<span>' + a.label + '</span><span class="font-bold text-purple-600">+' + a.xp + '</span>';
+        ways.appendChild(li);
+      });
+
+      var grid = document.getElementById('badgeGrid'), have = 0, total = Object.keys(G.BADGES).length;
+      Object.keys(G.BADGES).forEach(function (k) {
+        var b = G.BADGES[k], got = !!p.badges[k]; if (got) have++;
+        var d = document.createElement('div');
+        d.className = 'text-center rounded-2xl p-3 border-2 ' + (got ? 'border-yellow-300 bg-yellow-50' : 'border-gray-200 bg-gray-50');
+        d.innerHTML = '<div style="font-size:30px;' + (got ? '' : 'filter:grayscale(1);opacity:.35') + '">' + b.icon + '</div><p class="text-xs font-bold ' + (got ? 'text-purple-700' : 'text-gray-400') + ' mt-1">' + b.name + '</p><p class="text-[10px] text-gray-400">' + (got ? 'Earned!' : b.how) + '</p>';
+        grid.appendChild(d);
+      });
+      document.getElementById('badgeCount').textContent = have + ' of ' + total + ' collected';
+    })();
   </script>
 
 </body>
