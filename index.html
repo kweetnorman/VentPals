@@ -11,14 +11,10 @@
   <meta property="og:image" content="https://ventpals.org/assets/images/logo.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ventpals.org/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VentPals – Big feelings are easier with a friend">
-  <meta name="twitter:description" content="Every VentPal starts as an egg and grows as kids learn to name and care for their feelings.">
-  <meta name="twitter:image" content="https://ventpals.org/assets/images/logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     *,*::before,*::after{box-sizing:border-box}
@@ -28,220 +24,305 @@
     img{display:block;max-width:100%;height:auto}
 
     :root{
-      --ink:#2B1B3D;
-      --ink-soft:#5B4B70;
-      --violet:#7A3FE0;
-      --violet-deep:#5E2BB8;
-      --lav:#F3ECFF;
-      --lav-deep:#E4D6FF;
-      --paper:#FDFBFF;
-      --leaf:#4FA82B;
-      --egg:#FFF0C9;
-      --line:rgba(43,27,61,.12);
+      --ink:#1E1B4B;
+      --ink-soft:#475569;
+      --violet:#7C3AED;
+      --violet-deep:#5B21B6;
+      --violet-light:#F3E8FF;
+      --sun-yellow:#FDE047;
+      --sun-amber:#F59E0B;
+      --sky-blue:#38BDF8;
+      --sky-bg:#F0F9FF;
+      --mint-green:#34D399;
+      --mint-bg:#ECFDF5;
+      --coral-orange:#FB923C;
+      --coral-bg:#FFF7ED;
+      --pink-rose:#F472B6;
+      --paper:#FAF5FF;
+      --white:#FFFFFF;
+      --line:rgba(124,58,237,0.12);
       --gutter:clamp(20px,5vw,48px);
-      --space-section:clamp(64px,9vw,112px);
-      --radius:16px;
-      --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
-      --body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+      --space-section:clamp(56px,8vw,100px);
+      --radius-sm:14px;
+      --radius-md:24px;
+      --radius-lg:36px;
+      --font-display:'Fredoka','Bricolage Grotesque',system-ui,sans-serif;
+      --font-body:'Plus Jakarta Sans',system-ui,sans-serif;
+      --shadow-sm:0 4px 12px rgba(124,58,237,0.06);
+      --shadow-md:0 12px 32px rgba(124,58,237,0.1);
+      --shadow-lg:0 20px 40px rgba(30,27,75,0.12);
     }
 
     body{
-      font-family:var(--body);
+      font-family:var(--font-body);
       font-size:1.0625rem;
-      line-height:1.65;
+      line-height:1.6;
       color:var(--ink);
       background:var(--paper);
       -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
     }
     a{color:inherit}
-    :focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:8px}
-    .wrap{width:100%;max-width:1160px;margin-inline:auto;padding-inline:var(--gutter)}
-    .skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:100}
+    :focus-visible{outline:4px solid var(--sky-blue);outline-offset:3px;border-radius:12px}
+    .wrap{width:100%;max-width:1200px;margin-inline:auto;padding-inline:var(--gutter)}
+    .skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;z-index:100}
     .skip:focus{left:8px}
 
-    /* ---------- buttons ---------- */
+    /* ---------- Playful Buttons ---------- */
     .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      min-height:48px;padding:0 24px;border-radius:var(--radius);
-      font:600 1rem/1 var(--body);text-decoration:none;cursor:pointer;white-space:nowrap;
-      border:2px solid transparent;
-      transition:background-color .15s,border-color .15s,color .15s;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      min-height:54px;padding:0 28px;border-radius:var(--radius-md);
+      font:700 1.05rem/1 var(--font-display);text-decoration:none;cursor:pointer;white-space:nowrap;
+      border:3px solid transparent;
+      box-shadow:0 6px 0 rgba(0,0,0,0.12);
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s;
     }
-    .btn-solid{background:var(--violet);color:#fff}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 rgba(0,0,0,0.14)}
+    .btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,0.1)}
+    
+    .btn-solid{background:var(--violet);color:#fff;border-color:var(--violet-deep)}
     .btn-solid:hover{background:var(--violet-deep)}
-    .btn-line{border-color:var(--ink);color:var(--ink);background:transparent}
-    .btn-line:hover{background:var(--ink);color:#fff}
-    .btn-light{background:#fff;color:var(--ink)}
-    .btn-light:hover{background:var(--lav-deep)}
-    .btn-ghost-light{border-color:rgba(255,255,255,.55);color:#fff;background:transparent}
-    .btn-ghost-light:hover{background:rgba(255,255,255,.12)}
+    .btn-yellow{background:var(--sun-yellow);color:var(--ink);border-color:var(--sun-amber)}
+    .btn-yellow:hover{background:#FACC15}
+    .btn-line{border-color:var(--ink);color:var(--ink);background:#fff}
+    .btn-line:hover{background:var(--violet-light)}
+    .btn-light{background:#fff;color:var(--ink);border-color:#CBD5E1}
+    .btn-light:hover{background:var(--violet-light)}
 
-    /* ---------- header ---------- */
-    .site-header{position:sticky;top:0;z-index:50;background:rgba(253,251,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.35rem/1 var(--display);letter-spacing:-.02em;color:var(--violet-deep)}
-    .brand img{height:40px;width:auto}
-    .nav-links{display:flex;align-items:center;gap:28px}
-    .nav-links a{text-decoration:none;font-weight:600;font-size:.98rem;color:var(--ink-soft)}
-    .nav-links a:hover{color:var(--violet-deep)}
+    /* ---------- Header ---------- */
+    .site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:2px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:76px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 1.6rem/1 var(--font-display);color:var(--violet-deep)}
+    .brand img{height:44px;width:auto;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1))}
+    .brand-badge{font-size:0.7rem;background:var(--sun-yellow);color:var(--ink);padding:4px 8px;border-radius:20px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--sun-amber)}
+    .nav-links{display:flex;align-items:center;gap:24px}
+    .nav-links a{text-decoration:none;font:600 0.98rem var(--font-display);color:var(--ink-soft);padding:6px 10px;border-radius:10px;transition:all 0.15s}
+    .nav-links a:hover{color:var(--violet);background:var(--violet-light)}
     .nav-actions{display:flex;align-items:center;gap:12px}
-    .nav-actions .btn{min-height:42px;padding:0 18px;font-size:.95rem}
-    .nav-actions .grownups{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--ink-soft);padding:0 6px}
-    .nav-actions .grownups:hover{color:var(--violet-deep)}
-    .menu-btn{display:none;min-height:44px;min-width:44px;border:2px solid var(--ink);background:transparent;border-radius:12px;font:600 .95rem var(--body);color:var(--ink);cursor:pointer;padding:0 14px}
+    .nav-actions .btn{min-height:44px;padding:0 20px;font-size:0.95rem;box-shadow:none}
+    .nav-actions .grownups{font-weight:700;font-size:0.9rem;text-decoration:none;color:var(--violet-deep);background:var(--violet-light);padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--line)}
+    .nav-actions .grownups:hover{background:#E9D5FF}
+    .menu-btn{display:none;min-height:44px;padding:0 16px;border:2px solid var(--ink);background:#fff;border-radius:14px;font:700 0.95rem var(--font-display);color:var(--ink);cursor:pointer}
     .mobile-panel{display:none}
 
-    /* ---------- hero ---------- */
-    .hero{padding:clamp(40px,7vw,88px) 0 var(--space-section);overflow-x:clip}
-    .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,6vw,80px);align-items:center}
+    /* ---------- Hero Section ---------- */
+    .hero{padding:clamp(32px,5vw,64px) 0 var(--space-section);background:linear-gradient(180deg, #FFFFFF 0%, var(--paper) 100%);position:relative}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);gap:clamp(32px,5vw,64px);align-items:center}
+    
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--mint-bg);border:2px solid var(--mint-green);color:#065F46;padding:6px 14px;border-radius:30px;font:700 0.88rem var(--font-display);margin-bottom:16px}
     .hero h1{
-      font:800 clamp(2.5rem,5.6vw,4.4rem)/1.02 var(--display);
-      letter-spacing:-.035em;
+      font:800 clamp(2.6rem,5vw,4.2rem)/1.05 var(--font-display);
       color:var(--ink);
-      max-width:13ch;
+      letter-spacing:-0.02em;
     }
-    .hero .lede{margin-top:22px;font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.55;color:var(--ink-soft);max-width:34em}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
-    .hero-note{margin-top:22px;font-size:.95rem;color:var(--ink-soft);max-width:36em}
+    .hero h1 span.highlight{color:var(--violet);background:linear-gradient(120deg, rgba(253,224,71,0.4) 0%, rgba(253,224,71,0.4) 100%);background-repeat:no-repeat;background-size:100% 35%;background-position:0 88%}
+    .hero .lede{margin-top:18px;font-size:clamp(1.1rem,1.4vw,1.25rem);line-height:1.55;color:var(--ink-soft);max-width:34em}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+    .hero-note{margin-top:20px;font-size:0.92rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
 
-    .hero-art{position:relative;max-width:480px;width:100%;margin-inline:auto}
-    .egg-frame{
-      aspect-ratio:4/5;width:100%;
-      background:var(--lav);
-      border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
-      position:relative;overflow:hidden;
+    /* Interactive Hero Visual Container */
+    .hero-art-card{
+      background:#FFFFFF;
+      border:4px solid var(--violet-light);
+      border-radius:var(--radius-lg);
+      padding:24px;
+      box-shadow:var(--shadow-lg);
+      position:relative;
     }
-    .egg-frame::after{content:"";position:absolute;left:12%;right:12%;bottom:7%;height:7%;border-radius:50%;background:rgba(122,63,224,.14)}
-    .egg-frame img{position:absolute;left:50%;bottom:9%;width:86%;transform:translateX(-50%);z-index:1}
-    .hero-art .mini{position:absolute;width:30%;z-index:2}
-    .hero-art .mini.a{left:-6%;bottom:-3%;transform:rotate(-8deg)}
-    .hero-art .mini.b{right:-5%;bottom:3%;transform:rotate(7deg);width:26%}
-
-    /* ---------- section scaffolding ---------- */
-    .section{padding:var(--space-section) 0}
-    .section.tint{background:var(--lav)}
-    .section h2,.grownups-band h2{font:800 clamp(1.9rem,3.8vw,3rem)/1.08 var(--display);letter-spacing:-.03em;max-width:20ch}
-    .section .intro,.grownups-band .intro{margin-top:18px;max-width:38em;color:var(--ink-soft);font-size:1.1rem}
-
-    /* ---------- growth ladder ---------- */
-    .ladder{margin-top:clamp(40px,6vw,72px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(8px,2vw,28px);align-items:end}
-    .stage{text-align:center}
-    .stage img{margin-inline:auto;width:auto;object-fit:contain}
-    .stage:nth-child(1) img{height:clamp(70px,13vw,150px)}
-    .stage:nth-child(2) img{height:clamp(84px,15vw,175px)}
-    .stage:nth-child(3) img{height:clamp(100px,18vw,205px)}
-    .stage:nth-child(4) img{height:clamp(118px,21vw,235px)}
-    .stage:nth-child(5) img{height:clamp(136px,24vw,265px)}
-    .stage h3{margin-top:14px;font:700 1.1rem/1.2 var(--display)}
-    .stage p{margin-top:6px;font-size:.95rem;line-height:1.45;color:var(--ink-soft)}
-    .ground{height:6px;border-radius:6px;background:var(--lav-deep);margin-top:10px}
-    .tint .ground{background:#d6c3fb}
-
-    html.js .ladder .stage{opacity:0;transform:translateY(18px) scale(.94)}
-    html.js .ladder.in .stage{animation:hatch .7s cubic-bezier(.2,.9,.3,1.2) forwards}
-    html.js .ladder.in .stage:nth-child(2){animation-delay:.18s}
-    html.js .ladder.in .stage:nth-child(3){animation-delay:.36s}
-    html.js .ladder.in .stage:nth-child(4){animation-delay:.54s}
-    html.js .ladder.in .stage:nth-child(5){animation-delay:.72s}
-    @keyframes hatch{to{opacity:1;transform:none}}
-
-    /* ---------- what kids do ---------- */
-    .split{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,7vw,96px);align-items:start}
-    .doing li{padding:26px 0;border-top:1px solid var(--line)}
-    .doing li:last-child{border-bottom:1px solid var(--line)}
-    .doing h3{font:700 1.35rem/1.2 var(--display);letter-spacing:-.015em}
-    .doing p{margin-top:8px;color:var(--ink-soft);max-width:36em}
-    .doing a{color:var(--violet-deep);font-weight:600;text-underline-offset:3px}
-
-    /* ---------- flock ---------- */
-    .flock{margin-top:clamp(36px,5vw,56px);display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:clamp(14px,2vw,26px) clamp(8px,1.4vw,18px)}
-    .flock li{text-align:center}
-    .portrait{
-      aspect-ratio:4/5;background:var(--tint,#fff);
-      border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
-      display:flex;align-items:flex-end;justify-content:center;overflow:hidden;
+    .hero-main-avatar{
+      aspect-ratio:1/1;
+      max-width:280px;
+      margin:0 auto;
+      background:linear-gradient(135deg, #FFE4E6 0%, #CCFBF1 100%);
+      border-radius:50%;
+      border:6px solid #fff;
+      box-shadow:var(--shadow-md);
+      display:flex;align-items:center;justify-content:center;
+      position:relative;
     }
-    .portrait img{width:88%;margin-bottom:4%}
-    .flock b{display:block;margin-top:10px;font:700 1rem/1.2 var(--display)}
-    .flock span{display:block;margin-top:2px;font-size:.82rem;line-height:1.3;color:var(--ink-soft)}
-    .more-link{display:inline-block;margin-top:36px;font-weight:600;color:var(--violet-deep);text-underline-offset:4px}
+    .hero-main-avatar img{width:80%;height:80%;object-fit:contain}
+    .feeling-bubbles{display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap}
+    .feeling-chip{
+      background:var(--paper);border:2px solid var(--line);
+      padding:6px 14px;border-radius:20px;
+      font:700 0.85rem var(--font-display);color:var(--ink);
+      cursor:pointer;transition:all 0.15s;
+    }
+    .feeling-chip:hover,.feeling-chip.active{background:var(--violet);color:#fff;border-color:var(--violet-deep);transform:scale(1.05)}
 
-    /* ---------- grown-ups ---------- */
-    .grownups-band{background:var(--ink);color:#fff;padding:var(--space-section) 0}
-    .grownups-band h2{color:#fff}
-    .grownups-band .intro{color:#d9cdea}
-    .facts li{padding:22px 0;border-top:1px solid rgba(255,255,255,.2);color:#eee6f8}
-    .facts li:last-child{border-bottom:1px solid rgba(255,255,255,.2)}
-    .facts b{display:block;font:700 1.2rem/1.25 var(--display);color:#fff;margin-bottom:4px}
-    .band-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+    /* ---------- Section Scaffolding ---------- */
+    .section{padding:var(--space-section) 0;position:relative}
+    .section.tint-sky{background:var(--sky-bg)}
+    .section.tint-mint{background:var(--mint-bg)}
+    .section.tint-lavender{background:var(--violet-light)}
+    
+    .section-head{text-align:center;max-width:640px;margin:0 auto clamp(36px,5vw,60px)}
+    .section-head h2{font:800 clamp(2.2rem,4vw,3.2rem)/1.1 var(--font-display);color:var(--ink)}
+    .section-head .intro{margin-top:12px;color:var(--ink-soft);font-size:1.15rem;line-height:1.5}
+    .pill-tag{display:inline-block;padding:6px 16px;background:var(--sun-yellow);border:2px solid var(--sun-amber);border-radius:30px;font:700 0.85rem var(--font-display);color:var(--ink);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px}
 
-    /* ---------- closing ---------- */
-    .closing{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:clamp(24px,5vw,64px)}
-    .closing img{width:clamp(120px,18vw,200px)}
-    .closing .hero-actions{margin-top:28px}
+    /* ---------- Evolutionary Growth Ladder ---------- */
+    .growth-container{
+      background:#fff;
+      border:4px solid var(--line);
+      border-radius:var(--radius-lg);
+      padding:clamp(24px,4vw,48px);
+      box-shadow:var(--shadow-md);
+    }
+    .ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;align-items:end;margin-top:20px}
+    .stage-card{
+      background:var(--paper);
+      border:3px solid var(--line);
+      border-radius:var(--radius-md);
+      padding:16px 12px;
+      text-align:center;
+      transition:transform 0.2s, border-color 0.2s;
+    }
+    .stage-card:hover{transform:translateY(-6px);border-color:var(--violet);background:#fff}
+    .stage-card img{margin:0 auto;height:clamp(80px,12vw,140px);object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,0.08))}
+    .stage-card .stage-badge{display:inline-block;margin-top:10px;padding:3px 10px;background:var(--violet-light);color:var(--violet-deep);border-radius:12px;font:700 0.75rem var(--font-display)}
+    .stage-card h3{margin-top:6px;font:700 1.15rem/1.2 var(--font-display);color:var(--ink)}
+    .stage-card p{margin-top:4px;font-size:0.88rem;line-height:1.35;color:var(--ink-soft)}
 
-    /* ---------- footer ---------- */
-    footer{border-top:1px solid var(--line);padding:56px 0 40px;font-size:.95rem;color:var(--ink-soft)}
-    .foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:36px}
-    .foot-grid .brand{font-size:1.2rem}
-    .foot-grid p{margin-top:12px;max-width:26em}
-    .foot-grid h3{font:700 .95rem/1.2 var(--body);color:var(--ink);margin-bottom:12px}
-    .foot-grid li+li{margin-top:8px}
-    .foot-grid a{text-decoration:none}
-    .foot-grid a:hover{color:var(--violet-deep);text-decoration:underline}
-    .legal{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:.88rem}
+    /* ---------- Compact Single-Row Daily Outlets ---------- */
+    .cards-row-4{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:16px}
+    .feature-card-compact{
+      background:#fff;
+      border:3px solid var(--line);
+      border-radius:var(--radius-md);
+      padding:20px 16px;
+      box-shadow:var(--shadow-sm);
+      transition:all 0.2s;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:10px;
+    }
+    .feature-card-compact:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--violet)}
+    .icon-box{
+      width:48px;height:48px;border-radius:var(--radius-sm);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.5rem;box-shadow:inset 0 -3px 0 rgba(0,0,0,0.12);
+      flex-shrink:0;
+    }
+    .icon-box.yellow{background:var(--sun-yellow)}
+    .icon-box.sky{background:var(--sky-blue)}
+    .icon-box.mint{background:var(--mint-green)}
+    .icon-box.coral{background:var(--coral-orange)}
+    .feature-card-compact h3{font:700 1.1rem/1.2 var(--font-display);color:var(--ink)}
+    .feature-card-compact p{color:var(--ink-soft);font-size:0.88rem;line-height:1.4}
 
-    /* ---------- responsive ---------- */
-    @media (max-width:980px){
+    /* ---------- Bird Flock Slider (4 Cards View) ---------- */
+    .flock-slider-container{position:relative;max-width:1040px;margin:24px auto 0;display:flex;align-items:center;gap:12px}
+    .flock-slider-grid{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:16px;flex:1}
+    .slider-btn{
+      width:48px;height:48px;border-radius:50%;
+      background:#fff;border:3px solid var(--line);
+      color:var(--violet-deep);font:700 1.2rem var(--font-display);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;box-shadow:var(--shadow-sm);transition:all 0.15s;
+      flex-shrink:0;
+    }
+    .slider-btn:hover:not(:disabled){background:var(--violet);color:#fff;border-color:var(--violet-deep);transform:scale(1.1)}
+    .slider-btn:disabled{opacity:0.3;cursor:not-allowed}
+    .bird-card{
+      background:#fff;
+      border:3px solid var(--line);
+      border-radius:var(--radius-md);
+      padding:16px 12px;
+      text-align:center;
+      cursor:pointer;
+      transition:all 0.2s;
+    }
+    .bird-card:hover{transform:scale(1.05);border-color:var(--violet);box-shadow:var(--shadow-md)}
+    .bird-portrait{
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:var(--card-tint, var(--violet-light));
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 8px;
+      overflow:hidden;
+      border:2px solid #fff;
+      box-shadow:var(--shadow-sm);
+    }
+    .bird-portrait img{width:80%;height:80%;object-fit:contain}
+    .bird-card b{display:block;font:700 1.05rem/1.1 var(--font-display);color:var(--ink)}
+    .bird-card span{display:block;margin-top:2px;font-size:0.78rem;color:var(--ink-soft);font-weight:600}
+
+    /* ---------- Grown-ups Banner ---------- */
+    .grownups-banner{
+      background:linear-gradient(135deg, var(--ink) 0%, #312E81 100%);
+      color:#fff;
+      border-radius:var(--radius-lg);
+      padding:clamp(32px,6vw,64px);
+      box-shadow:var(--shadow-lg);
+    }
+    .grownups-banner h2{font:800 clamp(2rem,3.5vw,2.8rem)/1.1 var(--font-display);color:#fff}
+    .grownups-banner p.intro{color:#C7D2FE;font-size:1.1rem;margin-top:12px;max-width:32em}
+    .facts-list{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit, minmax(240px,1fr));gap:20px}
+    .fact-item{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:20px;border-radius:var(--radius-sm)}
+    .fact-item b{display:block;font:700 1.1rem var(--font-display);color:var(--sun-yellow);margin-bottom:6px}
+    .fact-item p{font-size:0.92rem;color:#E0E7FF;line-height:1.5}
+
+    /* ---------- Footer ---------- */
+    footer{background:#fff;border-top:3px solid var(--line);padding:60px 0 36px;font-size:0.95rem;color:var(--ink-soft)}
+    .foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:40px}
+    .foot-grid h3{font:700 1rem var(--font-display);color:var(--ink);margin-bottom:14px}
+    .foot-grid li+li{margin-top:10px}
+    .foot-grid a{text-decoration:none;transition:color 0.15s}
+    .foot-grid a:hover{color:var(--violet)}
+    .legal{margin-top:48px;padding-top:24px;border-top:2px solid var(--line);font-size:0.88rem;text-align:center}
+
+    /* ---------- Mobile Responsive Adjustments ---------- */
+    @media (max-width:900px){
       .nav-links,.nav-actions .grownups{display:none}
       .menu-btn{display:inline-flex;align-items:center}
-      .mobile-panel.open{display:block;border-top:1px solid var(--line);padding:12px 0 20px}
-      .mobile-panel a{display:block;padding:12px 0;text-decoration:none;font-weight:600;color:var(--ink)}
-      .hero-grid,.split{grid-template-columns:1fr}
-      .hero-art{max-width:380px}
-      .flock{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .mobile-panel.open{display:block;background:#fff;border-top:2px solid var(--line);padding:16px;margin-top:10px}
+      .mobile-panel a{display:block;padding:12px 0;text-decoration:none;font:700 1rem var(--font-display);color:var(--ink)}
+      .hero-grid{grid-template-columns:1fr;text-align:center}
+      .hero .lede{margin-inline:auto}
+      .hero-actions{justify-content:center}
+      .ladder{grid-template-columns:repeat(2,1fr)}
       .foot-grid{grid-template-columns:1fr 1fr}
     }
-    @media (max-width:640px){
-      .nav-actions .btn-line{display:none}
-      .stage p{display:none}
-      .stage h3{font-size:.85rem}
-      .closing{grid-template-columns:1fr}
-      .closing img{order:-1;width:110px}
+    @media (max-width:600px){
+      .ladder{grid-template-columns:1fr}
       .foot-grid{grid-template-columns:1fr}
-      .hero-actions .btn,.band-actions .btn{width:100%}
-    }
-    @media (prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}
-      html.js .ladder .stage{opacity:1;transform:none;animation:none!important}
+      .btn{width:100%}
     }
   </style>
   <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip" href="#main">Skip to main content</a>
 
+  <!-- Header -->
   <header class="site-header">
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="index.html" aria-label="VentPals home">
-          <img src="assets/images/logo.png" alt="">
+          <img src="assets/images/logo.png" alt="VentPals Logo">
           <span>VentPals</span>
+          <span class="brand-badge">501(c)(3)</span>
         </a>
-        <nav class="nav-links" aria-label="Primary">
+
+        <nav class="nav-links" aria-label="Primary Navigation">
           <a href="how-it-works.html">How it works</a>
           <a href="world.html">World</a>
           <a href="circles-dashboard.html">Nests</a>
           <a href="meet-the-flock.html">Meet the flock</a>
           <a href="about.html">About</a>
         </nav>
+
         <div class="nav-actions">
-          <a class="grownups" href="adult-login.html">For grown-ups</a>
+          <a class="grownups" href="adult-login.html">For Grown-ups 💛</a>
           <a class="btn btn-line" href="login.html">Log in</a>
-          <a class="btn btn-solid" href="signup.html">Get started</a>
-          <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel">Menu</button>
+          <a class="btn btn-solid" href="signup.html">Get Started</a>
+          <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel">Menu ☰</button>
         </div>
       </div>
+
       <div class="mobile-panel" id="mobilePanel">
         <a href="how-it-works.html">How it works</a>
         <a href="world.html">World</a>
@@ -254,118 +335,198 @@
     </div>
   </header>
 
+  <!-- Main Content -->
   <main id="main">
+
+    <!-- Hero Section -->
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <h1>Big feelings are easier with a friend.</h1>
-          <p class="lede">VentPals gives every kid a bird companion. Together they name what the kid feels, practice calming skills, and grow. It all starts with an egg.</p>
+          <div class="hero-badge">
+            <span>✨ Emotional Wellness for Kids & Teens</span>
+          </div>
+          <h1>Big feelings are easier <span class="highlight">with a VentPal!</span></h1>
+          <p class="lede">VentPals gives every child a friendly bird companion. Together they name what they feel, practice fun calming skills, and grow from an egg to a wise Feathered Percher.</p>
+          
           <div class="hero-actions">
-            <a class="btn btn-solid" href="signup.html">Start your VentPal</a>
-            <a class="btn btn-line" href="login.html">I already have an account</a>
+            <a class="btn btn-yellow" href="signup.html">🐣 Adopt Your VentPal</a>
+            <a class="btn btn-line" href="login.html">I already have a code</a>
           </div>
-          <p class="hero-note">For kids ages 3 to 18. Parents, teachers, and counselors get their own <a href="adult-login.html">grown-up area</a>.</p>
+
+          <p class="hero-note">
+            <span>🛡️ COPPA-Safe & Private • For ages 3 to 18</span>
+          </p>
         </div>
 
-        <div class="hero-art" aria-hidden="true">
-          <div class="egg-frame"><img src="assets/images/aura-nestling.png" alt=""></div>
-          <img class="mini a" src="assets/images/flamez-egg.png" alt="">
-          <img class="mini b" src="assets/images/nova-egg.png" alt="">
+        <!-- Interactive Hero Feature Card -->
+        <div class="hero-art-card">
+          <div style="text-align:center;margin-bottom:12px;">
+            <span style="font:700 0.85rem var(--font-display);color:var(--violet-deep);text-transform:uppercase;">Try it: Click a feeling below!</span>
+          </div>
+          <div class="hero-main-avatar" id="heroAvatarCircle">
+            <img id="heroBirdImg" src="assets/images/sable-nestling.png" alt="Sable the VentPal companion" onerror="this.src='assets/images/sable.png'">
+          </div>
+          <div style="text-align:center;margin-top:12px;">
+            <h3 id="heroBirdName" style="font:700 1.3rem var(--font-display);color:var(--ink);">Sable</h3>
+            <p id="heroBirdQuote" style="font-size:0.9rem;color:var(--ink-soft);font-style:italic;">"Your brain is trying to protect you. Let's name the worry together."</p>
+          </div>
+
+          <div class="feeling-bubbles">
+            <button class="feeling-chip active" onclick="setHeroBird('sable', 'Worry', 'Your brain is trying to protect you. Let\'s name the worry together.')">💜 Worried</button>
+            <button class="feeling-chip" onclick="setHeroBird('flamez', 'Angry', 'That felt unfair! Let\'s release that fire together.')">🔥 Angry</button>
+            <button class="feeling-chip" onclick="setHeroBird('echo', 'Sad', 'Sadness means something mattered. I\'m sitting right here with you.')">💙 Sad</button>
+            <button class="feeling-chip" onclick="setHeroBird('aura', 'Calm', 'Breathe with me. You\'re completely safe here.')">😌 Calm</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section tint" id="grow">
+    <!-- Growth Ladder Section with Sable Growth Images -->
+    <section class="section tint-lavender" id="grow">
       <div class="wrap">
-        <h2>Every VentPal starts as an egg.</h2>
-        <p class="intro">Checking in with a feeling, trying a breathing exercise, or writing a reflection earns points. Points hatch the egg, and keep helping your bird grow. Badges mark the big moments along the way.</p>
+        <div class="section-head">
+          <span class="pill-tag">Evolutionary Journey</span>
+          <h2>Watch your VentPal grow! 🥚</h2>
+          <p class="intro">Here is how Sable grows from an egg to a wise Feathered Percher as children practice daily check-ins and calming skills!</p>
+        </div>
 
-        <div class="ladder" id="ladder">
-          <div class="stage"><img src="assets/images/aura-egg.png" alt="Aura as an egg"><div class="ground"></div><h3>Egg</h3><p>Warm and waiting for you.</p></div>
-          <div class="stage"><img src="assets/images/aura-baby.png" alt="Aura as a baby"><div class="ground"></div><h3>Baby</h3><p>Just hatched and curious.</p></div>
-          <div class="stage"><img src="assets/images/aura-nestling.png" alt="Aura as a nestling"><div class="ground"></div><h3>Nestling</h3><p>Finding a voice.</p></div>
-          <div class="stage"><img src="assets/images/aura-feathered.png" alt="Aura feathered"><div class="ground"></div><h3>Feathered</h3><p>Steady and confident.</p></div>
-          <div class="stage"><img src="assets/images/aura-percher.png" alt="Aura as a percher"><div class="ground"></div><h3>Percher</h3><p>Calm, wise, and grounded.</p></div>
+        <div class="growth-container">
+          <div class="ladder" id="ladder">
+            <div class="stage-card">
+              <img src="assets/images/sable-egg.png" alt="Sable as an Egg" onerror="this.src='assets/images/sable.png'">
+              <span class="stage-badge">Stage 1</span>
+              <h3>Egg</h3>
+              <p>Warm & waiting for your first check-in.</p>
+            </div>
+            <div class="stage-card">
+              <img src="assets/images/sable-baby.png" alt="Sable as a Hatchling" onerror="this.src='assets/images/sable.png'">
+              <span class="stage-badge">Stage 2</span>
+              <h3>Hatchling</h3>
+              <p>Just hatched, curious & hungry to learn.</p>
+            </div>
+            <div class="stage-card">
+              <img src="assets/images/sable-nestling.png" alt="Sable as a Nestling" onerror="this.src='assets/images/sable.png'">
+              <span class="stage-badge">Stage 3</span>
+              <h3>Nestling</h3>
+              <p>Finding its voice & building courage.</p>
+            </div>
+            <div class="stage-card">
+              <img src="assets/images/sable-feathered.png" alt="Sable Feathered" onerror="this.src='assets/images/sable.png'">
+              <span class="stage-badge">Stage 4</span>
+              <h3>Feathered</h3>
+              <p>Steady, strong & ready to take flight.</p>
+            </div>
+            <div class="stage-card">
+              <img src="assets/images/sable-percher.png" alt="Sable as a Wise Percher" onerror="this.src='assets/images/sable.png'">
+              <span class="stage-badge">Stage 5</span>
+              <h3>Percher</h3>
+              <p>Calm, wise & mastered emotional skills!</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- Small Daily Actions Section (4 Compact Steps in One Row) -->
     <section class="section">
-      <div class="wrap split">
-        <div>
-          <h2>Small things kids can do every day.</h2>
-          <p class="intro">Each one takes a few minutes and gives kids a real skill they can use away from the screen.</p>
-        </div>
-        <ul class="doing">
-          <li>
-            <h3>Name the feeling</h3>
-            <p>Pick how you feel and your VentPal helps you find the words, then suggests a bird who understands.</p>
-          </li>
-          <li>
-            <h3>Practice a calming skill</h3>
-            <p>Slow breathing, grounding, butterfly hugs, and mindful sips of water. <a href="calming-skills.html">See the skills</a></p>
-          </li>
-          <li>
-            <h3>Explore the World</h3>
-            <p>Visit places like the Forest, Caves, and Stream, where each zone teaches something about feelings. <a href="world.html">Take a look</a></p>
-          </li>
-          <li>
-            <h3>Visit a Nest</h3>
-            <p>Every bird has a Nest: a quiet place to learn what that bird teaches and write down a reflection.</p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section tint" id="flock">
       <div class="wrap">
-        <h2>Sixteen birds, sixteen ways of feeling.</h2>
-        <p class="intro">Kids choose one bird when they join. That bird stays with them for good, so their growth is always theirs.</p>
+        <div class="section-head">
+          <span class="pill-tag" style="background:var(--mint-green);border-color:#059669;">Daily Outlets</span>
+          <h2>Fun activities kids do in minutes</h2>
+          <p class="intro">Simple daily outlets designed to build emotional awareness and calming skills.</p>
+        </div>
 
-        <ul class="flock" id="flockList"></ul>
-        <a class="more-link" href="meet-the-flock.html">Meet the whole flock</a>
-      </div>
-    </section>
+        <div class="cards-row-4">
+          <div class="feature-card-compact">
+            <div class="icon-box yellow">🏷️</div>
+            <h3>1. Name Feeling</h3>
+            <p>Pick how you feel and get matched with a friend.</p>
+          </div>
 
-    <section class="grownups-band" id="grownups">
-      <div class="wrap split">
-        <div>
-          <h2>For the grown-ups who care about them.</h2>
-          <p class="intro">Parents, teachers, and counselors have their own area to follow progress, read about the feelings kids are learning, and find ways to talk about them at home or in class.</p>
-          <div class="band-actions">
-            <a class="btn btn-light" href="adult-signup.html">Create a grown-up account</a>
-            <a class="btn btn-ghost-light" href="adult-login.html">Grown-up log in</a>
+          <div class="feature-card-compact">
+            <div class="icon-box sky">🌬️</div>
+            <h3>2. Calm Breath</h3>
+            <p>30-second guided breathing games.</p>
+          </div>
+
+          <div class="feature-card-compact">
+            <div class="icon-box mint">🕊️</div>
+            <h3>3. Fly-Away</h3>
+            <p>Write worries and release them on bird wings.</p>
+          </div>
+
+          <div class="feature-card-compact">
+            <div class="icon-box coral">🎁</div>
+            <h3>4. Keepsakes</h3>
+            <p>Earn pins, stickers, and lanyard rewards.</p>
           </div>
         </div>
-        <ul class="facts">
-          <li><b>Kids use a nickname.</b>They sign in with a 4-digit secret code. No email and no real name needed.</li>
-          <li><b>Grown-ups stay in the loop.</b>A dashboard and notifications show how each child is doing.</li>
-          <li><b>Made by a nonprofit.</b>VentPals exists to help kids grow up understanding their feelings.</li>
-        </ul>
       </div>
     </section>
 
+    <!-- Meet 16 Birds Section (Interactive 4-Card Slider) -->
+    <section class="section tint-sky" id="flock">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="pill-tag" style="background:var(--sky-blue);border-color:#0284C7;color:#fff;">The VentPals Flock</span>
+          <h2>16 Birds for 16 Ways of Feeling</h2>
+          <p class="intro">Each bird specializes in a specific emotion. Use the arrows to browse the flock!</p>
+        </div>
+
+        <div class="flock-slider-container">
+          <button class="slider-btn" id="prevBtn" onclick="moveSlide(-1)" aria-label="Previous Birds">❮</button>
+          <ul class="flock-slider-grid" id="flockList"></ul>
+          <button class="slider-btn" id="nextBtn" onclick="moveSlide(1)" aria-label="Next Birds">❯</button>
+        </div>
+
+        <div style="text-align:center;margin-top:32px;">
+          <a class="btn btn-solid" href="meet-the-flock.html">Meet the Whole Flock 🦜</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grown-ups Banner Section -->
     <section class="section">
-      <div class="wrap closing">
-        <div>
-          <h2>Ready to meet your VentPal?</h2>
-          <p class="intro">Pick a bird, choose a nickname, and your egg is waiting.</p>
-          <div class="hero-actions">
-            <a class="btn btn-solid" href="signup.html">Start your VentPal</a>
-            <a class="btn btn-line" href="how-it-works.html">See how it works</a>
+      <div class="wrap">
+        <div class="grownups-banner">
+          <h2>Built for kids, trusted by grown-ups 💛</h2>
+          <p class="intro">Parents, educators, and counselors get their own dashboard to track emotional progress, unlock reflection guides, and support children safely.</p>
+
+          <div class="facts-list">
+            <div class="fact-item">
+              <b>🔒 100% Anonymous & COPPA Safe</b>
+              <p>Kids sign in with a simple nickname and 4-digit code. No email addresses or personal data required for children.</p>
+            </div>
+            <div class="fact-item">
+              <b>📊 Parent Insights Dashboard</b>
+              <p>Stay informed about your child's emotional wellness journey with weekly summary notes and conversation starters.</p>
+            </div>
+            <div class="fact-item">
+              <b>🌱 501(c)(3) Nonprofit Mission</b>
+              <p>Created by emotional learning specialists to empower children with self-regulation skills that last a lifetime.</p>
+            </div>
+          </div>
+
+          <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;">
+            <a class="btn btn-yellow" href="adult-signup.html">Create a Grown-Up Account</a>
+            <a class="btn btn-light" href="adult-login.html">Grown-Up Login</a>
           </div>
         </div>
-        <img src="assets/images/aura-egg.png" alt="" aria-hidden="true">
       </div>
     </section>
+
   </main>
 
+  <!-- Footer -->
   <footer>
     <div class="wrap">
       <div class="foot-grid">
         <div>
-          <a class="brand" href="index.html"><img src="assets/images/logo.png" alt=""><span>VentPals</span></a>
-          <p>A safe place for kids to name big feelings and grow with a bird companion.</p>
+          <a class="brand" href="index.html">
+            <img src="assets/images/logo.png" alt="VentPals Logo">
+            <span>VentPals</span>
+          </a>
+          <p style="margin-top:12px;font-size:0.92rem;line-height:1.6;">A safe, non-profit emotional wellness companion where kids name big feelings, practice calming skills, and grow alongside their bird friend.</p>
         </div>
         <div>
           <h3>Explore</h3>
@@ -374,11 +535,11 @@
             <li><a href="world.html">World</a></li>
             <li><a href="circles-dashboard.html">Nests</a></li>
             <li><a href="meet-the-flock.html">Meet the flock</a></li>
-            <li><a href="keepsakes.html">Keepsakes</a></li>
+            <li><a href="keepsakes.html">Physical Keepsakes</a></li>
           </ul>
         </div>
         <div>
-          <h3>About</h3>
+          <h3>About Us</h3>
           <ul>
             <li><a href="about.html">About VentPals</a></li>
             <li><a href="faqs.html">FAQs</a></li>
@@ -388,51 +549,90 @@
         <div>
           <h3>Accounts</h3>
           <ul>
-            <li><a href="signup.html">Kid sign up</a></li>
-            <li><a href="login.html">Kid log in</a></li>
-            <li><a href="adult-signup.html">Grown-up sign up</a></li>
-            <li><a href="adult-login.html">Grown-up log in</a></li>
+            <li><a href="signup.html">Kid Sign Up</a></li>
+            <li><a href="login.html">Kid Log In</a></li>
+            <li><a href="adult-signup.html">Grown-up Sign Up</a></li>
+            <li><a href="adult-login.html">Grown-up Log In</a></li>
           </ul>
         </div>
       </div>
-      <p class="legal">© 2026 VentPals. A nonprofit built with care for kids and the grown-ups who support them.</p>
+
+      <p class="legal">© 2026 VentPals, Inc. 501(c)(3) Nonprofit Organization. Built with care for kids and the grown-ups who love them.</p>
     </div>
   </footer>
 
   <script>
-    (function () {
-      var birds = [
-        ['aura','Aura','Calm & gentle','#EADCFF'], ['breezy','Breezy','Thoughtful & quiet','#D9E8FF'],
-        ['clover','Clover','Safe & grounded','#DDF3D3'], ['cove','Cove','Shelter & comfort','#D3EEFB'],
-        ['drift','Drift','Reflective','#D5DEF3'], ['echo','Echo','Feeling heard','#E9E1F0'],
-        ['flamez','Flamez','Bold & expressive','#FFE0CC'], ['flare','Flare','Motivated & brave','#FFD9D2'],
-        ['flicker','Flicker','Hopeful & curious','#FFF0BF'], ['guardian','Guardian','Protective','#D6D9EE'],
-        ['lumen','Lumen','Insight & clarity','#E2DCF7'], ['nova','Nova','Perspective & growth','#D4F2E8'],
-        ['pebble','Pebble','Gentle guidance','#E5F0CC'], ['sable','Sable','Resilience & strength','#E4D6F2'],
-        ['solace','Solace','Comfort & soothing','#F4E0CF'], ['twig','Twig','Early growth','#EEDFCB']
-      ];
+    // 16 Birds Data Set with Colorful Pastel Tints
+    var birds = [
+      ['flamez', 'Flamez', 'Bold & Expressive', '#FFE0CC'],
+      ['echo', 'Echo', 'Feeling Heard', '#E9E1F0'],
+      ['guardian', 'Guardian', 'Protective', '#D6D9EE'],
+      ['sable', 'Sable', 'Resilience', '#E4D6F2'],
+      ['aura', 'Aura', 'Calm & Gentle', '#EADCFF'],
+      ['clover', 'Clover', 'Belonging', '#DDF3D3'],
+      ['breezy', 'Breezy', 'Thoughtful', '#D9E8FF'],
+      ['pebble', 'Pebble', 'Self-Worth', '#E5F0CC'],
+      ['cove', 'Cove', 'Comfort', '#D3EEFB'],
+      ['drift', 'Drift', 'Reflective', '#D5DEF3'],
+      ['flare', 'Flare', 'Brave Spark', '#FFD9D2'],
+      ['flicker', 'Flicker', 'Hopeful', '#FFF0BF'],
+      ['lumen', 'Lumen', 'Clarity', '#E2DCF7'],
+      ['nova', 'Nova', 'Growth', '#D4F2E8'],
+      ['solace', 'Solace', 'Soothing', '#F4E0CF'],
+      ['twig', 'Twig', 'Curious', '#EEDFCB']
+    ];
+
+    // 4-Card Slider Controls
+    var currentSlide = 0;
+    var cardsPerPage = 4;
+    var totalPages = Math.ceil(birds.length / cardsPerPage);
+
+    function renderFlockSlider() {
       var list = document.getElementById('flockList');
-      birds.forEach(function (b) {
+      list.innerHTML = '';
+
+      var startIndex = currentSlide * cardsPerPage;
+      var pageBirds = birds.slice(startIndex, startIndex + cardsPerPage);
+
+      pageBirds.forEach(function (b) {
         var li = document.createElement('li');
-        li.innerHTML = '<div class="portrait" style="--tint:' + b[3] + '"><img src="assets/images/' + b[0] + '-baby.png" alt="" loading="lazy"></div><b>' + b[1] + '</b><span>' + b[2] + '</span>';
+        li.className = 'bird-card';
+        li.onclick = function() { window.location.href = 'meet-the-flock.html'; };
+        li.innerHTML = '<div class="bird-portrait" style="--card-tint:' + b[3] + '"><img src="assets/images/' + b[0] + '-baby.png" alt="' + b[1] + ' icon" onerror="this.src=\'assets/images/' + b[0] + '.png\'"></div><b>' + b[1] + '</b><span>' + b[2] + '</span>';
         list.appendChild(li);
       });
 
-      var btn = document.getElementById('menuBtn'), panel = document.getElementById('mobilePanel');
-      btn.addEventListener('click', function () {
-        var open = panel.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
+      document.getElementById('prevBtn').disabled = (currentSlide === 0);
+      document.getElementById('nextBtn').disabled = (currentSlide >= totalPages - 1);
+    }
 
-      var ladder = document.getElementById('ladder');
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting) { ladder.classList.add('in'); io.disconnect(); } });
-        }, { threshold: 0.35 });
-        io.observe(ladder);
-      } else { ladder.classList.add('in'); }
-    })();
+    function moveSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide < 0) currentSlide = 0;
+      if (currentSlide >= totalPages) currentSlide = totalPages - 1;
+      renderFlockSlider();
+    }
+
+    // Initialize Slider on load
+    renderFlockSlider();
+
+    // Mobile Navigation Toggle
+    var btn = document.getElementById('menuBtn'), panel = document.getElementById('mobilePanel');
+    btn.addEventListener('click', function () {
+      var open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    // Interactive Hero Bird Changer
+    function setHeroBird(birdKey, title, quote) {
+      document.getElementById('heroBirdImg').src = 'assets/images/' + birdKey + '-nestling.png';
+      document.getElementById('heroBirdName').innerText = birdKey.charAt(0).toUpperCase() + birdKey.slice(1);
+      document.getElementById('heroBirdQuote').innerText = '"' + quote + '"';
+      
+      var chips = document.querySelectorAll('.feeling-chip');
+      chips.forEach(function(c) { c.classList.remove('active'); });
+      event.target.classList.add('active');
+    }
   </script>
-  <script type="module" src="assets/js/firebase-config.js"></script>
 </body>
 </html>
