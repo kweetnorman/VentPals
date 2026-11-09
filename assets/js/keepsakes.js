@@ -1,83 +1,81 @@
 /**
- * keepsakes.js: keepsake requests between a child and their grown-up, plus the Shopify hand-off.
+ * keepsakes.js: earned keepsakes, parent address confirmation, and moments a grown-up verifies.
  *
- * DEMO STORAGE: requests live in this browser's localStorage, so the child and grown-up must use
- * the same browser for now. The functions below are the only place that touches storage, so moving
- * to Firestore later means changing this one file.
+ * Keepsakes are EARNED automatically (growth.js creates them when a bird reaches a stage, or after
+ * grown-up verified moments). A grown-up then confirms a shipping address, and the order is sent.
  *
- * Request life cycle:  requested -> approved -> ordered      (or: requested -> declined, feathers returned)
+ * DEMO STORAGE: everything lives in this browser's localStorage, so the child and grown-up must use
+ * the same browser for now. The functions here are the only place that touches storage, so moving
+ * to Firestore later means changing this one file. Do not collect real addresses until then.
+ *
+ * Keepsake life cycle:  earned -> confirmed (address given) -> shipped
  */
 (function () {
   'use strict';
   var REQ_KEY = 'ventpals_keepsake_requests';
   var INBOX_KEY = 'ventpals_parent_inbox';
+  var MOMENTS_KEY = 'ventpals_moments';
   var CFG = window.VP_SHOP || { domain: '', items: [] };
 
   function read(k, fb) { try { return JSON.parse(localStorage.getItem(k)) || fb; } catch (e) { return fb; } }
   function write(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-  function uid() { return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
-  function child() { return read('ventpals_user', {}); }
 
   function item(id) { return CFG.items.filter(function (i) { return i.id === id; })[0] || null; }
   function isConnected(i) { return !!(CFG.domain && i && i.variantId); }
-  function requests() { return read(REQ_KEY, []); }
-  function activeFor(itemId) { return requests().filter(function (r) { return r.itemId === itemId && r.status !== 'declined'; })[0] || null; }
+  function keepsakes() { return read(REQ_KEY, []); }
 
-  function submitRequest(itemId, note) {
-    var it = item(itemId); if (!it) return { ok: false, error: 'Unknown keepsake.' };
-    if (activeFor(itemId)) return { ok: false, error: 'You already asked for this one.' };
-    var fe = window.VPGrowth ? VPGrowth.getFeathers() : { balance: 0 };
-    if (fe.balance < it.cost) return { ok: false, error: 'Not enough feathers yet.' };
-    var u = child();
-    var req = {
-      id: uid(), itemId: it.id, name: it.name, cost: it.cost, note: (note || '').slice(0, 140),
-      childName: u.displayName || u.nickname || 'Your child', birdName: u.birdName || '',
-      parentCode: u.parentCode || '', status: 'requested', createdAt: Date.now()
-    };
-    var all = requests(); all.push(req); write(REQ_KEY, all);
-    return { ok: true, request: req };
+  // The grown-up confirms where to send it. Fires the optional order webhook with the address.
+  function confirmAddress(id, address) {
+    var all = keepsakes(), k = all.filter(function (r) { return r.id === id; })[0];
+    if (!k) return false;
+    k.address = address; k.status = 'confirmed'; k.confirmedAt = Date.now();
+    write(REQ_KEY, all);
+    notifyWebhook(k);
+    return true;
   }
   function setStatus(id, status) {
-    var all = requests();
+    var all = keepsakes();
     all.forEach(function (r) { if (r.id === id) { r.status = status; r[status + 'At'] = Date.now(); } });
     write(REQ_KEY, all);
   }
-
-  // Shopify cart permalink: opens a cart with the product already in it. Works without any backend.
-  function cartUrl(req) {
-    var it = item(req.itemId);
-    if (!isConnected(it)) return null;
-    var q = ['note=' + encodeURIComponent('VentPals keepsake for ' + req.childName + ' (request ' + req.id + ')'),
-             'attributes[ventpals_request]=' + encodeURIComponent(req.id),
-             'attributes[child]=' + encodeURIComponent(req.childName)];
-    if (CFG.discountCode) q.push('discount=' + encodeURIComponent(CFG.discountCode));
-    return 'https://' + CFG.domain + '/cart/' + it.variantId + ':1?' + q.join('&');
-  }
-  // Optional: tell an automation (Zapier / Shopify Flow / Cloud Function) about the approved request.
-  function notifyWebhook(req) {
+  function notifyWebhook(k) {
     if (!CFG.orderWebhook) return false;
     try {
       fetch(CFG.orderWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ event: 'keepsake_approved', request: req, variantId: (item(req.itemId) || {}).variantId || null }) });
+        body: JSON.stringify({ event: 'keepsake_confirmed', keepsake: { id: k.id, itemId: k.itemId, name: k.name, source: k.source },
+                               child: k.childName, bird: k.birdName, address: k.address, variantId: (item(k.itemId) || {}).variantId || null }) });
       return true;
     } catch (e) { return false; }
   }
 
-  // "Share with my grown-up": a child sends a finished milestone to the grown-up's inbox.
-  function shareCompletion(kind, key, label, icon) {
-    var all = read(INBOX_KEY, []), id = kind + ':' + key;
-    if (all.some(function (x) { return x.id === id; })) return false;
-    var u = child();
-    all.push({ id: id, kind: kind, label: label, icon: icon || '🎉', childName: u.displayName || u.nickname || 'Your child', ts: Date.now(), celebrated: false });
-    write(INBOX_KEY, all); return true;
+  // Cart link for when a grown-up wants to BUY a keepsake themselves (supports VentPals and their child's bird).
+  function buyUrl(itemId) {
+    var it = item(itemId);
+    if (!isConnected(it)) return CFG.storefront || ('https://' + CFG.domain);
+    return 'https://' + CFG.domain + '/cart/' + it.variantId + ':1';
   }
+
+  // Moments a child shares; the grown-up verifies (or asks to talk about it later).
+  function moments() { return read(MOMENTS_KEY, []); }
+  function verifyMoment(id) {
+    var all = moments();
+    all.forEach(function (m) { if (m.id === id) { m.status = 'verified'; m.verifiedAt = Date.now(); } });
+    write(MOMENTS_KEY, all);
+  }
+
   function inbox() { return read(INBOX_KEY, []); }
+  // Child tells a grown-up about a badge they earned.
   function isShared(kind, key) { return inbox().some(function (x) { return x.id === kind + ':' + key; }); }
+  function shareCompletion(kind, key, label, icon) {
+    if (isShared(kind, key)) return;
+    var u = read('ventpals_user', {}), all = inbox();
+    all.push({ id: kind + ':' + key, kind: kind, label: label, icon: icon, childName: u.displayName || u.nickname || 'Your child', ts: Date.now(), celebrated: false });
+    write(INBOX_KEY, all);
+  }
   function celebrate(id) { var all = inbox(); all.forEach(function (x) { if (x.id === id) x.celebrated = true; }); write(INBOX_KEY, all); }
 
   window.VPShop = {
-    config: CFG, item: item, isConnected: isConnected, requests: requests, activeFor: activeFor,
-    submitRequest: submitRequest, setStatus: setStatus, cartUrl: cartUrl, notifyWebhook: notifyWebhook,
-    shareCompletion: shareCompletion, inbox: inbox, isShared: isShared, celebrate: celebrate
+    config: CFG, item: item, isConnected: isConnected, keepsakes: keepsakes, confirmAddress: confirmAddress, setStatus: setStatus,
+    buyUrl: buyUrl, moments: moments, verifyMoment: verifyMoment, inbox: inbox, celebrate: celebrate, isShared: isShared, shareCompletion: shareCompletion
   };
 })();

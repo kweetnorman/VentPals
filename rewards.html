@@ -48,7 +48,7 @@
     <section class="grid grid-cols-3 gap-3 text-center" aria-label="Balances">
       <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">⭐</div><p id="balPoints" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Points</p></div>
       <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">🪶</div><p id="balFeathers" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Feathers to spend</p></div>
-      <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">🎁</div><p id="balKeepsakes" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Keepsakes asked for</p></div>
+      <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">🎁</div><p id="balKeepsakes" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Keepsakes earned</p></div>
     </section>
 
     <!-- WHAT'S NEXT -->
@@ -71,16 +71,18 @@
       <div id="lockedGrid" class="grid grid-cols-3 gap-3"></div>
     </section>
 
-    <!-- FEATHERS -->
+    <!-- KEEPSAKES -->
     <section class="bg-white rounded-3xl shadow p-6 text-sm text-gray-700">
-      <h2 class="text-lg font-bold text-purple-700 mb-2">How feathers work</h2>
+      <h2 class="text-lg font-bold text-purple-700 mb-2">How it all fits together</h2>
       <ul class="space-y-1">
-        <li>🏅 Each new badge: <b id="fBadge"></b> feathers</li>
-        <li>🪺 Each time your bird grows a stage: <b id="fStage"></b> feathers</li>
-        <li>⭐ Every <b id="fXp"></b> points: 1 feather</li>
+        <li>🦟 Do activities and log in to <b>earn bugs</b>. Bigger activities earn bigger bugs.</li>
+        <li>🍽️ <b>Feed your bird</b> and it grows. Each stage earns a real keepsake.</li>
+        <li>🪶 Feeding also earns <b>feathers</b> to spend on your bird's closet. Saving up is a skill too!</li>
       </ul>
-      <p class="text-xs text-gray-500 mt-3">Spend feathers on real keepsakes. A grown-up always says yes before anything is ordered.</p>
-      <a href="keepsakes.html" class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full mt-4">Choose a keepsake</a>
+      <div class="grid grid-cols-2 gap-3 mt-4">
+        <a href="bird-growth.html#feed" class="text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">Feed my bird</a>
+        <a href="keepsakes.html" class="text-center bg-purple-100 text-purple-700 font-bold py-3 rounded-full">My keepsakes</a>
+      </div>
     </section>
 
     <!-- RECENT -->
@@ -99,16 +101,15 @@
 
       // where you are
       var file = p.stage.id === 'egg' ? 'egg' : p.stage.id;
-      $('heroArt').innerHTML = '<img src="assets/images/' + bird.id + '-' + file + '.png" class="h-28" alt="" onerror="this.outerHTML=\'<span style=&quot;font-size:64px&quot;>' + bird.emoji + '</span>\'">';
+      $('heroArt').innerHTML = '<img src="assets/images/' + bird.id + '-' + file + '.png" class="h-28" alt="">';
       $('heroTitle').textContent = bird.name + ' is ' + (p.stage.id === 'egg' ? 'still an egg' : 'a ' + p.stage.name);
       $('heroSub').textContent = p.stage.name + ' stage';
       $('heroBar').style.width = Math.max(4, p.pct) + '%';
       $('heroNext').textContent = p.next ? p.toNext + ' more points to reach ' + p.next.name : 'Fully grown. Keep collecting badges!';
 
       // balances
-      var asked = S.requests().filter(function (r) { return r.status !== 'declined'; }).length;
+      var asked = S.keepsakes().length;
       $('balPoints').textContent = p.xp; $('balFeathers').textContent = fe.balance; $('balKeepsakes').textContent = asked;
-      $('fBadge').textContent = G.FEATHER_RULES.perBadge; $('fStage').textContent = G.FEATHER_RULES.perStage; $('fXp').textContent = G.FEATHER_RULES.xpPerFeather;
 
       // what's next
       var next = $('nextList');
@@ -116,10 +117,9 @@
       if (p.next) li('🐣', '<b>' + p.next.name + ' stage</b><br><span class="text-gray-600">' + p.toNext + ' more points. Try a feeling check-in, breathing, or a reflection.</span>');
       var locked = Object.keys(G.BADGES).filter(function (k) { return !p.badges[k] && ['hatched','nestling','feathered','percher'].indexOf(k) === -1; });
       locked.slice(0, 2).forEach(function (k) { var b = G.BADGES[k]; li(b.icon, '<b>' + b.name + ' badge</b><br><span class="text-gray-600">' + b.how + '</span>'); });
-      var cheapest = S.config.items.slice().sort(function (a, b) { return a.cost - b.cost; }).filter(function (i) { return i.cost > fe.balance && !S.activeFor(i.id); })[0];
-      var affordable = S.config.items.filter(function (i) { return i.cost <= fe.balance && !S.activeFor(i.id); })[0];
-      if (affordable) li('🎁', '<b>You can ask for the ' + affordable.name + '!</b><br><a class="text-purple-700 font-semibold underline" href="keepsakes.html">Go to keepsakes</a>');
-      else if (cheapest) li('🪶', '<b>' + cheapest.name + '</b><br><span class="text-gray-600">' + (cheapest.cost - fe.balance) + ' more feathers to unlock.</span>');
+      var waiting = G.basketTotal();
+      if (waiting) li('🦋', '<b>' + waiting + ' bug' + (waiting === 1 ? '' : 's') + ' waiting</b><br><a class="text-purple-700 font-semibold underline" href="bird-growth.html#feed">Feed ' + bird.name + '</a>');
+      if (fe.balance) li('🪶', '<b>' + fe.balance + ' feathers to spend</b><br><a class="text-purple-700 font-semibold underline" href="closet.html">Visit the closet</a>');
 
       // earned badges (can be shared with a grown-up)
       var earned = Object.keys(p.badges), grid = $('earnedGrid');
@@ -154,7 +154,7 @@
       log.slice(0, 8).forEach(function (e) {
         var d = new Date(e.t), li2 = document.createElement('li');
         li2.className = 'flex justify-between bg-gray-50 rounded-xl px-3 py-2';
-        li2.innerHTML = '<span>' + e.label + '</span><span class="text-gray-400 text-xs">+' + e.xp + ' · ' + (d.getMonth() + 1) + '/' + d.getDate() + '</span>';
+        li2.innerHTML = '<span>' + e.label + '</span><span class="text-gray-400 text-xs">' + (e.bug ? 'bug earned · ' : '') + (d.getMonth() + 1) + '/' + d.getDate() + '</span>';
         ll.appendChild(li2);
       });
     })();

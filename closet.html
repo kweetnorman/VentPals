@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Closet – VentPals</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(to bottom right, #F7F4FF, #f0f9ff); }
+  </style>
+</head>
+<body class="text-gray-800">
+  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
+  <script src="assets/js/session.js"></script>
+  <script src="assets/js/growth.js"></script>
+
+  <main class="max-w-xl mx-auto px-4 pt-8 pb-10 space-y-6">
+    <header class="text-center">
+      <h1 class="text-3xl font-bold text-purple-700">The Closet</h1>
+      <p class="text-gray-600 text-sm mt-1">Dress your VentPal with feathers you earn by feeding it.</p>
+    </header>
+
+    <!-- PREVIEW + WALLET -->
+    <section class="bg-white rounded-3xl shadow p-6 text-center">
+      <div id="preview" class="flex justify-center min-h-[160px] items-center"></div>
+      <p id="previewNote" class="text-xs text-gray-400 mt-1"></p>
+      <div class="inline-flex items-center gap-2 bg-purple-50 rounded-full px-5 py-2 mt-4">
+        <span class="text-xl" aria-hidden="true">🪶</span>
+        <b id="bal" class="text-purple-700 text-xl">0</b>
+        <span class="text-sm text-gray-500">feathers</span>
+      </div>
+      <p id="msg" class="text-sm font-semibold text-purple-700 mt-3 min-h-[1.25rem]" aria-live="polite"></p>
+    </section>
+
+    <!-- SAVING GOAL -->
+    <section id="goalCard" class="bg-white rounded-3xl shadow p-6">
+      <h2 class="text-lg font-bold text-purple-700 mb-1">My saving goal</h2>
+      <div id="goalBody"></div>
+    </section>
+
+    <!-- ITEMS -->
+    <section id="shelves" class="space-y-6"></section>
+
+    <section class="bg-white rounded-3xl shadow p-6 text-sm text-gray-700">
+      <h2 class="text-lg font-bold text-purple-700 mb-2">Feathers: earn, save, spend</h2>
+      <ul class="space-y-1">
+        <li>🪱 <b>Earn:</b> every bug you feed your bird gives you feathers.</li>
+        <li>🎯 <b>Save:</b> pick a goal and watch your feathers grow toward it.</li>
+        <li>🛍️ <b>Spend:</b> choose what is worth it to you. Spending never makes your bird smaller.</li>
+      </ul>
+      <a href="bird-growth.html#feed" class="block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-full mt-4">Go feed my bird</a>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var G = window.VPGrowth, $ = function (id) { return document.getElementById(id); };
+      var SLOTS = [['head', 'Hats and headwear'], ['face', 'Glasses'], ['neck', 'Neckwear']];
+      var say = function (t) { $('msg').textContent = t; };
+      function art(it, h) { return '<img src="data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + it.vb + '">' + it.svg + '</svg>') + '" style="height:' + h + 'px" alt="">'; }
+
+      function render() {
+        var fe = G.getFeathers(), cl = G.getCloset(), p = G.getProgress();
+        $('bal').textContent = fe.balance;
+        var egg = p.stage.id === 'egg';
+        G.renderAvatar($('preview'), { height: 170, stage: egg ? 'baby' : undefined });
+        $('previewNote').textContent = egg ? 'Preview only. Your VentPal can wear its clothes once it hatches.' : '';
+
+        // goal
+        var goal = cl.goal && G.item(cl.goal), gb = $('goalBody');
+        if (goal && cl.owned.indexOf(goal.id) === -1) {
+          var pct = Math.min(100, Math.round(fe.balance / goal.cost * 100));
+          gb.innerHTML = '<div class="flex items-center gap-3 mb-3"><div class="bg-purple-50 rounded-2xl p-2">' + art(goal, 36) + '</div><div><p class="font-bold text-purple-700">' + goal.name + '</p><p class="text-xs text-gray-500">' + Math.min(fe.balance, goal.cost) + ' of ' + goal.cost + ' feathers saved</p></div></div>' +
+            '<div class="w-full bg-purple-100 rounded-full h-3 overflow-hidden"><div class="bg-green-500 h-3 rounded-full" style="width:' + Math.max(3, pct) + '%"></div></div>' +
+            '<p class="text-sm text-gray-600 mt-2">' + (fe.balance >= goal.cost ? 'You did it! You can buy it now.' : (goal.cost - fe.balance) + ' more feathers to go. Saving is a superpower.') + '</p>' +
+            '<button id="clearGoal" class="text-xs text-gray-500 underline mt-2">Pick a different goal</button>';
+          var c = $('clearGoal'); if (c) c.onclick = function () { G.setGoal(null); render(); };
+        } else {
+          gb.innerHTML = '<p class="text-sm text-gray-600">Choose something below and tap <b>Save for this</b>. Saving up on purpose feels great.</p>';
+        }
+
+        // shelves
+        var sh = $('shelves'); sh.innerHTML = '';
+        SLOTS.forEach(function (sl) {
+          var items = G.CLOSET.filter(function (i) { return i.slot === sl[0]; });
+          var box = document.createElement('div');
+          box.innerHTML = '<h2 class="text-lg font-bold text-purple-700 mb-3">' + sl[1] + '</h2><div class="grid grid-cols-2 gap-3"></div>';
+          var grid = box.lastChild;
+          items.forEach(function (it) {
+            var owned = cl.owned.indexOf(it.id) !== -1, worn = cl.worn[it.slot] === it.id, can = fe.balance >= it.cost, isGoal = cl.goal === it.id;
+            var btn;
+            if (owned) btn = '<button data-wear="' + it.id + '" class="w-full text-sm font-bold rounded-full py-2 ' + (worn ? 'bg-gray-200 text-gray-700' : 'bg-purple-600 text-white') + '">' + (worn ? 'Take off' : 'Wear it') + '</button>';
+            else if (can) btn = '<button data-buy="' + it.id + '" class="w-full text-sm font-bold rounded-full py-2 bg-green-500 text-white">Buy for ' + it.cost + ' 🪶</button>';
+            else btn = '<button data-goal="' + it.id + '" class="w-full text-sm font-bold rounded-full py-2 ' + (isGoal ? 'bg-yellow-100 text-yellow-800' : 'bg-purple-100 text-purple-800') + '">' + (isGoal ? '🎯 My goal' : 'Save for this (' + it.cost + ' 🪶)') + '</button>';
+            var d = document.createElement('div');
+            d.className = 'bg-white rounded-2xl shadow p-4 text-center border-2 ' + (worn ? 'border-purple-400' : 'border-transparent');
+            d.innerHTML = '<div class="bg-purple-50 rounded-xl h-20 flex items-center justify-center mb-2">' + art(it, 44) + '</div><p class="font-semibold text-sm mb-2">' + it.name + (owned ? ' ✓' : '') + '</p>' + btn;
+            grid.appendChild(d);
+          });
+          sh.appendChild(box);
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        var t;
+        if ((t = e.target.closest('[data-buy]'))) {
+          var r = G.buy(t.getAttribute('data-buy'));
+          say(r.ok ? (r.wasGoal ? 'You saved up for this! Enjoy your ' + r.item.name.toLowerCase() + '.' : 'Nice choice! You bought the ' + r.item.name.toLowerCase() + '.') : r.error);
+          render();
+        } else if ((t = e.target.closest('[data-wear]'))) { G.wear(t.getAttribute('data-wear')); say(''); render(); }
+        else if ((t = e.target.closest('[data-goal]'))) { G.setGoal(t.getAttribute('data-goal')); say('Goal set. Keep feeding your bird to earn feathers!'); render(); }
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

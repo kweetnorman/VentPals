@@ -22,95 +22,65 @@
 
   <main class="max-w-3xl mx-auto px-4 pt-8 pb-10 space-y-8">
     <header class="text-center">
-      <h1 class="text-3xl font-bold text-purple-700">Keepsakes</h1>
-      <p class="text-gray-600 text-sm max-w-md mx-auto mt-2">Real VentPals gear you earn by growing. Spend feathers, and your grown-up gets your request.</p>
-      <div class="inline-flex items-center gap-3 bg-white rounded-full shadow px-5 py-2 mt-4">
-        <span class="text-xl" aria-hidden="true">🪶</span>
-        <span><b id="feathers" class="text-purple-700 text-lg">0</b> <span class="text-sm text-gray-500">feathers to spend</span></span>
-        <a href="rewards.html" class="text-sm font-semibold text-purple-700 underline">How to earn more</a>
-      </div>
+      <h1 class="text-3xl font-bold text-purple-700">My Keepsakes</h1>
+      <p class="text-gray-600 text-sm max-w-md mx-auto mt-2">Real VentPals gear that comes to you as your bird grows. Nothing to buy. You earn it!</p>
     </header>
 
-    <section aria-label="Keepsakes you can ask for">
-      <div id="shop" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
-    </section>
-
     <section class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-lg font-bold text-purple-700 mb-3">My requests</h2>
-      <ul id="myRequests" class="space-y-2 text-sm"></ul>
-      <p id="noRequests" class="text-sm text-gray-500">You haven't asked for anything yet.</p>
+      <h2 class="text-lg font-bold text-purple-700 mb-3">Earned</h2>
+      <ul id="earned" class="space-y-2 text-sm"></ul>
+      <p id="noEarned" class="text-sm text-gray-500 hidden">Nothing yet. Feed your bird to reach the next stage and your first keepsake is on its way!</p>
     </section>
 
-    <p class="text-center text-xs text-gray-500">Grown-ups can also shop any time at <a class="underline text-purple-700" href="https://keepsakes.ventpals.com" target="_blank" rel="noopener">keepsakes.ventpals.com</a>.</p>
-  </main>
+    <section aria-label="Keepsakes still to earn">
+      <h2 class="text-lg font-bold text-purple-700 mb-3">Coming up</h2>
+      <div id="upcoming" class="grid grid-cols-1 sm:grid-cols-2 gap-5"></div>
+    </section>
 
-  <dialog id="askDialog" aria-labelledby="askTitle">
-    <div class="p-6">
-      <h2 id="askTitle" class="text-xl font-bold text-purple-700 mb-1">Ask your grown-up?</h2>
-      <p id="askBody" class="text-sm text-gray-600 mb-4"></p>
-      <label for="askNote" class="block text-xs font-semibold text-gray-600 mb-1">Add a note (optional)</label>
-      <input id="askNote" maxlength="140" class="w-full border border-purple-300 rounded-xl px-3 py-2 text-sm mb-4" placeholder="I earned this by practicing breathing!">
-      <p id="askErr" class="text-sm text-red-600 mb-3 hidden" role="alert"></p>
-      <div class="flex gap-3">
-        <button id="askCancel" class="flex-1 bg-gray-100 hover:bg-gray-200 font-bold py-3 rounded-full text-sm">Not now</button>
-        <button id="askSend" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full text-sm">Send request</button>
-      </div>
-    </div>
-  </dialog>
+    <section class="bg-white rounded-3xl shadow p-6 text-sm text-gray-700">
+      <h2 class="text-lg font-bold text-purple-700 mb-2">How it works</h2>
+      <p>When your bird reaches a new stage, a keepsake is earned and your grown-up gets a note to confirm where to send it. Share a moment with your grown-up, and when they verify it you earn a butterfly. Every 3 verified moments earns a Circles Journal.</p>
+    </section>
+
+    <p class="text-center text-xs text-gray-500">Grown-ups can also buy any keepsake to support VentPals and their child's bird at <a class="underline text-purple-700" href="https://keepsakes.ventpals.com" target="_blank" rel="noopener">keepsakes.ventpals.com</a>.</p>
+  </main>
 
   <script>
     (function () {
-      var G = window.VPGrowth, S = window.VPShop, current = null;
+      var G = window.VPGrowth, S = window.VPShop;
       var $ = function (id) { return document.getElementById(id); };
       var STATUS = {
-        requested: ['Waiting for your grown-up', 'bg-yellow-100 text-yellow-800'],
-        approved:  ['Approved! Your grown-up is ordering it', 'bg-green-100 text-green-800'],
-        ordered:   ['Ordered 🎉', 'bg-green-100 text-green-800'],
-        declined:  ['Not this time. Feathers returned', 'bg-gray-100 text-gray-600']
+        earned:    ['Waiting for your grown-up to confirm the address', 'bg-yellow-100 text-yellow-800'],
+        confirmed: ['Address confirmed. Getting ready to ship', 'bg-green-100 text-green-800'],
+        shipped:   ['On its way 🎉', 'bg-green-100 text-green-800']
       };
-
-      function render() {
-        var fe = G.getFeathers(); $('feathers').textContent = fe.balance;
-        var shop = $('shop'); shop.innerHTML = '';
-        S.config.items.forEach(function (it) {
-          var req = S.activeFor(it.id), can = fe.balance >= it.cost;
-          var card = document.createElement('div');
-          card.className = 'bg-white rounded-3xl shadow overflow-hidden flex flex-col';
-          var action;
-          if (req) action = '<p class="text-center text-xs font-bold rounded-full py-2 ' + STATUS[req.status][1] + '">' + STATUS[req.status][0] + '</p>';
-          else if (can) action = '<button data-ask="' + it.id + '" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full text-sm">Ask my grown-up</button>';
-          else action = '<div><div class="w-full bg-purple-100 rounded-full h-3 overflow-hidden"><div class="bg-purple-400 h-3 rounded-full" style="width:' + Math.max(4, Math.round(fe.balance / it.cost * 100)) + '%"></div></div><p class="text-xs text-gray-500 mt-2 text-center">' + (it.cost - fe.balance) + ' more feathers to unlock</p></div>';
-          card.innerHTML =
-            '<div class="bg-purple-50 h-40 flex items-center justify-center"><img src="' + it.image + '" alt="" class="h-32 object-contain" onerror="this.outerHTML=\'<span style=&quot;font-size:64px&quot;>' + it.emoji + '</span>\'"></div>' +
-            '<div class="p-5 flex-1 flex flex-col gap-3"><div class="flex justify-between items-start gap-2"><h3 class="font-bold text-purple-700">' + it.name + '</h3><span class="text-sm font-bold text-purple-600 whitespace-nowrap">🪶 ' + it.cost + '</span></div>' +
-            '<p class="text-gray-500 text-sm flex-1">' + it.blurb + '</p>' + action + '</div>';
-          shop.appendChild(card);
-        });
-
-        var list = $('myRequests'); list.innerHTML = '';
-        var reqs = S.requests().slice().reverse();
-        $('noRequests').classList.toggle('hidden', reqs.length > 0);
-        reqs.forEach(function (r) {
-          var li = document.createElement('li'); li.className = 'flex items-center justify-between gap-3 bg-gray-50 rounded-xl px-3 py-2';
-          li.innerHTML = '<span class="font-semibold">' + r.name + '</span><span class="text-xs font-bold rounded-full px-3 py-1 ' + STATUS[r.status][1] + '">' + STATUS[r.status][0] + '</span>';
-          list.appendChild(li);
-        });
-      }
-
-      document.addEventListener('click', function (e) {
-        var b = e.target.closest('[data-ask]'); if (!b) return;
-        current = S.item(b.getAttribute('data-ask'));
-        $('askBody').textContent = 'Spend ' + current.cost + ' feathers on the ' + current.name + '. Your grown-up will see your request and decide.';
-        $('askNote').value = ''; $('askErr').classList.add('hidden');
-        $('askDialog').showModal();
+      var bird = G.getBird(), list = S.keepsakes().slice().reverse();
+      $('noEarned').classList.toggle('hidden', list.length > 0);
+      list.forEach(function (k) {
+        var st = STATUS[k.status] || STATUS.earned, li = document.createElement('li');
+        li.className = 'flex items-center justify-between gap-3 bg-gray-50 rounded-xl px-3 py-2';
+        li.innerHTML = '<span class="font-semibold flex items-center gap-2"><img src="' + (((S.item(k.itemId)||{}).image) || ('assets/images/' + bird.id + '-baby.png')) + '" alt="" class="h-8 w-8 object-contain">' + k.name + '</span><span class="text-xs font-bold rounded-full px-3 py-1 text-right ' + st[1] + '">' + st[0] + '</span>';
+        $('earned').appendChild(li);
       });
-      $('askCancel').onclick = function () { $('askDialog').close(); };
-      $('askSend').onclick = function () {
-        var r = S.submitRequest(current.id, $('askNote').value);
-        if (!r.ok) { $('askErr').textContent = r.error; $('askErr').classList.remove('hidden'); return; }
-        $('askDialog').close(); render();
-      };
-      render();
+
+      var have = {}; list.forEach(function (k) { have[k.source + ':' + k.itemId] = 1; });
+      var p = G.getProgress(), box = $('upcoming'), bird = G.getBird();
+      function art(it, stageId) { return it.image || ('assets/images/' + bird.id + '-' + stageId + '.png'); }
+      G.STAGES.forEach(function (st) {
+        var m = G.MILESTONES[st.id]; if (!m) return;
+        var it = S.item(m.itemId) || {}, done = p.xp >= st.min;
+        var card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl shadow overflow-hidden flex flex-col' + (done ? ' opacity-60' : '');
+        card.innerHTML = '<div class="bg-purple-50 h-32 flex items-center justify-center"><img src="' + art(it, st.id) + '" alt="" class="h-24 object-contain"></div>' +
+          '<div class="p-5"><h3 class="font-bold text-purple-700">' + m.name + '</h3><p class="text-gray-500 text-sm">' + (it.blurb || '') + '</p>' +
+          '<p class="text-xs font-bold mt-3 ' + (done ? 'text-green-700' : 'text-purple-600') + '">' + (done ? '✓ Earned at ' + st.name : 'Earned at the ' + st.name + ' stage (' + (st.min - p.xp) + ' more points)') + '</p></div>';
+        box.appendChild(card);
+      });
+      var j = S.item(G.MOMENT_KEEPSAKE.itemId) || {};
+      var jc = document.createElement('div');
+      jc.className = 'bg-white rounded-3xl shadow p-5';
+      jc.innerHTML = '<img src="assets/images/' + bird.id + '-percher.png" alt="" class="h-16 mb-2"><h3 class="font-bold text-purple-700">' + G.MOMENT_KEEPSAKE.name + '</h3><p class="text-gray-500 text-sm">' + (j.blurb || '') + '</p><p class="text-xs font-bold mt-3 text-purple-600">Earned every ' + G.MOMENT_KEEPSAKE.every + ' moments your grown-up verifies</p>';
+      box.appendChild(jc);
     })();
   </script>
 </body>

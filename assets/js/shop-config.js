@@ -1,27 +1,27 @@
 /**
  * shop-config.js: the ONLY file you need to edit to connect the Shopify store.
  *
- * 1. domain      your store's myshopify.com domain (already filled in below)
- * 2. variantId   for each keepsake: Shopify admin > Products > (product) > the variant's ID.
- *                It is the long number at the end of the variant URL, e.g. 44123456789012.
- *                Leave '' until you have it; the grown-up page will warn that it isn't connected yet.
- * 3. cost        how many Feathers (the in-app currency) the child needs. Tune freely.
- * 4. discountCode  optional. If you create a 100%-off code in Shopify for earned keepsakes,
- *                put it here and it is applied automatically at checkout.
- * 5. orderWebhook  optional. A URL (Zapier, Shopify Flow, a Cloud Function) that receives the
- *                approved request as JSON. This is what makes the order fully automatic, with
- *                no checkout step. Leave '' to use the cart-link flow.
+ * items         every keepsake VentPals can send. `id` must match the ids used in growth.js (MILESTONES).
+ *   variantId   Shopify admin > Products > (product) > the variant's ID: the long number at the end
+ *               of the variant URL, e.g. 44123456789012. Leave '' until you have it.
+ *   price       what a grown-up pays when buying it themselves from the store (display only)
+ * orderWebhook  optional URL (Zapier, Shopify Flow, a Cloud Function). When a grown-up confirms the
+ *               shipping address for an earned keepsake, the order (with address) is POSTed here so the
+ *               store can create and fulfil it with no checkout. Leave '' to fulfil by hand from the
+ *               grown-up's confirmation.
+ * discountCode  optional 100%-off code for the manual cart link.
  */
 window.VP_SHOP = {
   domain: 'ventpals-keepsakes-marketplace.myshopify.com',
+  storefront: 'https://keepsakes.ventpals.com',
   discountCode: '',
   orderWebhook: '',
   items: [
-    { id: 'sticker',    name: 'VentPals Sticker',    emoji: '⭐', image: 'assets/images/keepsakes-sticker.png',    cost: 15,  variantId: '', blurb: 'A sticker of your bird to stick anywhere that needs a little calm.' },
-    { id: 'pins',       name: 'VentPals Pins',       emoji: '📌', image: 'assets/images/keepsakes-pins.png',       cost: 30,  variantId: '', blurb: 'Enamel pins to wear your favorite bird on a bag or jacket.' },
-    { id: 'journal',    name: 'VentPals Journal',    emoji: '📓', image: 'assets/images/keepsakes-journal.png',    cost: 50,  variantId: '', blurb: 'A place to write down feelings, thoughts, and proud moments.' },
-    { id: 'mug',        name: 'VentPals Mug',        emoji: '☕', image: 'assets/images/keepsakes-mug.png',        cost: 70,  variantId: '', blurb: 'A cozy mug for cocoa, tea, or a quiet moment.' },
-    { id: 'tee',        name: 'VentPals T-Shirt',    emoji: '👕', image: 'assets/images/keepsakes-tee.png',        cost: 100, variantId: '', blurb: 'A soft tee featuring your VentPal bird.' },
-    { id: 'sweatshirt', name: 'VentPals Sweatshirt', emoji: '🧥', image: 'assets/images/keepsakes-sweatshirt.png', cost: 140, variantId: '', blurb: 'The coziest way to show your VentPal pride.' }
+    { id: 'stickers',  name: 'Bug & Feather Sticker Sheet', emoji: '✨', image: 'assets/images/keepsakes-sticker.png',    variantId: '', price: '', blurb: 'Fireflies, bugs, and feathers to mark milestones in the journal.' },
+    { id: 'pin',       name: 'VentPals Bird Pin',           emoji: '📌', image: 'assets/images/keepsakes-pins.png',       variantId: '', price: '', blurb: 'An enamel pin of your own bird for a backpack or jacket.' },
+    { id: 'pen',       name: 'VP Pen',                      emoji: '🖊️', image: '',        variantId: '', price: '', blurb: 'VentPals colors, with "I fly with ___" on the barrel.' },
+    { id: 'hourglass', name: 'Conversation Hourglass',      emoji: '⏳', image: '',  variantId: '', price: '', blurb: 'A gentle tool for taking turns and slowing down hard conversations.' },
+    { id: 'journal',   name: 'Circles Journal',             emoji: '📓', image: '',    variantId: '', price: '', blurb: 'Your bird on the cover and reflection prompts inside.' },
+    { id: 'case',      name: 'Emotional Tools Case',        emoji: '🧰', image: '',       variantId: '', price: '', blurb: 'A carry case for your whole VentPals toolkit.' }
   ]
 };

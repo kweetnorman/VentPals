@@ -64,13 +64,26 @@
 
   <!-- HEADER -->
   <section class="text-center pt-8 pb-4 px-4">
-    <div id="heroArt" class="float flex justify-center items-center h-28"></div>
+    <div id="heroArt" class="float flex justify-center items-center"></div>
     <h1 id="birdName" class="text-3xl font-bold text-purple-700 mt-2 mb-1">Your VentPal</h1>
     <p id="stageLine" class="text-purple-500 font-semibold text-sm"></p>
     <p class="text-xs text-gray-400 mt-1">🔒 Your bird is yours for keeps. It grows as you do.</p>
   </section>
 
   <section class="max-w-xl mx-auto px-4 sm:px-6 pb-24 space-y-8">
+
+    <!-- FEED -->
+    <div id="feed" class="bg-white rounded-3xl shadow p-6">
+      <div class="flex justify-between items-baseline mb-1">
+        <h2 class="text-lg font-bold text-purple-700">Feed your bird</h2>
+        <span class="text-sm font-bold text-purple-600">🪶 <span id="featherBal">0</span> feathers</span>
+      </div>
+      <p id="feedHint" class="text-gray-500 text-xs mb-4">Every activity earns a bug. Feeding it to your bird helps it grow and earns feathers for the closet.</p>
+      <div id="basket" class="grid grid-cols-4 gap-2 text-center"></div>
+      <button id="feedAll" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-full disabled:opacity-40 disabled:cursor-not-allowed">Feed everything</button>
+      <p id="feedMsg" class="text-center text-sm font-semibold text-purple-700 mt-3 min-h-[1.25rem]" aria-live="polite"></p>
+      <a href="closet.html" class="block text-center text-sm font-bold text-purple-700 underline mt-2">Visit the closet</a>
+    </div>
 
     <!-- PROGRESS -->
     <div class="bg-white rounded-3xl shadow p-6">
@@ -90,73 +103,91 @@
       <div id="stageList" class="space-y-3"></div>
     </div>
 
-    <!-- WAYS TO GROW -->
+    <!-- BUG GUIDE -->
     <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-lg font-bold text-purple-700 mb-1">Ways to help your bird grow</h2>
-      <p class="text-gray-500 text-xs mb-4">Each one counts once a day.</p>
+      <h2 class="text-lg font-bold text-purple-700 mb-1">How to earn bugs</h2>
+      <p class="text-gray-500 text-xs mb-4">Each one counts once a day. Bigger effort earns a bigger bug.</p>
       <ul id="waysList" class="space-y-2 text-sm"></ul>
     </div>
 
-    <!-- BADGES -->
-    <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-lg font-bold text-purple-700 mb-1">Your badges</h2>
-      <p id="badgeCount" class="text-gray-500 text-xs mb-4"></p>
-      <div id="badgeGrid" class="grid grid-cols-3 gap-3"></div>
-    </div>
-
-    <a href="rewards.html" class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">🪶 My rewards and keepsakes</a>
-
+    <a href="rewards.html" class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">🏅 My badges and keepsakes</a>
     <a href="dashboard.html" class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-full">Back to Home</a>
   </section>
 
   <script>
     (function () {
-      var G = window.VPGrowth;
-      if (!G) return;
-      var bird = G.getBird(), p = G.getProgress();
-      function art(stageId, cls) {
-        var file = stageId === 'egg' ? 'egg' : stageId;
-        return '<img src="assets/images/' + bird.id + '-' + file + '.png" class="' + (cls === 'hero' ? 'h-28' : 'h-16') + '" alt="" onerror="this.outerHTML=\'<span style=&quot;font-size:44px&quot;>' + (stageId === 'egg' ? '🥚' : bird.emoji) + '</span>\'">';
+      var G = window.VPGrowth; if (!G) return;
+      var $ = function (id) { return document.getElementById(id); };
+
+      function render() {
+        var bird = G.getBird(), p = G.getProgress(), fe = G.getFeathers();
+        G.renderAvatar($('heroArt'), { height: 150 });
+        $('birdName').textContent = bird.name;
+        $('stageLine').textContent = p.stage.name + ' stage';
+        $('featherBal').textContent = fe.balance;
+        $('xpLabel').textContent = p.xp + ' growth points';
+        $('nextLabel').textContent = p.next ? p.next.name + ' at ' + p.next.min : 'Fully grown!';
+        $('xpBar').style.width = Math.max(4, p.pct) + '%';
+        $('xpHint').textContent = p.next
+          ? (p.stage.id === 'egg' ? 'Your egg is waiting to hatch. ' : '') + p.toNext + ' more growth points to reach ' + p.next.name + '.'
+          : 'Your VentPal reached the top stage. Keep collecting badges!';
+        var st = G.streak(); $('streakLine').textContent = st > 0 ? '🔥 ' + st + '-day streak' : '';
+
+        // basket
+        var basket = $('basket'); basket.innerHTML = '';
+        G.getBasket().forEach(function (b) {
+          var d = document.createElement('div');
+          d.className = 'rounded-2xl border-2 p-2 ' + (b.count ? 'border-green-300 bg-green-50' : 'border-gray-200 bg-gray-50');
+          d.innerHTML = '<div style="font-size:30px;' + (b.count ? '' : 'filter:grayscale(1);opacity:.4') + '">' + b.info.icon + '</div>' +
+            '<p class="text-xs font-bold text-gray-700">' + b.info.name + '</p><p class="text-lg font-extrabold text-purple-700">' + b.count + '</p>' +
+            '<button data-feed="' + b.type + '" class="w-full text-xs font-bold rounded-full py-1 mt-1 ' + (b.count ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-400') + '"' + (b.count ? '' : ' disabled') + '>Feed</button>';
+          basket.appendChild(d);
+        });
+        $('feedAll').disabled = G.basketTotal() === 0;
+        if (G.basketTotal() === 0) $('feedHint').textContent = 'No bugs right now. Do an activity, or come back tomorrow, and you will earn more!';
+
+        // stages
+        var list = $('stageList'); list.innerHTML = '';
+        G.STAGES.forEach(function (s, i) {
+          var cls = i === p.index ? 'border-purple-400 bg-purple-50' : i < p.index ? 'border-green-300 opacity-70' : 'border-gray-200 opacity-50';
+          var tag = i === p.index ? '<span class="text-xs font-bold text-purple-600">★ Now</span>' : i < p.index ? '<span class="text-xs font-bold text-green-600">✔ Done</span>' : '<span class="text-xs text-gray-400">' + s.min + ' points</span>';
+          var m = G.MILESTONES[s.id], reward = m ? '<p class="text-xs text-purple-600 font-semibold mt-1">' + m.emoji + ' Keepsake: ' + m.name + '</p>' : '';
+          var d = document.createElement('div');
+          d.className = 'bg-white rounded-3xl shadow p-4 border-2 flex items-center gap-4 ' + cls;
+          d.innerHTML = '<div style="width:72px;text-align:center"><img src="assets/images/' + bird.id + '-' + s.id + '.png" class="h-16 mx-auto" alt="" onerror="this.style.display=\'none\'"></div><div class="flex-1"><div class="flex justify-between items-center"><h3 class="font-semibold text-purple-700">' + s.name + '</h3>' + tag + '</div><p class="text-gray-600 text-sm">' + s.blurb + '</p>' + reward + '</div>';
+          list.appendChild(d);
+        });
+
+        // ways
+        var ways = $('waysList'); ways.innerHTML = '';
+        ['mosquito', 'worm', 'ladybug', 'butterfly'].forEach(function (t) {
+          var bt = G.BUG_TYPES[t];
+          var acts = Object.keys(G.ACTIVITIES).filter(function (k) { return G.ACTIVITIES[k].bug === t; }).map(function (k) { return G.ACTIVITIES[k].label; });
+          var li = document.createElement('li'); li.className = 'bg-purple-50 rounded-xl px-3 py-2';
+          li.innerHTML = '<div class="flex justify-between font-bold text-purple-700"><span>' + bt.icon + ' ' + bt.name + ' (' + bt.size + ')</span><span class="text-xs">+' + bt.growth + ' growth, +' + bt.feathers + ' 🪶</span></div><p class="text-xs text-gray-600 mt-1">' + acts.join(', ') + '</p>';
+          ways.appendChild(li);
+        });
       }
-      document.getElementById('heroArt').innerHTML = art(p.stage.id, 'hero');
-      document.getElementById('birdName').textContent = bird.name;
-      document.getElementById('stageLine').textContent = p.stage.name + ' stage';
-      document.getElementById('xpLabel').textContent = p.xp + ' points';
-      document.getElementById('nextLabel').textContent = p.next ? p.next.name + ' at ' + p.next.min : 'Fully grown!';
-      document.getElementById('xpBar').style.width = Math.max(4, p.pct) + '%';
-      document.getElementById('xpHint').textContent = p.next
-        ? (p.stage.id === 'egg' ? 'Your egg is waiting to hatch. ' : '') + p.toNext + ' more points to reach ' + p.next.name + '.'
-        : 'Your VentPal reached the top stage. Keep collecting badges!';
-      var st = G.streak();
-      document.getElementById('streakLine').textContent = st > 0 ? '🔥 ' + st + '-day streak' : '';
 
-      var list = document.getElementById('stageList');
-      G.STAGES.forEach(function (s, i) {
-        var cls = i === p.index ? 'border-purple-400 bg-purple-50' : i < p.index ? 'border-green-300 opacity-70' : 'border-gray-200 opacity-50';
-        var tag = i === p.index ? '<span class="text-xs font-bold text-purple-600">★ Now</span>' : i < p.index ? '<span class="text-xs font-bold text-green-600">✔ Done</span>' : '<span class="text-xs text-gray-400">' + s.min + ' points</span>';
-        var d = document.createElement('div');
-        d.className = 'bg-white rounded-3xl shadow p-4 border-2 flex items-center gap-4 ' + cls;
-        d.innerHTML = '<div style="width:72px;text-align:center">' + art(s.id, 'small') + '</div><div class="flex-1"><div class="flex justify-between items-center"><h3 class="font-semibold text-purple-700">' + s.name + '</h3>' + tag + '</div><p class="text-gray-600 text-sm">' + s.blurb + '</p></div>';
-        list.appendChild(d);
-      });
+      function celebrate(r) {
+        var bird = G.getBird(), msg = $('feedMsg');
+        if (!r || !r.fed) return;
+        msg.textContent = 'Yum! ' + bird.name + ' ate ' + r.fed + (r.fed > 1 ? ' bugs' : ' bug') + '. +' + r.growth + ' growth, +' + r.feathers + ' feathers.';
+        var art = $('heroArt'); art.classList.remove('float'); void art.offsetWidth; art.style.transition = 'transform .3s'; art.style.transform = 'scale(1.12)';
+        setTimeout(function () { art.style.transform = ''; art.classList.add('float'); }, 350);
+        if (r.stageUp) {
+          var s = r.stage;
+          G.toast([(s.id === 'baby' ? '🐣 ' + bird.name + ' hatched!' : '🎉 ' + bird.name + ' grew to ' + s.name + '!'),
+                   '<span style="font-weight:500;font-size:13px">A keepsake is on its way. Your grown-up will be asked to confirm the address.</span>'], true);
+        }
+      }
 
-      var ways = document.getElementById('waysList');
-      Object.keys(G.ACTIVITIES).forEach(function (k) {
-        var a = G.ACTIVITIES[k], li = document.createElement('li');
-        li.className = 'flex justify-between bg-purple-50 rounded-xl px-3 py-2';
-        li.innerHTML = '<span>' + a.label + '</span><span class="font-bold text-purple-600">+' + a.xp + '</span>';
-        ways.appendChild(li);
+      document.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-feed]');
+        if (b) { var r = G.feed(b.getAttribute('data-feed'), 1); render(); celebrate(r); }
       });
-
-      var grid = document.getElementById('badgeGrid'), have = 0, total = Object.keys(G.BADGES).length;
-      Object.keys(G.BADGES).forEach(function (k) {
-        var b = G.BADGES[k], got = !!p.badges[k]; if (got) have++;
-        var d = document.createElement('div');
-        d.className = 'text-center rounded-2xl p-3 border-2 ' + (got ? 'border-yellow-300 bg-yellow-50' : 'border-gray-200 bg-gray-50');
-        d.innerHTML = '<div style="font-size:30px;' + (got ? '' : 'filter:grayscale(1);opacity:.35') + '">' + b.icon + '</div><p class="text-xs font-bold ' + (got ? 'text-purple-700' : 'text-gray-400') + ' mt-1">' + b.name + '</p><p class="text-[10px] text-gray-400">' + (got ? 'Earned!' : b.how) + '</p>';
-        grid.appendChild(d);
-      });
-      document.getElementById('badgeCount').textContent = have + ' of ' + total + ' collected';
+      $('feedAll').addEventListener('click', function () { var r = G.feedAll(); render(); celebrate(r); });
+      render();
     })();
   </script>
 

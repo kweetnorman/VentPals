@@ -232,8 +232,13 @@
 
     document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + nickname + '!';
 
-    document.getElementById('ventpalWrap').innerHTML = art(stage, 'h-24') +
-      `<p class="text-purple-700 font-semibold mt-2">${bird.name} &bull; ${prog.stage.name}</p>`;
+    const wrap = document.getElementById('ventpalWrap');
+    wrap.innerHTML = '<div id="dashAvatar" class="flex justify-center"></div><p class="text-purple-700 font-semibold mt-2">' + bird.name + ' &bull; ' + prog.stage.name + '</p>';
+    if (window.VPGrowth) VPGrowth.renderAvatar(document.getElementById('dashAvatar'), { height: 120 });
+    const bugs = window.VPGrowth ? VPGrowth.basketTotal() : 0;
+    wrap.insertAdjacentHTML('beforeend', bugs
+      ? '<a href="bird-growth.html#feed" class="inline-block mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-sm font-bold rounded-full px-4 py-2">🐞 ' + bugs + ' bug' + (bugs > 1 ? 's' : '') + ' waiting. Feed ' + bird.name + '!</a>'
+      : '<p class="text-xs text-gray-500 mt-2">No bugs yet. Do an activity to earn one!</p>');
 
     // Avatar
     document.getElementById('avatarWrap').innerHTML = `
@@ -245,7 +250,7 @@
     const jb = document.getElementById('journeyBird');
     jb.src = 'assets/images/' + birdId + '-' + stage + '.png'; jb.alt = bird.name;
     document.getElementById('journeyText').innerHTML = prog.next
-      ? `<strong>${bird.name}</strong> is a <strong>${prog.stage.name}</strong>. Earn <strong>${prog.toNext} more points</strong> by checking in with a feeling, breathing, or writing a reflection to reach <strong>${prog.next.name}</strong>.`
+      ? `<strong>${bird.name}</strong> is a <strong>${prog.stage.name}</strong>. Feed bugs from your activities. <strong>${prog.toNext} more growth points</strong> to reach <strong>${prog.next.name}</strong>.`
       : `<strong>${bird.name}</strong> is a fully grown <strong>Percher</strong>. Keep going to collect every badge!`;
     document.getElementById('progressBar').style.width = Math.max(4, prog.pct) + '%';
     document.getElementById('growBtn').href = 'bird-growth.html';
