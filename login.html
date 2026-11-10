@@ -362,7 +362,8 @@
 
       // Resume last page if present
       const lastUrl = localStorage.getItem('ventpals_last_url');
-      const allowed = lastUrl &&
+      let sameOrigin = false; try { sameOrigin = !!lastUrl && new URL(lastUrl, location.href).origin === location.origin; } catch (e) {}
+      const allowed = lastUrl && sameOrigin &&
                       lastUrl.indexOf('login')        === -1 &&
                       lastUrl.indexOf('signup')       === -1 &&
                       lastUrl.indexOf('set-pin')      === -1 &&

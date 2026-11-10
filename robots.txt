@@ -46,4 +46,4 @@ Disallow: /sable-nest.html
 Disallow: /solace-nest.html
 Disallow: /twig-nest.html
 
-Sitemap: https://ventpals.org/sitemap.xml
+Sitemap: https://app.ventpals.org/sitemap.xml

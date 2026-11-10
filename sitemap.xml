@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ventpals.org/</loc>
+    <loc>https://app.ventpals.org/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/about.html</loc>
+    <loc>https://app.ventpals.org/about.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/how-it-works.html</loc>
+    <loc>https://app.ventpals.org/how-it-works.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/meet-the-flock.html</loc>
+    <loc>https://app.ventpals.org/meet-the-flock.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/dedications.html</loc>
+    <loc>https://app.ventpals.org/dedications.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/faqs.html</loc>
+    <loc>https://app.ventpals.org/faqs.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/join.html</loc>
+    <loc>https://app.ventpals.org/join.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/login.html</loc>
+    <loc>https://app.ventpals.org/login.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/signup.html</loc>
+    <loc>https://app.ventpals.org/signup.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/adult-login.html</loc>
+    <loc>https://app.ventpals.org/adult-login.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://ventpals.org/adult-signup.html</loc>
+    <loc>https://app.ventpals.org/adult-signup.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

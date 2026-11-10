@@ -74,6 +74,6 @@ App identifiers: `com.ventpals.app` • Display name: **VentPals**
 
 ## 🌐 Live Site
 
-[ventpals.org](https://ventpals.org)
+[app.ventpals.org](https://app.ventpals.org)
 
 <!-- redeploy -->
