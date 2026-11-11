@@ -2,7 +2,7 @@
 window.VENTPALS_FLOCK = [
   {
     "id": "aura",
-    "name": "Aura",
+    "tint": "#EADCFF",\n    "name": "Aura",
     "kind": "Hummingbird",
     "emoji": "🐦",
     "role": "Emotional awareness",
@@ -10,7 +10,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "cove",
-    "name": "Cove",
+    "tint": "#D3EEFB",\n    "name": "Cove",
     "kind": "Bluebird",
     "emoji": "🌊",
     "role": "Comfort and safe exploration",
@@ -18,7 +18,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "clover",
-    "name": "Clover",
+    "tint": "#DDF3D3",\n    "name": "Clover",
     "kind": "Lovebird",
     "emoji": "🍀",
     "role": "Safety and belonging",
@@ -26,7 +26,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "breezy",
-    "name": "Breezy",
+    "tint": "#D9E8FF",\n    "name": "Breezy",
     "kind": "Bluebird",
     "emoji": "🍃",
     "role": "Understanding unseen challenges",
@@ -34,7 +34,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "drift",
-    "name": "Drift",
+    "tint": "#D5DEF3",\n    "name": "Drift",
     "kind": "Swallow",
     "emoji": "🌙",
     "role": "Reflection and processing",
@@ -42,7 +42,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "echo",
-    "name": "Echo",
+    "tint": "#E9E1F0",\n    "name": "Echo",
     "kind": "Owl",
     "emoji": "🦉",
     "role": "Listening and validation",
@@ -50,7 +50,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "flamez",
-    "name": "Ember",
+    "tint": "#FFE0CC",\n    "name": "Ember",
     "kind": "Falcon",
     "emoji": "🔥",
     "role": "Bold expression and fresh starts",
@@ -58,7 +58,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "flare",
-    "name": "Flare",
+    "tint": "#FFD9D2",\n    "name": "Flare",
     "kind": "Phoenix",
     "emoji": "✨",
     "role": "Motivation and trying new things",
@@ -66,7 +66,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "flicker",
-    "name": "Flicker",
+    "tint": "#FFF0BF",\n    "name": "Flicker",
     "kind": "Finch",
     "emoji": "💫",
     "role": "Hope and curiosity",
@@ -74,7 +74,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "sable",
-    "name": "Sable",
+    "tint": "#E4D6F2",\n    "name": "Sable",
     "kind": "Nightingale",
     "emoji": "⭐",
     "role": "Resilience and inner strength",
@@ -82,7 +82,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "lumen",
-    "name": "Lumen",
+    "tint": "#E2DCF7",\n    "name": "Lumen",
     "kind": "Heron",
     "emoji": "💡",
     "role": "Insight and clarity",
@@ -90,7 +90,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "nova",
-    "name": "Nova",
+    "tint": "#D4F2E8",\n    "name": "Nova",
     "kind": "Hawk",
     "emoji": "🌟",
     "role": "Perspective and growth",
@@ -98,7 +98,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "pebble",
-    "name": "Pebble",
+    "tint": "#E5F0CC",\n    "name": "Pebble",
     "kind": "Dove",
     "emoji": "🕊️",
     "role": "Gentle guidance",
@@ -106,7 +106,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "guardian",
-    "name": "Guardian",
+    "tint": "#D6D9EE",\n    "name": "Guardian",
     "kind": "Eagle",
     "emoji": "🦅",
     "role": "Protection and boundaries",
@@ -114,7 +114,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "solace",
-    "name": "Solace",
+    "tint": "#F4E0CF",\n    "name": "Solace",
     "kind": "Robin",
     "emoji": "🌿",
     "role": "Comfort and soothing",
@@ -122,7 +122,7 @@ window.VENTPALS_FLOCK = [
   },
   {
     "id": "twig",
-    "name": "Twig",
+    "tint": "#EEDFCB",\n    "name": "Twig",
     "kind": "Sparrow",
     "emoji": "🌱",
     "role": "Early growth and discovery",
