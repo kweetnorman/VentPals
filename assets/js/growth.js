@@ -21,6 +21,7 @@
   var USER_KEY = 'ventpals_user';
   var REQ_KEY = 'ventpals_keepsake_requests';
   var INBOX_KEY = 'ventpals_parent_inbox';
+  var MOMENTS_KEY = 'ventpals_moments';
 
   /* ───────────── growth stages (growth points) ───────────── */
   var STAGES = [
@@ -40,7 +41,7 @@
   };
   var BUG_ORDER = ['mosquito', 'worm', 'ladybug', 'butterfly'];
 
-  /* ───────────── activities: what earns which bug (once per activity per day) ───────────── */
+  /* ───────────── discovery activities: each distinct activity earns once ───────────── */
   var ACTIVITIES = {
     calming:    { bug: 'mosquito',  label: 'Explored calming skills',   badge: 'skill-explorer' },
     water:      { bug: 'worm',      label: 'Took a mindful sip',        badge: 'sip-and-settle' },
@@ -241,15 +242,15 @@
     var m = MILESTONES[stageId]; if (m) createKeepsake('milestone:' + stageId, m.itemId, m.name, m.emoji);
   }
 
-  /* A child tells a trusted grown-up how they handled a feeling. The grown-up verifies it on their side. */
+  /* A child may choose to share a moment with a trusted grown-up. Sharing is optional and earns no points. */
   function submitMoment(feeling, emoji, note) {
     if (!IS_KID) return false;
     var u = getUser(), all = readJSON(MOMENTS_KEY, []);
     var m = { id: 'mo' + Date.now().toString(36), feeling: feeling || 'a feeling', emoji: emoji || '💛', note: (note || '').slice(0, 200),
-              childName: u.displayName || u.nickname || 'Your child', status: 'pending', createdAt: Date.now() };
+              childName: u.displayName || u.nickname || 'Your child', status: 'shared', createdAt: Date.now() };
     all.push(m); writeJSON(MOMENTS_KEY, all);
     var inbox = readJSON(INBOX_KEY, []);
-    inbox.push({ id: 'moment:' + m.id, kind: 'moment', label: 'wants to show you how they handled feeling ' + m.feeling.toLowerCase(), icon: m.emoji, childName: m.childName, ts: Date.now(), celebrated: false });
+    inbox.push({ id: 'moment:' + m.id, kind: 'moment', label: 'chose to share a moment about ' + m.feeling.toLowerCase(), icon: m.emoji, childName: m.childName, ts: Date.now(), celebrated: false });
     writeJSON(INBOX_KEY, inbox);
     return m;
   }
