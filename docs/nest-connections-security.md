@@ -63,3 +63,16 @@ The current repository is a static HTML/JavaScript development preview using loc
 - The preview deliberately hides child identity and Nest details before verification.
 - It contains no real QR token, adult sign-in, identity verification, or acceptance endpoint.
 - Production must validate token expiry, one-time use, intended recipient/purpose, and adult authorization server-side before revealing any child-specific information.
+
+
+## Completed Main Guide front-end preview journey
+The Main Guide dashboard now demonstrates the full intended sequence without a backend:
+- Child-originated request queue and one invitation preview per request.
+- Invitation tracker states: prepared → QR scan simulated → adult identity verification simulated → adult acceptance → awaiting child confirmation → child confirmed or declined. Prepared, opened, and verified invitations expire after ten minutes in the local preview; pending invitations can be cancelled.
+- A local activity history records preview invitation events.
+- Two-key Main Guide change request with two distinct approval steps. The preview never changes a real role.
+- Self-withdrawal explanation: an adult can always leave their own connection without the other Main Guide's approval.
+- Urgent safeguarding hold preview that bypasses ordinary two-key approval, so the protection model does not create a deadlock for a child in an unsafe situation.
+- The child confirmation page presents the adult's display name to the child and gives the child a clear yes/no choice with no required explanation.
+
+All lifecycle transitions are local browser demonstrations. The UI must not be represented as actual security or authorization. Production must independently enforce expiry, token redemption, account verification, consent, two-key approval, safety suspension, notifications, and audit history on trusted server infrastructure.
