@@ -67,7 +67,9 @@ The current repository is a static HTML/JavaScript development preview using loc
 
 ## Completed Main Guide front-end preview journey
 The Main Guide dashboard now demonstrates the full intended sequence without a backend:
-- Child-originated request queue and one invitation preview per request.
+- Separate child-originated add and removal request queues; removal requests open a private review preview without notifying the named adult.
+- A Nest Guide roster placeholder with no fixed adult cap, subject to consent and safeguarding controls.
+- One invitation preview per add request.
 - Invitation tracker states: prepared → QR scan simulated → adult identity verification simulated → adult acceptance → awaiting child confirmation → child confirmed or declined. Prepared, opened, and verified invitations expire after ten minutes in the local preview; pending invitations can be cancelled.
 - A local activity history records preview invitation events.
 - Two-key Main Guide change request with two distinct approval steps. The preview never changes a real role.
