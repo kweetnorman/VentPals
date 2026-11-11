@@ -26,10 +26,10 @@
   /* ───────────── growth stages (growth points) ───────────── */
   var STAGES = [
     { id: 'egg',       name: 'Egg',       min: 0,   blurb: 'Your VentPal is safe and warm inside, waiting for you. Feed it a bug to help it hatch!' },
-    { id: 'baby',      name: 'Baby',      min: 10,  blurb: 'Your VentPal just hatched. Soft, new, and full of possibility.' },
-    { id: 'nestling',  name: 'Nestling',  min: 50,  blurb: 'Learning, growing, and finding a voice, one gentle step at a time.' },
-    { id: 'feathered', name: 'Feathered', min: 120, blurb: 'You have tried new ideas and built skills at your own pace.' },
-    { id: 'percher',   name: 'Percher',   min: 220, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
+    { id: 'baby',      name: 'Baby',      min: 4,  blurb: 'Your VentPal just hatched. Soft, new, and full of possibility.' },
+    { id: 'nestling',  name: 'Nestling',  min: 8,  blurb: 'Learning, growing, and finding a voice, one gentle step at a time.' },
+    { id: 'feathered', name: 'Feathered', min: 14, blurb: 'You have tried new ideas and built skills at your own pace.' },
+    { id: 'percher',   name: 'Percher',   min: 20, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
   ];
 
   /* ───────────── bugs: the food. Bigger effort = bigger bug ───────────── */
