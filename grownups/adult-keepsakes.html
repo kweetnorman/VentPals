@@ -72,8 +72,8 @@
 
     <!-- MOMENTS -->
     <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-xl font-semibold text-purple-700 mb-1">Moments to verify</h2>
-      <p class="text-gray-500 text-xs mb-4">Your child wants to show you how they handled a hard feeling. Talk with them, then verify. Every 3 verified moments earns a VentPals Journal.</p>
+      <h2 class="text-xl font-semibold text-purple-700 mb-1">Moments your child chose to share</h2>
+      <p class="text-gray-500 text-xs mb-4">These moments were shared by the child. You can acknowledge them, but they are never scored, verified, or used to unlock rewards.</p>
       <ul id="momentList" class="space-y-3"></ul>
       <p id="momentEmpty" class="text-sm text-gray-500">No moments yet.</p>
     </div>
@@ -166,9 +166,9 @@
         $('momentEmpty').classList.toggle('hidden', ms.length > 0);
         ms.forEach(function (m) {
           var li = document.createElement('li'); li.className = 'flex items-center gap-3 bg-purple-50 rounded-2xl p-3';
-          li.innerHTML = '<span class="text-2xl" aria-hidden="true">' + esc(m.emoji) + '</span><div class="flex-1"><p class="font-semibold text-sm text-purple-700">' + esc(m.childName) + ' handled feeling ' + esc(m.feeling).toLowerCase() + '</p>' +
+          li.innerHTML = '<span class="text-2xl" aria-hidden="true">' + esc(m.emoji) + '</span><div class="flex-1"><p class="font-semibold text-sm text-purple-700">' + esc(m.childName) + ' shared about ' + esc(m.feeling).toLowerCase() + '</p>' +
             (m.note ? '<p class="text-xs text-gray-600 italic">“' + esc(m.note) + '”</p>' : '') + '<p class="text-xs text-gray-400">' + fmt(m.createdAt) + '</p></div>' +
-            (m.status === 'verified' ? '<span class="text-xs font-bold text-green-700">Verified ✓</span>' : '<button data-act="verify" data-id="' + m.id + '" class="text-xs font-bold bg-purple-600 text-white rounded-full px-3 py-2">Verify</button>');
+            (m.status === 'acknowledged' ? '<span class="text-xs font-bold text-green-700">Acknowledged ✓</span>' : '<button data-act="acknowledge" data-id="' + m.id + '" class="text-xs font-bold bg-purple-600 text-white rounded-full px-3 py-2">Acknowledge</button>');
           ml.appendChild(li);
         });
 
@@ -187,7 +187,7 @@
       document.addEventListener('click', function (e) {
         var b = e.target.closest('[data-act]'); if (!b) return;
         var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
-        if (act === 'verify') return;
+        if (act === 'acknowledge') S.acknowledgeMoment(id);
         else if (act === 'shipped') S.setStatus(id, 'shipped');
         else if (act === 'celebrate') S.celebrate(id);
         render();
