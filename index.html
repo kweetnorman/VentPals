@@ -561,26 +561,12 @@
     </div>
   </footer>
 
+  <script src="assets/js/flock-data.js"></script>
   <script>
-    // 16 Birds Data Set with Colorful Pastel Tints
-    var birds = [
-      ['flamez', 'Ember', 'Falcon', '#FFE0CC'],
-      ['echo', 'Echo', 'Feeling Heard', '#E9E1F0'],
-      ['guardian', 'Guardian', 'Protective', '#D6D9EE'],
-      ['sable', 'Sable', 'Resilience', '#E4D6F2'],
-      ['aura', 'Aura', 'Calm & Gentle', '#EADCFF'],
-      ['clover', 'Clover', 'Belonging', '#DDF3D3'],
-      ['breezy', 'Breezy', 'Thoughtful', '#D9E8FF'],
-      ['pebble', 'Pebble', 'Self-Worth', '#E5F0CC'],
-      ['cove', 'Cove', 'Comfort', '#D3EEFB'],
-      ['drift', 'Drift', 'Reflective', '#D5DEF3'],
-      ['flare', 'Flare', 'Brave Spark', '#FFD9D2'],
-      ['flicker', 'Flicker', 'Hopeful', '#FFF0BF'],
-      ['lumen', 'Lumen', 'Clarity', '#E2DCF7'],
-      ['nova', 'Nova', 'Growth', '#D4F2E8'],
-      ['solace', 'Solace', 'Soothing', '#F4E0CF'],
-      ['twig', 'Twig', 'Curious', '#EEDFCB']
-    ];
+    // The public slider reads the same canonical flock used by onboarding and Flockopedia.
+    var birds = (window.VENTPALS_FLOCK || []).map(function (bird) {
+      return [bird.id, bird.name, bird.kind, bird.tint || '#F4EFFA'];
+    });
 
     // 4-Card Slider Controls
     var currentSlide = 0;
