@@ -360,15 +360,9 @@
       if (window.VentPalsNative) window.VentPalsNative.Haptics.success();
       localStorage.setItem('ventpals_logged_in', 'true');
 
-      // Resume last page if present
-      const lastUrl = localStorage.getItem('ventpals_last_url');
-      let sameOrigin = false; try { sameOrigin = !!lastUrl && new URL(lastUrl, location.href).origin === location.origin; } catch (e) {}
-      const allowed = lastUrl && sameOrigin &&
-                      lastUrl.indexOf('login')        === -1 &&
-                      lastUrl.indexOf('signup')       === -1 &&
-                      lastUrl.indexOf('set-pin')      === -1 &&
-                      lastUrl.indexOf('app-switcher') === -1;
-      window.location.href = allowed ? lastUrl : 'app-switcher.html';
+      // A child always starts from their own Nest after signing in.
+      // app-switcher checks onboarding status before opening the Nest.
+      window.location.href = 'app-switcher.html';
     });
   </script>
 </body>
