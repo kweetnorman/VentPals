@@ -18,7 +18,10 @@ if(!localStorage.getItem(ACTIVITY))localStorage.setItem(ACTIVITY,String(Date.now
 ['pointerdown','keydown','touchstart','scroll','click'].forEach(function(type){
  document.addEventListener(type,recordActivity,{passive:true});
 });
-window.addEventListener('storage',function(e){if(e.key===ACTIVITY)checkIdle();});
+window.addEventListener('storage',function(e){
+ if(e.key===KEY&&e.newValue!=='true'){location.replace(root()+'welcome.html');return;}
+ if(e.key===ACTIVITY)checkIdle();
+});
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')checkIdle();});
 var idleCheck=window.setInterval(checkIdle,1000);
 window.addEventListener('pagehide',function(){window.clearInterval(idleCheck);});
