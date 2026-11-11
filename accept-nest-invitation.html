@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efff">
-<title>Accept a Nest Guide Invitation • VentPals</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Accept a Nest Guide Invitation • VentPals</title><script src="https://cdn.tailwindcss.com"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;color:#40394d;background:radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8)}
 main{max-width:760px;margin:auto}.card{background:rgba(255,255,255,.96);border:1px solid rgba(118,81,181,.14);border-radius:25px;box-shadow:0 12px 34px rgba(65,48,94,.07)}
@@ -11,46 +9,47 @@ main{max-width:760px;margin:auto}.card{background:rgba(255,255,255,.96);border:1
 .primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:12px 20px}.secondary{border:2px solid #d9c9ef;border-radius:999px;background:white;color:#6845a0;font-weight:700;padding:10px 18px}
 .notice{border:1px solid #f2d7a1;background:#fff8e8;border-radius:16px;padding:14px;color:#76551d;font-size:12px;line-height:1.55}
 input{width:100%;border:2px solid #e5dcf1;border-radius:13px;padding:12px;background:white;font:inherit}
-</style>
-</head>
+</style></head>
 <body>
 <header class="max-w-3xl mx-auto px-4 pt-6"><a href="index.html" class="font-extrabold text-xl text-purple-800 no-underline">🪺 VentPals</a></header>
 <main class="px-4 pt-8 pb-16 space-y-5">
-<section class="text-center"><div class="text-5xl mb-3">💌</div><p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Nest Guide invitation</p><h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-2">Someone would like you in their Nest</h1><p class="muted max-w-xl mx-auto mt-3">A child has asked to invite a trusted adult. Before you can connect, we need to make sure you understand the role and verify that you are the invited person.</p></section>
-<div class="notice"><strong>Design preview only.</strong> This page does not contain a real invitation token and cannot verify an adult or connect anyone. A production version will open only from a valid, unexpired, one-use QR invitation.</div>
+<section class="text-center"><div class="text-5xl mb-3">💌</div><p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Nest Guide invitation</p><h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-2">Someone would like you in their Nest</h1><p class="muted max-w-xl mx-auto mt-3">A child has asked to invite a trusted adult. Review the role, verify your identity, and accept only if you are the person the child requested.</p></section>
+<div class="notice"><strong>Design preview only.</strong> This page does not verify a real adult or connect anyone. Open it from a sample invitation in the Main Guide dashboard. Never enter real personal information.</div>
 <section class="card p-5 sm:p-7 space-y-4">
-<div class="flex items-center justify-between gap-2"><h2 class="text-lg font-extrabold text-purple-800">Your invitation</h2><span class="rounded-full bg-purple-100 text-purple-800 text-xs font-extrabold px-3 py-1">Preview</span></div>
-<div class="rounded-2xl bg-purple-50 p-4"><p class="text-xs font-bold uppercase tracking-wide text-purple-500">Requested connection</p><p class="text-xl font-black text-purple-800 mt-1">Nest Guide</p><p class="muted mt-1">The child's name and private Nest details stay hidden until the invitation is verified and the required consent checks are complete.</p></div>
-<div class="grid sm:grid-cols-3 gap-3">
-<div class="step active" id="step1"><b class="text-sm text-purple-800">1. Review</b><p class="muted mt-1">Understand the invitation and your role.</p></div>
-<div class="step" id="step2"><b class="text-sm text-purple-800">2. Verify</b><p class="muted mt-1">Confirm your adult account and identity.</p></div>
-<div class="step" id="step3"><b class="text-sm text-purple-800">3. Accept</b><p class="muted mt-1">Agree to the Nest Guide boundaries.</p></div>
-</div>
-<div id="panel" class="space-y-3">
-<h3 class="font-extrabold text-purple-800">What does a Nest Guide do?</h3>
-<p class="muted">A Nest Guide is an adult a child has chosen as someone they trust. You may be invited to offer encouragement and support through the permissions assigned to your connection.</p>
-<ul class="list-disc pl-5 text-sm text-gray-600 space-y-1"><li>You receive only the access explicitly granted to your role.</li><li>You do not get access to private journal entries by default.</li><li>You cannot change the child's chosen name or VentPal.</li><li>You must respect the child's privacy, boundaries, and right to ask for help.</li></ul>
+<div class="flex items-center justify-between gap-2"><h2 class="text-lg font-extrabold text-purple-800">Your invitation</h2><span id="inviteState" class="rounded-full bg-purple-100 text-purple-800 text-xs font-extrabold px-3 py-1">Preview</span></div>
+<div class="rounded-2xl bg-purple-50 p-4"><p class="text-xs font-bold uppercase tracking-wide text-purple-500">Requested connection</p><p id="requestedName" class="text-xl font-black text-purple-800 mt-1">Nest Guide</p><p id="requestedRelationship" class="muted mt-1">The child's identity and private Nest details stay hidden until verification and consent checks are complete.</p></div>
+<div class="grid sm:grid-cols-3 gap-3"><div class="step active" id="step1"><b class="text-sm text-purple-800">1. Review</b><p class="muted mt-1">Understand your role.</p></div><div class="step" id="step2"><b class="text-sm text-purple-800">2. Verify</b><p class="muted mt-1">Confirm your adult identity.</p></div><div class="step" id="step3"><b class="text-sm text-purple-800">3. Accept</b><p class="muted mt-1">Agree to the boundaries.</p></div></div>
+<div id="panel" class="space-y-3"><h3 class="font-extrabold text-purple-800">What does a Nest Guide do?</h3><p class="muted">A Nest Guide is an adult a child has chosen as someone they trust. You may offer encouragement and support through the permissions assigned to your connection.</p>
+<ul class="list-disc pl-5 text-sm text-gray-600 space-y-1"><li>You receive only the access explicitly granted to your role.</li><li>Private journal entries are not shared by default.</li><li>You cannot change the child's chosen name or VentPal.</li><li>You must respect the child's privacy, boundaries, and right to ask for help.</li></ul>
 <label class="flex items-start gap-3 text-sm text-gray-700"><input id="understand" type="checkbox" class="mt-1 w-4 h-4"><span>I understand that being invited is a responsibility, not ownership of the child's account.</span></label>
-<button id="continue" class="primary w-full" disabled>Continue to adult verification</button>
-</div>
-<p id="status" class="muted" role="status" aria-live="polite"></p>
-</section>
-<section class="card p-5 space-y-2"><h2 class="font-extrabold text-purple-800">What happens after you accept?</h2><p class="muted">The child is shown the verified adult's name and can confirm whether this is the person they asked to invite. No connection becomes active until all required authorization and safeguarding checks are complete.</p></section>
-<p class="text-center"><a href="adult-login.html" class="text-sm font-bold text-purple-700 underline">Questions? Visit grown-up access</a></p>
+<button id="continue" class="primary w-full" disabled>Continue to identity verification preview</button></div>
+<p id="status" class="muted" role="status" aria-live="polite"></p></section>
+<section class="card p-5 space-y-2"><h2 class="font-extrabold text-purple-800">The child always gets the final say</h2><p class="muted">After an adult accepts, the child sees the adult's verified display name and can confirm or decline. No connection becomes active until all required authorization and safeguarding checks are complete.</p></section>
+<p class="text-center"><a href="main-guide-connections.html" class="text-sm font-bold text-purple-700 underline">Return to Main Guide preview</a></p>
 </main>
 <script>
 (function(){
 'use strict';
-var check=document.getElementById('understand'),btn=document.getElementById('continue'),status=document.getElementById('status'),panel=document.getElementById('panel');
+var KEY='ventpals_demo_main_guide_invites',EVENTS='ventpals_demo_main_guide_activity',params=new URLSearchParams(location.search),id=params.get('invite');
+var read=function(k){try{var x=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(x)?x:[];}catch(e){return [];}};
+var save=function(k,v){localStorage.setItem(k,JSON.stringify(v));};
+var invites=read(KEY),item=invites.find(function(x){return x.id===id;});
+var $=function(x){return document.getElementById(x);};
+function log(msg){var e=read(EVENTS);e.unshift({message:msg,at:new Date().toISOString()});save(EVENTS,e.slice(0,30));}
+if(!item||['opened','verified'].indexOf(item.status)<0){
+ $('panel').innerHTML='<h3 class="font-extrabold text-purple-800">This preview invitation is not available</h3><p class="muted">Return to the Main Guide preview and open an invitation that has been marked as scanned. Invitations expire after 10 minutes and can be cancelled.</p>';
+ $('status').textContent='No invitation was accepted or verified.';return;
+}
+$('requestedName').textContent=item.name;
+$('requestedRelationship').textContent='The child requested a '+item.relationship.toLowerCase()+' connection. Their private Nest details remain hidden in this preview.';
+$('inviteState').textContent=item.status==='verified'?'Identity verified · preview':'Invitation opened · preview';
+var check=$('understand'),btn=$('continue');
 check.addEventListener('change',function(){btn.disabled=!check.checked;});
 btn.addEventListener('click',function(){
- document.getElementById('step1').classList.remove('active');document.getElementById('step1').classList.add('done');
- document.getElementById('step2').classList.add('active');
- panel.innerHTML='<h3 class="font-extrabold text-purple-800">Verify your adult account</h3><p class="muted">In the finished service, you will sign in or create your own adult account and complete identity verification. This step is intentionally not connected in the preview.</p><div class="rounded-2xl bg-purple-50 p-4"><b class="text-sm text-purple-800">Verification is not available in this preview.</b><p class="muted mt-1">No email, phone number, password, identity document, or personal information should be entered here.</p></div><button id="back" class="secondary w-full">Back to invitation details</button>';
- document.getElementById('back').addEventListener('click',function(){location.reload();});
- status.textContent='Preview only: no adult account was verified and no invitation was accepted.';
+ $('step1').classList.remove('active');$('step1').classList.add('done');$('step2').classList.add('active');
+ $('panel').innerHTML='<h3 class="font-extrabold text-purple-800">Verify your adult identity</h3><p class="muted">The finished service will require a verified adult account before any child information is revealed. This preview uses a fictional identity only.</p><label class="block text-sm font-bold text-purple-800" for="demoName">Fictional display name shown to the child</label><input id="demoName" maxlength="40" value="'+String(item.name).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];})+'" autocomplete="off"><p class="muted">Use a made-up name for this design test. Do not enter real personal details.</p><button id="verify" class="primary w-full">Simulate adult identity verification</button>';
+ $('verify').addEventListener('click',function(){var n=$('demoName').value.trim();if(!n){$('status').textContent='Add a fictional display name to continue.';return;}item.adultDisplayName=n;item.status='verified';item.verifiedAt=new Date().toISOString();save(KEY,invites);log('Adult identity verification simulated for invitation to '+item.name);$('step2').classList.remove('active');$('step2').classList.add('done');$('step3').classList.add('active');$('panel').innerHTML='<h3 class="font-extrabold text-purple-800">You are ready to accept</h3><div class="rounded-2xl bg-green-50 p-4"><b class="text-sm text-green-800">Identity check preview completed</b><p class="muted mt-1">The child will see this display name: <strong>'+n.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];})+'</strong></p></div><p class="muted">Accepting does not connect you yet. The child must still confirm that you are the person they asked to invite.</p><button id="accept" class="primary w-full">Accept this invitation preview</button>';
+ $('accept').addEventListener('click',function(){item.status='awaiting-child';item.acceptedAt=new Date().toISOString();save(KEY,invites);log('Adult accepted preview invitation; awaiting child confirmation for '+item.name);$('panel').innerHTML='<div class="rounded-2xl bg-green-50 p-4"><b class="text-green-800">Acceptance recorded in preview</b><p class="muted mt-1">The child now has the choice to confirm or decline. No real connection or access was created.</p></div><a class="inline-flex justify-center rounded-full bg-purple-700 px-5 py-3 text-sm font-bold text-white no-underline w-full" href="confirm-nest-guide.html?invite='+encodeURIComponent(item.id)+'">Open child confirmation preview →</a>';});});
 });
 })();
-</script>
-</body>
-</html>
+</script></body></html>
