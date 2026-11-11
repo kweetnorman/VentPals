@@ -66,11 +66,7 @@
     'learner':          { icon: '🎓', name: 'Feeling Learner',   how: 'Finish a learning module' },
     'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 10 bugs' },
     'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 50 bugs' },
-    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 100 bugs' },
-    'forager':          { icon: '🍂', name: 'Forager',           how: 'Be part of VentPals for 1 month' },
-    'nest-builder':     { icon: '🌿', name: 'Nest Builder',      how: 'Be part of VentPals for 3 months' },
-    'tree-percher':     { icon: '🌳', name: 'Tree Percher',      how: 'Be part of VentPals for 6 months' },
-    'sky-soarer':       { icon: '☀️', name: 'Sky Soarer',        how: 'Be part of VentPals for 1 year' }
+    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 100 bugs' }
   };
   var STAGE_BADGES = ['hatched', 'nestling', 'feathered', 'percher'];
   var FEED_BADGES = [['worm-gatherer', 10], ['bug-sharer', 50], ['butterfly-feeder', 100]];
