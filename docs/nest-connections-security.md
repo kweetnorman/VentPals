@@ -57,3 +57,9 @@ The current repository is a static HTML/JavaScript development preview using loc
 - The QR area is intentionally a nonfunctional placeholder. No QR image, invitation token, adult identity check, parent notification, or access grant is produced by this static page.
 - A Main Guide may prepare an invitation only for a request initiated by the child. The real service must enforce this relationship server-side, not trust the browser's localStorage.
 - Production invitation sequence: child request → authenticated Main Guide issues scoped one-use QR → invitee verifies identity and accepts → child confirms the invited adult → authorization and policy checks → connection becomes active → Main Guides receive the appropriate security event.
+
+## Invited adult acceptance interface preview
+- `accept-nest-invitation.html` previews the adult-facing explanation and consent journey after scanning a valid invitation.
+- The preview deliberately hides child identity and Nest details before verification.
+- It contains no real QR token, adult sign-in, identity verification, or acceptance endpoint.
+- Production must validate token expiry, one-time use, intended recipient/purpose, and adult authorization server-side before revealing any child-specific information.
