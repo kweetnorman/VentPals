@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efff">
+<link rel="icon" type="image/png" href="assets/images/logo.png"><title>My Nest • VentPals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--purple:#7651b5;--ink:#40394d}
+*{box-sizing:border-box}body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8);min-height:100vh}
+.shell{max-width:1120px;margin:auto}.soft-card{background:rgba(255,255,255,.9);border:1px solid rgba(118,81,181,.12);border-radius:28px;box-shadow:0 12px 34px rgba(65,48,94,.08)}
+.float{animation:float 4s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.bubble{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:112px;padding:14px 9px;border:2px solid rgba(118,81,181,.13);border-radius:28px 28px 34px 34px;background:linear-gradient(160deg,#fff 0%,var(--bubble,#f2eaff) 100%);box-shadow:0 7px 0 rgba(93,69,132,.09),0 12px 22px rgba(65,48,94,.07);color:#59427f;text-decoration:none;font-weight:800;text-align:center;transition:transform .18s}
+.bubble:hover,.bubble:focus-visible{transform:translateY(-4px);outline:3px solid rgba(118,81,181,.2);outline-offset:2px}.bubble .emoji{font-size:32px;line-height:1}.bubble small{font-size:11px;font-weight:600;opacity:.78}
+.bug-button{border:1px solid #d9c9ef;border-radius:18px;background:#fbf9ff;padding:10px 5px;font-weight:700;color:#5d4782}.bug-button:disabled{opacity:.4}
+.primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:12px 20px}.primary:disabled{opacity:.4}
+@media(prefers-reduced-motion:reduce){.float,.bubble{animation:none;transition:none}}
+</style>
+</head>
+<body>
+<script>if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('login.html');}</script>
+<script src="assets/js/session.js"></script><script src="assets/js/growth.js"></script>
+<header class="shell px-4 pt-6 flex items-center justify-between">
+<a href="nest.html" class="flex items-center gap-2 no-underline"><img src="assets/images/logo.png" class="h-9 w-9" alt=""><b class="text-xl text-purple-800">VentPals</b></a>
+<a href="settings.html" class="rounded-full bg-white/80 border border-purple-100 px-4 py-2 text-sm font-bold text-purple-700">⚙️ Settings</a>
+</header>
+<main class="shell px-4 pt-6 pb-28 space-y-7">
+<section class="soft-card p-6 sm:p-9 text-center relative overflow-hidden">
+<div class="absolute -left-3 top-3 text-5xl opacity-30">🌿</div><div class="absolute -right-3 bottom-3 text-5xl opacity-30">✨</div>
+<p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Your own little corner of VentPals</p>
+<h1 class="mt-2 text-3xl sm:text-4xl font-black text-purple-800">Welcome to your Nest, <span id="welcomeName">Friend</span>!</h1>
+<p class="mt-2 text-gray-600">A place to be yourself, explore, and grow at your own pace.</p>
+<div id="myBirdArt" class="float min-h-40 flex items-center justify-center mt-4"></div>
+<h2 id="birdName" class="text-2xl font-extrabold text-purple-800">Your VentPal</h2><p id="birdStage" class="text-sm font-bold text-purple-600">Egg stage</p>
+<p id="birdWelcome" class="text-xs text-gray-500 mt-2">Your bird is happy you're here.</p>
+</section>
+<section class="grid md:grid-cols-2 gap-5">
+<div class="soft-card p-5 sm:p-6"><h2 class="text-lg font-extrabold text-purple-800">🌱 Growing together</h2>
+<div class="flex justify-between text-sm mt-4"><b id="growthPoints">0 points</b><span id="nextStage" class="text-purple-600">Next stage</span></div>
+<div class="mt-2 h-4 rounded-full bg-purple-100 overflow-hidden"><div id="growthBar" class="h-full rounded-full bg-gradient-to-r from-purple-400 to-green-400" style="width:0%"></div></div>
+<p class="text-sm text-gray-600 mt-3" id="growthHint">Every small step counts.</p><div id="stagesGrid" class="mt-5"></div>
+<a href="bird-growth.html" class="inline-block mt-4 text-sm font-extrabold text-purple-700 underline">See growth details →</a></div>
+<div class="soft-card p-5 sm:p-6"><div class="flex justify-between gap-3"><h2 class="text-lg font-extrabold text-purple-800">🧺 Your bug basket</h2><b class="text-sm text-purple-600" id="bugTotal">0 bugs</b></div>
+<p class="text-sm text-gray-600 mt-2">Activities around VentPals can help you find little snacks for your bird.</p>
+<div id="bugBasket" class="grid grid-cols-4 gap-2 mt-4"></div><button id="feedAll" class="primary w-full mt-4" type="button">Feed my bird</button>
+<p id="feedMessage" class="text-center text-sm font-bold text-green-700 mt-3" aria-live="polite"></p><p class="text-xs text-gray-500 text-center mt-1">Your progress is never taken away.</p></div>
+</section>
+<section class="soft-card p-5 sm:p-7"><div class="text-center mb-5"><p class="text-2xl">🫧 🥚 ✨</p><h2 class="text-2xl font-black text-purple-800 mt-1">Where would you like to go?</h2><p class="text-sm text-gray-600 mt-1">Pick a bubble. You can always come back to your Nest.</p></div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<a class="bubble" style="--bubble:#fff0c9" href="start-with-a-feeling.html"><span class="emoji">💜</span><span>Feelings</span><small>Check in with yourself</small></a>
+<a class="bubble" style="--bubble:#e7f7e7" href="feeling-reflection.html"><span class="emoji">🎨</span><span>Express</span><small>Make room for thoughts</small></a>
+<a class="bubble" style="--bubble:#e7efff" href="calming-skills.html"><span class="emoji">🌬️</span><span>Calm Corner</span><small>Try a calming activity</small></a>
+<a class="bubble" style="--bubble:#f3e8ff" href="meet-the-flock.html"><span class="emoji">🐦</span><span>Flockopedia</span><small>Meet all the birds</small></a>
+<a class="bubble" style="--bubble:#dff5ff" href="world.html"><span class="emoji">🌎</span><span>Explore</span><small>Visit VentPals World</small></a>
+<a class="bubble" style="--bubble:#ffe8f1" href="bird-growth.html#feed"><span class="emoji">🪶</span><span>Grow</span><small>Care for your bird</small></a>
+<a class="bubble" style="--bubble:#fff0dc" href="keepsakes.html"><span class="emoji">🎒</span><span>Keepsakes</span><small>See what you've earned</small></a>
+<a class="bubble" style="--bubble:#e8f5ed" href="profile.html"><span class="emoji">😊</span><span>My Profile</span><small>Your personal details</small></a>
+</div></section>
+<section class="soft-card p-5 sm:p-6"><h2 class="text-lg font-extrabold text-purple-800">💌 A little space to reflect</h2>
+<p class="text-sm text-gray-600 mt-1 mb-3">Write something just for yourself. You decide what you want to share.</p>
+<textarea id="nestReflection" rows="4" class="w-full rounded-2xl border border-purple-200 bg-white/80 p-4 text-sm outline-none focus:ring-2 focus:ring-purple-300" placeholder="What's on your mind today?"></textarea>
+<div class="flex flex-wrap items-center justify-between gap-3 mt-3"><span id="saveMessage" class="text-sm font-bold text-green-700" role="status"></span><button id="saveReflection" type="button" class="primary">Save in my Nest</button></div>
+<p class="text-xs text-gray-500 mt-3">This demo saves your reflection in this browser on this device.</p></section>
+<p class="text-center text-xs text-gray-500">Your Nest is yours. Explore when you're ready, and take things at your own pace. 💚</p>
+</main>
+<script src="assets/js/nest.js"></script>
+</body></html>
