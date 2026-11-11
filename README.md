@@ -28,9 +28,11 @@
 |------|-------------|
 | `index.html` | Public landing page |
 | `welcome.html` | Combined child sign-in / demo setup |
-| `adult-signup.html` / `adult-login.html` | Grown-up access preview (registration disabled) |\n| `main-guide-connections.html` | Main Guide invitation and security workflow preview |
+| `adult-signup.html` / `adult-login.html` | Grown-up access preview (registration disabled) |
+| `main-guide-connections.html` | Main Guide invitation and security workflow preview |
 | `onboarding/onboarding.html` | Child onboarding wizard |
-| `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |\n| `nest-connections.html` | Child-led Nest Guide request and removal experience preview |
+| `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |
+| `nest-connections.html` | Child-led Nest Guide request and removal experience preview |
 | `dashboard.html` | Legacy route that redirects to the personal Nest |
 | `circles-dashboard.html` | Legacy route that redirects to the personal Nest |
 | `{birdId}-nest.html` | Legacy routes that redirect to the child's personal Nest |
