@@ -18,8 +18,8 @@
 /onboarding/               ← 6-step child onboarding wizard
 /world/                    ← Redirect shim for world page
 /assets/images/            ← Bird artwork (baby/nestling/feathered/percher stages) + UI assets
-/assets/js/                ← firebase-config.js, chat.js
-/data/                     ← flock.json (bird catalogue)
+/assets/js/                ← shared character roster, app scripts, and Firebase config
+/assets/js/flock-data.js   ← canonical 16-character flock catalogue
 ```
 
 ## 🔑 Key Pages
