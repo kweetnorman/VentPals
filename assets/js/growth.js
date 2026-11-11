@@ -43,7 +43,6 @@
 
   /* ───────────── discovery activities: each distinct activity earns once ───────────── */
   var ACTIVITIES = {
-    calming:    { bug: 'mosquito',  label: 'Explored calming skills',   badge: 'skill-explorer' },
     water:      { bug: 'worm',      label: 'Took a mindful sip',        badge: 'sip-and-settle' },
     butterfly:  { bug: 'worm',      label: 'Did a butterfly hug',       badge: 'butterfly-hugger' },
     breathing:  { bug: 'worm',      label: 'Practiced slow breathing',  badge: 'deep-breather' },
@@ -63,7 +62,6 @@
     'grounded':         { icon: '🌳', name: 'Grounded',          how: 'Do a grounding exercise' },
     'butterfly-hugger': { icon: '🦋', name: 'Butterfly Hugger',  how: 'Do a butterfly hug' },
     'sip-and-settle':   { icon: '💧', name: 'Sip & Settle',      how: 'Take a mindful sip' },
-    'skill-explorer':   { icon: '🧰', name: 'Skill Explorer',    how: 'Explore calming skills' },
     'learner':          { icon: '🎓', name: 'Feeling Learner',   how: 'Finish a learning module' },
     'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 10 bugs' },
     'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 50 bugs' },
@@ -234,7 +232,7 @@
                 childName: childName, birdName: u.birdName || '', parentCode: u.parentCode || '', createdAt: Date.now() });
     writeJSON(REQ_KEY, reqs);
     var inbox = readJSON(INBOX_KEY, []);
-    inbox.push({ id: 'keepsake:' + id, kind: 'keepsake', label: inboxLabel || (name + '. Please confirm a shipping address.'), icon: emoji,
+    inbox.push({ id: 'keepsake:' + id, kind: 'keepsake', label: inboxLabel || ('earned the ' + name + ' milestone'), icon: emoji,
                  childName: childName, ts: Date.now(), celebrated: false });
     writeJSON(INBOX_KEY, inbox);
   }
