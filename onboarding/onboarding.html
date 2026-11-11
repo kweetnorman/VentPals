@@ -621,7 +621,7 @@
           .then(() => {
             const btn = document.getElementById('copyBtn');
             btn.textContent = 'Copied! ✓';
-            setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
+            setTimeout(() => { btn.textContent = 'Copy Demo Code'; }, 2000);
           })
           .catch(() => fallbackCopy());
       } else {
@@ -641,7 +641,7 @@
         document.execCommand('copy');
         const btn = document.getElementById('copyBtn');
         btn.textContent = 'Copied! ✓';
-        setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
+        setTimeout(() => { btn.textContent = 'Copy Demo Code'; }, 2000);
       } catch (err) {
         prompt('Copy this code manually:', state.parentCode);
       }
