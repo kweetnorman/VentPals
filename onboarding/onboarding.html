@@ -376,38 +376,24 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════
-       STEP 6 — YOUR PARENT CODE
-  ════════════════════════════════════ -->
+  <!-- STEP 6 — NEST READY -->
   <div class="step" id="step-6">
     <div class="card" style="text-align:center;">
-      <div class="card-icon">🎉</div>
-      <h1>Almost ready!</h1>
-      <p style="margin-bottom:20px;">
-        Your Nest is ready! You can start exploring now. Secure grown-up connections are being built for a later phase.
+      <div class="card-icon">🪺</div>
+      <h1>Your Nest is ready!</h1>
+      <p style="margin:12px 0 20px;">
+        You chose your VentPal, made your name, and set up your space. Your bird stays yours through every feeling.
       </p>
-
-      <div class="parent-code-box">
-        <p style="font-size:13px; color:var(--muted); margin-bottom:4px;">Demo Connection Code:</p>
-        <div class="parent-code-text" id="parentCodeDisplay"></div>
-        <p style="font-size:12px; color:var(--muted); margin-top:8px;">
-          This is a preview placeholder only. Adult sign-in is turned off, so it cannot connect a real account.
-        </p>
-        <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy Demo Code</button>
-      </div>
-
-      <div style="margin-top:20px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:14px; padding:14px; text-align:left;">
-        <p style="font-size:13px; color:#166534;">
-          ✅ <strong>What happens next?</strong><br/>
-          When secure connections are ready, a trusted grown-up will be able to connect with your permission and add the details needed to support you.
-          For now, you can explore VentPals without inviting anyone.
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:16px;text-align:left;">
+        <p style="font-size:13px;color:#166534;">
+          <strong>There's no rush.</strong><br/>
+          Explore your Nest, meet the flock, try an activity, or simply spend time with your VentPal. You can come back to anything whenever you're ready.
         </p>
       </div>
     </div>
-
-    <div style="display:flex; gap:10px; margin-top:4px;">
+    <div style="display:flex;gap:10px;margin-top:4px;">
       <button class="btn-secondary" onclick="goTo(5)">← Back</button>
-      <button class="btn-primary"   onclick="finishOnboarding()">Start My Journey 🚀</button>
+      <button class="btn-primary" onclick="finishOnboarding()">Enter My Nest 🪺</button>
     </div>
   </div>
 
@@ -599,58 +585,12 @@
         alert('Please read and check the safety rules before continuing.');
         return;
       }
-      // Generate parent code
-      state.parentCode = generateCode();
-      document.getElementById('parentCodeDisplay').textContent = state.parentCode;
       goTo(6);
-    }
-
-    function generateCode() {
-      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-      let code = 'VP-';
-      for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
-      return code;
-    }
-
-    /* ───────────────────────────────
-       STEP 6 — PARENT CODE + FINISH
-    ─────────────────────────────── */
-    function copyCode() {
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(state.parentCode)
-          .then(() => {
-            const btn = document.getElementById('copyBtn');
-            btn.textContent = 'Copied! ✓';
-            setTimeout(() => { btn.textContent = 'Copy Demo Code'; }, 2000);
-          })
-          .catch(() => fallbackCopy());
-      } else {
-        fallbackCopy();
-      }
-    }
-
-    function fallbackCopy() {
-      const area = document.createElement('textarea');
-      area.value = state.parentCode;
-      area.style.position = 'fixed';
-      area.style.opacity  = '0';
-      document.body.appendChild(area);
-      area.focus();
-      area.select();
-      try {
-        document.execCommand('copy');
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = 'Copied! ✓';
-        setTimeout(() => { btn.textContent = 'Copy Demo Code'; }, 2000);
-      } catch (err) {
-        prompt('Copy this code manually:', state.parentCode);
-      }
-      document.body.removeChild(area);
     }
 
     function finishOnboarding() {
       if (!state.selectedBird) { goTo(2); return; }
-      // Enrich the existing user object (set by signup.html)
+      // Enrich the local development profile created by the unified entry page
       const raw  = localStorage.getItem('ventpals_user');
       const user = raw ? JSON.parse(raw) : {};
 
@@ -663,7 +603,6 @@
         displayName: state.displayName,
         pronouns:    state.pronouns,
         avatarColour:state.colour,
-        parentCode:  state.parentCode,
         stage:       'egg',
         status:      'pending',
         identityChoice: 'child-selected',
