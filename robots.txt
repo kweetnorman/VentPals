@@ -1,6 +1,7 @@
 User-agent: *
 
 # Disallow authenticated app pages
+Disallow: /nest.html
 Disallow: /dashboard.html
 Disallow: /profile.html
 Disallow: /settings.html
