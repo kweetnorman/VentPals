@@ -584,7 +584,7 @@
         var li = document.createElement('li');
         li.className = 'bird-card';
         li.onclick = function() { window.location.href = 'meet-the-flock.html'; };
-        li.innerHTML = '<div class="bird-portrait" style="--card-tint:' + b[3] + '"><img src="assets/images/' + b[0] + '-baby.png" alt="' + b[1] + ' icon" onerror="this.src=\'assets/images/' + b[0] + '.png\'"></div><b>' + b[1] + '</b><span>' + b[2] + '</span>';
+        li.innerHTML = '<div class="bird-portrait" style="--card-tint:' + b[3] + '"><img src="assets/images/' + b[0] + '-baby.png" alt="' + b[1] + ' icon" onerror="this.onerror=null;this.src=\'assets/images/' + b[0] + '-percher.png\'"></div><b>' + b[1] + '</b><span>' + b[2] + '</span>';
         list.appendChild(li);
       });
 
