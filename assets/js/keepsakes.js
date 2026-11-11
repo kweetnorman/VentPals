@@ -1,14 +1,14 @@
 /**
- * keepsakes.js: earned keepsakes, parent address confirmation, and moments a grown-up verifies.
+ * keepsakes.js: local demo keepsake collection and child-chosen sharing.
  *
- * Keepsakes are EARNED automatically (growth.js creates them when a bird reaches a stage, or after
- * grown-up verified moments). A grown-up then confirms a shipping address, and the order is sent.
+ * Keepsakes are added to the local demo collection when a bird reaches a growth stage. Physical
+ * fulfillment, shipping addresses, and order webhooks are intentionally disabled in this preview.
  *
  * DEMO STORAGE: everything lives in this browser's localStorage, so the child and grown-up must use
  * the same browser for now. The functions here are the only place that touches storage, so moving
- * to Firestore later means changing this one file. Do not collect real addresses until then.
+ * to secure cloud storage later means changing this one file. Never collect real addresses in this preview.
  *
- * Keepsake life cycle:  earned -> confirmed (address given) -> shipped
+ * Keepsake life cycle: earned in the demo collection; fulfillment will be designed separately.
  */
 (function () {
   'use strict';
