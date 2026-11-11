@@ -86,28 +86,9 @@
     <p>VentPals • Every bird has a story.</p>
   </footer>
 
+  <script src="assets/js/flock-data.js"></script>
   <script>
-    // Character names and bird identities follow the current VentPals flock roster.
-    // Flamez is the Phoenix: a mythical character, not a real-world bird species.
-    const flock = [
-      { id:"aura", name:"Aura", kind:"Hummingbird", role:"Emotional awareness", description:"Aura invites you to pause, notice what is happening inside, and get curious about your feelings." },
-      { id:"cove", name:"Cove", kind:"Common Loon", role:"Comfort and safe exploration", description:"Cove reminds you that it is okay to take your time, find support, and explore at your own pace." },
-      { id:"clover", name:"Clover", kind:"Lovebird", role:"Safety and belonging", description:"Clover brings warmth to the flock and celebrates the feeling of being welcome and connected." },
-      { id:"breezy", name:"Breezy", kind:"Bluebird", role:"Understanding unseen challenges", description:"Breezy makes room for the things others may not notice and reminds you that your experience matters." },
-      { id:"drift", name:"Drift", kind:"Swallow", role:"Reflection and processing", description:"Drift gives thoughts and feelings room to settle, so you can make sense of them in your own time." },
-      { id:"echo", name:"Echo", kind:"Owl", role:"Listening and validation", description:"Echo makes space for your words, your pauses, and the things that can be hard to explain." },
-      { id:"flamez", name:"Flamez", kind:"Phoenix · mythical bird", role:"Big feelings and safe expression", description:"Flamez brings bold energy and reminds you that big feelings can be expressed safely and that a fresh start is possible." },
-      { id:"flare", name:"Flare", kind:"Cardinal", role:"Motivation and trying new things", description:"Flare cheers on brave little steps, new attempts, and the courage to give something a try." },
-      { id:"flicker", name:"Flicker", kind:"Finch", role:"Hope and curiosity", description:"Flicker follows tiny sparks of wonder and helps make room for questions, ideas, and possibilities." },
-      { id:"sable", name:"Sable", kind:"Nightingale", role:"Resilience and inner strength", description:"Sable stands for finding strength through difficult moments without pretending those moments are easy." },
-      { id:"lumen", name:"Lumen", kind:"Heron", role:"Insight and clarity", description:"Lumen encourages you to slow down, look a little closer, and discover what might be going on beneath the surface." },
-      { id:"nova", name:"Nova", kind:"Hawk", role:"Perspective and growth", description:"Nova invites you to look at things from another angle and notice new possibilities." },
-      { id:"pebble", name:"Pebble", kind:"Dove", role:"Gentle guidance", description:"Pebble reminds you that small steps count, especially when something feels bigger than you expected." },
-      { id:"guardian", name:"Guardian", kind:"Eagle", role:"Protection and boundaries", description:"Guardian stands for personal space, safety, and finding your voice when something does not feel right." },
-      { id:"solace", name:"Solace", kind:"Robin", role:"Comfort and soothing", description:"Solace offers a gentle reminder that you deserve care, comfort, and moments to catch your breath." },
-      { id:"twig", name:"Twig", kind:"Sparrow", role:"Early growth and discovery", description:"Twig celebrates learning, asking questions, and growing one little discovery at a time." }
-    ];
-
+    const flock = window.VENTPALS_FLOCK || [];
     const grid = document.getElementById("flockGrid");
     const dialog = document.getElementById("birdDialog");
     const image = document.getElementById("dialogImage");
@@ -127,12 +108,20 @@
       card.type = "button";
       card.className = "flock-card flex flex-col items-center text-center p-3 sm:p-4 min-w-0";
       card.setAttribute("aria-label", `Meet ${bird.name}, ${bird.kind}`);
-      card.innerHTML = `
-        <img src="assets/images/${bird.id}-nestling.png" alt="" loading="lazy">
-        <span class="font-extrabold text-purple-800 text-lg mt-1">${bird.name}</span>
-        <span class="text-xs sm:text-sm text-purple-600 font-semibold mt-1">${bird.kind}</span>
-        <span class="text-xs text-gray-500 mt-2">Meet me <span aria-hidden="true">→</span></span>
-      `;
+      const portrait = document.createElement("img");
+      portrait.src = `assets/images/${bird.id}-nestling.png`;
+      portrait.alt = "";
+      portrait.loading = "lazy";
+      const name = document.createElement("span");
+      name.className = "font-extrabold text-purple-800 text-lg mt-1";
+      name.textContent = bird.name;
+      const kind = document.createElement("span");
+      kind.className = "text-xs sm:text-sm text-purple-600 font-semibold mt-1";
+      kind.textContent = bird.kind;
+      const link = document.createElement("span");
+      link.className = "text-xs text-gray-500 mt-2";
+      link.textContent = "Meet me →";
+      card.append(portrait, name, kind, link);
       card.addEventListener("click", () => openBird(bird));
       grid.appendChild(card);
     });
