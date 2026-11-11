@@ -380,7 +380,6 @@
     else if (file === 'butterfly-hug') dwell('butterfly', 25);
     else if (file === 'water') dwell('water', 15);
     else if (file === 'feeling-reflection') onClick('#saveReflection', 'reflection');
-    else if (file === 'feeling-selected') award('feeling');
   }
 
   window.VPGrowth = {
