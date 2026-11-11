@@ -346,7 +346,7 @@
             <span>✨ Emotional Wellness for Kids & Teens</span>
           </div>
           <h1>Big feelings are easier <span class="highlight">with a VentPal!</span></h1>
-          <p class="lede">VentPals gives every child a friendly bird companion. Together they name what they feel, practice fun calming skills, and grow from an egg to a wise Feathered Percher.</p>
+          <p class="lede">Every child chooses a VentPal they connect with. That bird stays theirs through every feeling while they explore expression tools, learn new skills, and grow at their own pace.</p>
           
           <div class="hero-actions">
             <a class="btn btn-yellow" href="welcome.html">🐣 Adopt Your VentPal</a>
@@ -361,10 +361,10 @@
         <!-- Interactive Hero Feature Card -->
         <div class="hero-art-card">
           <div style="text-align:center;margin-bottom:12px;">
-            <span style="font:700 0.85rem var(--font-display);color:var(--violet-deep);text-transform:uppercase;">Try it: Click a feeling below!</span>
+            <span style="font:700 0.85rem var(--font-display);color:var(--violet-deep);text-transform:uppercase;">See how one VentPal can be there through different feelings:</span>
           </div>
           <div class="hero-main-avatar" id="heroAvatarCircle">
-            <img id="heroBirdImg" src="assets/images/sable-nestling.png" alt="Sable the VentPal companion" onerror="this.src='assets/images/sable.png'">
+            <img id="heroBirdImg" src="assets/images/sable-nestling.png" alt="Sable, a VentPal bird companion" onerror="this.src='assets/images/sable.png'">
           </div>
           <div style="text-align:center;margin-top:12px;">
             <h3 id="heroBirdName" style="font:700 1.3rem var(--font-display);color:var(--ink);">Sable</h3>
@@ -372,10 +372,10 @@
           </div>
 
           <div class="feeling-bubbles">
-            <button class="feeling-chip active" onclick="setHeroBird('sable', 'Worry', 'Your brain is trying to protect you. Let\'s name the worry together.')">💜 Worried</button>
-            <button class="feeling-chip" onclick="setHeroBird('flamez', 'Angry', 'That felt unfair! Let\'s release that fire together.')">🔥 Angry</button>
-            <button class="feeling-chip" onclick="setHeroBird('echo', 'Sad', 'Sadness means something mattered. I\'m sitting right here with you.')">💙 Sad</button>
-            <button class="feeling-chip" onclick="setHeroBird('aura', 'Calm', 'Breathe with me. You\'re completely safe here.')">😌 Calm</button>
+            <button class="feeling-chip active" onclick="setHeroFeeling('Worry', 'Your brain is trying to protect you. Let\'s name the worry together.', this)">💜 Worried</button>
+            <button class="feeling-chip" onclick="setHeroFeeling('Angry', 'That felt unfair! Let\'s find a safe way to express it together.', this)">🔥 Angry</button>
+            <button class="feeling-chip" onclick="setHeroFeeling('Sad', 'Sadness means something mattered. I\'m sitting right here with you.', this)">💙 Sad</button>
+            <button class="feeling-chip" onclick="setHeroFeeling('Calm', 'Notice what is helping you feel steady. You can explore at your own pace.', this)">😌 Calm</button>
           </div>
         </div>
       </div>
@@ -387,7 +387,7 @@
         <div class="section-head">
           <span class="pill-tag">Evolutionary Journey</span>
           <h2>Watch your VentPal grow! 🥚</h2>
-          <p class="intro">Here is how Sable grows from an egg to a wise Feathered Percher as children practice daily check-ins and calming skills!</p>
+          <p class="intro">Here is how Sable grows as children explore new ideas and learning activities. Feelings, calmness, and daily check-in frequency do not determine growth.</p>
         </div>
 
         <div class="growth-container">
@@ -396,31 +396,31 @@
               <img src="assets/images/sable-egg.png" alt="Sable as an Egg" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 1</span>
               <h3>Egg</h3>
-              <p>Warm & waiting for your first check-in.</p>
+              <p>A new beginning, full of possibility.</p>
             </div>
             <div class="stage-card">
               <img src="assets/images/sable-baby.png" alt="Sable as a Hatchling" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 2</span>
               <h3>Hatchling</h3>
-              <p>Just hatched, curious & hungry to learn.</p>
+              <p>A first discovery and lots to explore.</p>
             </div>
             <div class="stage-card">
               <img src="assets/images/sable-nestling.png" alt="Sable as a Nestling" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 3</span>
               <h3>Nestling</h3>
-              <p>Finding its voice & building courage.</p>
+              <p>Trying new ideas and discovering new skills.</p>
             </div>
             <div class="stage-card">
               <img src="assets/images/sable-feathered.png" alt="Sable Feathered" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 4</span>
               <h3>Feathered</h3>
-              <p>Steady, strong & ready to take flight.</p>
+              <p>Building confidence through exploration.</p>
             </div>
             <div class="stage-card">
               <img src="assets/images/sable-percher.png" alt="Sable as a Wise Percher" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 5</span>
               <h3>Percher</h3>
-              <p>Calm, wise & mastered emotional skills!</p>
+              <p>A growing collection of discoveries and experiences.</p>
             </div>
           </div>
         </div>
@@ -431,34 +431,34 @@
     <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <span class="pill-tag" style="background:var(--mint-green);border-color:#059669;">Daily Outlets</span>
-          <h2>Fun activities kids do in minutes</h2>
-          <p class="intro">Simple daily outlets designed to build emotional awareness and calming skills.</p>
+          <span class="pill-tag" style="background:var(--mint-green);border-color:#059669;">Ways to Explore</span>
+          <h2>Choose how you want to explore</h2>
+          <p class="intro">Flexible activities that support emotional awareness, expression, and learning—at the child's pace.</p>
         </div>
 
         <div class="cards-row-4">
           <div class="feature-card-compact">
             <div class="icon-box yellow">🏷️</div>
-            <h3>1. Name Feeling</h3>
-            <p>Pick how you feel and get matched with a friend.</p>
+            <h3>1. Notice a Feeling</h3>
+            <p>Name what is happening inside. There is no right or wrong feeling.</p>
           </div>
 
           <div class="feature-card-compact">
             <div class="icon-box sky">🌬️</div>
-            <h3>2. Calm Breath</h3>
-            <p>30-second guided breathing games.</p>
+            <h3>2. Try a Skill</h3>
+            <p>Explore breathing, grounding, or another tool if it feels helpful.</p>
           </div>
 
           <div class="feature-card-compact">
             <div class="icon-box mint">🕊️</div>
-            <h3>3. Fly-Away</h3>
-            <p>Write worries and release them on bird wings.</p>
+            <h3>3. Express Yourself</h3>
+            <p>Write, draw, or reflect in a way that feels comfortable.</p>
           </div>
 
           <div class="feature-card-compact">
             <div class="icon-box coral">🎁</div>
-            <h3>4. Keepsakes</h3>
-            <p>Earn pins, stickers, and lanyard rewards.</p>
+            <h3>4. Celebrate Learning</h3>
+            <p>Discover in-app milestones as you explore. The keepsake shop is being refreshed.</p>
           </div>
         </div>
       </div>
@@ -469,8 +469,8 @@
       <div class="wrap">
         <div class="section-head">
           <span class="pill-tag" style="background:var(--sky-blue);border-color:#0284C7;color:#fff;">The VentPals Flock</span>
-          <h2>16 Birds for 16 Ways of Feeling</h2>
-          <p class="intro">Each bird specializes in a specific emotion. Use the arrows to browse the flock!</p>
+          <h2>Meet the VentPals Flock</h2>
+          <p class="intro">Every bird has its own personality and perspective. Children choose their own VentPal; other birds can offer temporary ideas without replacing that personal companion.</p>
         </div>
 
         <div class="flock-slider-container">
@@ -490,20 +490,20 @@
       <div class="wrap">
         <div class="grownups-banner">
           <h2>Built for kids, trusted by grown-ups 💛</h2>
-          <p class="intro">Parents, educators, and counselors get their own dashboard to track emotional progress, unlock reflection guides, and support children safely.</p>
+          <p class="intro">Trusted grown-ups can be invited as Nest Guides. Children choose what they share; private reflections and AI conversations are not automatically shown to adults. The grown-up experience is being built alongside secure account connections.</p>
 
           <div class="facts-list">
             <div class="fact-item">
-              <b>🔒 100% Anonymous & COPPA Safe</b>
-              <p>Kids sign in with a simple nickname and 4-digit code. No email addresses or personal data required for children.</p>
+              <b>🔒 Privacy-first by design</b>
+              <p>The development preview uses fictional details only. Secure accounts, verified adult connections, and production privacy safeguards will be completed before real child accounts are enabled.</p>
             </div>
             <div class="fact-item">
-              <b>📊 Parent Insights Dashboard</b>
-              <p>Stay informed about your child's emotional wellness journey with weekly summary notes and conversation starters.</p>
+              <b>🪺 Child-led Nest Guides</b>
+              <p>Grown-ups can offer support through trusted connections while respecting the child's choice about what to share.</p>
             </div>
             <div class="fact-item">
               <b>🌱 501(c)(3) Nonprofit Mission</b>
-              <p>Created by emotional learning specialists to empower children with self-regulation skills that last a lifetime.</p>
+              <p>Built to help children develop emotional literacy, communication, and self-understanding over time.</p>
             </div>
           </div>
 
@@ -623,15 +623,12 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
-    // Interactive Hero Bird Changer
-    function setHeroBird(birdKey, title, quote) {
-      document.getElementById('heroBirdImg').src = 'assets/images/' + birdKey + '-nestling.png';
-      document.getElementById('heroBirdName').innerText = birdKey.charAt(0).toUpperCase() + birdKey.slice(1);
+    // Interactive sample: the chosen VentPal stays the same when the feeling changes.
+    function setHeroFeeling(title, quote, button) {
       document.getElementById('heroBirdQuote').innerText = '"' + quote + '"';
-      
       var chips = document.querySelectorAll('.feeling-chip');
       chips.forEach(function(c) { c.classList.remove('active'); });
-      event.target.classList.add('active');
+      if (button) button.classList.add('active');
     }
   </script>
 </body>
