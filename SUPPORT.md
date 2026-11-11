@@ -26,14 +26,14 @@ VentPals is designed so children control their own emotional space. Linked grown
 Email [support@ventpals.com](mailto:support@ventpals.com) with the subject "Delete account" and the child's username. We will process the request within 30 days.
 
 **What data does VentPals collect from my child?**  
-Please see our [Privacy Policy](PRIVACY.md). In short: only a chosen username, a PIN hash stored on-device, and a generated connection code. No real name, photo, or email is required from the child.
+Please see our [Privacy Policy](PRIVACY.md). The development preview uses a chosen username, a local demo PIN, and a generated connection code. It does not create real child accounts. No real name, photo, or email is needed to try the child experience.
 
 ---
 
 ### For children
 
 **I forgot my secret code (PIN).**  
-Ask a trusted grown-up to help you reset it. They can go to **ventpals.com** and use the parent account to assist with a PIN reset (coming soon). In the meantime, email us at [support@ventpals.com](mailto:support@ventpals.com) with the subject "PIN reset".
+PIN reset is planned for the connected grown-up experience. It is not available in the development preview. Please use fictional demo details only; do not enter real personal information or rely on this preview for account recovery.
 
 **My VentPal app is not working.**  
 1. Close the app completely and reopen it.
