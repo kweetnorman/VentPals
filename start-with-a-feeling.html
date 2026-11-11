@@ -19,7 +19,7 @@
       var user = {}; try { user = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
       if (VP_MODE === 'choose-bird') {
         if (!user.username && !user.nickname && !localStorage.getItem('ventpals_user')) location.replace('signup.html');
-        else if (user.birdLocked) location.replace('dashboard.html');
+        else if (user.birdLocked) location.replace('nest.html');
         document.body.classList.add('mode-choose');
       } else if (localStorage.getItem('ventpals_logged_in') !== 'true') {
         location.replace('login.html');
@@ -33,7 +33,7 @@
       <img src="assets/images/logo.png" class="h-16" alt="VentPals logo">
       <span class="font-bold text-purple-700 text-xl">VentPals</span>
     </div>
-    <a id="navBack" href="dashboard.html" class="text-purple-600 font-semibold hover:text-purple-800">← Back to Home</a>
+    <a id="navBack" href="nest.html" class="text-purple-600 font-semibold hover:text-purple-800">← Back to My Nest</a>
   </nav>
 
   <!-- HERO -->
