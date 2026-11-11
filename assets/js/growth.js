@@ -62,12 +62,12 @@
     'butterfly-hugger': { icon: '🦋', name: 'Butterfly Hugger',  how: 'Do a butterfly hug' },
     'sip-and-settle':   { icon: '💧', name: 'Sip & Settle',      how: 'Take a mindful sip' },
     'learner':          { icon: '🎓', name: 'Feeling Learner',   how: 'Finish a learning module' },
-    'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 10 bugs' },
-    'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 50 bugs' },
-    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 100 bugs' }
+    'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 5 bugs' },
+    'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 10 bugs' },
+    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 20 bugs' }
   };
   var STAGE_BADGES = ['hatched', 'nestling', 'feathered', 'percher'];
-  var FEED_BADGES = [['worm-gatherer', 10], ['bug-sharer', 50], ['butterfly-feeder', 100]];
+  var FEED_BADGES = [['worm-gatherer', 5], ['bug-sharer', 10], ['butterfly-feeder', 20]];
 
   /* ───────────── milestone keepsakes: earned automatically when the bird reaches a stage ───────────── */
   var MILESTONES = {
