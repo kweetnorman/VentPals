@@ -176,7 +176,6 @@
         var b = e.target.closest('[data-act]'); if (!b) return;
         var id = b.getAttribute('data-id'), act = b.getAttribute('data-act');
         if (act === 'acknowledge') S.acknowledgeMoment(id);
-        else if (act === 'shipped') S.setStatus(id, 'shipped');
         else if (act === 'celebrate') S.celebrate(id);
         render();
       });
