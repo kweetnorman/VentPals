@@ -429,7 +429,7 @@
   </script>
   <script src="onboarding.js"></script>
   <script>
-    try { if (JSON.parse(localStorage.getItem('ventpals_user')||'{}').birdLocked) { window.location.replace('../dashboard.html'); } } catch (e) {}
+    try { if (JSON.parse(localStorage.getItem('ventpals_user')||'{}').birdLocked) { window.location.replace('../nest.html'); } } catch (e) {}
 
     /* ───────────────────────────────
        DATA
@@ -670,7 +670,7 @@
       localStorage.removeItem('ventpals_onboarding_choice');
       localStorage.setItem('ventpals_logged_in',          'true');
 
-      window.location.href = '../dashboard.html';
+      window.location.href = '../nest.html';
     }
 
     /* ───────────────────────────────
