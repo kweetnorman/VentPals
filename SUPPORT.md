@@ -17,7 +17,7 @@ We aim to respond within 2 business days.
 ### For grown-ups
 
 **How do I link to my child's account?**  
-Ask your child to open **Settings → Your Connection Code** and share that code with you. Then create a parent account at **ventpals.com/adult-signup** and enter the code to link.
+Adult registration and child linking are not active in the development preview. Do not enter real personal details or attempt to connect a real child yet. Verified grown-up connections will be added during the final authentication phase.
 
 **Can I see what my child has written?**  
 VentPals is designed so children control their own emotional space. Linked grown-ups receive general emotional check-in updates (e.g., "feeling calm today") but do not have access to private journal entries or detailed reflection notes by default.
