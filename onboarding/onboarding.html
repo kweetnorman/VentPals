@@ -424,126 +424,14 @@
     })();
   </script>
   <script src="onboarding.js"></script>
+  <script src="../assets/js/flock-data.js"></script>
   <script>
     try { if (JSON.parse(localStorage.getItem('ventpals_user')||'{}').birdLocked) { window.location.replace('../nest.html'); } } catch (e) {}
 
     /* ───────────────────────────────
        DATA
     ─────────────────────────────── */
-    const BIRDS = [
-      {
-            "id": "aura",
-            "name": "Aura",
-            "species": "Hummingbird",
-            "emoji": "🐦",
-            "trait": "Hummingbird"
-      },
-      {
-            "id": "breezy",
-            "name": "Breezy",
-            "species": "Bluebird",
-            "emoji": "🍃",
-            "trait": "Bluebird"
-      },
-      {
-            "id": "clover",
-            "name": "Clover",
-            "species": "Lovebird",
-            "emoji": "🍀",
-            "trait": "Lovebird"
-      },
-      {
-            "id": "cove",
-            "name": "Cove",
-            "species": "Bluebird",
-            "emoji": "🌊",
-            "trait": "Bluebird"
-      },
-      {
-            "id": "drift",
-            "name": "Drift",
-            "species": "Swallow",
-            "emoji": "🌙",
-            "trait": "Swallow"
-      },
-      {
-            "id": "echo",
-            "name": "Echo",
-            "species": "Owl",
-            "emoji": "🦉",
-            "trait": "Owl"
-      },
-      {
-            "id": "flamez",
-            "name": "Ember",
-            "species": "Falcon",
-            "emoji": "🔥",
-            "trait": "Falcon"
-      },
-      {
-            "id": "flare",
-            "name": "Flare",
-            "species": "Phoenix",
-            "emoji": "✨",
-            "trait": "Phoenix"
-      },
-      {
-            "id": "flicker",
-            "name": "Flicker",
-            "species": "Finch",
-            "emoji": "💫",
-            "trait": "Finch"
-      },
-      {
-            "id": "guardian",
-            "name": "Guardian",
-            "species": "Eagle",
-            "emoji": "🦅",
-            "trait": "Eagle"
-      },
-      {
-            "id": "lumen",
-            "name": "Lumen",
-            "species": "Heron",
-            "emoji": "💡",
-            "trait": "Heron"
-      },
-      {
-            "id": "nova",
-            "name": "Nova",
-            "species": "Hawk",
-            "emoji": "🌟",
-            "trait": "Hawk"
-      },
-      {
-            "id": "pebble",
-            "name": "Pebble",
-            "species": "Dove",
-            "emoji": "🕊️",
-            "trait": "Dove"
-      },
-      {
-            "id": "sable",
-            "name": "Sable",
-            "species": "Nightingale",
-            "emoji": "⭐",
-            "trait": "Nightingale"
-      },
-      {
-            "id": "solace",
-            "name": "Solace",
-            "species": "Robin",
-            "emoji": "🌿",
-            "trait": "Robin"
-      },
-      {
-            "id": "twig",
-            "name": "Twig",
-            "species": "Sparrow",
-            "emoji": "🌱",
-            "trait": "Sparrow"
-      }
-];
+    const BIRDS = window.VENTPALS_FLOCK;
 
     const POWER_WORDS = [
       'Brightcrest','Stormwing','Softglow','Embercrest','Starstep','Willowcrest',
@@ -609,7 +497,7 @@
         option.innerHTML = '<div class="bird-emoji"></div><div class="bird-name"></div><div class="bird-trait"></div>';
         option.querySelector('.bird-emoji').textContent = bird.emoji;
         option.querySelector('.bird-name').textContent = bird.name;
-        option.querySelector('.bird-trait').textContent = bird.species;
+        option.querySelector('.bird-trait').textContent = bird.kind;
         option.addEventListener('click', () => {
           state.selectedBird = bird;
           localStorage.setItem('ventpals_onboarding_choice', JSON.stringify({ birdId: bird.id }));
