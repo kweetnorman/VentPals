@@ -186,6 +186,7 @@
     function activateSense(idx) {
       if (idx >= senses.length) {
         document.getElementById('completionCard').classList.remove('hidden');
+        if (window.VPGrowth) window.VPGrowth.award('grounding');
         document.getElementById('completionCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
