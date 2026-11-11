@@ -189,16 +189,20 @@
   }
 
   // Each distinct activity can earn its discovery reward once. Feelings and repeat visits are never scored.
-  function award(activityId) {
+  function award(activityId, uniqueKey) {
     var act = ACTIVITIES[activityId];
     if (!act || !IS_KID) return null;
+    var completionId = activityId;
+    if (uniqueKey != null && String(uniqueKey).trim()) {
+      completionId += ':' + String(uniqueKey).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-').slice(0, 60);
+    }
     var s = getState();
-    var first = !s.completed[activityId];
+    var first = !s.completed[completionId];
     var newBadges = [];
     if (first) {
-      s.completed[activityId] = true;
+      s.completed[completionId] = true;
       s.bugs[act.bug] += 1;
-      addLog(s, activityId, act.label, { bug: act.bug });
+      addLog(s, completionId, act.label, { bug: act.bug });
     }
     if (first && act.badge && !s.badges[act.badge]) { s.badges[act.badge] = today(); newBadges.push(act.badge); }
     newBadges = newBadges.concat(checkBadges(s));
@@ -371,15 +375,18 @@
   function wirePage() {
     var file = (location.pathname.split('/').pop() || '').replace('.html', '');
     function dwell(id, secs) { setTimeout(function () { if (!document.hidden) award(id); }, secs * 1000); }
-    function onClick(sel, id) {
-      document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest(sel)) award(id); });
+    function onClick(sel, id, uniqueKey) {
+      document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest(sel)) award(id, uniqueKey); });
     }
     if (file === 'nest') { onClick('#saveReflection, button[onclick="saveReflection()"]', 'reflection'); }
     else if (file === 'breathing') dwell('breathing', 20);
     else if (file === 'grounding') dwell('grounding', 30);
     else if (file === 'butterfly-hug') dwell('butterfly', 25);
     else if (file === 'water') dwell('water', 15);
-    else if (file === 'feeling-reflection') onClick('#saveReflection', 'reflection');
+    else if (file === 'feeling-reflection') {
+      var topic = new URLSearchParams(location.search).get('feeling') || 'first-reflection';
+      onClick('#saveReflection', 'reflection', topic);
+    }
   }
 
   window.VPGrowth = {
