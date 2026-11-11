@@ -30,6 +30,7 @@
 | `welcome.html` | Combined child sign-in / demo setup |
 | `adult-signup.html` / `adult-login.html` | Grown-up access preview (registration disabled) |
 | `main-guide-connections.html` | Main Guide invitation and security workflow preview |
+| `accept-nest-invitation.html` | Invited adult review and acceptance journey preview |
 | `onboarding/onboarding.html` | Child onboarding wizard |
 | `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |
 | `nest-connections.html` | Child-led Nest Guide request and removal experience preview |
