@@ -58,10 +58,11 @@
 
   // Moments a child chooses to share. Adult acknowledgement is not a condition for progress.
   function moments() { return read(MOMENTS_KEY, []); }
-  function verifyMoment(id) {
+  function acknowledgeMoment(id) {
     var all = moments();
-    all.forEach(function (m) { if (m.id === id) { m.status = 'verified'; m.verifiedAt = Date.now(); } });
+    all.forEach(function (m) { if (m.id === id) { m.status = 'acknowledged'; m.acknowledgedAt = Date.now(); } });
     write(MOMENTS_KEY, all);
+    celebrate('moment:' + id);
   }
 
   function inbox() { return read(INBOX_KEY, []); }
@@ -77,6 +78,6 @@
 
   window.VPShop = {
     config: CFG, item: item, isConnected: isConnected, keepsakes: keepsakes, confirmAddress: confirmAddress, setStatus: setStatus,
-    buyUrl: buyUrl, moments: moments, verifyMoment: verifyMoment, inbox: inbox, celebrate: celebrate, isShared: isShared, shareCompletion: shareCompletion
+    buyUrl: buyUrl, moments: moments, acknowledgeMoment: acknowledgeMoment, inbox: inbox, celebrate: celebrate, isShared: isShared, shareCompletion: shareCompletion
   };
 })();
