@@ -213,12 +213,11 @@
       <div class="card-icon">🐦</div>
       <h1>Welcome to VentPals!</h1>
       <p style="margin-bottom:20px;">
-        This is your safe, gentle place to understand your feelings.
-        In the next few steps, you'll find your bird, create your name,
-        and set up your very own emotional world.
+        This is your space to explore, express yourself, and grow at your own pace.
+        Choose a bird you love, create your special name, and make your own Nest.
       </p>
       <p style="margin-bottom:28px; font-size:0.85rem; color:#a78bfa;">
-        No email needed. No strangers. Just you, your feelings, and your VentPal.
+        No email or real name needed. Your VentPal is yours to choose.
       </p>
       <button class="btn-primary" onclick="goTo(2)">Let's Begin 🌱</button>
     </div>
@@ -231,19 +230,16 @@
     <div class="card" style="text-align:center;">
       <div id="birdPending">
         <div class="card-icon">🪶</div>
-        <h1 style="margin-bottom:6px;">Find Your VentPal</h1>
-        <p style="margin-bottom:20px;">
-          Every bird understands a different feeling. Pick the feeling that feels most like <em>you</em>,
-          and meet the bird who understands it.
-        </p>
-        <a class="btn-primary" href="../start-with-a-feeling.html?mode=choose-bird" style="display:block;text-decoration:none;text-align:center;">Pick a feeling 💜</a>
+        <h1 style="margin-bottom:6px;">Choose Your VentPal</h1>
+        <p style="margin-bottom:18px;">Pick the bird you like best. Choose by its look, colors, or personality. Your feelings never decide who your VentPal is.</p>
+        <div class="bird-grid" id="birdChoiceGrid"></div>
       </div>
       <div id="birdChosen" style="display:none;">
         <img id="chosenBirdImg" src="" alt="" style="height:120px;margin:0 auto 8px;display:block;">
         <h1 style="margin-bottom:6px;">Meet <span id="chosenBirdName"></span>!</h1>
         <p id="chosenBirdNote" style="margin-bottom:20px;"></p>
-        <p style="font-size:0.8rem;color:#a78bfa;margin-bottom:16px;">Your bird and its name are locked in when you finish setting up.</p>
-        <a href="../start-with-a-feeling.html?mode=choose-bird" style="font-size:0.85rem;color:#7c3aed;">Choose a different bird</a>
+        <p style="font-size:0.8rem;color:#a78bfa;margin-bottom:16px;">Your VentPal stays yours. Other birds can offer ideas, but never replace your bird.</p>
+        <button type="button" onclick="showBirdChoices()" style="font-size:0.85rem;color:#7c3aed;background:none;border:0;cursor:pointer;">Choose a different bird</button>
       </div>
     </div>
     <div style="display:flex; gap:10px;">
@@ -421,7 +417,7 @@
        Signup (signup.html) shows the PIN screen; set-pin.html covers older accounts. */
     (function () {
       if (!localStorage.getItem('ventpals_user')) {
-        window.location.replace('../signup.html');
+        window.location.replace('../welcome.html');
       } else if (!localStorage.getItem('ventpals_pin_hash')) {
         window.location.replace('../set-pin.html');
       }
@@ -435,23 +431,119 @@
        DATA
     ─────────────────────────────── */
     const BIRDS = [
-      { id:'aura',     name:'Aura',     emoji:'🕊️',  trait:'Calm & Gentle',        color:'#c084fc' },
-      { id:'breezy',   name:'Breezy',   emoji:'🍃',  trait:'Thoughtful & Quiet',   color:'#6ee7b7' },
-      { id:'clover',   name:'Clover',   emoji:'🍀',  trait:'Safe & Grounded',      color:'#4ade80' },
-      { id:'cove',     name:'Cove',     emoji:'🌊',  trait:'Shelter & Comfort',    color:'#60a5fa' },
-      { id:'drift',    name:'Drift',    emoji:'🌙',  trait:'Reflective',           color:'#818cf8' },
-      { id:'echo',     name:'Echo',     emoji:'🔔',  trait:'Validation',           color:'#f9a8d4' },
-      { id:'flamez',   name:'Flamez',   emoji:'🔥',  trait:'Bold & Expressive',    color:'#fb923c' },
-      { id:'flare',    name:'Flare',    emoji:'⚡',  trait:'Motivated & Brave',    color:'#fbbf24' },
-      { id:'flicker',  name:'Flicker',  emoji:'💫',  trait:'Hopeful & Curious',    color:'#a78bfa' },
-      { id:'guardian', name:'Guardian', emoji:'🛡️',  trait:'Protective',           color:'#94a3b8' },
-      { id:'lumen',    name:'Lumen',    emoji:'💡',  trait:'Insight & Clarity',    color:'#fde68a' },
-      { id:'nova',     name:'Nova',     emoji:'🌟',  trait:'Perspective & Growth', color:'#fdba74' },
-      { id:'pebble',   name:'Pebble',   emoji:'🪨',  trait:'Gentle Guidance',      color:'#d1d5db' },
-      { id:'sable',    name:'Sable',    emoji:'⭐',  trait:'Resilience & Strength',color:'#78716c' },
-      { id:'solace',   name:'Solace',   emoji:'🌿',  trait:'Comfort & Soothing',   color:'#86efac' },
-      { id:'twig',     name:'Twig',     emoji:'🌱',  trait:'Early Growth',         color:'#a3e635' },
-    ];
+      {
+            "id": "aura",
+            "name": "Aura",
+            "species": "Hummingbird",
+            "emoji": "🐦",
+            "trait": "Hummingbird"
+      },
+      {
+            "id": "breezy",
+            "name": "Breezy",
+            "species": "Bluebird",
+            "emoji": "🍃",
+            "trait": "Bluebird"
+      },
+      {
+            "id": "clover",
+            "name": "Clover",
+            "species": "Lovebird",
+            "emoji": "🍀",
+            "trait": "Lovebird"
+      },
+      {
+            "id": "cove",
+            "name": "Cove",
+            "species": "Bluebird",
+            "emoji": "🌊",
+            "trait": "Bluebird"
+      },
+      {
+            "id": "drift",
+            "name": "Drift",
+            "species": "Swallow",
+            "emoji": "🌙",
+            "trait": "Swallow"
+      },
+      {
+            "id": "echo",
+            "name": "Echo",
+            "species": "Owl",
+            "emoji": "🦉",
+            "trait": "Owl"
+      },
+      {
+            "id": "flamez",
+            "name": "Ember",
+            "species": "Falcon",
+            "emoji": "🔥",
+            "trait": "Falcon"
+      },
+      {
+            "id": "flare",
+            "name": "Flare",
+            "species": "Phoenix",
+            "emoji": "✨",
+            "trait": "Phoenix"
+      },
+      {
+            "id": "flicker",
+            "name": "Flicker",
+            "species": "Finch",
+            "emoji": "💫",
+            "trait": "Finch"
+      },
+      {
+            "id": "guardian",
+            "name": "Guardian",
+            "species": "Eagle",
+            "emoji": "🦅",
+            "trait": "Eagle"
+      },
+      {
+            "id": "lumen",
+            "name": "Lumen",
+            "species": "Heron",
+            "emoji": "💡",
+            "trait": "Heron"
+      },
+      {
+            "id": "nova",
+            "name": "Nova",
+            "species": "Hawk",
+            "emoji": "🌟",
+            "trait": "Hawk"
+      },
+      {
+            "id": "pebble",
+            "name": "Pebble",
+            "species": "Dove",
+            "emoji": "🕊️",
+            "trait": "Dove"
+      },
+      {
+            "id": "sable",
+            "name": "Sable",
+            "species": "Nightingale",
+            "emoji": "⭐",
+            "trait": "Nightingale"
+      },
+      {
+            "id": "solace",
+            "name": "Solace",
+            "species": "Robin",
+            "emoji": "🌿",
+            "trait": "Robin"
+      },
+      {
+            "id": "twig",
+            "name": "Twig",
+            "species": "Sparrow",
+            "emoji": "🌱",
+            "trait": "Sparrow"
+      }
+];
 
     const POWER_WORDS = [
       'Brightcrest','Stormwing','Softglow','Embercrest','Starstep','Willowcrest',
@@ -476,7 +568,6 @@
     const state = {
       step:          1,
       selectedBird:  null,
-      feeling:       '',
       nickname:      '',
       powerWord:     '',
       displayName:   '',
@@ -502,21 +593,50 @@
     /* ───────────────────────────────
        STEP 2 — BIRD GRID
     ─────────────────────────────── */
-    // The bird is chosen on start-with-a-feeling.html (mode=choose-bird) and handed back here.
+    // The child's permanent VentPal is chosen by personal preference, never by a feeling.
+    function showBirdChoices() {
+      document.getElementById('birdChosen').style.display = 'none';
+      document.getElementById('birdPending').style.display = 'block';
+    }
+
+    function buildBirdChoices() {
+      const grid = document.getElementById('birdChoiceGrid');
+      if (!grid) return;
+      BIRDS.forEach(bird => {
+        const option = document.createElement('button');
+        option.type = 'button';
+        option.className = 'bird-option';
+        option.innerHTML = '<div class="bird-emoji"></div><div class="bird-name"></div><div class="bird-trait"></div>';
+        option.querySelector('.bird-emoji').textContent = bird.emoji;
+        option.querySelector('.bird-name').textContent = bird.name;
+        option.querySelector('.bird-trait').textContent = bird.species;
+        option.addEventListener('click', () => {
+          state.selectedBird = bird;
+          localStorage.setItem('ventpals_onboarding_choice', JSON.stringify({ birdId: bird.id }));
+          document.getElementById('birdPending').style.display = 'none';
+          document.getElementById('birdChosen').style.display = 'block';
+          document.getElementById('chosenBirdName').textContent = bird.name;
+          document.getElementById('chosenBirdImg').src = '../assets/images/' + bird.id + '-egg.png';
+          document.getElementById('chosenBirdImg').alt = bird.name + ' egg';
+          document.getElementById('chosenBirdNote').textContent = 'You chose ' + bird.name + ', the ' + bird.species + '. Your VentPal starts as an egg and grows as you explore, learn, and discover more about yourself.';
+          document.getElementById('birdNextBtn').disabled = false;
+        });
+        grid.appendChild(option);
+      });
+    }
+
     function loadBirdChoice() {
       let choice = null;
       try { choice = JSON.parse(localStorage.getItem('ventpals_onboarding_choice') || 'null'); } catch (e) {}
-      const bird = choice && BIRDS.find(b => b.id === choice.birdId);
+      const bird = choice && BIRDS.find(item => item.id === choice.birdId);
       if (!bird) return false;
       state.selectedBird = bird;
-      state.feeling = choice.feeling || '';
       document.getElementById('birdPending').style.display = 'none';
       document.getElementById('birdChosen').style.display = 'block';
       document.getElementById('chosenBirdName').textContent = bird.name;
       document.getElementById('chosenBirdImg').src = '../assets/images/' + bird.id + '-egg.png';
-      document.getElementById('chosenBirdNote').textContent = (choice.feeling
-        ? 'You picked ' + choice.feeling + ', and ' + bird.name + ' understands that feeling. '
-        : '') + bird.name + "'s strength: " + bird.trait.toLowerCase() + '. Your VentPal starts as an egg and hatches as you learn and grow together.';
+      document.getElementById('chosenBirdImg').alt = bird.name + ' egg';
+      document.getElementById('chosenBirdNote').textContent = 'You chose ' + bird.name + ', the ' + bird.species + '. Your VentPal starts as an egg and grows as you explore, learn, and discover more about yourself.';
       document.getElementById('birdNextBtn').disabled = false;
       return true;
     }
@@ -659,7 +779,7 @@
         parentCode:  state.parentCode,
         stage:       'egg',
         status:      'pending',
-        firstFeeling: state.feeling || '',
+        identityChoice: 'child-selected',
         birdLocked:  true,   // bird + names are permanent once onboarding finishes
         namesLocked: true,
       });
@@ -670,6 +790,13 @@
       localStorage.removeItem('ventpals_onboarding_choice');
       localStorage.setItem('ventpals_logged_in',          'true');
 
+      try {
+        const profiles = JSON.parse(localStorage.getItem('ventpals_demo_profiles') || '[]');
+        const index = profiles.findIndex(p => String(p.username).toLowerCase() === String(user.username).toLowerCase());
+        const profile = { username:user.username, pinHash:localStorage.getItem('ventpals_pin_hash') || '', user:user, onboardingComplete:true };
+        if (index >= 0) profiles[index] = profile; else profiles.push(profile);
+        localStorage.setItem('ventpals_demo_profiles', JSON.stringify(profiles));
+      } catch (e) {}
       window.location.href = '../nest.html';
     }
 
@@ -677,11 +804,12 @@
        INIT
     ─────────────────────────────── */
     buildColourGrid();
+    buildBirdChoices();
     if (loadBirdChoice()) {
       // coming back from the bird page: jump to the name step with steps 1-2 marked done
       document.getElementById('dot-1').classList.add('complete');
       document.getElementById('dot-2').classList.add('complete');
-      goTo(new URLSearchParams(location.search).get('step') === '3' ? 3 : 2);
+      goTo(2);
     }
   </script>
 </body>
