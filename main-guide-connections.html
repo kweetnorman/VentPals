@@ -6,100 +6,80 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;color:#40394d;background:radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8)}
-.shell{max-width:1040px;margin:auto}.card{background:rgba(255,255,255,.95);border:1px solid rgba(118,81,181,.14);border-radius:24px;box-shadow:0 12px 34px rgba(65,48,94,.07)}
-.primary{border:0;border-radius:999px;background:#7651b5;color:#fff;font-weight:800;padding:11px 18px}.secondary{border:2px solid #d9c9ef;border-radius:999px;background:#fff;color:#6845a0;font-weight:700;padding:9px 16px}
-.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;background:#f1eaff;color:#6845a0}
-.muted{font-size:13px;color:#716b7b;line-height:1.55}.notice{border:1px solid #f2d7a1;background:#fff8e8;border-radius:16px;padding:14px;color:#76551d;font-size:12px;line-height:1.55}
-.person{display:flex;align-items:center;gap:12px;border:1px solid #eee7f7;border-radius:17px;padding:12px;background:#fff}
-.avatar{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#f2eaff;font-size:22px;flex-shrink:0}
+.shell{max-width:1100px;margin:auto}.card{background:rgba(255,255,255,.96);border:1px solid rgba(118,81,181,.14);border-radius:24px;box-shadow:0 12px 34px rgba(65,48,94,.07)}
+.primary{border:0;border-radius:999px;background:#7651b5;color:#fff;font-weight:800;padding:11px 17px}.secondary{border:2px solid #d9c9ef;border-radius:999px;background:#fff;color:#6845a0;font-weight:700;padding:9px 15px}.danger{border:1px solid #f1caca;border-radius:999px;background:#fff7f7;color:#9c3434;font-weight:700;padding:9px 15px}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;background:#f1eaff;color:#6845a0}.muted{font-size:13px;color:#716b7b;line-height:1.55}
+.notice{border:1px solid #f2d7a1;background:#fff8e8;border-radius:16px;padding:13px;color:#76551d;font-size:12px;line-height:1.55}.person{display:flex;align-items:center;gap:12px;border:1px solid #eee7f7;border-radius:17px;padding:12px;background:#fff}.avatar{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#f2eaff;font-size:22px;flex-shrink:0}
 input,select{width:100%;border:2px solid #e5dcf1;border-radius:13px;padding:11px;background:white;color:#40394d;font:inherit}
-.qr-placeholder{width:170px;height:170px;margin:auto;border:2px dashed #cbb8e8;border-radius:20px;display:grid;place-items:center;background:repeating-linear-gradient(45deg,#faf7ff,#faf7ff 8px,#f4effa 8px,#f4effa 16px);text-align:center;padding:16px}
+.stage{display:inline-flex;border-radius:999px;padding:5px 9px;background:#f1eaff;color:#6845a0;font-size:11px;font-weight:800}.stage.active{background:#e8f8ed;color:#246b3c}.stage.warn{background:#fff3db;color:#805516}.stage.stop{background:#fff0f0;color:#963c3c}
+.event{border-left:3px solid #d8c7ef;padding:3px 0 12px 13px;margin-left:5px}.event:last-child{padding-bottom:0}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header class="shell px-4 pt-6 flex items-center justify-between">
-<a href="index.html" class="font-extrabold text-xl text-purple-800 no-underline">🪺 VentPals</a>
-<a href="adult-login.html" class="text-sm font-bold text-purple-700">← Grown-up access</a>
-</header>
+<header class="shell px-4 pt-6 flex items-center justify-between"><a href="index.html" class="font-extrabold text-xl text-purple-800 no-underline">🪺 VentPals</a><a href="adult-login.html" class="text-sm font-bold text-purple-700">← Grown-up access</a></header>
 <main class="shell px-4 pt-7 pb-16 space-y-6">
-<section class="text-center">
-<div class="text-5xl mb-3">🛡️</div><p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Main Guide space</p>
-<h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-2">Nest Connections</h1>
-<p class="muted max-w-2xl mx-auto mt-3">Help your child connect with the trusted adults they choose. Their request comes first. Your role is to help make the connection safely.</p>
-</section>
-<div class="notice"><strong>Design preview — not a private adult account.</strong> This page uses fictional sample Main Guides and local browser data. No adult identity is verified, no QR invitation is generated, no notification is sent, and no access is granted or changed. Do not enter real personal information.</div>
+<section class="text-center"><div class="text-5xl mb-3">🛡️</div><p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Main Guide space</p><h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-2">Nest Connections</h1><p class="muted max-w-2xl mx-auto mt-3">Help your child connect with the trusted adults they choose. Their request comes first. Your role is to help make the connection safely.</p></section>
+<div class="notice"><strong>Design preview — not a private adult account.</strong> Fictional sample identities and local browser data are used to demonstrate the journey. No real adult is verified, no secure QR token is created, no notification is sent, and no access is granted or changed. Do not enter real personal information.</div>
 <section class="grid md:grid-cols-2 gap-4">
-<article class="card p-5 space-y-3">
-<div class="flex items-center justify-between"><h2 class="font-extrabold text-purple-800 text-lg">🛡️ Main Guides</h2><span class="pill">Two-key protection</span></div>
-<div class="person"><div class="avatar">🌷</div><div class="min-w-0 flex-1"><b class="block text-sm">Main Guide 1 · You</b><span class="muted">Demo authenticated view</span></div><span class="pill">Primary</span></div>
+<article class="card p-5 space-y-3"><div class="flex items-center justify-between"><h2 class="font-extrabold text-purple-800 text-lg">🛡️ Main Guides</h2><span class="pill">Two-key protection</span></div>
+<div class="person"><div class="avatar">🌷</div><div class="min-w-0 flex-1"><b class="block text-sm">Main Guide 1 · You</b><span class="muted">Demo primary guide</span></div><span class="pill">Primary</span></div>
 <div class="person"><div class="avatar">🌿</div><div class="min-w-0 flex-1"><b class="block text-sm">Main Guide 2</b><span class="muted">Fictional co-guide</span></div><span class="pill">Primary</span></div>
-<p class="muted">In the real service, both adults have separate verified accounts. Neither can ordinarily remove the other alone. Each can always withdraw their own access.</p>
-</article>
-<article class="card p-5 space-y-3">
-<div class="flex items-center justify-between"><h2 class="font-extrabold text-purple-800 text-lg">🔔 Connection activity</h2><span class="pill">Preview</span></div>
-<div class="rounded-2xl bg-purple-50 p-4"><b class="block text-sm text-purple-800">New invitation attempt</b><p class="muted mt-1">When an invited adult scans a QR code, the Main Guides will receive a security notification.</p></div>
-<div class="rounded-2xl bg-green-50 p-4"><b class="block text-sm text-green-800">No unexpected connections</b><p class="muted mt-1">A scan alone never grants access. Verification and required approvals come first.</p></div>
-</article>
+<p class="muted">Neither Main Guide can ordinarily remove or replace the other alone. Both approve an ordinary change. Each adult can always leave their own connection.</p></article>
+<article class="card p-5 space-y-3"><div class="flex items-center justify-between"><h2 class="font-extrabold text-purple-800 text-lg">🔔 Connection activity</h2><span id="activityCount" class="pill">0 events</span></div><div id="activity" class="space-y-2"><p class="muted">Invitation and safety events will appear here in this preview.</p></div></article>
 </section>
-<section class="card p-5 sm:p-6 space-y-4">
-<div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-xl font-extrabold text-purple-800">🐦 Child-initiated requests</h2><p class="muted mt-1">Only people your child has asked to invite appear here.</p></div><span id="requestCount" class="pill">0 requests</span></div>
-<div id="requests" class="space-y-3"><p class="muted">No child requests are available in this browser preview. Submit a request from the child's Nest Connections screen to see it here.</p></div>
+<section class="card p-5 sm:p-6 space-y-4"><div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-xl font-extrabold text-purple-800">🐦 Child-initiated requests</h2><p class="muted mt-1">Only people your child has asked to invite appear here.</p></div><span id="requestCount" class="pill">0 requests</span></div><div id="requests" class="space-y-3"><p class="muted">No child requests are available in this browser preview. Make a request from the child's Nest Connections screen to see it here.</p></div></section>
+<section class="card p-5 sm:p-6 space-y-4"><div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-xl font-extrabold text-purple-800">📨 Invitation tracker</h2><p class="muted mt-1">Follow each invitation from preparation to the child's final decision.</p></div><span class="pill">10-minute preview expiry</span></div><div id="invites" class="space-y-3"><p class="muted">No invitation previews yet.</p></div><div class="notice">The real invitation will use a server-generated, random, one-use token tied to one child request. A QR scan is never permission to enter a child's Nest. Expired or cancelled invitations cannot be reused.</div></section>
+<section class="grid md:grid-cols-2 gap-4">
+<article class="card p-5 space-y-3"><h2 class="text-lg font-extrabold text-purple-800">🔐 Two-key protection</h2><p class="muted">Ordinary changes to a Main Guide connection require both Main Guides to approve. This prevents one adult from quietly removing the other.</p><div id="keyRequest" class="rounded-2xl bg-purple-50 p-4 space-y-2"><b class="text-sm text-purple-800">No change request pending</b><p class="muted">Start a sample request to see the two separate approvals.</p></div><button id="startKey" class="secondary w-full" type="button">Preview a Main Guide change request</button><div class="border-t border-purple-100 pt-3 space-y-2"><b class="text-sm text-purple-800">Your own access</b><p class="muted">A Main Guide can always withdraw their own access without needing the other adult's permission.</p><button id="leaveGuide" class="secondary w-full" type="button">Preview leaving this Nest</button><p id="keyStatus" class="muted" role="status" aria-live="polite"></p></div></article>
+<article class="card p-5 space-y-3"><h2 class="text-lg font-extrabold text-purple-800">🧡 Child safety comes first</h2><p class="muted">Two-key protection must never trap a child in an unsafe connection. A private safeguarding route can pause access while a concern is reviewed, without requiring the child to confront the adult or get that adult's approval.</p><div class="rounded-2xl bg-amber-50 p-4"><b class="text-sm text-amber-900">Safeguarding override</b><p class="muted mt-1">A restricted, documented safety hold bypasses ordinary two-key approval and triggers a protected review.</p></div><button id="safetyHold" class="danger w-full" type="button">Preview an urgent safety hold</button><p id="safetyStatus" class="muted" role="status" aria-live="polite"></p></article>
 </section>
-<section class="card p-5 sm:p-6 space-y-4">
-<div class="flex items-center justify-between gap-3"><div><h2 class="text-xl font-extrabold text-purple-800">🔐 Secure invitation QR</h2><p class="muted mt-1">QR access stays inside the authenticated Main Guide area.</p></div><span class="pill">Main Guides only</span></div>
-<div class="grid md:grid-cols-2 gap-5 items-center">
-<div class="space-y-2"><div class="qr-placeholder"><div><div class="text-4xl mb-2">🔒</div><b class="text-sm text-purple-800">Secure QR preview</b><p class="text-xs text-gray-500 mt-1">No invitation token exists</p></div></div><p class="muted text-center">A real QR will be generated by the server for one selected child request. It will expire after 10 minutes and work once.</p></div>
-<div class="space-y-3"><h3 class="font-bold text-purple-800">What the real QR will protect</h3>
-<ul class="text-sm text-gray-600 space-y-2 list-disc pl-5"><li>One child and one pending request only</li><li>Random, opaque invitation token</li><li>10-minute expiry and single use</li><li>Immediate cancellation and abuse controls</li><li>No child code, parent code, or personal details inside the QR</li></ul>
-<p class="notice">A QR scan starts a request. The adult must verify their own account, and the child must recognize and confirm the person before access can be granted.</p></div>
-</div>
-</section>
-<section class="card p-5 sm:p-6 space-y-3">
-<h2 class="text-lg font-extrabold text-purple-800">Preview the invited adult experience</h2>
-<p class="muted">See what the adult will review after scanning a valid invitation QR.</p>
-<a href="accept-nest-invitation.html" class="inline-flex items-center justify-center rounded-full bg-purple-700 px-5 py-3 text-sm font-extrabold text-white no-underline">Preview invitation acceptance →</a>
-</section>
-<section class="card p-5 sm:p-6 space-y-3">
-<h2 class="text-lg font-extrabold text-purple-800">The connection steps</h2>
-<div class="grid sm:grid-cols-4 gap-3">
-<div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">1. Child asks</b><p class="muted mt-1">Child names the person they want in their Nest.</p></div>
-<div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">2. Guide invites</b><p class="muted mt-1">Main Guide generates a private, one-use QR.</p></div>
-<div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">3. Adult verifies</b><p class="muted mt-1">Invitee verifies identity and accepts their role.</p></div>
-<div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">4. Child confirms</b><p class="muted mt-1">Child confirms the person they requested.</p></div>
-</div>
-</section>
+<section class="card p-5 sm:p-6 space-y-3"><h2 class="text-lg font-extrabold text-purple-800">The real connection sequence</h2><div class="grid sm:grid-cols-5 gap-3"><div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">1. Child asks</b><p class="muted mt-1">Child chooses the person.</p></div><div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">2. Guide invites</b><p class="muted mt-1">Main Guide prepares a private QR.</p></div><div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">3. Adult verifies</b><p class="muted mt-1">Invitee verifies and accepts.</p></div><div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">4. Child confirms</b><p class="muted mt-1">Child says yes or no.</p></div><div class="rounded-2xl bg-purple-50 p-3"><b class="text-sm text-purple-800">5. Safety checks</b><p class="muted mt-1">Only then can access activate.</p></div></div><a href="accept-nest-invitation.html" class="inline-flex items-center justify-center rounded-full bg-purple-700 px-5 py-3 text-sm font-extrabold text-white no-underline">Preview invited adult experience →</a></section>
 </main>
 <script>
 (function(){
 'use strict';
-var REQUESTS='ventpals_demo_nest_connection_requests',INVITES='ventpals_demo_main_guide_invites';
+var REQUESTS='ventpals_demo_nest_connection_requests',INVITES='ventpals_demo_main_guide_invites',EVENTS='ventpals_demo_main_guide_activity',KEY='ventpals_demo_two_key_request',SAFETY='ventpals_demo_safety_hold';
 var $=function(id){return document.getElementById(id);};
-function read(key){try{var x=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(x)?x:[];}catch(e){return [];}}
+function read(key,fallback){try{var v=JSON.parse(localStorage.getItem(key)||'null');return Array.isArray(fallback)?(Array.isArray(v)?v:fallback):(v||fallback);}catch(e){return fallback;}}
 function write(key,value){localStorage.setItem(key,JSON.stringify(value));}
+function log(message,kind){var events=read(EVENTS,[]);events.unshift({message:message,kind:kind||'info',at:new Date().toISOString()});write(EVENTS,events.slice(0,30));}
+function statusLabel(s){return ({prepared:'Prepared · waiting for scan',opened:'QR scanned · preview',verified:'Adult verified · preview', 'awaiting-child':'Waiting for child confirmation',active:'Active · preview only',declined:'Child declined',expired:'Expired',cancelled:'Cancelled'}[s]||'Preview');}
+function stageClass(s){return s==='active'?'stage active':(['declined','expired','cancelled'].indexOf(s)>=0?'stage stop':(['opened','verified','awaiting-child'].indexOf(s)>=0?'stage warn':'stage'));}
+function expire(invites){var now=Date.now(),changed=false;invites.forEach(function(i){if(['prepared','opened','verified'].indexOf(i.status)>=0&&now-new Date(i.createdAt).getTime()>600000){i.status='expired';i.updatedAt=new Date().toISOString();log('Invitation expired for '+i.name,'warn');changed=true;}});if(changed)write(INVITES,invites);return invites;}
+function make(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;}
 function render(){
- var requests=read(REQUESTS),invites=read(INVITES),host=$('requests');
- host.innerHTML='';$('requestCount').textContent=requests.filter(function(x){return x.kind==='add';}).length+' requests';
- var adds=requests.filter(function(x){return x.kind==='add';});
- if(!adds.length){host.innerHTML='<p class="muted">No child requests are available in this browser preview. Submit a request from the child’s Nest Connections screen to see it here.</p>';return;}
- adds.forEach(function(item){
-  var wrap=document.createElement('article');wrap.className='person items-start';
-  var avatar=document.createElement('div');avatar.className='avatar';avatar.textContent='🐤';
-  var body=document.createElement('div');body.className='min-w-0 flex-1';
-  var title=document.createElement('b');title.className='block text-sm';title.textContent=item.name;
-  var meta=document.createElement('p');meta.className='muted';meta.textContent=item.relationship+(item.why?' · '+item.why:'');
-  var status=document.createElement('span');status.className='pill mt-2';status.textContent='Child requested · Preview only';
-  var btn=document.createElement('button');btn.type='button';btn.className='secondary mt-3 text-sm';btn.textContent='Prepare invitation preview';
-  btn.addEventListener('click',function(){
-   var current=read(INVITES);
-   if(current.some(function(x){return x.requestId===item.id;})){status.textContent='Invitation preview already prepared';return;}
-   current.push({id:'preview-'+Date.now(),requestId:item.id,name:item.name,relationship:item.relationship,createdAt:new Date().toISOString(),status:'preview-only'});
-   write(INVITES,current);status.textContent='Invitation preview prepared · no QR/token created';btn.disabled=true;btn.textContent='Preview prepared';
-  });
-  body.append(title,meta,status,btn);wrap.append(avatar,body);host.append(wrap);
- });
+ var req=read(REQUESTS,[]).filter(function(x){return x.kind==='add';}),inv=expire(read(INVITES,[])),host=$('requests'),ih=$('invites');
+ host.innerHTML='';ih.innerHTML='';$('requestCount').textContent=req.length+' requests';
+ if(!req.length)host.append(make('p','muted','No child requests are available in this browser preview. Make a request from the child’s Nest Connections screen to see it here.'));
+ req.forEach(function(item){var row=make('article','person items-start'),av=make('div','avatar','🐤'),body=make('div','min-w-0 flex-1'),title=make('b','block text-sm',item.name),meta=make('p','muted',item.relationship+(item.why?' · '+item.why:'')),already=inv.some(function(i){return i.requestId===item.id&&['prepared','opened','verified','awaiting-child','active'].indexOf(i.status)>=0;}),btn=make('button','secondary mt-3 text-sm',already?'Invitation already started':'Prepare invitation preview');
+ btn.type='button';btn.disabled=already;btn.addEventListener('click',function(){var list=read(INVITES,[]);if(list.some(function(i){return i.requestId===item.id&&['prepared','opened','verified','awaiting-child','active'].indexOf(i.status)>=0;}))return;var id='preview-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);list.unshift({id:id,requestId:item.id,name:item.name,relationship:item.relationship,createdAt:new Date().toISOString(),status:'prepared'});write(INVITES,list);log('Invitation preview prepared for '+item.name);render();});
+ body.append(title,meta,btn);row.append(av,body);host.append(row);});
+ $('activity').innerHTML='';var events=read(EVENTS,[]);$('activityCount').textContent=events.length+' events';
+ if(!events.length)$('activity').append(make('p','muted','No activity yet. Preview events will appear here as you move through the invitation flow.'));
+ events.slice(0,7).forEach(function(e){var d=make('div','event'),m=make('p','text-sm font-semibold text-purple-800',e.message),t=make('p','text-xs text-gray-500',new Date(e.at).toLocaleString());d.append(m,t);$('activity').append(d);});
+ if(!inv.length)ih.append(make('p','muted','No invitation previews yet.'));
+ inv.forEach(function(item){var card=make('article','rounded-2xl border border-purple-100 p-4 space-y-3'),top=make('div','flex flex-wrap items-center justify-between gap-2'),name=make('b','text-sm text-purple-800',item.name+' · '+item.relationship),badge=make('span',stageClass(item.status),statusLabel(item.status)),desc=make('p','muted','Created '+new Date(item.createdAt).toLocaleString()+' · Preview expires 10 minutes after creation.'),actions=make('div','flex flex-wrap gap-2');
+ top.append(name,badge);card.append(top,desc);
+ if(item.status==='prepared'){var scan=make('button','secondary text-sm','Simulate QR scan');scan.type='button';scan.addEventListener('click',function(){item.status='opened';item.updatedAt=new Date().toISOString();write(INVITES,inv);log('Invitation QR scan simulated for '+item.name,'warn');render();});actions.append(scan);}
+ if(item.status==='opened'){var adult=make('a','inline-flex items-center rounded-full bg-purple-700 px-4 py-2 text-sm font-bold text-white no-underline','Open adult acceptance preview →');adult.href='accept-nest-invitation.html?invite='+encodeURIComponent(item.id);actions.append(adult);}
+ if(item.status==='verified'){var accept=make('a','inline-flex items-center rounded-full bg-purple-700 px-4 py-2 text-sm font-bold text-white no-underline','Continue adult acceptance →');accept.href='accept-nest-invitation.html?invite='+encodeURIComponent(item.id);actions.append(accept);}
+ if(item.status==='awaiting-child'){var child=make('a','inline-flex items-center rounded-full bg-purple-700 px-4 py-2 text-sm font-bold text-white no-underline','Open child confirmation →');child.href='confirm-nest-guide.html?invite='+encodeURIComponent(item.id);actions.append(child);}
+ if(['prepared','opened','verified','awaiting-child'].indexOf(item.status)>=0){var cancel=make('button','danger text-sm','Cancel preview');cancel.type='button';cancel.addEventListener('click',function(){item.status='cancelled';item.updatedAt=new Date().toISOString();write(INVITES,inv);log('Invitation cancelled for '+item.name,'warn');render();});actions.append(cancel);}
+ if(item.status==='active')card.append(make('p','muted','The child confirmed this demo adult. This is not a real connection or access grant.'));
+ if(item.status==='declined')card.append(make('p','muted','The child declined. No connection is created.'));
+ if(actions.childNodes.length)card.append(actions);ih.append(card);});
+ var key=read(KEY,null),kh=$('keyRequest');kh.innerHTML='';
+ if(!key){kh.append(make('b','text-sm text-purple-800','No change request pending'),make('p','muted','Start a sample request to see the two separate approvals.'));}
+ else{kh.append(make('b','text-sm text-purple-800','Request: '+key.action),make('p','muted','Approvals: '+(key.approvals.main1?'1':'0')+' of 2'));
+ ['main1','main2'].forEach(function(k){var b=make('button','secondary text-sm',k==='main1'?'Approve as Main Guide 1':'Approve as Main Guide 2');b.type='button';b.disabled=!!key.approvals[k]||key.complete;b.addEventListener('click',function(){key.approvals[k]=true;key.complete=!!(key.approvals.main1&&key.approvals.main2);write(KEY,key);log((k==='main1'?'Main Guide 1':'Main Guide 2')+' approval recorded for the sample change');render();});kh.append(b);});
+ if(key.complete)kh.append(make('p','text-sm font-bold text-green-700','Both keys approved. The preview shows approval only; no role changed.'));}
+ var safety=read(SAFETY,null);$('safetyStatus').textContent=safety?'Safety hold preview is active for review. No real access was changed.':'No safety hold preview is active.';
 }
-window.addEventListener('storage',function(e){if(e.key===REQUESTS||e.key===INVITES)render();});
+$('startKey').addEventListener('click',function(){write(KEY,{action:'change Main Guide 2',approvals:{main1:false,main2:false},complete:false,createdAt:new Date().toISOString()});log('Two-key change request opened for Main Guide 2');$('keyStatus').textContent='Sample request opened. Both separate approval steps are shown above.';render();});
+$('leaveGuide').addEventListener('click',function(){if(!confirm('Preview only: show the self-withdrawal path? No account or connection will change.'))return;log('Main Guide self-withdrawal path viewed');$('keyStatus').textContent='Self-withdrawal path previewed. In production, an adult can revoke their own access without the other Main Guide approving.';});
+$('safetyHold').addEventListener('click',function(){if(!confirm('Preview an urgent safeguarding hold? This will only change local demo data.'))return;write(SAFETY,{active:true,at:new Date().toISOString()});log('Urgent safeguarding hold preview started','warn');$('safetyStatus').textContent='Safety hold preview is active. It bypasses ordinary two-key approval; no real access was changed.';render();});
+window.addEventListener('storage',function(e){if([REQUESTS,INVITES,EVENTS,KEY,SAFETY].indexOf(e.key)>=0)render();});
 render();
 })();
 </script>
