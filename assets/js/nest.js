@@ -43,7 +43,6 @@
   $('saveReflection').addEventListener('click',function(){
     localStorage.setItem(reflectionKey,$('nestReflection').value);
     $('saveMessage').textContent='Saved in your Nest ✓';
-    G.award('reflection');
   });
   render();
 })();
