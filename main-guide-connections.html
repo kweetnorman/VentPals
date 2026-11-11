@@ -50,7 +50,8 @@ function stageClass(s){return s==='active'?'stage active':(['declined','expired'
 function expire(invites){var now=Date.now(),changed=false;invites.forEach(function(i){if(['prepared','opened','verified'].indexOf(i.status)>=0&&now-new Date(i.createdAt).getTime()>600000){i.status='expired';i.updatedAt=new Date().toISOString();log('Invitation expired for '+i.name,'warn');changed=true;}});if(changed)write(INVITES,invites);return invites;}
 function make(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;}
 function render(){
- var req=read(REQUESTS,[]).filter(function(x){return x.kind==='add';}),inv=expire(read(INVITES,[])),host=$('requests'),ih=$('invites'),self=read(SELF,null);\n $('selfBadge').textContent=self&&self.withdrawn?'Withdrawn in preview':'Primary';$('selfBadge').className=self&&self.withdrawn?'stage stop':'pill';
+ var req=read(REQUESTS,[]).filter(function(x){return x.kind==='add';}),inv=expire(read(INVITES,[])),host=$('requests'),ih=$('invites'),self=read(SELF,null);
+ $('selfBadge').textContent=self&&self.withdrawn?'Withdrawn in preview':'Primary';$('selfBadge').className=self&&self.withdrawn?'stage stop':'pill';
  host.innerHTML='';ih.innerHTML='';$('requestCount').textContent=req.length+' requests';
  if(!req.length)host.append(make('p','muted','No child requests are available in this browser preview. Make a request from the child’s Nest Connections screen to see it here.'));
  req.forEach(function(item){var row=make('article','person items-start'),av=make('div','avatar','🐤'),body=make('div','min-w-0 flex-1'),title=make('b','block text-sm',item.name),meta=make('p','muted',item.relationship+(item.why?' · '+item.why:'')),already=inv.some(function(i){return i.requestId===item.id&&['prepared','opened','verified','awaiting-child','active'].indexOf(i.status)>=0;}),btn=make('button','secondary mt-3 text-sm',already?'Invitation already started':'Prepare invitation preview');
