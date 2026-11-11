@@ -50,12 +50,7 @@
     <div class="bg-white rounded-3xl shadow p-7">
       <p id="comfort" class="text-gray-700 leading-relaxed mb-4"></p>
       <p id="ask" class="text-purple-700 font-semibold text-sm mb-3"></p>
-      <div id="fit" class="grid grid-cols-3 gap-2 text-sm font-semibold">
-        <button data-fit="yes" class="bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl py-3">Yes, that's it</button>
-        <button data-fit="some" class="bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl py-3">A little</button>
-        <button data-fit="no" class="bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl py-3">Not really</button>
-      </div>
-      <p id="fitReply" class="text-sm text-gray-600 mt-3 hidden"></p>
+      <p class="text-sm text-gray-600">You can think about that question, write about it, or skip it. You know your own feelings best.</p>
     </div>
 
     <!-- 2. tools -->
@@ -70,7 +65,7 @@
       <h2 class="text-lg font-bold text-purple-700 mb-2">Asking a grown-up</h2>
       <p class="text-sm text-gray-700 mb-3">Find someone you trust and try saying:</p>
       <p id="script" class="bg-purple-50 rounded-xl p-4 text-sm text-purple-800 font-semibold mb-4"></p>
-      <button id="toldGrownup" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">I asked someone</button>
+      <button id="toldGrownup" type="button" class="w-full bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold py-3 rounded-full">Back to activity choices</button>
     </div>
 
     <!-- 3. learn -->
@@ -92,7 +87,7 @@
 
     <div id="startOver" class="grid grid-cols-2 gap-3 text-sm">
       <a href="start-with-a-feeling.html?mode=check-in" class="text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-full">Pick a different feeling</a>
-      <a href="dashboard.html" class="text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-full">Back to Home</a>
+      <a href="nest.html" class="text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 rounded-full">Back to My Nest</a>
     </div>
   </section>
 
@@ -101,98 +96,101 @@
     VentPals • The Journey of Growing Up.
   </footer>
 
-  <!-- SCRIPT: Pull feeling + emoji from URL -->
+  <!-- SCRIPT: A feeling opens choices immediately; nothing is gated by a rating or sequence. -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const feeling = params.get("feeling") || "Something";
     const emoji = params.get("emoji") || "💛";
+    const $ = function (id) { return document.getElementById(id); };
+    const show = function (id) { $(id).classList.remove('hidden'); };
+    const hide = function (id) { $(id).classList.add('hidden'); };
 
-    document.getElementById("feelingName").textContent = feeling;
-    document.getElementById("feelingEmoji").textContent = emoji;
-
-    var LOOP_KEY = 'ventpals_feeling_loop';
-    var $ = function (id) { return document.getElementById(id); };
-    var show = function (id) { $(id).classList.remove('hidden'); };
-    function loadLoop() { try { return JSON.parse(localStorage.getItem(LOOP_KEY)) || {}; } catch (e) { return {}; } }
-    function saveLoop(l) { try { localStorage.setItem(LOOP_KEY, JSON.stringify(l)); } catch (e) {} }
+    $("feelingName").textContent = feeling;
+    $("feelingEmoji").textContent = emoji;
 
     window.addEventListener("load", function () {
       var G = window.VPGrowth, FL = window.VPFeelings;
-      var b = G.getBird(), st = G.getProgress().stage.id;
-      $("myBird").innerHTML = '<img src="assets/images/' + b.id + '-' + st + '.png" class="h-20" alt=""><p class="text-sm text-purple-600 font-semibold">' + b.name + ' is here with you</p>';
+      if (!G || !FL) {
+        $("comfort").textContent = "Your VentPal is here. You can choose an activity or return to your Nest.";
+        show("toolsCard");
+        return;
+      }
+
+      var bird = G.getBird();
+      var stage = G.getProgress().stage.id;
+      $("myBird").innerHTML = '<img src="assets/images/' + bird.id + '-' + stage + '.png" class="h-20" alt=""><p class="text-sm text-purple-600 font-semibold">' + bird.name + ' is here with you</p>';
 
       var data = FL.get(feeling);
-      var fresh = (document.referrer || '').indexOf('start-with-a-feeling') !== -1;
-      var loop = loadLoop();
-      if (fresh || loop.feeling !== feeling) loop = { feeling: feeling, emoji: emoji };
-      saveLoop(loop);
+      $("comfort").textContent = data.comfort.replace(/\{bird\}/g, bird.name);
+      $("ask").textContent = data.ask || "What would help right now?";
+      show("toolsCard");
+      show("learnCard");
+      show("showCard");
 
-      $("comfort").textContent = data.comfort.replace(/\{bird\}/g, b.name);
-      $("ask").textContent = data.ask;
-
-      // tools: this feeling's best tools first, plus a way to see everything
       var tools = $("tools");
       function addTool(key) {
-        var t = FL.TOOLS[key]; if (!t) return;
-        var a = document.createElement(key === 'grownup' ? 'button' : 'a');
-        a.className = 'w-full flex items-center gap-3 text-left bg-purple-50 hover:bg-purple-100 rounded-2xl px-4 py-3';
-        if (key !== 'grownup') {
-          var q = (key === 'journal') ? '?feeling=' + encodeURIComponent(feeling) + '&emoji=' + encodeURIComponent(emoji) : '';
-          a.href = t.href + q;
+        var tool = FL.TOOLS[key];
+        if (!tool) return;
+        var item = document.createElement(key === "grownup" ? "button" : "a");
+        item.className = "w-full flex items-center gap-3 text-left bg-purple-50 hover:bg-purple-100 rounded-2xl px-4 py-3";
+        if (key !== "grownup") {
+          var query = key === "journal" ? "?feeling=" + encodeURIComponent(feeling) + "&emoji=" + encodeURIComponent(emoji) : "";
+          item.href = tool.href + query;
+        } else {
+          item.type = "button";
         }
-        a.innerHTML = '<span class="text-2xl" aria-hidden="true">' + t.icon + '</span><span><span class="block font-bold text-purple-700 text-sm">' + t.label + '</span><span class="block text-xs text-gray-500">' + t.why + '</span></span>';
-        a.addEventListener('click', function () {
-          loop.tried = key; saveLoop(loop);
-          if (key === 'grownup') { openGrownup(); }
-        });
-        tools.appendChild(a);
+        var icon = document.createElement("span");
+        icon.className = "text-2xl";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = tool.icon;
+        var copy = document.createElement("span");
+        var title = document.createElement("span");
+        title.className = "block font-bold text-purple-700 text-sm";
+        title.textContent = tool.label;
+        var detail = document.createElement("span");
+        detail.className = "block text-xs text-gray-500";
+        detail.textContent = tool.why;
+        copy.appendChild(title);
+        copy.appendChild(detail);
+        item.appendChild(icon);
+        item.appendChild(copy);
+        if (key === "grownup") {
+          item.addEventListener("click", function () {
+            $("script").textContent = "I am feeling " + feeling.toLowerCase() + " and I could use someone to listen.";
+            show("grownupCard");
+            $("grownupCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
+          });
+        }
+        tools.appendChild(item);
       }
       data.tools.forEach(addTool);
-      addTool('skills');
+      if (data.tools.indexOf("skills") === -1) addTool("skills");
 
-      function openGrownup() {
-        $("script").textContent = '"I am feeling ' + feeling.toLowerCase() + ' and I need some help. Can you sit with me for a minute?"';
-        show('grownupCard'); $('grownupCard').scrollIntoView({ behavior: 'smooth' });
-      }
-      $("toldGrownup").onclick = function () { loop.tried = 'grownup'; loop.done = true; saveLoop(loop); this.disabled = true; this.textContent = 'Great job reaching out 💛'; reveal(); };
-
-      function reveal() {
-        $("lessonTitle").textContent = data.lesson.title;
-        $("tips").innerHTML = ''; data.lesson.tips.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; $("tips").appendChild(li); });
-        show('learnCard');
-        if (loop.learned) { learnedUI(); }
-      }
-      function learnedUI() { $("learned").disabled = true; $("learned").textContent = 'Learned ✓'; show('showCard'); }
-
-      function reveal1() { show('toolsCard'); if (loop.tried) reveal(); }
-      var replies = {
-        yes: "Thank you for telling me. That helps " + b.name + " understand you.",
-        some: "That is okay. Feelings can be mixed up. Let us find what helps.",
-        no: "Thanks for telling us. It is fine if it does not fit exactly. You know yourself best."
-      };
-      document.querySelectorAll('[data-fit]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var k = btn.getAttribute('data-fit'); loop.fit = k; saveLoop(loop);
-          $("fitReply").textContent = replies[k]; show('fitReply');
-          document.querySelectorAll('[data-fit]').forEach(function (x) { x.classList.remove('ring-2', 'ring-purple-400'); });
-          btn.classList.add('ring-2', 'ring-purple-400');
-          reveal1();
-        });
+      $("lessonTitle").textContent = data.lesson.title;
+      $("tips").innerHTML = "";
+      data.lesson.tips.forEach(function (tip) {
+        var li = document.createElement("li");
+        li.textContent = tip;
+        $("tips").appendChild(li);
       });
-      // returning from an activity: skip ahead
-      if (loop.fit) { var fb = document.querySelector('[data-fit="' + loop.fit + '"]'); if (fb) fb.click(); }
-      else if (loop.tried) reveal1();
 
-      $("learned").onclick = function () {
-        G.award('module', feeling); loop.learned = true; saveLoop(loop); learnedUI();
-      };
-      $("showBtn").onclick = function () {
-        G.submitMoment(feeling, emoji, $("momentNote").value);
-        this.disabled = true; show('shownMsg'); loop.shown = true; saveLoop(loop);
-      };
-      if (loop.shown) { $("showBtn").disabled = true; show('shownMsg'); }
+      $("toldGrownup").addEventListener("click", function () {
+        hide("grownupCard");
+      });
+
+      $("learned").addEventListener("click", function () {
+        G.award("module", feeling);
+        this.disabled = true;
+        this.textContent = "Discovery saved ✓";
+      });
+
+      $("showBtn").addEventListener("click", function () {
+        if (typeof G.submitMoment === "function") G.submitMoment(feeling, emoji, $("momentNote").value);
+        this.disabled = true;
+        show("shownMsg");
+      });
     });
-  </script>
+  </script>pt>
 
 </body>
 </html>
