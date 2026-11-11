@@ -23,7 +23,7 @@ input,select{width:100%;border:2px solid #e5dcf1;border-radius:13px;padding:11px
 <div class="notice"><strong>Design preview — not a private adult account.</strong> Fictional sample identities and local browser data are used to demonstrate the journey. No real adult is verified, no secure QR token is created, no notification is sent, and no access is granted or changed. Do not enter real personal information.</div>
 <section class="grid md:grid-cols-2 gap-4">
 <article class="card p-5 space-y-3"><div class="flex items-center justify-between"><h2 class="font-extrabold text-purple-800 text-lg">🛡️ Main Guides</h2><span class="pill">Two-key protection</span></div>
-<div class="person"><div class="avatar">🌷</div><div class="min-w-0 flex-1"><b class="block text-sm">Main Guide 1 · You</b><span class="muted">Demo primary guide</span></div><span class="pill">Primary</span></div>
+<div class="person"><div class="avatar">🌷</div><div class="min-w-0 flex-1"><b class="block text-sm">Main Guide 1 · You</b><span class="muted">Demo primary guide</span></div><span id="selfBadge" class="pill">Primary</span></div>
 <div class="person"><div class="avatar">🌿</div><div class="min-w-0 flex-1"><b class="block text-sm">Main Guide 2</b><span class="muted">Fictional co-guide</span></div><span class="pill">Primary</span></div>
 <p class="muted">Neither Main Guide can ordinarily remove or replace the other alone. Both approve an ordinary change. Each adult can always leave their own connection.</p></article>
 <article class="card p-5 space-y-3"><div class="flex items-center justify-between"><h2 class="font-extrabold text-purple-800 text-lg">🔔 Connection activity</h2><span id="activityCount" class="pill">0 events</span></div><div id="activity" class="space-y-2"><p class="muted">Invitation and safety events will appear here in this preview.</p></div></article>
@@ -40,7 +40,7 @@ input,select{width:100%;border:2px solid #e5dcf1;border-radius:13px;padding:11px
 <script>
 (function(){
 'use strict';
-var REQUESTS='ventpals_demo_nest_connection_requests',INVITES='ventpals_demo_main_guide_invites',EVENTS='ventpals_demo_main_guide_activity',KEY='ventpals_demo_two_key_request',SAFETY='ventpals_demo_safety_hold';
+var REQUESTS='ventpals_demo_nest_connection_requests',INVITES='ventpals_demo_main_guide_invites',EVENTS='ventpals_demo_main_guide_activity',KEY='ventpals_demo_two_key_request',SAFETY='ventpals_demo_safety_hold',SELF='ventpals_demo_main_guide_self_withdrawn';
 var $=function(id){return document.getElementById(id);};
 function read(key,fallback){try{var v=JSON.parse(localStorage.getItem(key)||'null');return Array.isArray(fallback)?(Array.isArray(v)?v:fallback):(v||fallback);}catch(e){return fallback;}}
 function write(key,value){localStorage.setItem(key,JSON.stringify(value));}
@@ -50,7 +50,7 @@ function stageClass(s){return s==='active'?'stage active':(['declined','expired'
 function expire(invites){var now=Date.now(),changed=false;invites.forEach(function(i){if(['prepared','opened','verified'].indexOf(i.status)>=0&&now-new Date(i.createdAt).getTime()>600000){i.status='expired';i.updatedAt=new Date().toISOString();log('Invitation expired for '+i.name,'warn');changed=true;}});if(changed)write(INVITES,invites);return invites;}
 function make(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;}
 function render(){
- var req=read(REQUESTS,[]).filter(function(x){return x.kind==='add';}),inv=expire(read(INVITES,[])),host=$('requests'),ih=$('invites');
+ var req=read(REQUESTS,[]).filter(function(x){return x.kind==='add';}),inv=expire(read(INVITES,[])),host=$('requests'),ih=$('invites'),self=read(SELF,null);\n $('selfBadge').textContent=self&&self.withdrawn?'Withdrawn in preview':'Primary';$('selfBadge').className=self&&self.withdrawn?'stage stop':'pill';
  host.innerHTML='';ih.innerHTML='';$('requestCount').textContent=req.length+' requests';
  if(!req.length)host.append(make('p','muted','No child requests are available in this browser preview. Make a request from the child’s Nest Connections screen to see it here.'));
  req.forEach(function(item){var row=make('article','person items-start'),av=make('div','avatar','🐤'),body=make('div','min-w-0 flex-1'),title=make('b','block text-sm',item.name),meta=make('p','muted',item.relationship+(item.why?' · '+item.why:'')),already=inv.some(function(i){return i.requestId===item.id&&['prepared','opened','verified','awaiting-child','active'].indexOf(i.status)>=0;}),btn=make('button','secondary mt-3 text-sm',already?'Invitation already started':'Prepare invitation preview');
@@ -73,14 +73,14 @@ function render(){
  var key=read(KEY,null),kh=$('keyRequest');kh.innerHTML='';
  if(!key){kh.append(make('b','text-sm text-purple-800','No change request pending'),make('p','muted','Start a sample request to see the two separate approvals.'));}
  else{kh.append(make('b','text-sm text-purple-800','Request: '+key.action),make('p','muted','Approvals: '+(key.approvals.main1?'1':'0')+' of 2'));
- ['main1','main2'].forEach(function(k){var b=make('button','secondary text-sm',k==='main1'?'Approve as Main Guide 1':'Approve as Main Guide 2');b.type='button';b.disabled=!!key.approvals[k]||key.complete;b.addEventListener('click',function(){key.approvals[k]=true;key.complete=!!(key.approvals.main1&&key.approvals.main2);write(KEY,key);log((k==='main1'?'Main Guide 1':'Main Guide 2')+' approval recorded for the sample change');render();});kh.append(b);});
+ ['main1','main2'].forEach(function(k){var b=make('button','secondary text-sm',k==='main1'?'Simulate approval as Main Guide 1':'Simulate approval as Main Guide 2');b.type='button';b.disabled=!!key.approvals[k]||key.complete;b.addEventListener('click',function(){key.approvals[k]=true;key.complete=!!(key.approvals.main1&&key.approvals.main2);write(KEY,key);log((k==='main1'?'Main Guide 1':'Main Guide 2')+' approval recorded for the sample change');render();});kh.append(b);});
  if(key.complete)kh.append(make('p','text-sm font-bold text-green-700','Both keys approved. The preview shows approval only; no role changed.'));}
  var safety=read(SAFETY,null);$('safetyStatus').textContent=safety?'Safety hold preview is active for review. No real access was changed.':'No safety hold preview is active.';
 }
 $('startKey').addEventListener('click',function(){write(KEY,{action:'change Main Guide 2',approvals:{main1:false,main2:false},complete:false,createdAt:new Date().toISOString()});log('Two-key change request opened for Main Guide 2');$('keyStatus').textContent='Sample request opened. Both separate approval steps are shown above.';render();});
-$('leaveGuide').addEventListener('click',function(){if(!confirm('Preview only: show the self-withdrawal path? No account or connection will change.'))return;log('Main Guide self-withdrawal path viewed');$('keyStatus').textContent='Self-withdrawal path previewed. In production, an adult can revoke their own access without the other Main Guide approving.';});
+$('leaveGuide').addEventListener('click',function(){if(!confirm('Preview only: simulate withdrawing Main Guide 1 from this Nest? No real account or connection will change.'))return;write(SELF,{withdrawn:true,at:new Date().toISOString()});log('Main Guide 1 self-withdrawal simulated');$('keyStatus').textContent='Self-withdrawal simulated. Main Guide 1 is marked withdrawn in this local preview; the other adult’s access is not affected.';render();});
 $('safetyHold').addEventListener('click',function(){if(!confirm('Preview an urgent safeguarding hold? This will only change local demo data.'))return;write(SAFETY,{active:true,at:new Date().toISOString()});log('Urgent safeguarding hold preview started','warn');$('safetyStatus').textContent='Safety hold preview is active. It bypasses ordinary two-key approval; no real access was changed.';render();});
-window.addEventListener('storage',function(e){if([REQUESTS,INVITES,EVENTS,KEY,SAFETY].indexOf(e.key)>=0)render();});
+window.addEventListener('storage',function(e){if([REQUESTS,INVITES,EVENTS,KEY,SAFETY,SELF].indexOf(e.key)>=0)render();});
 render();
 })();
 </script>
