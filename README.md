@@ -30,10 +30,12 @@
 | `signup.html` / `login.html` | Child auth |
 | `adult-signup.html` / `adult-login.html` | Parent auth |
 | `onboarding/onboarding.html` | Child onboarding wizard |
-| `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |\n| `dashboard.html` | Legacy route that redirects to the personal Nest |
+| `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |
+| `dashboard.html` | Legacy route that redirects to the personal Nest |
 | `circles-dashboard.html` | Legacy route that redirects to the personal Nest |
 | `{birdId}-nest.html` | Legacy routes that redirect to the child's personal Nest |
-| `meet-the-flock.html` | Flockopedia: discover all 16 birds |\n| `world.html` | VentPals World zones |
+| `meet-the-flock.html` | Flockopedia: discover all 16 birds |
+| `world.html` | VentPals World zones |
 | `notifications.html` | Parent notifications |
 | `calming-skills.html` | Calming skills hub |
 
