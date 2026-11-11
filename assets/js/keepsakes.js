@@ -24,8 +24,9 @@
   function isConnected(i) { return !!(CFG.domain && i && i.variantId); }
   function keepsakes() { return read(REQ_KEY, []); }
 
-  // The grown-up confirms where to send it. Fires the optional order webhook with the address.
+  // Physical fulfillment is disabled in the development preview. Never collect addresses here.
   function confirmAddress(id, address) {
+    if (localStorage.getItem('ventpals_development_mode') === 'true') return false;
     var all = keepsakes(), k = all.filter(function (r) { return r.id === id; })[0];
     if (!k) return false;
     k.address = address; k.status = 'confirmed'; k.confirmedAt = Date.now();
@@ -55,7 +56,7 @@
     return 'https://' + CFG.domain + '/cart/' + it.variantId + ':1';
   }
 
-  // Moments a child shares; the grown-up verifies (or asks to talk about it later).
+  // Moments a child chooses to share. Adult acknowledgement is not a condition for progress.
   function moments() { return read(MOMENTS_KEY, []); }
   function verifyMoment(id) {
     var all = moments();
