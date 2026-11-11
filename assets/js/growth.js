@@ -223,6 +223,7 @@
   function basketTotal() { var s = getState(); return BUG_ORDER.reduce(function (n, b) { return n + s.bugs[b]; }, 0); }
 
   /* ───────────── feeding: this is what makes the bird grow ───────────── */
+  // Add a non-sensitive milestone entry to the local demo collection and shareable inbox.
   function createKeepsake(source, itemId, name, emoji, inboxLabel) {
     var u = getUser(), reqs = readJSON(REQ_KEY, []);
     if (reqs.some(function (r) { return r.source === source; })) return;
