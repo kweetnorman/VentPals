@@ -50,3 +50,10 @@ This document records the intended VentPals relationship model. It is a product 
 
 ## Production prerequisites
 The current repository is a static HTML/JavaScript development preview using localStorage. It has no Firebase Auth, backend API, Firestore rules, or server-side invitation service. Therefore the QR and relationship flows must not be represented as real or secure until the backend, adult identity verification, parental-consent/legal-authority model, data access rules, audit logging, abuse controls, and child-safety review are implemented and tested.
+
+## Main Guide interface preview
+- `main-guide-connections.html` is a front-end design preview linked from the grown-up sign-in placeholder.
+- It displays fictional Main Guide identities, child-originated add requests from the same browser's local preview storage, and an invitation preparation state.
+- The QR area is intentionally a nonfunctional placeholder. No QR image, invitation token, adult identity check, parent notification, or access grant is produced by this static page.
+- A Main Guide may prepare an invitation only for a request initiated by the child. The real service must enforce this relationship server-side, not trust the browser's localStorage.
+- Production invitation sequence: child request → authenticated Main Guide issues scoped one-use QR → invitee verifies identity and accepts → child confirms the invited adult → authorization and policy checks → connection becomes active → Main Guides receive the appropriate security event.
