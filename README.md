@@ -4,7 +4,7 @@
 
 ## 🐦 Overview
 
-- **16 VentPal birds** — each representing a different emotional style (Aura, Breezy, Clover, Cove, Drift, Echo, Flamez, Flare, Flicker, Guardian, Lumen, Nova, Pebble, Sable, Solace, Twig)
+- **16 VentPal birds** — each offering a different perspective and kind of support (Aura, Breezy, Clover, Cove, Drift, Echo, Ember, Flare, Flicker, Guardian, Lumen, Nova, Pebble, Sable, Solace, Twig)
 - **VentPals World** — 6 emotional zones (Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, Sparkle Stream)
 - **Calming skills** — Deep Breathing, Butterfly Hug, 5 Senses Grounding, Sip of Water
 - **Reflections & Nests** — per-bird journaling and growth tracking
@@ -27,7 +27,7 @@
 | Page | Description |
 |------|-------------|
 | `index.html` | Public landing page |
-| `signup.html` / `login.html` | Child auth |
+| `welcome.html` | Combined child sign-in / demo setup |
 | `adult-signup.html` / `adult-login.html` | Parent auth |
 | `onboarding/onboarding.html` | Child onboarding wizard |
 | `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |
@@ -41,20 +41,21 @@
 
 ## 🔐 Auth Model
 
-The app uses **localStorage** for demo authentication:
+The app currently uses **localStorage** for development-only demo entry (not production authentication):
 
-- **Child session:** `ventpals_logged_in`, `ventpals_user` (username, birdId, parentCode, stage…)
+- **Child session:** `ventpals_logged_in`, `ventpals_user` (nickname, username, birdId, parentCode, stage…)
+- **Development fixtures:** `ventpals_demo_profiles` and `ventpals_development_mode` (fictional local profiles only)
 - **Parent session:** `ventpals_parent_logged_in`, `ventpals_parent_email`, `ventpals_parents[]`
 - **Onboarding flag:** `ventpals_onboarding_complete`
 
-> ⚠️ The localStorage auth is intentionally simple for demo/prototype purposes. Production deployment should use Firebase Auth (already configured in `assets/js/firebase-config.js`).
+> ⚠️ Development Mode is not real account creation or secure authentication. Use fictional information only. Production account creation, adult verification, PIN reset, and secure persistence are intentionally deferred until the final implementation phase.
 
 ## 🚀 Running Locally
 
 ```bash
 git clone https://github.com/kweetnorman/VentPals.git
 cd VentPals
-open index.html   # or serve with any static file server
+python -m http.server 8000   # then open http://localhost:8000 (recommended for shared data files)
 ```
 
 No build step required — the site is plain HTML/CSS/JS with Tailwind CSS loaded via CDN.
