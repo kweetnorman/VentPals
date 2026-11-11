@@ -437,7 +437,7 @@
     award('login');
     if (file === 'calming-skills') award('calming');
     else if (file === 'world') award('world');
-    else if (/-nest$/.test(file)) { award('nest'); onClick('button[onclick="saveReflection()"]', 'reflection'); }
+    else if (file === 'nest' || /-nest$/.test(file)) { award('nest'); onClick('#saveReflection, button[onclick="saveReflection()"]', 'reflection'); }
     else if (file === 'breathing') dwell('breathing', 20);
     else if (file === 'grounding') dwell('grounding', 30);
     else if (file === 'butterfly-hug') dwell('butterfly', 25);
