@@ -73,6 +73,7 @@ The Main Guide dashboard now demonstrates the full intended sequence without a b
 - Two-key Main Guide change request with two distinct approval steps. The preview never changes a real role.
 - Self-withdrawal explanation: an adult can always leave their own connection without the other Main Guide's approval.
 - Urgent safeguarding hold preview that bypasses ordinary two-key approval, so the protection model does not create a deadlock for a child in an unsafe situation.
-- The child confirmation page presents the adult's display name to the child and gives the child a clear yes/no choice with no required explanation.
+- Pending adult acceptances are surfaced inside the child's signed-in Nest Connections page; the child is not sent to the Main Guide dashboard.
+- The child confirmation page presents the adult's display name and gives the child a clear yes/no choice with no required explanation. After deciding, the child returns to My Nest.
 
 All lifecycle transitions are local browser demonstrations. The UI must not be represented as actual security or authorization. Production must independently enforce expiry, token redemption, account verification, consent, two-key approval, safety suspension, notifications, and audit history on trusted server infrastructure.
