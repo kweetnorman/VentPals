@@ -9,7 +9,7 @@
 - **Calming skills** — Deep Breathing, Butterfly Hug, 5 Senses Grounding, Sip of Water
 - **Reflections & Nests** — one personal Nest per child, with private journaling and growth tracking
 - **Grown-up experience** — preview only; verified adult-child connections are deferred until the secure authentication phase
-- **Onboarding flow** — 6-step setup: Welcome → Bird → Name → Avatar → Privacy → Parent Code
+- **Onboarding flow** — 6-step child setup: Welcome → Bird → Name → Avatar → Privacy → My Nest. Adult connections are not part of child onboarding.
 
 ## 📁 Structure
 
@@ -40,7 +40,7 @@
 | `{birdId}-nest.html` | Legacy routes that redirect to the child's personal Nest |
 | `meet-the-flock.html` | Flockopedia: discover all 16 birds |
 | `world.html` | VentPals World zones |
-| `notifications.html` | Parent notifications |
+| `notifications.html` | Legacy route to the grown-up notifications placeholder (adult access is not active yet) |
 | `calming-skills.html` | Calming skills hub |
 
 ## 🔐 Auth Model
