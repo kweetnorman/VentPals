@@ -59,7 +59,13 @@ input,select,textarea{width:100%;border:2px solid #e5dcf1;border-radius:14px;pad
 <h2 class="text-lg font-extrabold text-purple-800">💬 You can change your mind</h2>
 <p class="muted">If you no longer want someone connected to your Nest, you can ask for their removal here. You don't have to explain your reasons, and you can ask a Main Guide or the VentPals safety team for help.</p>
 <div id="removeRequests" class="space-y-2"></div>
-<p class="text-xs text-gray-500">An adult can also choose to leave. If someone makes you feel unsafe, use the safety help option rather than waiting for a regular request.</p>
+<form id="removeForm" class="space-y-2 border-t border-purple-100 pt-3">
+<label for="removeName" class="block text-sm font-bold text-purple-800">Who would you like to ask us to remove?</label>
+<input id="removeName" maxlength="40" autocomplete="off" placeholder="Enter their name or nickname" required>
+<button type="submit" class="secondary w-full">Ask to remove this person</button>
+<p id="removeStatus" class="muted" role="status" aria-live="polite"></p>
+</form>
+<p class="text-xs text-gray-500">You don't have to explain your reasons. An adult can also choose to leave. If someone makes you feel unsafe, use the safety help option rather than waiting for a regular request.</p>
 <a href="support.html" class="inline-block text-sm font-extrabold text-purple-700 underline">I need help with a Nest connection →</a>
 </section>
 </main>
@@ -97,6 +103,12 @@ $('requestForm').addEventListener('submit',function(e){
  }
  items.push({id:'demo-'+Date.now(),kind:'add',name:name,relationship:relationship,why:$('why').value.trim(),createdAt:new Date().toISOString(),status:'local-preview'});
  write(items);$('requestForm').reset();$('requestStatus').textContent='Your request is saved in this preview. It has not been sent to an adult.';render();
+});
+$('removeForm').addEventListener('submit',function(e){
+ e.preventDefault();var name=$('removeName').value.trim();if(!name)return;
+ var items=read();
+ items.push({id:'demo-'+Date.now(),kind:'remove',name:name,createdAt:new Date().toISOString(),status:'local-preview'});
+ write(items);$('removeForm').reset();$('removeStatus').textContent='Your request is saved in this preview. It has not been sent, and no connection was changed.';render();
 });
 render();
 })();
