@@ -12,17 +12,17 @@
 <body class="bg-gradient-to-br from-purple-50 via-green-50 to-purple-100 overflow-x-hidden">
   <script>
     /* One page, two jobs:
-       ?mode=choose-bird  during onboarding: the child picks a feeling, then the bird who understands it (locked later)
+       ?mode=choose-bird  legacy onboarding route; permanent VentPal selection now happens by child preference
        (no mode)          daily check-in: the child picks a feeling and goes on to reflect or calm down */
     var VP_MODE = new URLSearchParams(location.search).get('mode') === 'choose-bird' ? 'choose-bird' : 'checkin';
     (function () {
       var user = {}; try { user = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
       if (VP_MODE === 'choose-bird') {
-        if (!user.username && !user.nickname && !localStorage.getItem('ventpals_user')) location.replace('signup.html');
+        if (!user.username && !user.nickname && !localStorage.getItem('ventpals_user')) location.replace('welcome.html');
         else if (user.birdLocked) location.replace('nest.html');
         document.body.classList.add('mode-choose');
       } else if (localStorage.getItem('ventpals_logged_in') !== 'true') {
-        location.replace('login.html');
+        location.replace('welcome.html');
       }
     })();
   </script>
