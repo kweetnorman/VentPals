@@ -163,6 +163,7 @@
 
         if (i >= stepIds.length) {
           document.getElementById('startGuide').textContent = 'Well done 💜';
+          if (window.VPGrowth) window.VPGrowth.award('butterfly');
           return;
         }
 
