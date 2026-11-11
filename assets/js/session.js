@@ -1,11 +1,30 @@
 (function(){
 'use strict';
-var KEY='ventpals_logged_in',LAST='ventpals_last_url';
+var KEY='ventpals_logged_in',LAST='ventpals_last_url',ACTIVITY='ventpals_demo_last_activity';
+var IDLE_LIMIT=5*60*1000;
 if(localStorage.getItem(KEY)!=='true')return;
 function root(){var p=location.pathname.split('/').filter(Boolean);return p.length>1?'../'.repeat(p.length-1):'';}
 var path=location.pathname,skip=['/login','/signup','/set-pin','/app-switcher','/onboarding'];
 if(!skip.some(function(s){return path.indexOf(s)!==-1;}))localStorage.setItem(LAST,location.href);
-function logout(){localStorage.removeItem(KEY);location.href=root()+'welcome.html';}
+function logout(){localStorage.removeItem(KEY);localStorage.removeItem(ACTIVITY);location.href=root()+'welcome.html';}
+function readActivity(){var n=Number(localStorage.getItem(ACTIVITY));return Number.isFinite(n)&&n>0?n:Date.now();}
+function recordActivity(){
+ var now=Date.now();
+ if(now-readActivity()>=IDLE_LIMIT){logout();return;}
+ localStorage.setItem(ACTIVITY,String(now));
+}
+function checkIdle(){if(Date.now()-readActivity()>=IDLE_LIMIT)logout();}
+if(!localStorage.getItem(ACTIVITY))localStorage.setItem(ACTIVITY,String(Date.now()));
+['pointerdown','keydown','touchstart','scroll','click'].forEach(function(type){
+ document.addEventListener(type,recordActivity,{passive:true});
+});
+window.addEventListener('storage',function(e){
+ if(e.key===KEY&&e.newValue!=='true'){location.replace(root()+'welcome.html');return;}
+ if(e.key===ACTIVITY)checkIdle();
+});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')checkIdle();});
+var idleCheck=window.setInterval(checkIdle,1000);
+window.addEventListener('pagehide',function(){window.clearInterval(idleCheck);});
 function inject(){
  if(document.getElementById('vp-tabbar'))return;
  var base=root(),file=(location.pathname.split('/').pop()||'').replace('.html','');
@@ -30,5 +49,5 @@ function inject(){
  document.body.appendChild(bar);document.body.style.paddingBottom='105px';
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',inject);else inject();
-window.VPSession={logout:logout,isLoggedIn:true};
+window.VPSession={logout:logout,isLoggedIn:true,idleTimeoutMs:IDLE_LIMIT};
 })();

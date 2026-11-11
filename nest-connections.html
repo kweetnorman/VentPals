@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efff">
+<title>My Nest Connections • VentPals</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;color:#40394d;background:radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8)}
+.shell{max-width:900px;margin:auto}.card{background:rgba(255,255,255,.94);border:1px solid rgba(118,81,181,.14);border-radius:26px;box-shadow:0 12px 34px rgba(65,48,94,.07)}
+.primary{border:0;border-radius:999px;background:#7651b5;color:#fff;font-weight:800;padding:12px 20px}.secondary{border:2px solid #d9c9ef;border-radius:999px;background:#fff;color:#6845a0;font-weight:700;padding:10px 18px}
+input,select,textarea{width:100%;border:2px solid #e5dcf1;border-radius:14px;padding:12px;background:white;color:#40394d;font:inherit}input:focus,select:focus,textarea:focus{outline:3px solid #a78bfa44;border-color:#8b65bd}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;background:#f1eaff;color:#6845a0}
+.notice{border:1px solid #f2d7a1;background:#fff8e8;border-radius:16px;padding:13px;color:#76551d;font-size:12px;line-height:1.55}
+.person{display:flex;align-items:center;gap:12px;border:1px solid #eee7f7;border-radius:18px;padding:13px;background:#fff}
+.avatar{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#f2eaff;font-size:23px;flex-shrink:0}
+.muted{font-size:13px;color:#716b7b;line-height:1.55}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<script>if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');}</script>
+<script src="assets/js/session.js"></script>
+<header class="shell px-4 pt-6 flex items-center justify-between">
+<a href="nest.html" class="font-extrabold text-xl text-purple-800 no-underline">🪺 VentPals</a>
+<a href="nest.html" class="text-sm font-bold text-purple-700">← My Nest</a>
+</header>
+<main class="shell px-4 pt-7 pb-28 space-y-6">
+<section class="text-center">
+<div class="text-5xl mb-3">💜</div>
+<p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Nest Connections</p>
+<h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-2">The people in my Nest</h1>
+<p class="muted max-w-xl mx-auto mt-3">Your Nest is your space. You can tell your Main Guides about the people you'd like to connect with.</p>
+</section>
+<div class="notice"><strong>Preview only:</strong> This page helps us review the child experience. Requests are saved only in this browser. No adult is actually invited, verified, connected, or removed. Real connections will require secure adult accounts and server-side permissions.</div>
+<section class="card p-5 sm:p-6 space-y-4">
+<div class="flex items-center justify-between gap-3"><div><h2 class="text-xl font-extrabold text-purple-800">🛡️ My Main Guides</h2><p class="muted mt-1">Up to two adults who help protect your Nest.</p></div><span class="pill">Protected</span></div>
+<div id="mainGuides" class="grid sm:grid-cols-2 gap-3">
+<div class="person"><div class="avatar">🌷</div><div><b class="block text-sm">Main Guide 1</b><span class="muted">Connection not set up</span></div></div>
+<div class="person"><div class="avatar">🌿</div><div><b class="block text-sm">Main Guide 2</b><span class="muted">Connection not set up</span></div></div>
+</div>
+<p class="muted">Main Guide connections are established through verified adult accounts. The invitation QR code is only available inside an authenticated Main Guide account—not on this child screen.</p>
+</section>
+<section class="card p-5 sm:p-6 space-y-4">
+<div><h2 class="text-xl font-extrabold text-purple-800">🐦 My Nest Guides</h2><p class="muted mt-1">Other trusted adults you'd like to have in your Nest.</p></div>
+<div id="guideList" class="space-y-2"><p class="muted">You haven't added any Nest Guide requests in this preview yet.</p></div>
+<div class="border-t border-purple-100 pt-4 space-y-3">
+<h3 class="font-extrabold text-purple-800">Who would you like to ask?</h3>
+<p class="muted">You choose who you'd like to invite. Your Main Guide helps make the connection safely.</p>
+<form id="requestForm" class="space-y-3">
+<div><label for="personName" class="block text-sm font-bold text-purple-800 mb-1">Their first name or nickname</label><input id="personName" maxlength="40" autocomplete="off" placeholder="Example: Grandma Jo" required></div>
+<div><label for="relationship" class="block text-sm font-bold text-purple-800 mb-1">Who are they to you?</label><select id="relationship" required><option value="">Choose one</option><option>Grandparent</option><option>Aunt or uncle</option><option>Other family member</option><option>Teacher</option><option>Coach or mentor</option><option>Family friend</option><option>Other trusted adult</option></select></div>
+<div><label for="why" class="block text-sm font-bold text-purple-800 mb-1">What makes you want them in your Nest? (Optional)</label><textarea id="why" rows="2" maxlength="180" placeholder="They listen to me, help me learn, or cheer me on…"></textarea></div>
+<button class="primary w-full" type="submit">Ask to add this person</button>
+<p id="requestStatus" class="muted" role="status" aria-live="polite"></p>
+</form>
+</div>
+</section>
+<section class="card p-5 sm:p-6 space-y-3">
+<h2 class="text-lg font-extrabold text-purple-800">💬 You can change your mind</h2>
+<p class="muted">If you no longer want someone connected to your Nest, you can ask for their removal here. You don't have to explain your reasons, and you can ask a Main Guide or the VentPals safety team for help.</p>
+<div id="removeRequests" class="space-y-2"></div>
+<form id="removeForm" class="space-y-2 border-t border-purple-100 pt-3">
+<label for="removeName" class="block text-sm font-bold text-purple-800">Who would you like to ask us to remove?</label>
+<input id="removeName" maxlength="40" autocomplete="off" placeholder="Enter their name or nickname" required>
+<button type="submit" class="secondary w-full">Ask to remove this person</button>
+<p id="removeStatus" class="muted" role="status" aria-live="polite"></p>
+</form>
+<p class="text-xs text-gray-500">You don't have to explain your reasons. An adult can also choose to leave. If someone makes you feel unsafe, use the safety help option rather than waiting for a regular request.</p>
+<a href="mailto:support@ventpals.com?subject=Nest%20connection%20help" class="inline-block text-sm font-extrabold text-purple-700 underline">I need help with a Nest connection →</a>
+</section>
+</main>
+<script>
+(function(){
+'use strict';
+var KEY='ventpals_demo_nest_connection_requests';
+var $=function(id){return document.getElementById(id);};
+function read(){try{var v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[];}catch(e){return [];}}
+function write(items){localStorage.setItem(KEY,JSON.stringify(items));}
+function render(){
+ var items=read(),list=$('guideList'),rem=$('removeRequests');
+ list.innerHTML='';rem.innerHTML='';
+ var active=items.filter(function(x){return x.kind==='add';});
+ var removals=items.filter(function(x){return x.kind==='remove';});
+ if(!active.length)list.innerHTML='<p class="muted">You haven’t made any requests in this preview yet.</p>';
+ active.forEach(function(item){
+  var row=document.createElement('div');row.className='person';
+  var av=document.createElement('div');av.className='avatar';av.textContent='🐤';
+  var body=document.createElement('div');body.className='min-w-0 flex-1';
+  var name=document.createElement('b');name.className='block text-sm';name.textContent=item.name;
+  var desc=document.createElement('span');desc.className='muted';desc.textContent=item.relationship+' · Request saved on this device only';
+  var state=document.createElement('span');state.className='pill mt-1';state.textContent='Not sent';
+  body.append(name,desc,state);row.append(av,body);list.append(row);
+ });
+ if(!removals.length)rem.innerHTML='<p class="muted">No removal requests.</p>';
+ removals.forEach(function(item){var p=document.createElement('p');p.className='muted rounded-xl bg-purple-50 p-3';p.textContent='Removal request preview: '+item.name+' (not sent)';rem.append(p);});
+}
+$('requestForm').addEventListener('submit',function(e){
+ e.preventDefault();var name=$('personName').value.trim(),relationship=$('relationship').value;
+ if(!name||!relationship)return;
+ var items=read();
+ if(items.some(function(x){return x.kind==='add'&&x.name.toLowerCase()===name.toLowerCase()&&x.relationship===relationship;})){
+  $('requestStatus').textContent='You already have a request for this person in this preview.';return;
+ }
+ items.push({id:'demo-'+Date.now(),kind:'add',name:name,relationship:relationship,why:$('why').value.trim(),createdAt:new Date().toISOString(),status:'local-preview'});
+ write(items);$('requestForm').reset();$('requestStatus').textContent='Your request is saved in this preview. It has not been sent to an adult.';render();
+});
+$('removeForm').addEventListener('submit',function(e){
+ e.preventDefault();var name=$('removeName').value.trim();if(!name)return;
+ var items=read();
+ items.push({id:'demo-'+Date.now(),kind:'remove',name:name,createdAt:new Date().toISOString(),status:'local-preview'});
+ write(items);$('removeForm').reset();$('removeStatus').textContent='Your request is saved in this preview. It has not been sent, and no connection was changed.';render();
+});
+render();
+})();
+</script>
+</body>
+</html>
