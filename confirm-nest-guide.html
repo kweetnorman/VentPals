@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efff"><title>Confirm a Nest Guide • VentPals</title><script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;color:#40394d;background:radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8)}
+main{max-width:720px;margin:auto}.card{background:rgba(255,255,255,.96);border:1px solid rgba(118,81,181,.14);border-radius:25px;box-shadow:0 12px 34px rgba(65,48,94,.07)}.muted{font-size:13px;color:#716b7b;line-height:1.6}.primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:13px 20px}.secondary{border:2px solid #d9c9ef;border-radius:999px;background:white;color:#6845a0;font-weight:700;padding:12px 20px}.notice{border:1px solid #f2d7a1;background:#fff8e8;border-radius:16px;padding:14px;color:#76551d;font-size:12px;line-height:1.55}
+</style></head><body>
+<header class="max-w-3xl mx-auto px-4 pt-6"><a href="nest.html" class="font-extrabold text-xl text-purple-800 no-underline">🪺 VentPals</a></header>
+<main class="px-4 pt-8 pb-16 space-y-5">
+<section class="text-center"><div class="text-5xl mb-3">🐦</div><p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Your Nest · Your choice</p><h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-2">Is this the person you asked for?</h1><p class="muted max-w-xl mx-auto mt-3">You get to decide whether this person joins your Nest. You can say yes or no. You do not have to explain your answer.</p></section>
+<div class="notice"><strong>Preview only.</strong> This page uses a fictional invitation stored in this browser. Your choice does not create or remove a real connection.</div>
+<section id="content" class="card p-6 sm:p-8 space-y-4"><p class="muted">Checking this invitation preview…</p></section>
+<p class="text-center"><a href="main-guide-connections.html" class="text-sm font-bold text-purple-700 underline">Return to Main Guide preview</a></p>
+</main>
+<script>
+(function(){
+'use strict';
+var KEY='ventpals_demo_main_guide_invites',EVENTS='ventpals_demo_main_guide_activity',id=new URLSearchParams(location.search).get('invite'),content=document.getElementById('content');
+function read(k){try{var x=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(x)?x:[];}catch(e){return [];}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function el(tag,cls,txt){var n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n;}
+var invites=read(KEY),item=invites.find(function(x){return x.id===id;});
+if(!item||item.status!=='awaiting-child'){content.innerHTML='<h2 class="text-xl font-extrabold text-purple-800">No decision is waiting</h2><p class="muted">This invitation is not ready for child confirmation. Return to the Main Guide preview and complete the adult review first.</p>';return;}
+content.innerHTML='';
+content.append(el('h2','text-xl font-extrabold text-purple-800','An adult accepted your invitation'));
+content.append(el('p','muted','You asked to invite this person as a '+item.relationship.toLowerCase()+'. Check the name below. If it does not look right, do not confirm.'));
+var person=el('div','rounded-2xl bg-purple-50 p-5 text-center');person.append(el('div','text-4xl mb-2','👋'),el('p','text-xs font-bold uppercase tracking-wide text-purple-500','Adult identity shown in this preview'),el('p','text-2xl font-black text-purple-800 mt-1',item.adultDisplayName||'Invited adult (demo)'));content.append(person);
+content.append(el('p','muted','If you are unsure, you can say no and ask a Main Guide or the VentPals safety team for help. You never have to accept a connection just because someone scanned an invitation.'));
+var yes=el('button','primary w-full','Yes, this is the person I asked for'),no=el('button','secondary w-full','No, do not add this person'),status=el('p','muted','');
+yes.type='button';no.type='button';
+function decide(choice){item.status=choice?'active':'declined';item.childDecisionAt=new Date().toISOString();save(KEY,invites);var events=read(EVENTS);events.unshift({message:choice?'Child confirmed '+(item.adultDisplayName||item.name)+' in the preview':'Child declined the invitation for '+item.name,at:new Date().toISOString()});save(EVENTS,events.slice(0,30));content.innerHTML='';content.append(el('div','text-5xl text-center',choice?'💜':'🌿'),el('h2','text-xl font-extrabold text-purple-800 text-center',choice?'Your yes is recorded':'Your no is respected'),el('p','muted text-center',choice?'The preview now shows your confirmation. A real connection would still require all authorization and safety checks.':'No connection is created in this preview. You can change your mind about who belongs in your Nest.'),el('a','inline-flex justify-center rounded-full bg-purple-700 px-5 py-3 text-sm font-bold text-white no-underline w-full','Back to the Main Guide preview'));content.lastChild.href='main-guide-connections.html';}
+yes.addEventListener('click',function(){decide(true);});no.addEventListener('click',function(){decide(false);});
+content.append(yes,no,status);
+})();
+</script></body></html>
