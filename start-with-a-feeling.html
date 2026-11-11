@@ -11,22 +11,16 @@
 
 <body class="bg-gradient-to-br from-purple-50 via-green-50 to-purple-100 overflow-x-hidden">
   <script>
-    /* One page, two jobs:
-       ?mode=choose-bird  legacy onboarding route; permanent VentPal selection now happens by child preference
-       (no mode)          daily check-in: the child picks a feeling and goes on to reflect or calm down */
-    var VP_MODE = new URLSearchParams(location.search).get('mode') === 'choose-bird' ? 'choose-bird' : 'checkin';
+    // This page is for daily check-ins only. Permanent VentPal selection lives in onboarding.
+    var VP_MODE = 'checkin';
     (function () {
-      var user = {}; try { user = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
-      if (VP_MODE === 'choose-bird') {
-        if (!user.username && !user.nickname && !localStorage.getItem('ventpals_user')) location.replace('welcome.html');
-        else if (user.birdLocked) location.replace('nest.html');
-        document.body.classList.add('mode-choose');
-      } else if (localStorage.getItem('ventpals_logged_in') !== 'true') {
-        location.replace('welcome.html');
+      if (new URLSearchParams(location.search).get('mode') === 'choose-bird') {
+        location.replace('onboarding/onboarding.html');
+        return;
       }
+      if (localStorage.getItem('ventpals_logged_in') !== 'true') location.replace('welcome.html');
     })();
   </script>
-
   <!-- NAV -->
   <nav class="w-full max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
     <div class="flex items-center gap-2">
@@ -50,7 +44,7 @@
   <section class="py-8 px-4 max-w-6xl mx-auto">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-      <!-- 1. ANGRY → FLAMEZ -->
+      <!-- 1. ANGRY → EMBER AS A TEMPORARY GUIDE -->
       <div class="bg-white/90 rounded-2xl shadow-md p-4 flex flex-col items-center text-center">
         <div class="text-5xl mb-2">😡</div>
         <h2 class="font-bold text-purple-800 text-lg">Angry</h2>
@@ -136,7 +130,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Clover can help!</p>
         <a href="feeling-selected.html?feeling=Left%20Out&emoji=%F0%9F%98%9E&bird=clover"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Clover!
+          Explore with Clover
         </a>
       </div>
 
@@ -151,7 +145,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Cove can help!</p>
         <a href="feeling-selected.html?feeling=Lonely&emoji=%F0%9F%98%94&bird=cove"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Cove!
+          Explore with Cove
         </a>
       </div>
 
@@ -166,7 +160,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Solace can help!</p>
         <a href="feeling-selected.html?feeling=Overwhelmed&emoji=%F0%9F%98%B5%E2%80%8D%F0%9F%92%AB&bird=solace"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Solace!
+          Explore with Solace
         </a>
       </div>
 
@@ -181,7 +175,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Drift can help!</p>
         <a href="feeling-selected.html?feeling=Confused&emoji=%F0%9F%A4%94&bird=drift"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Drift
+          Explore with Drift
         </a>
       </div>
 
@@ -196,7 +190,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Pebble can help!</p>
         <a href="feeling-selected.html?feeling=Embarrassed&emoji=%F0%9F%98%B3&bird=pebble"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Pebble!
+          Explore with Pebble
         </a>
       </div>
 
@@ -211,7 +205,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Flicker can help!</p>
         <a href="feeling-selected.html?feeling=Hopeful&emoji=%F0%9F%8C%9F&bird=flicker"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Flicker!
+          Explore with Flicker
         </a>
       </div>
 
@@ -226,7 +220,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Twig can help!</p>
         <a href="feeling-selected.html?feeling=Curious&emoji=%F0%9F%A7%90&bird=twig"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Twig!
+          Explore with Twig
         </a>
       </div>
 
@@ -241,7 +235,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Flare can help!</p>
         <a href="feeling-selected.html?feeling=Proud&emoji=%F0%9F%8F%85&bird=flare"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Flare!
+          Explore with Flare
         </a>
       </div>
 
@@ -256,7 +250,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Aura can help!</p>
         <a href="feeling-selected.html?feeling=Calm&emoji=%F0%9F%98%8C&bird=aura"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Aura!
+          Explore with Aura
         </a>
       </div>
 
@@ -271,7 +265,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Nova can help!</p>
         <a href="feeling-selected.html?feeling=Growing&emoji=%F0%9F%8C%B1&bird=nova"
            class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Nova!
+          Explore with Nova
         </a>
       </div>
 
@@ -286,7 +280,7 @@
         <p class="text-sm text-purple-800 font-semibold mb-3">Lumen can help!</p>
         <a href="feeling-selected.html?feeling=Stuck&emoji=%F0%9F%AA%A8&bird=lumen"
         class="bg-purple-200 hover:bg-purple-300 text-purple-800 font-bold py-2 px-4 rounded-full text-sm">
-          I feel like Lumen!
+          Explore with Lumen
         </a>
       </div>
       </div>
@@ -410,7 +404,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  const CHOOSE = (typeof VP_MODE !== "undefined" && VP_MODE === "choose-bird");
+  const CHOOSE = false;
 
   /* The daily check-in has the usual child nav bar and rewards; onboarding must not (nothing to skip to yet). */
   if (!CHOOSE) {
@@ -452,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
      ALL BIRDS LIST (for "See All Birds")
   ---------------------------------------------------------- */
   const allBirds = [
-    { name: "Flamez",   id: "flamez",   img: "assets/images/flamez-nestling.png" },
+    { name: "Ember",   id: "flamez",   img: "assets/images/flamez-nestling.png" },
     { name: "Echo",     id: "echo",     img: "assets/images/echo-nestling.png" },
     { name: "Guardian", id: "guardian", img: "assets/images/guardian-nestling.png" },
     { name: "Sable",    id: "sable",    img: "assets/images/sable-nestling.png" },
