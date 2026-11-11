@@ -5,7 +5,7 @@ if(localStorage.getItem(KEY)!=='true')return;
 function root(){var p=location.pathname.split('/').filter(Boolean);return p.length>1?'../'.repeat(p.length-1):'';}
 var path=location.pathname,skip=['/login','/signup','/set-pin','/app-switcher','/onboarding'];
 if(!skip.some(function(s){return path.indexOf(s)!==-1;}))localStorage.setItem(LAST,location.href);
-function logout(){localStorage.removeItem(KEY);location.href=root()+'login.html';}
+function logout(){localStorage.removeItem(KEY);location.href=root()+'welcome.html';}
 function inject(){
  if(document.getElementById('vp-tabbar'))return;
  var base=root(),file=(location.pathname.split('/').pop()||'').replace('.html','');
