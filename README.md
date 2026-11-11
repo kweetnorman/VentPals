@@ -7,8 +7,8 @@
 - **16 VentPal birds** — each offering a different perspective and kind of support (Aura, Breezy, Clover, Cove, Drift, Echo, Ember, Flare, Flicker, Guardian, Lumen, Nova, Pebble, Sable, Solace, Twig)
 - **VentPals World** — 6 emotional zones (Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, Sparkle Stream)
 - **Calming skills** — Deep Breathing, Butterfly Hug, 5 Senses Grounding, Sip of Water
-- **Reflections & Nests** — per-bird journaling and growth tracking
-- **Parent portal** — grown-up account linked via child's VP-XXXXXX parent code
+- **Reflections & Nests** — one personal Nest per child, with private journaling and growth tracking
+- **Grown-up experience** — preview only; verified adult-child connections are deferred until the secure authentication phase
 - **Onboarding flow** — 6-step setup: Welcome → Bird → Name → Avatar → Privacy → Parent Code
 
 ## 📁 Structure
@@ -28,7 +28,7 @@
 |------|-------------|
 | `index.html` | Public landing page |
 | `welcome.html` | Combined child sign-in / demo setup |
-| `adult-signup.html` / `adult-login.html` | Parent auth |
+| `adult-signup.html` / `adult-login.html` | Grown-up access preview (registration disabled) |
 | `onboarding/onboarding.html` | Child onboarding wizard |
 | `nest.html` | Child home base: personal bird, growth, feeding, reflection, and app navigation |
 | `dashboard.html` | Legacy route that redirects to the personal Nest |
@@ -45,10 +45,10 @@ The app currently uses **localStorage** for development-only demo entry (not pro
 
 - **Child session:** `ventpals_logged_in`, `ventpals_user` (nickname, username, birdId, parentCode, stage…)
 - **Development fixtures:** `ventpals_demo_profiles` and `ventpals_development_mode` (fictional local profiles only)
-- **Parent session:** `ventpals_parent_logged_in`, `ventpals_parent_email`, `ventpals_parents[]`
+- **Adult accounts:** disabled during development; no adult credentials or child connections are created
 - **Onboarding flag:** `ventpals_onboarding_complete`
 
-> ⚠️ Development Mode is not real account creation or secure authentication. Use fictional information only. Production account creation, adult verification, PIN reset, and secure persistence are intentionally deferred until the final implementation phase.
+The child preview stores one fictional demo profile in this browser so we can test the experience. It is not a real account. Adult registration, verified connections, PIN reset, multi-child data isolation, and secure persistence are intentionally deferred until the final implementation phase. Do not enter real personal details, passwords, or shipping addresses.
 
 ## 🚀 Running Locally
 
