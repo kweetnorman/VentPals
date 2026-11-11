@@ -28,8 +28,8 @@
     { id: 'egg',       name: 'Egg',       min: 0,   blurb: 'Your VentPal is safe and warm inside, waiting for you. Feed it a bug to help it hatch!' },
     { id: 'baby',      name: 'Baby',      min: 10,  blurb: 'Your VentPal just hatched. Soft, new, and full of possibility.' },
     { id: 'nestling',  name: 'Nestling',  min: 50,  blurb: 'Learning, growing, and finding a voice, one gentle step at a time.' },
-    { id: 'feathered', name: 'Feathered', min: 120, blurb: 'More confident and steady. Feelings make more sense now.' },
-    { id: 'percher',   name: 'Percher',   min: 220, blurb: 'Calm, wise, and grounded. Always here for you.' }
+    { id: 'feathered', name: 'Feathered', min: 120, blurb: 'You have tried new ideas and built skills at your own pace.' },
+    { id: 'percher',   name: 'Percher',   min: 220, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
   ];
 
   /* ───────────── bugs: the food. Bigger effort = bigger bug ───────────── */
@@ -98,7 +98,7 @@
   };
 
   // Every 3 moments a grown-up verifies earns a keepsake (the child showed real skill, not just activity).
-  var MOMENT_KEEPSAKE = { every: 3, itemId: 'journal', name: 'Circles Journal', emoji: '📓' };
+  var MOMENT_KEEPSAKE = { every: 3, itemId: 'journal', name: 'VentPals Journal', emoji: '📓' };
 
   /* ───────────── avatar closet (bought with feathers) ───────────── */
   var CLOSET = [
@@ -120,7 +120,7 @@
 
   var BIRD_META = {
     aura: ['Aura', '🕊️'], breezy: ['Breezy', '🍃'], clover: ['Clover', '🍀'], cove: ['Cove', '🌊'],
-    drift: ['Drift', '🌙'], echo: ['Echo', '🔔'], flamez: ['Flamez', '🔥'], flare: ['Flare', '⚡'],
+    drift: ['Drift', '🌙'], echo: ['Echo', '🔔'], flamez: ['Ember', '🔥'], flare: ['Flare', '⚡'],
     flicker: ['Flicker', '💫'], guardian: ['Guardian', '🛡️'], lumen: ['Lumen', '💡'], nova: ['Nova', '🌟'],
     pebble: ['Pebble', '🪨'], sable: ['Sable', '⭐'], solace: ['Solace', '🌿'], twig: ['Twig', '🌱']
   };
