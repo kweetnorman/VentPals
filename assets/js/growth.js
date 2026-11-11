@@ -32,14 +32,13 @@
     { id: 'percher',   name: 'Percher',   min: 20, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
   ];
 
-  /* ───────────── bugs: the food. Bigger effort = bigger bug ───────────── */
+  /* ───────────── bugs: discovery tokens earned by completing activities ───────────── */
   var BUG_TYPES = {
-    mosquito: { icon: '🦟', name: 'Mosquito', size: 'a tiny snack',  growth: 2,  feathers: 1 },
     worm:     { icon: '🪱', name: 'Worm',     size: 'a good snack',  growth: 4,  feathers: 2 },
     ladybug:  { icon: '🐞', name: 'Ladybug',  size: 'a tasty treat', growth: 6,  feathers: 3 },
     butterfly:{ icon: '🦋', name: 'Butterfly',size: 'a big feast',   growth: 12, feathers: 6 }
   };
-  var BUG_ORDER = ['mosquito', 'worm', 'ladybug', 'butterfly'];
+  var BUG_ORDER = ['worm', 'ladybug', 'butterfly'];
 
   /* ───────────── discovery activities: each distinct activity earns once ───────────── */
   var ACTIVITIES = {
@@ -374,15 +373,10 @@
   /* ───────────── automatic wiring by page ───────────── */
   function wirePage() {
     var file = (location.pathname.split('/').pop() || '').replace('.html', '');
-    function dwell(id, secs) { setTimeout(function () { if (!document.hidden) award(id); }, secs * 1000); }
     function onClick(sel, id, uniqueKey) {
       document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest(sel)) award(id, uniqueKey); });
     }
     if (file === 'nest') { onClick('#saveReflection, button[onclick="saveReflection()"]', 'reflection'); }
-    else if (file === 'breathing') dwell('breathing', 20);
-    else if (file === 'grounding') dwell('grounding', 30);
-    else if (file === 'butterfly-hug') dwell('butterfly', 25);
-    else if (file === 'water') dwell('water', 15);
     else if (file === 'feeling-reflection') {
       var topic = new URLSearchParams(location.search).get('feeling') || 'first-reflection';
       onClick('#saveReflection', 'reflection', topic);
