@@ -36,6 +36,7 @@ var save=function(k,v){localStorage.setItem(k,JSON.stringify(v));};
 var invites=read(KEY),item=invites.find(function(x){return x.id===id;});
 var $=function(x){return document.getElementById(x);};
 function log(msg){var e=read(EVENTS);e.unshift({message:msg,at:new Date().toISOString()});save(EVENTS,e.slice(0,30));}
+if(item&&['opened','verified'].indexOf(item.status)>=0&&Date.now()-new Date(item.createdAt).getTime()>600000){item.status='expired';item.updatedAt=new Date().toISOString();save(KEY,invites);var expiredEvents=read(EVENTS);expiredEvents.unshift({message:'Invitation expired for '+item.name,at:new Date().toISOString()});save(EVENTS,expiredEvents.slice(0,30));}
 if(!item||['opened','verified'].indexOf(item.status)<0){
  $('panel').innerHTML='<h3 class="font-extrabold text-purple-800">This preview invitation is not available</h3><p class="muted">Return to the Main Guide preview and open an invitation that has been marked as scanned. Invitations expire after 10 minutes and can be cancelled.</p>';
  $('status').textContent='No invitation was accepted or verified.';return;
