@@ -1,14 +1,14 @@
 /**
- * keepsakes.js: earned keepsakes, parent address confirmation, and moments a grown-up verifies.
+ * keepsakes.js: local demo keepsake collection and child-chosen sharing.
  *
- * Keepsakes are EARNED automatically (growth.js creates them when a bird reaches a stage, or after
- * grown-up verified moments). A grown-up then confirms a shipping address, and the order is sent.
+ * Keepsakes are added to the local demo collection when a bird reaches a growth stage. Physical
+ * fulfillment, shipping addresses, and order webhooks are intentionally disabled in this preview.
  *
  * DEMO STORAGE: everything lives in this browser's localStorage, so the child and grown-up must use
  * the same browser for now. The functions here are the only place that touches storage, so moving
- * to Firestore later means changing this one file. Do not collect real addresses until then.
+ * to secure cloud storage later means changing this one file. Never collect real addresses in this preview.
  *
- * Keepsake life cycle:  earned -> confirmed (address given) -> shipped
+ * Keepsake life cycle: earned in the demo collection; fulfillment will be designed separately.
  */
 (function () {
   'use strict';
@@ -24,29 +24,6 @@
   function isConnected(i) { return !!(CFG.domain && i && i.variantId); }
   function keepsakes() { return read(REQ_KEY, []); }
 
-  // The grown-up confirms where to send it. Fires the optional order webhook with the address.
-  function confirmAddress(id, address) {
-    var all = keepsakes(), k = all.filter(function (r) { return r.id === id; })[0];
-    if (!k) return false;
-    k.address = address; k.status = 'confirmed'; k.confirmedAt = Date.now();
-    write(REQ_KEY, all);
-    notifyWebhook(k);
-    return true;
-  }
-  function setStatus(id, status) {
-    var all = keepsakes();
-    all.forEach(function (r) { if (r.id === id) { r.status = status; r[status + 'At'] = Date.now(); } });
-    write(REQ_KEY, all);
-  }
-  function notifyWebhook(k) {
-    if (!CFG.orderWebhook) return false;
-    try {
-      fetch(CFG.orderWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ event: 'keepsake_confirmed', keepsake: { id: k.id, itemId: k.itemId, name: k.name, source: k.source },
-                               child: k.childName, bird: k.birdName, address: k.address, variantId: (item(k.itemId) || {}).variantId || null }) });
-      return true;
-    } catch (e) { return false; }
-  }
 
   // Cart link for when a grown-up wants to BUY a keepsake themselves (supports VentPals and their child's bird).
   function buyUrl(itemId) {
@@ -55,12 +32,13 @@
     return 'https://' + CFG.domain + '/cart/' + it.variantId + ':1';
   }
 
-  // Moments a child shares; the grown-up verifies (or asks to talk about it later).
+  // Moments a child chooses to share. Adult acknowledgement is not a condition for progress.
   function moments() { return read(MOMENTS_KEY, []); }
-  function verifyMoment(id) {
+  function acknowledgeMoment(id) {
     var all = moments();
-    all.forEach(function (m) { if (m.id === id) { m.status = 'verified'; m.verifiedAt = Date.now(); } });
+    all.forEach(function (m) { if (m.id === id) { m.status = 'acknowledged'; m.acknowledgedAt = Date.now(); } });
     write(MOMENTS_KEY, all);
+    celebrate('moment:' + id);
   }
 
   function inbox() { return read(INBOX_KEY, []); }
@@ -75,7 +53,7 @@
   function celebrate(id) { var all = inbox(); all.forEach(function (x) { if (x.id === id) x.celebrated = true; }); write(INBOX_KEY, all); }
 
   window.VPShop = {
-    config: CFG, item: item, isConnected: isConnected, keepsakes: keepsakes, confirmAddress: confirmAddress, setStatus: setStatus,
-    buyUrl: buyUrl, moments: moments, verifyMoment: verifyMoment, inbox: inbox, celebrate: celebrate, isShared: isShared, shareCompletion: shareCompletion
+    config: CFG, item: item, isConnected: isConnected, keepsakes: keepsakes,
+    buyUrl: buyUrl, moments: moments, acknowledgeMoment: acknowledgeMoment, inbox: inbox, celebrate: celebrate, isShared: isShared, shareCompletion: shareCompletion
   };
 })();

@@ -49,7 +49,7 @@
 </head>
 
 <body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
+  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
   <script src="assets/js/native-bridge.js"></script>
@@ -99,26 +99,6 @@
       </a>
     </div>
 
-    <!-- CONNECTION CODE -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Connection Code</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        Share this code with a grown‑up you trust if you want them to connect with you.
-      </p>
-
-      <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center mb-4">
-        <p id="settingsParentCode" class="text-2xl font-bold text-purple-700 tracking-widest">—</p>
-      </div>
-
-      <button id="settingsCopyBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-full">
-        Copy Code
-      </button>
-
-      <p class="text-xs text-gray-500 mt-3">
-        Only you can share this code. Grown‑ups cannot join without your permission.
-      </p>
-    </div>
-
     <!-- AVATAR SETTINGS -->
     <div class="bg-white rounded-3xl shadow p-8">
       <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Avatar</h2>
@@ -132,37 +112,16 @@
       </a>
     </div>
 
-    <!-- INVITE PARENT (native share) -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Invite a Grown-Up</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        Share your Connection Code with a trusted grown-up so they can join your VentPals family.
-      </p>
-
-      <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 text-center mb-4">
-        <p id="shareParentCode" class="text-2xl font-bold text-purple-700 tracking-widest">—</p>
-      </div>
-
-      <button id="inviteParentBtn"
-              class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full flex items-center justify-center gap-2">
-        <span>📤</span> Invite Grown-Up
-      </button>
-
-      <p class="text-xs text-gray-500 mt-3">
-        Only you can share this code. Grown-ups cannot join without it.
-      </p>
-    </div>
-
     <!-- CHECK-IN REMINDERS (local notifications) -->
     <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Daily Check-In Reminder</h2>
+      <h2 class="text-xl font-semibold text-purple-700 mb-3">Optional Reminder</h2>
       <p class="text-gray-600 text-sm mb-4">
-        Get a gentle nudge each day to check in with your feelings.
+        Choose whether you'd like a gentle reminder. There is no streak, deadline, or penalty if you skip a check-in.
       </p>
 
       <div class="flex items-center justify-between mb-5">
-        <span class="text-sm font-semibold text-gray-700">Remind me daily</span>
-        <label class="toggle-track" aria-label="Toggle daily reminder">
+        <span class="text-sm font-semibold text-gray-700">Send a gentle reminder</span>
+        <label class="toggle-track" aria-label="Toggle reminder">
           <input type="checkbox" id="notifToggle" />
           <span class="toggle-slider"></span>
         </label>
@@ -206,51 +165,6 @@
     document.getElementById('settingsBirdEmoji').textContent = birdEmoji;
     document.getElementById('settingsBirdName').textContent  = birdName;
 
-    const parentCode = user.parentCode || '—';
-    document.getElementById('settingsParentCode').textContent = parentCode;
-    document.getElementById('shareParentCode').textContent    = parentCode;
-
-    document.getElementById('settingsCopyBtn').addEventListener('click', () => {
-      const code = user.parentCode || '';
-      if (!code) return;
-      if (window.VentPalsNative) window.VentPalsNative.Haptics.tap();
-      function flash() {
-        const btn = document.getElementById('settingsCopyBtn');
-        btn.textContent = 'Copied! ✓';
-        setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
-      }
-      function fallback(c) {
-        const ta = document.createElement('textarea');
-        ta.value = c; ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.focus(); ta.select();
-        try { document.execCommand('copy'); flash(); } catch(e) { prompt('Copy this code:', c); }
-        document.body.removeChild(ta);
-      }
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(code).then(flash).catch(() => fallback(code));
-      } else {
-        fallback(code);
-      }
-    });
-
-    // ── Invite Parent (native share) ──
-    document.getElementById('inviteParentBtn').addEventListener('click', () => {
-      if (window.VentPalsNative) window.VentPalsNative.Haptics.tap();
-      const code = user.parentCode || '—';
-      const shareOpts = {
-        title:       'Join my VentPals family!',
-        text:        `Hi! I'm using VentPals to explore my feelings. Use my Connection Code to join my family: ${code}\n\nDownload VentPals at https://app.ventpals.org`,
-        url:         'https://app.ventpals.org',
-        dialogTitle: 'Invite a Grown-Up',
-      };
-      if (window.VentPalsNative) {
-        window.VentPalsNative.Share.share(shareOpts);
-      } else if (navigator.share) {
-        navigator.share({ title: shareOpts.title, text: shareOpts.text, url: shareOpts.url });
-      } else {
-        prompt('Share this with a grown-up:', shareOpts.text);
-      }
-    });
 
     // ── Notification toggle ──
     (function initNotifUI() {
@@ -295,7 +209,7 @@
       localStorage.removeItem("ventpals_logged_in");
       localStorage.removeItem("ventpals_parent_logged_in");
       localStorage.removeItem("ventpals_parent_email");
-      window.location.href = "login.html";
+      window.location.href = "welcome.html";
     });
   </script>
 

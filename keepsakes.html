@@ -14,7 +14,7 @@
   </style>
 </head>
 <body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
+  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
   <script src="assets/js/shop-config.js"></script>
@@ -23,13 +23,13 @@
   <main class="max-w-3xl mx-auto px-4 pt-8 pb-10 space-y-8">
     <header class="text-center">
       <h1 class="text-3xl font-bold text-purple-700">My Keepsakes</h1>
-      <p class="text-gray-600 text-sm max-w-md mx-auto mt-2">Real VentPals gear that comes to you as your bird grows. Nothing to buy. You earn it!</p>
+      <p class="text-gray-600 text-sm max-w-md mx-auto mt-2">A collection of milestone keepsakes earned as your VentPal grows. Physical fulfillment will be enabled when the store and secure accounts are ready.</p>
     </header>
 
     <section class="bg-white rounded-3xl shadow p-6">
       <h2 class="text-lg font-bold text-purple-700 mb-3">Earned</h2>
       <ul id="earned" class="space-y-2 text-sm"></ul>
-      <p id="noEarned" class="text-sm text-gray-500 hidden">Nothing yet. Feed your bird to reach the next stage and your first keepsake is on its way!</p>
+      <p id="noEarned" class="text-sm text-gray-500 hidden">Nothing yet. Explore a new learning activity, then feed your bird to help it grow toward its next milestone.</p>
     </section>
 
     <section aria-label="Keepsakes still to earn">
@@ -39,10 +39,10 @@
 
     <section class="bg-white rounded-3xl shadow p-6 text-sm text-gray-700">
       <h2 class="text-lg font-bold text-purple-700 mb-2">How it works</h2>
-      <p>When your bird reaches a new stage, a keepsake is earned and your grown-up gets a note to confirm where to send it. Share a moment with your grown-up, and when they verify it you earn a butterfly. Every 3 verified moments earns a Circles Journal.</p>
+      <p>When your bird reaches a new growth stage, a keepsake milestone is added to your demo collection. Physical products, shipping details, and store checkout are not active in this preview. Your feelings and anything you choose to share never determine rewards.</p>
     </section>
 
-    <p class="text-center text-xs text-gray-500">Grown-ups can also buy any keepsake to support VentPals and their child's bird at <a class="underline text-purple-700" href="https://keepsakes.ventpals.com" target="_blank" rel="noopener">keepsakes.ventpals.com</a>.</p>
+    <p class="text-center text-xs text-gray-500">The keepsake shop is being refreshed. Product browsing and checkout will return when the store is ready.</p>
   </main>
 
   <script>
@@ -50,9 +50,9 @@
       var G = window.VPGrowth, S = window.VPShop;
       var $ = function (id) { return document.getElementById(id); };
       var STATUS = {
-        earned:    ['Waiting for your grown-up to confirm the address', 'bg-yellow-100 text-yellow-800'],
-        confirmed: ['Address confirmed. Getting ready to ship', 'bg-green-100 text-green-800'],
-        shipped:   ['On its way 🎉', 'bg-green-100 text-green-800']
+        earned:    ['Added to your demo collection', 'bg-purple-100 text-purple-800'],
+        confirmed: ['Fulfillment preview only', 'bg-gray-100 text-gray-700'],
+        shipped:   ['Fulfillment preview only', 'bg-gray-100 text-gray-700']
       };
       var bird = G.getBird(), list = S.keepsakes().slice().reverse();
       $('noEarned').classList.toggle('hidden', list.length > 0);
@@ -76,11 +76,7 @@
           '<p class="text-xs font-bold mt-3 ' + (done ? 'text-green-700' : 'text-purple-600') + '">' + (done ? '✓ Earned at ' + st.name : 'Earned at the ' + st.name + ' stage (' + (st.min - p.xp) + ' more points)') + '</p></div>';
         box.appendChild(card);
       });
-      var j = S.item(G.MOMENT_KEEPSAKE.itemId) || {};
-      var jc = document.createElement('div');
-      jc.className = 'bg-white rounded-3xl shadow p-5';
-      jc.innerHTML = '<img src="assets/images/' + bird.id + '-percher.png" alt="" class="h-16 mb-2"><h3 class="font-bold text-purple-700">' + G.MOMENT_KEEPSAKE.name + '</h3><p class="text-gray-500 text-sm">' + (j.blurb || '') + '</p><p class="text-xs font-bold mt-3 text-purple-600">Earned every ' + G.MOMENT_KEEPSAKE.every + ' moments your grown-up verifies</p>';
-      box.appendChild(jc);
+
     })();
   </script>
 </body>

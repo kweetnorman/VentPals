@@ -35,7 +35,7 @@
     const onboardingDone = localStorage.getItem('ventpals_onboarding_complete') === 'true';
 
     if (!loggedIn) {
-      window.location.replace('login.html');
+      window.location.replace('welcome.html');
     } else if (!onboardingDone) {
       window.location.replace('onboarding/onboarding.html');
     } else {

@@ -21,7 +21,7 @@ window.VP_SHOP = {
     { id: 'pin',       name: 'VentPals Bird Pin',           emoji: '📌', image: 'assets/images/keepsakes-pins.png',       variantId: '', price: '', blurb: 'An enamel pin of your own bird for a backpack or jacket.' },
     { id: 'pen',       name: 'VP Pen',                      emoji: '🖊️', image: '',        variantId: '', price: '', blurb: 'VentPals colors, with "I fly with ___" on the barrel.' },
     { id: 'hourglass', name: 'Conversation Hourglass',      emoji: '⏳', image: '',  variantId: '', price: '', blurb: 'A gentle tool for taking turns and slowing down hard conversations.' },
-    { id: 'journal',   name: 'Circles Journal',             emoji: '📓', image: '',    variantId: '', price: '', blurb: 'Your bird on the cover and reflection prompts inside.' },
+    { id: 'journal',   name: 'VentPals Journal',             emoji: '📓', image: '',    variantId: '', price: '', blurb: 'Your bird on the cover and reflection prompts inside.' },
     { id: 'case',      name: 'Emotional Tools Case',        emoji: '🧰', image: '',       variantId: '', price: '', blurb: 'A carry case for your whole VentPals toolkit.' }
   ]
 };

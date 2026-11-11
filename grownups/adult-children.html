@@ -40,7 +40,7 @@
     <div class="text-5xl mb-4">👨‍👩‍👧‍👦</div>
     <h1 class="text-3xl font-bold text-purple-700 mb-2">Manage Children</h1>
     <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Add, remove, or view the children connected to your account.
+      Preview how connected child profiles may appear. Live connections are not enabled in this development build.
     </p>
   </section>
 
@@ -49,7 +49,8 @@
 
     <!-- CHILD LIST -->
     <div class="bg-white rounded-3xl shadow p-6 mb-10">
-      <h2 class="text-xl font-semibold text-purple-700 mb-4">Your Connected Children</h2>
+      <h2 class="text-xl font-semibold text-purple-700 mb-4">Connected Children · Sample</h2>
+      <p class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">Fictional preview only. No child profile is connected, and this form does not create a connection.</p>
 
       <div class="space-y-4">
 
@@ -63,8 +64,8 @@
         </div>
 
         <!-- ADD CHILD BUTTON -->
-        <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full mt-4">
-          Add Another Child
+        <button disabled class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full mt-4">
+          Add a Child (Coming Later)
         </button>
 
       </div>
@@ -74,7 +75,7 @@
     <div class="bg-white rounded-3xl shadow p-6">
       <h2 class="text-xl font-semibold text-purple-700 mb-3">How to Connect a Child</h2>
       <p class="text-gray-600 text-sm mb-4">
-        To connect a child to your account, they will share a one‑time code from their VentPals app.
+        In the future, a child can choose to share a one-time connection code. Verified adult-child linking will be implemented with secure authentication in the final phase.
       </p>
 
       <ol class="list-decimal list-inside text-gray-700 text-sm space-y-2 mb-4">
@@ -84,11 +85,11 @@
         <li>Enter that code below to link them to your account.</li>
       </ol>
 
-      <input type="text" placeholder="Enter connection code..."
+      <input type="text" disabled placeholder="Connection codes are not active in this preview"
              class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4" />
 
       <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-full">
-        Connect Child
+        Preview only — not connected
       </button>
     </div>
 

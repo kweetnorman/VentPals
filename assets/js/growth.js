@@ -1,12 +1,13 @@
 /**
  * growth.js – the VentPals bird economy (demo: stored in this browser's localStorage)
  *
- *   ACTIVITY  --earns-->  BUG  --child feeds it to the bird-->  GROWTH points  (permanent, never lost)
+ *   COMPLETED LEARNING ACTIVITY  --earns-->  BUG  --child feeds it to the bird-->  GROWTH points
  *                                                          \->  FEATHERS       (spendable on the avatar closet)
  *
  * - The bird is chosen once in onboarding and then LOCKED (user.birdLocked).
  * - Growth points move the bird: egg -> baby -> nestling -> feathered -> percher.
- * - Each new stage automatically earns a keepsake and notifies the grown-up (to confirm the address).
+ * - Distinct learning activities earn once; feelings, logins, page visits, and streaks never earn points.
+ * - Each new stage adds a keepsake milestone to the local demo collection; shipping is not active.
  * - Feathers are a tiny money lesson: earn, save toward a goal, then spend. Spending never shrinks growth.
  * - Pages self-configure by file name (see wirePage), so most pages need no wiring.
  *
@@ -28,34 +29,26 @@
     { id: 'egg',       name: 'Egg',       min: 0,   blurb: 'Your VentPal is safe and warm inside, waiting for you. Feed it a bug to help it hatch!' },
     { id: 'baby',      name: 'Baby',      min: 10,  blurb: 'Your VentPal just hatched. Soft, new, and full of possibility.' },
     { id: 'nestling',  name: 'Nestling',  min: 50,  blurb: 'Learning, growing, and finding a voice, one gentle step at a time.' },
-    { id: 'feathered', name: 'Feathered', min: 120, blurb: 'More confident and steady. Feelings make more sense now.' },
-    { id: 'percher',   name: 'Percher',   min: 220, blurb: 'Calm, wise, and grounded. Always here for you.' }
+    { id: 'feathered', name: 'Feathered', min: 120, blurb: 'You have tried new ideas and built skills at your own pace.' },
+    { id: 'percher',   name: 'Percher',   min: 200, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
   ];
 
-  /* ───────────── bugs: the food. Bigger effort = bigger bug ───────────── */
+  /* ───────────── bugs: discovery tokens earned by completing activities ───────────── */
   var BUG_TYPES = {
-    mosquito: { icon: '🦟', name: 'Mosquito', size: 'a tiny snack',  growth: 2,  feathers: 1 },
     worm:     { icon: '🪱', name: 'Worm',     size: 'a good snack',  growth: 4,  feathers: 2 },
     ladybug:  { icon: '🐞', name: 'Ladybug',  size: 'a tasty treat', growth: 6,  feathers: 3 },
     butterfly:{ icon: '🦋', name: 'Butterfly',size: 'a big feast',   growth: 12, feathers: 6 }
   };
-  var BUG_ORDER = ['mosquito', 'worm', 'ladybug', 'butterfly'];
+  var BUG_ORDER = ['worm', 'ladybug', 'butterfly'];
 
-  /* ───────────── activities: what earns which bug (once per activity per day) ───────────── */
+  /* ───────────── discovery activities: each distinct activity earns once ───────────── */
   var ACTIVITIES = {
-    login:      { bug: 'mosquito',  label: 'Came back to visit',        badge: null },
-    calming:    { bug: 'mosquito',  label: 'Explored calming skills',   badge: 'skill-explorer' },
-    world:      { bug: 'mosquito',  label: 'Visited the World',         badge: 'world-explorer' },
-    nest:       { bug: 'mosquito',  label: 'Visited a Nest',            badge: 'nest-visitor' },
     water:      { bug: 'worm',      label: 'Took a mindful sip',        badge: 'sip-and-settle' },
     butterfly:  { bug: 'worm',      label: 'Did a butterfly hug',       badge: 'butterfly-hugger' },
     breathing:  { bug: 'worm',      label: 'Practiced slow breathing',  badge: 'deep-breather' },
     grounding:  { bug: 'worm',      label: 'Did a grounding exercise',  badge: 'grounded' },
-    feeling:    { bug: 'ladybug',   label: 'Checked in with a feeling', badge: 'first-feeling' },
     reflection: { bug: 'ladybug',   label: 'Wrote a reflection',        badge: 'reflector' },
     module:     { bug: 'butterfly', label: 'Finished a learning module', badge: 'learner' },
-    streak7:    { bug: 'butterfly', label: 'Kept a 7-day streak',       badge: null },
-    moment:     { bug: 'butterfly', label: 'A grown-up saw how you handled a feeling', badge: 'showed-grownup' }
   };
 
   /* ───────────── badges ───────────── */
@@ -64,30 +57,18 @@
     'nestling':         { icon: '🪺', name: 'Nestling Reached',  how: 'Grow to Nestling' },
     'feathered':        { icon: '🪶', name: 'Feathered Reached', how: 'Grow to Feathered' },
     'percher':          { icon: '🌟', name: 'Percher Reached',   how: 'Grow to Percher' },
-    'first-feeling':    { icon: '💜', name: 'First Feeling',     how: 'Check in with a feeling' },
     'reflector':        { icon: '📓', name: 'Reflector',         how: 'Write a reflection' },
     'deep-breather':    { icon: '🌬️', name: 'Deep Breather',     how: 'Try slow breathing' },
     'grounded':         { icon: '🌳', name: 'Grounded',          how: 'Do a grounding exercise' },
     'butterfly-hugger': { icon: '🦋', name: 'Butterfly Hugger',  how: 'Do a butterfly hug' },
     'sip-and-settle':   { icon: '💧', name: 'Sip & Settle',      how: 'Take a mindful sip' },
-    'skill-explorer':   { icon: '🧰', name: 'Skill Explorer',    how: 'Explore calming skills' },
-    'world-explorer':   { icon: '🌍', name: 'World Explorer',    how: 'Visit the World' },
-    'nest-visitor':     { icon: '🪹', name: 'Nest Visitor',      how: 'Visit a Nest' },
     'learner':          { icon: '🎓', name: 'Feeling Learner',   how: 'Finish a learning module' },
-    'showed-grownup':   { icon: '🤝', name: 'Showed a Grown-Up', how: 'Show a grown-up how you handled a feeling' },
-    'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 10 bugs' },
-    'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 50 bugs' },
-    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 100 bugs' },
-    'streak-3':         { icon: '🔥', name: '3-Day Streak',      how: 'Be active 3 days in a row' },
-    'streak-7':         { icon: '🌈', name: '7-Day Streak',      how: 'Be active 7 days in a row' },
-    'forager':          { icon: '🍂', name: 'Forager',           how: 'Be part of VentPals for 1 month' },
-    'nest-builder':     { icon: '🌿', name: 'Nest Builder',      how: 'Be part of VentPals for 3 months' },
-    'tree-percher':     { icon: '🌳', name: 'Tree Percher',      how: 'Be part of VentPals for 6 months' },
-    'sky-soarer':       { icon: '☀️', name: 'Sky Soarer',        how: 'Be part of VentPals for 1 year' }
+    'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 5 bugs' },
+    'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 10 bugs' },
+    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 20 bugs' }
   };
   var STAGE_BADGES = ['hatched', 'nestling', 'feathered', 'percher'];
-  var TIME_BADGES = [['forager', 30], ['nest-builder', 90], ['tree-percher', 180], ['sky-soarer', 365]];
-  var FEED_BADGES = [['worm-gatherer', 10], ['bug-sharer', 50], ['butterfly-feeder', 100]];
+  var FEED_BADGES = [['worm-gatherer', 5], ['bug-sharer', 10], ['butterfly-feeder', 20]];
 
   /* ───────────── milestone keepsakes: earned automatically when the bird reaches a stage ───────────── */
   var MILESTONES = {
@@ -97,8 +78,6 @@
     percher:   { itemId: 'hourglass', name: 'Conversation Hourglass',      emoji: '⏳' }
   };
 
-  // Every 3 moments a grown-up verifies earns a keepsake (the child showed real skill, not just activity).
-  var MOMENT_KEEPSAKE = { every: 3, itemId: 'journal', name: 'Circles Journal', emoji: '📓' };
 
   /* ───────────── avatar closet (bought with feathers) ───────────── */
   var CLOSET = [
@@ -120,7 +99,7 @@
 
   var BIRD_META = {
     aura: ['Aura', '🕊️'], breezy: ['Breezy', '🍃'], clover: ['Clover', '🍀'], cove: ['Cove', '🌊'],
-    drift: ['Drift', '🌙'], echo: ['Echo', '🔔'], flamez: ['Flamez', '🔥'], flare: ['Flare', '⚡'],
+    drift: ['Drift', '🌙'], echo: ['Echo', '🔔'], flamez: ['Ember', '🔥'], flare: ['Flare', '⚡'],
     flicker: ['Flicker', '💫'], guardian: ['Guardian', '🛡️'], lumen: ['Lumen', '💡'], nova: ['Nova', '🌟'],
     pebble: ['Pebble', '🪨'], sable: ['Sable', '⭐'], solace: ['Solace', '🌿'], twig: ['Twig', '🌱']
   };
@@ -136,13 +115,12 @@
 
   function getState() {
     var s = readJSON(GROWTH_KEY, null) || {};
-    s.xp = s.xp || 0; s.badges = s.badges || {}; s.daily = s.daily || {}; s.days = s.days || []; s.log = s.log || [];
+    s.xp = s.xp || 0; s.badges = s.badges || {}; s.completed = s.completed || {}; s.log = s.log || [];
     s.bugs = s.bugs || {}; s.fed = s.fed || {};
     BUG_ORDER.forEach(function (b) { s.bugs[b] = s.bugs[b] || 0; s.fed[b] = s.fed[b] || 0; });
     s.feathers = s.feathers || { earned: 0, spent: 0 };
     s.closet = s.closet || { owned: [], worn: {} };
     s.milestones = s.milestones || {};
-    s.joined = s.joined || Date.now();
     return s;
   }
   function saveState(s) { writeJSON(GROWTH_KEY, s); }
@@ -176,13 +154,6 @@
     if (u.stage !== st) { u.stage = st; saveUser(u); }
   }
 
-  function streakLength(days) {
-    var set = {}; days.forEach(function (x) { set[x] = 1; });
-    var n = 0, d = new Date();
-    if (!set[today()]) d.setDate(d.getDate() - 1);
-    while (set[dayKey(d)]) { n++; d.setDate(d.getDate() - 1); }
-    return n;
-  }
 
   /* ───────────── toast ───────────── */
   function toast(lines, big, href) {
@@ -205,7 +176,7 @@
     s.log = s.log.concat([{ t: Date.now(), id: id, label: label, bug: extra && extra.bug, fed: extra && extra.fed }]).slice(-30);
   }
 
-  // Badges that depend on counts, time and streaks. Returns the list of newly earned badge ids.
+  // Badges are tied to learning milestones and exploration, never streaks or feelings.
   function checkBadges(s) {
     var d = today(), fresh = [];
     function give(id) { if (!s.badges[id]) { s.badges[id] = d; fresh.push(id); } }
@@ -214,46 +185,38 @@
     for (var i = 2; i <= idx; i++) give(STAGES[i].id);
     var fed = totalFed(s);
     FEED_BADGES.forEach(function (p) { if (fed >= p[1]) give(p[0]); });
-    var age = Math.floor((Date.now() - s.joined) / 86400000);
-    TIME_BADGES.forEach(function (p) { if (age >= p[1]) give(p[0]); });
-    var st = streakLength(s.days);
-    if (st >= 3) give('streak-3');
-    if (st >= 7) give('streak-7');
     return fresh;
   }
 
-  function award(activityId) {
+  // Each distinct activity can earn its discovery reward once. Feelings and repeat visits are never scored.
+  function award(activityId, uniqueKey) {
     var act = ACTIVITIES[activityId];
     if (!act || !IS_KID) return null;
-    var s = getState(), d = today();
-    s.daily[d] = s.daily[d] || {};
-    Object.keys(s.daily).forEach(function (k) { if (k !== d) delete s.daily[k]; });   // keep only today
-    var first = !s.daily[d][activityId];
+    var completionId = activityId;
+    if (uniqueKey != null && String(uniqueKey).trim()) {
+      completionId += ':' + String(uniqueKey).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-').slice(0, 60);
+    }
+    var s = getState();
+    var first = !s.completed[completionId];
     var newBadges = [];
     if (first) {
-      s.daily[d][activityId] = true;
+      s.completed[completionId] = true;
       s.bugs[act.bug] += 1;
-      if (s.days.indexOf(d) === -1) s.days.push(d);
-      s.days = s.days.slice(-400);
-      addLog(s, activityId, act.label, { bug: act.bug });
+      addLog(s, completionId, act.label, { bug: act.bug });
     }
-    if (act.badge && !s.badges[act.badge]) { s.badges[act.badge] = d; newBadges.push(act.badge); }
+    if (first && act.badge && !s.badges[act.badge]) { s.badges[act.badge] = today(); newBadges.push(act.badge); }
     newBadges = newBadges.concat(checkBadges(s));
-    var gotSeven = streakLength(s.days) >= 7 && !s.milestones.streak7;
-    if (gotSeven) { s.milestones.streak7 = true; s.bugs.butterfly += 1; addLog(s, 'streak7', ACTIVITIES.streak7.label, { bug: 'butterfly' }); }
     saveState(s);
-
     var lines = [];
     if (first) {
       var b = BUG_TYPES[act.bug];
-      lines.push(b.icon + ' You earned a ' + b.name.toLowerCase() + '!');
-      lines.push('<span style="font-weight:500;font-size:12px">' + act.label + '. Tap to feed ' + getBird().name + '.</span>');
+      lines.push(b.icon + ' You discovered a ' + b.name.toLowerCase() + '!');
+      lines.push('<span style="font-weight:500;font-size:12px">' + act.label + '. You can feed it to ' + getBird().name + '.</span>');
     }
     newBadges.forEach(function (id) {
       if (STAGE_BADGES.indexOf(id) === -1) lines.push(BADGES[id].icon + ' New badge: ' + BADGES[id].name);
     });
-    if (gotSeven) lines.push('🦋 7-day streak! A butterfly for you!');
-    if (lines.length && (activityId !== 'login' || first)) toast(lines, false, 'bird-growth.html#feed');
+    if (lines.length) toast(lines, false, 'bird-growth.html#feed');
     return { first: first, bug: first ? act.bug : null, badges: newBadges };
   }
 
@@ -264,6 +227,7 @@
   function basketTotal() { var s = getState(); return BUG_ORDER.reduce(function (n, b) { return n + s.bugs[b]; }, 0); }
 
   /* ───────────── feeding: this is what makes the bird grow ───────────── */
+  // Add a non-sensitive milestone entry to the local demo collection and shareable inbox.
   function createKeepsake(source, itemId, name, emoji, inboxLabel) {
     var u = getUser(), reqs = readJSON(REQ_KEY, []);
     if (reqs.some(function (r) { return r.source === source; })) return;
@@ -273,7 +237,7 @@
                 childName: childName, birdName: u.birdName || '', parentCode: u.parentCode || '', createdAt: Date.now() });
     writeJSON(REQ_KEY, reqs);
     var inbox = readJSON(INBOX_KEY, []);
-    inbox.push({ id: 'keepsake:' + id, kind: 'keepsake', label: inboxLabel || (name + '. Please confirm a shipping address.'), icon: emoji,
+    inbox.push({ id: 'keepsake:' + id, kind: 'keepsake', label: inboxLabel || ('earned the ' + name + ' milestone'), icon: emoji,
                  childName: childName, ts: Date.now(), celebrated: false });
     writeJSON(INBOX_KEY, inbox);
   }
@@ -281,40 +245,20 @@
     var m = MILESTONES[stageId]; if (m) createKeepsake('milestone:' + stageId, m.itemId, m.name, m.emoji);
   }
 
-  /* A child tells a trusted grown-up how they handled a feeling. The grown-up verifies it on their side. */
+  /* A child may choose to share a moment with a trusted grown-up. Sharing is optional and earns no points. */
   function submitMoment(feeling, emoji, note) {
     if (!IS_KID) return false;
     var u = getUser(), all = readJSON(MOMENTS_KEY, []);
     var m = { id: 'mo' + Date.now().toString(36), feeling: feeling || 'a feeling', emoji: emoji || '💛', note: (note || '').slice(0, 200),
-              childName: u.displayName || u.nickname || 'Your child', status: 'pending', createdAt: Date.now() };
+              childName: u.displayName || u.nickname || 'Your child', status: 'shared', createdAt: Date.now() };
     all.push(m); writeJSON(MOMENTS_KEY, all);
     var inbox = readJSON(INBOX_KEY, []);
-    inbox.push({ id: 'moment:' + m.id, kind: 'moment', label: 'wants to show you how they handled feeling ' + m.feeling.toLowerCase(), icon: m.emoji, childName: m.childName, ts: Date.now(), celebrated: false });
+    inbox.push({ id: 'moment:' + m.id, kind: 'moment', label: 'chose to share a moment about ' + m.feeling.toLowerCase(), icon: m.emoji, childName: m.childName, ts: Date.now(), celebrated: false });
     writeJSON(INBOX_KEY, inbox);
     return m;
   }
   function getMoments() { return readJSON(MOMENTS_KEY, []); }
 
-  // When the child next opens the app, credit moments a grown-up has verified.
-  function creditVerifiedMoments() {
-    var all = readJSON(MOMENTS_KEY, []), changed = false, s = getState(), lines = [];
-    all.forEach(function (m) {
-      if (m.status === 'verified' && !m.credited) {
-        m.credited = true; changed = true;
-        s.bugs.butterfly += 1; addLog(s, 'moment', ACTIVITIES.moment.label, { bug: 'butterfly' });
-        if (!s.badges['showed-grownup']) s.badges['showed-grownup'] = today();
-        lines.push('🦋 A grown-up verified how you handled feeling ' + m.feeling.toLowerCase() + '! You earned a butterfly.');
-      }
-    });
-    if (!changed) return;
-    var verified = all.filter(function (m) { return m.status === 'verified'; }).length;
-    saveState(s); writeJSON(MOMENTS_KEY, all);
-    for (var n = MOMENT_KEEPSAKE.every; n <= verified; n += MOMENT_KEEPSAKE.every) {
-      createKeepsake('moments:' + n, MOMENT_KEEPSAKE.itemId, MOMENT_KEEPSAKE.name, MOMENT_KEEPSAKE.emoji);
-      lines.push(MOMENT_KEEPSAKE.emoji + ' You earned a ' + MOMENT_KEEPSAKE.name + '!');
-    }
-    toast(lines, true, 'rewards.html');
-  }
 
   function feed(type, count) {
     if (!IS_KID || !BUG_TYPES[type]) return null;
@@ -430,32 +374,25 @@
   /* ───────────── automatic wiring by page ───────────── */
   function wirePage() {
     var file = (location.pathname.split('/').pop() || '').replace('.html', '');
-    function dwell(id, secs) { setTimeout(function () { if (!document.hidden) award(id); }, secs * 1000); }
-    function onClick(sel, id) {
-      document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest(sel)) award(id); });
+    function onClick(sel, id, uniqueKey) {
+      document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest(sel)) award(id, uniqueKey); });
     }
-    award('login');
-    if (file === 'calming-skills') award('calming');
-    else if (file === 'world') award('world');
-    else if (file === 'nest' || /-nest$/.test(file)) { award('nest'); onClick('#saveReflection, button[onclick="saveReflection()"]', 'reflection'); }
-    else if (file === 'breathing') dwell('breathing', 20);
-    else if (file === 'grounding') dwell('grounding', 30);
-    else if (file === 'butterfly-hug') dwell('butterfly', 25);
-    else if (file === 'water') dwell('water', 15);
-    else if (file === 'feeling-reflection') onClick('#saveReflection', 'reflection');
-    else if (file === 'feeling-selected') award('feeling');
+    if (file === 'nest') { onClick('#saveReflection, button[onclick="saveReflection()"]', 'reflection'); }
+    else if (file === 'feeling-reflection') {
+      var topic = new URLSearchParams(location.search).get('feeling') || 'first-reflection';
+      onClick('#saveReflection', 'reflection', topic);
+    }
   }
 
   window.VPGrowth = {
     STAGES: STAGES, BADGES: BADGES, ACTIVITIES: ACTIVITIES, BUG_TYPES: BUG_TYPES, BUG_ORDER: BUG_ORDER,
-    MILESTONES: MILESTONES, MOMENT_KEEPSAKE: MOMENT_KEEPSAKE, submitMoment: submitMoment, getMoments: getMoments, CLOSET: CLOSET, STAGE_BADGES: STAGE_BADGES,
+    MILESTONES: MILESTONES, submitMoment: submitMoment, getMoments: getMoments, CLOSET: CLOSET, STAGE_BADGES: STAGE_BADGES,
     getBird: getBird, getProgress: getProgress, getLog: getLog,
     award: award, getBasket: getBasket, basketTotal: basketTotal, feed: feed, feedAll: feedAll,
     getFeathers: getFeathers, getCloset: getCloset, setGoal: setGoal, buy: buy, wear: wear, item: item,
     renderAvatar: renderAvatar, renderStagesGrid: renderStagesGrid, toast: toast,
     totalFed: function () { return totalFed(getState()); },
-    streak: function () { return streakLength(getState().days); }
   };
 
-  if (IS_KID) { syncUserStage(); creditVerifiedMoments(); wirePage(); }
+  if (IS_KID) { syncUserStage(); wirePage(); }
 })();

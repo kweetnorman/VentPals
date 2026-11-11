@@ -5,9 +5,9 @@
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VentPals – Big feelings are easier with a friend</title>
-  <meta name="description" content="VentPals gives kids a bird companion to name what they feel, practice calming skills, and grow alongside. A nonprofit emotional wellness space for ages 3 to 18.">
+  <meta name="description" content="VentPals helps children explore feelings, choose a personal bird companion, express themselves, and grow through learning at their own pace.">
   <meta property="og:title" content="VentPals – Big feelings are easier with a friend">
-  <meta property="og:description" content="Every VentPal starts as an egg and grows as kids learn to name and care for their feelings.">
+  <meta property="og:description" content="Every VentPal starts as an egg and grows as children explore, practice, and discover new skills.">
   <meta property="og:image" content="https://app.ventpals.org/assets/images/logo.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://app.ventpals.org/">
@@ -310,15 +310,15 @@
         <nav class="nav-links" aria-label="Primary Navigation">
           <a href="how-it-works.html">How it works</a>
           <a href="world.html">World</a>
-          <a href="circles-dashboard.html">Nests</a>
+          <a href="nest.html">My Nest</a>
           <a href="meet-the-flock.html">Meet the flock</a>
           <a href="about.html">About</a>
         </nav>
 
         <div class="nav-actions">
           <a class="grownups" href="adult-login.html">For Grown-ups 💛</a>
-          <a class="btn btn-line" href="login.html">Log in</a>
-          <a class="btn btn-solid" href="signup.html">Get Started</a>
+          <a class="btn btn-line" href="welcome.html">Log in</a>
+          <a class="btn btn-solid" href="welcome.html">Get Started</a>
           <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mobilePanel">Menu ☰</button>
         </div>
       </div>
@@ -326,10 +326,10 @@
       <div class="mobile-panel" id="mobilePanel">
         <a href="how-it-works.html">How it works</a>
         <a href="world.html">World</a>
-        <a href="circles-dashboard.html">Nests</a>
+        <a href="nest.html">Nests</a>
         <a href="meet-the-flock.html">Meet the flock</a>
         <a href="about.html">About</a>
-        <a href="login.html">Log in</a>
+        <a href="welcome.html">Log in</a>
         <a href="adult-login.html">For grown-ups</a>
       </div>
     </div>
@@ -346,25 +346,25 @@
             <span>✨ Emotional Wellness for Kids & Teens</span>
           </div>
           <h1>Big feelings are easier <span class="highlight">with a VentPal!</span></h1>
-          <p class="lede">VentPals gives every child a friendly bird companion. Together they name what they feel, practice fun calming skills, and grow from an egg to a wise Feathered Percher.</p>
+          <p class="lede">Every child chooses a VentPal they connect with. That bird stays theirs through every feeling while they explore expression tools, learn new skills, and grow at their own pace.</p>
           
           <div class="hero-actions">
-            <a class="btn btn-yellow" href="signup.html">🐣 Adopt Your VentPal</a>
-            <a class="btn btn-line" href="login.html">I already have a code</a>
+            <a class="btn btn-yellow" href="welcome.html">🐣 Adopt Your VentPal</a>
+            <a class="btn btn-line" href="welcome.html">I have a Nest</a>
           </div>
 
           <p class="hero-note">
-            <span>🛡️ COPPA-Safe & Private • For ages 3 to 18</span>
+            <span>🛡️ Privacy-first development preview • For kids & teens</span>
           </p>
         </div>
 
         <!-- Interactive Hero Feature Card -->
         <div class="hero-art-card">
           <div style="text-align:center;margin-bottom:12px;">
-            <span style="font:700 0.85rem var(--font-display);color:var(--violet-deep);text-transform:uppercase;">Try it: Click a feeling below!</span>
+            <span style="font:700 0.85rem var(--font-display);color:var(--violet-deep);text-transform:uppercase;">See how one VentPal can be there through different feelings:</span>
           </div>
           <div class="hero-main-avatar" id="heroAvatarCircle">
-            <img id="heroBirdImg" src="assets/images/sable-nestling.png" alt="Sable the VentPal companion" onerror="this.src='assets/images/sable.png'">
+            <img id="heroBirdImg" src="assets/images/sable-nestling.png" alt="Sable, a VentPal bird companion" onerror="this.src='assets/images/sable.png'">
           </div>
           <div style="text-align:center;margin-top:12px;">
             <h3 id="heroBirdName" style="font:700 1.3rem var(--font-display);color:var(--ink);">Sable</h3>
@@ -372,10 +372,10 @@
           </div>
 
           <div class="feeling-bubbles">
-            <button class="feeling-chip active" onclick="setHeroBird('sable', 'Worry', 'Your brain is trying to protect you. Let\'s name the worry together.')">💜 Worried</button>
-            <button class="feeling-chip" onclick="setHeroBird('flamez', 'Angry', 'That felt unfair! Let\'s release that fire together.')">🔥 Angry</button>
-            <button class="feeling-chip" onclick="setHeroBird('echo', 'Sad', 'Sadness means something mattered. I\'m sitting right here with you.')">💙 Sad</button>
-            <button class="feeling-chip" onclick="setHeroBird('aura', 'Calm', 'Breathe with me. You\'re completely safe here.')">😌 Calm</button>
+            <button class="feeling-chip active" onclick="setHeroFeeling('Worry', 'Your brain is trying to protect you. Let\'s name the worry together.', this)">💜 Worried</button>
+            <button class="feeling-chip" onclick="setHeroFeeling('Angry', 'That felt unfair! Let\'s find a safe way to express it together.', this)">🔥 Angry</button>
+            <button class="feeling-chip" onclick="setHeroFeeling('Sad', 'Sadness means something mattered. I\'m sitting right here with you.', this)">💙 Sad</button>
+            <button class="feeling-chip" onclick="setHeroFeeling('Calm', 'Notice what is helping you feel steady. You can explore at your own pace.', this)">😌 Calm</button>
           </div>
         </div>
       </div>
@@ -387,7 +387,7 @@
         <div class="section-head">
           <span class="pill-tag">Evolutionary Journey</span>
           <h2>Watch your VentPal grow! 🥚</h2>
-          <p class="intro">Here is how Sable grows from an egg to a wise Feathered Percher as children practice daily check-ins and calming skills!</p>
+          <p class="intro">Here is how Sable grows as children explore new ideas and learning activities. Feelings, calmness, and daily check-in frequency do not determine growth.</p>
         </div>
 
         <div class="growth-container">
@@ -396,31 +396,31 @@
               <img src="assets/images/sable-egg.png" alt="Sable as an Egg" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 1</span>
               <h3>Egg</h3>
-              <p>Warm & waiting for your first check-in.</p>
+              <p>A new beginning, full of possibility.</p>
             </div>
             <div class="stage-card">
-              <img src="assets/images/sable-baby.png" alt="Sable as a Hatchling" onerror="this.src='assets/images/sable.png'">
+              <img src="assets/images/sable-baby.png" alt="Sable as a Baby" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 2</span>
-              <h3>Hatchling</h3>
-              <p>Just hatched, curious & hungry to learn.</p>
+              <h3>Baby</h3>
+              <p>A first discovery and lots to explore.</p>
             </div>
             <div class="stage-card">
               <img src="assets/images/sable-nestling.png" alt="Sable as a Nestling" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 3</span>
               <h3>Nestling</h3>
-              <p>Finding its voice & building courage.</p>
+              <p>Trying new ideas and discovering new skills.</p>
             </div>
             <div class="stage-card">
               <img src="assets/images/sable-feathered.png" alt="Sable Feathered" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 4</span>
               <h3>Feathered</h3>
-              <p>Steady, strong & ready to take flight.</p>
+              <p>Building confidence through exploration.</p>
             </div>
             <div class="stage-card">
-              <img src="assets/images/sable-percher.png" alt="Sable as a Wise Percher" onerror="this.src='assets/images/sable.png'">
+              <img src="assets/images/sable-percher.png" alt="Sable as a Percher" onerror="this.src='assets/images/sable.png'">
               <span class="stage-badge">Stage 5</span>
               <h3>Percher</h3>
-              <p>Calm, wise & mastered emotional skills!</p>
+              <p>A growing collection of discoveries and experiences.</p>
             </div>
           </div>
         </div>
@@ -431,34 +431,34 @@
     <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <span class="pill-tag" style="background:var(--mint-green);border-color:#059669;">Daily Outlets</span>
-          <h2>Fun activities kids do in minutes</h2>
-          <p class="intro">Simple daily outlets designed to build emotional awareness and calming skills.</p>
+          <span class="pill-tag" style="background:var(--mint-green);border-color:#059669;">Ways to Explore</span>
+          <h2>Choose how you want to explore</h2>
+          <p class="intro">Flexible activities that support emotional awareness, expression, and learning—at the child's pace.</p>
         </div>
 
         <div class="cards-row-4">
           <div class="feature-card-compact">
             <div class="icon-box yellow">🏷️</div>
-            <h3>1. Name Feeling</h3>
-            <p>Pick how you feel and get matched with a friend.</p>
+            <h3>1. Notice a Feeling</h3>
+            <p>Name what is happening inside. There is no right or wrong feeling.</p>
           </div>
 
           <div class="feature-card-compact">
             <div class="icon-box sky">🌬️</div>
-            <h3>2. Calm Breath</h3>
-            <p>30-second guided breathing games.</p>
+            <h3>2. Try a Skill</h3>
+            <p>Explore breathing, grounding, or another tool if it feels helpful.</p>
           </div>
 
           <div class="feature-card-compact">
             <div class="icon-box mint">🕊️</div>
-            <h3>3. Fly-Away</h3>
-            <p>Write worries and release them on bird wings.</p>
+            <h3>3. Express Yourself</h3>
+            <p>Write, draw, or reflect in a way that feels comfortable.</p>
           </div>
 
           <div class="feature-card-compact">
             <div class="icon-box coral">🎁</div>
-            <h3>4. Keepsakes</h3>
-            <p>Earn pins, stickers, and lanyard rewards.</p>
+            <h3>4. Celebrate Learning</h3>
+            <p>Discover in-app milestones as you explore. The keepsake shop is being refreshed.</p>
           </div>
         </div>
       </div>
@@ -469,8 +469,8 @@
       <div class="wrap">
         <div class="section-head">
           <span class="pill-tag" style="background:var(--sky-blue);border-color:#0284C7;color:#fff;">The VentPals Flock</span>
-          <h2>16 Birds for 16 Ways of Feeling</h2>
-          <p class="intro">Each bird specializes in a specific emotion. Use the arrows to browse the flock!</p>
+          <h2>Meet the VentPals Flock</h2>
+          <p class="intro">Every bird has its own personality and perspective. Children choose their own VentPal; other birds can offer temporary ideas without replacing that personal companion.</p>
         </div>
 
         <div class="flock-slider-container">
@@ -490,20 +490,20 @@
       <div class="wrap">
         <div class="grownups-banner">
           <h2>Built for kids, trusted by grown-ups 💛</h2>
-          <p class="intro">Parents, educators, and counselors get their own dashboard to track emotional progress, unlock reflection guides, and support children safely.</p>
+          <p class="intro">Trusted grown-ups can be invited as Nest Guides. Children choose what they share; private reflections and AI conversations are not automatically shown to adults. The grown-up experience is being built alongside secure account connections.</p>
 
           <div class="facts-list">
             <div class="fact-item">
-              <b>🔒 100% Anonymous & COPPA Safe</b>
-              <p>Kids sign in with a simple nickname and 4-digit code. No email addresses or personal data required for children.</p>
+              <b>🔒 Privacy-first by design</b>
+              <p>The development preview uses fictional details only. Secure accounts, verified adult connections, and production privacy safeguards will be completed before real child accounts are enabled.</p>
             </div>
             <div class="fact-item">
-              <b>📊 Parent Insights Dashboard</b>
-              <p>Stay informed about your child's emotional wellness journey with weekly summary notes and conversation starters.</p>
+              <b>🪺 Child-led Nest Guides</b>
+              <p>Grown-ups can offer support through trusted connections while respecting the child's choice about what to share.</p>
             </div>
             <div class="fact-item">
               <b>🌱 501(c)(3) Nonprofit Mission</b>
-              <p>Created by emotional learning specialists to empower children with self-regulation skills that last a lifetime.</p>
+              <p>Built to help children develop emotional literacy, communication, and self-understanding over time.</p>
             </div>
           </div>
 
@@ -533,7 +533,7 @@
           <ul>
             <li><a href="how-it-works.html">How it works</a></li>
             <li><a href="world.html">World</a></li>
-            <li><a href="circles-dashboard.html">Nests</a></li>
+            <li><a href="nest.html">Nests</a></li>
             <li><a href="meet-the-flock.html">Meet the flock</a></li>
             <li><a href="keepsakes.html">Physical Keepsakes</a></li>
           </ul>
@@ -549,8 +549,8 @@
         <div>
           <h3>Accounts</h3>
           <ul>
-            <li><a href="signup.html">Kid Sign Up</a></li>
-            <li><a href="login.html">Kid Log In</a></li>
+            <li><a href="welcome.html">Kid Sign Up</a></li>
+            <li><a href="welcome.html">Kid Log In</a></li>
             <li><a href="adult-signup.html">Grown-up Sign Up</a></li>
             <li><a href="adult-login.html">Grown-up Log In</a></li>
           </ul>
@@ -561,26 +561,12 @@
     </div>
   </footer>
 
+  <script src="assets/js/flock-data.js"></script>
   <script>
-    // 16 Birds Data Set with Colorful Pastel Tints
-    var birds = [
-      ['flamez', 'Flamez', 'Bold & Expressive', '#FFE0CC'],
-      ['echo', 'Echo', 'Feeling Heard', '#E9E1F0'],
-      ['guardian', 'Guardian', 'Protective', '#D6D9EE'],
-      ['sable', 'Sable', 'Resilience', '#E4D6F2'],
-      ['aura', 'Aura', 'Calm & Gentle', '#EADCFF'],
-      ['clover', 'Clover', 'Belonging', '#DDF3D3'],
-      ['breezy', 'Breezy', 'Thoughtful', '#D9E8FF'],
-      ['pebble', 'Pebble', 'Self-Worth', '#E5F0CC'],
-      ['cove', 'Cove', 'Comfort', '#D3EEFB'],
-      ['drift', 'Drift', 'Reflective', '#D5DEF3'],
-      ['flare', 'Flare', 'Brave Spark', '#FFD9D2'],
-      ['flicker', 'Flicker', 'Hopeful', '#FFF0BF'],
-      ['lumen', 'Lumen', 'Clarity', '#E2DCF7'],
-      ['nova', 'Nova', 'Growth', '#D4F2E8'],
-      ['solace', 'Solace', 'Soothing', '#F4E0CF'],
-      ['twig', 'Twig', 'Curious', '#EEDFCB']
-    ];
+    // The public slider reads the same canonical flock used by onboarding and Flockopedia.
+    var birds = (window.VENTPALS_FLOCK || []).map(function (bird) {
+      return [bird.id, bird.name, bird.kind, bird.tint || '#F4EFFA'];
+    });
 
     // 4-Card Slider Controls
     var currentSlide = 0;
@@ -623,15 +609,12 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
-    // Interactive Hero Bird Changer
-    function setHeroBird(birdKey, title, quote) {
-      document.getElementById('heroBirdImg').src = 'assets/images/' + birdKey + '-nestling.png';
-      document.getElementById('heroBirdName').innerText = birdKey.charAt(0).toUpperCase() + birdKey.slice(1);
+    // Interactive sample: the chosen VentPal stays the same when the feeling changes.
+    function setHeroFeeling(title, quote, button) {
       document.getElementById('heroBirdQuote').innerText = '"' + quote + '"';
-      
       var chips = document.querySelectorAll('.feeling-chip');
       chips.forEach(function(c) { c.classList.remove('active'); });
-      event.target.classList.add('active');
+      if (button) button.classList.add('active');
     }
   </script>
 </body>

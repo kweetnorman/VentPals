@@ -27,7 +27,7 @@
 </head>
 
 <body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
+  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
   <script src="assets/js/shop-config.js"></script>
@@ -62,7 +62,7 @@
       <h2 class="text-lg font-bold text-purple-700">Badges you've earned</h2>
       <p id="earnedCount" class="text-xs text-gray-500 mb-4"></p>
       <div id="earnedGrid" class="space-y-3"></div>
-      <p id="earnedEmpty" class="text-sm text-gray-500 hidden">No badges yet. Check in with a feeling or try a calming skill to earn your first one!</p>
+      <p id="earnedEmpty" class="text-sm text-gray-500 hidden">No badges yet. Try a new learning activity or explore a skill to earn your first one!</p>
     </section>
 
     <!-- STILL TO EARN -->
@@ -75,7 +75,7 @@
     <section class="bg-white rounded-3xl shadow p-6 text-sm text-gray-700">
       <h2 class="text-lg font-bold text-purple-700 mb-2">How it all fits together</h2>
       <ul class="space-y-1">
-        <li>🦟 Do activities and log in to <b>earn bugs</b>. Bigger activities earn bigger bugs.</li>
+        <li>🦟 Explore new activities to <b>discover bugs</b>. Feelings, logins, and repeat visits never earn points.</li>
         <li>🍽️ <b>Feed your bird</b> and it grows. Each stage earns a real keepsake.</li>
         <li>🪶 Feeding also earns <b>feathers</b> to spend on your bird's closet. Saving up is a skill too!</li>
       </ul>
@@ -114,7 +114,7 @@
       // what's next
       var next = $('nextList');
       function li(icon, html) { var e = document.createElement('li'); e.className = 'flex gap-3 items-start bg-purple-50 rounded-xl p-3'; e.innerHTML = '<span class="text-xl" aria-hidden="true">' + icon + '</span><span>' + html + '</span>'; next.appendChild(e); }
-      if (p.next) li('🐣', '<b>' + p.next.name + ' stage</b><br><span class="text-gray-600">' + p.toNext + ' more points. Try a feeling check-in, breathing, or a reflection.</span>');
+      if (p.next) li('🐣', '<b>' + p.next.name + ' stage</b><br><span class="text-gray-600">' + p.toNext + ' more points. Try a new learning activity, breathing exercise, or reflection.</span>');
       var locked = Object.keys(G.BADGES).filter(function (k) { return !p.badges[k] && ['hatched','nestling','feathered','percher'].indexOf(k) === -1; });
       locked.slice(0, 2).forEach(function (k) { var b = G.BADGES[k]; li(b.icon, '<b>' + b.name + ' badge</b><br><span class="text-gray-600">' + b.how + '</span>'); });
       var waiting = G.basketTotal();

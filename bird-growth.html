@@ -34,14 +34,14 @@
 </head>
 
 <body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('login.html');}</script>
+  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
 
   <!-- NAV -->
   <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="dashboard.html" class="flex items-center gap-2">
+      <a href="nest.html" class="flex items-center gap-2">
         <img src="assets/images/logo.png" class="h-8" alt="VentPals Logo">
         <span class="font-bold text-lg text-purple-700">VentPals</span>
       </a>
@@ -78,7 +78,7 @@
         <h2 class="text-lg font-bold text-purple-700">Feed your bird</h2>
         <span class="text-sm font-bold text-purple-600">🪶 <span id="featherBal">0</span> feathers</span>
       </div>
-      <p id="feedHint" class="text-gray-500 text-xs mb-4">Every activity earns a bug. Feeding it to your bird helps it grow and earns feathers for the closet.</p>
+      <p id="feedHint" class="text-gray-500 text-xs mb-4">Trying a new learning activity can earn a bug. Feeding it to your bird helps it grow and earns feathers for the closet.</p>
       <div id="basket" class="grid grid-cols-4 gap-2 text-center"></div>
       <button id="feedAll" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-full disabled:opacity-40 disabled:cursor-not-allowed">Feed everything</button>
       <p id="feedMsg" class="text-center text-sm font-semibold text-purple-700 mt-3 min-h-[1.25rem]" aria-live="polite"></p>
@@ -94,7 +94,6 @@
         <div id="xpBar" class="bg-purple-500 h-4 rounded-full transition-all duration-700" style="width:4%"></div>
       </div>
       <p id="xpHint" class="text-gray-600 text-sm mt-3"></p>
-      <p id="streakLine" class="text-sm text-orange-600 font-semibold mt-1"></p>
     </div>
 
     <!-- STAGES -->
@@ -106,12 +105,12 @@
     <!-- BUG GUIDE -->
     <div class="bg-white rounded-3xl shadow p-6">
       <h2 class="text-lg font-bold text-purple-700 mb-1">How to earn bugs</h2>
-      <p class="text-gray-500 text-xs mb-4">Each one counts once a day. Bigger effort earns a bigger bug.</p>
+      <p class="text-gray-500 text-xs mb-4">Each distinct activity can earn a discovery reward once. Your feelings and daily check-ins are never scored.</p>
       <ul id="waysList" class="space-y-2 text-sm"></ul>
     </div>
 
     <a href="rewards.html" class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">🏅 My badges and keepsakes</a>
-    <a href="dashboard.html" class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-full">Back to Home</a>
+    <a href="nest.html" class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-full">Back to My Nest</a>
   </section>
 
   <script>
@@ -131,7 +130,6 @@
         $('xpHint').textContent = p.next
           ? (p.stage.id === 'egg' ? 'Your egg is waiting to hatch. ' : '') + p.toNext + ' more growth points to reach ' + p.next.name + '.'
           : 'Your VentPal reached the top stage. Keep collecting badges!';
-        var st = G.streak(); $('streakLine').textContent = st > 0 ? '🔥 ' + st + '-day streak' : '';
 
         // basket
         var basket = $('basket'); basket.innerHTML = '';

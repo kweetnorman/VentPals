@@ -17,7 +17,7 @@ We aim to respond within 2 business days.
 ### For grown-ups
 
 **How do I link to my child's account?**  
-Ask your child to open **Settings → Your Connection Code** and share that code with you. Then create a parent account at **ventpals.com/adult-signup** and enter the code to link.
+Adult registration and child linking are not active in the development preview. Do not enter real personal details or attempt to connect a real child yet. Verified grown-up connections will be added during the final authentication phase.
 
 **Can I see what my child has written?**  
 VentPals is designed so children control their own emotional space. Linked grown-ups receive general emotional check-in updates (e.g., "feeling calm today") but do not have access to private journal entries or detailed reflection notes by default.
@@ -26,14 +26,14 @@ VentPals is designed so children control their own emotional space. Linked grown
 Email [support@ventpals.com](mailto:support@ventpals.com) with the subject "Delete account" and the child's username. We will process the request within 30 days.
 
 **What data does VentPals collect from my child?**  
-Please see our [Privacy Policy](PRIVACY.md). In short: only a chosen username, a PIN hash stored on-device, and a generated connection code. No real name, photo, or email is required from the child.
+Please see our [Privacy Policy](PRIVACY.md). The development preview uses a chosen username, a local demo PIN, and a generated connection code. It does not create real child accounts. No real name, photo, or email is needed to try the child experience.
 
 ---
 
 ### For children
 
 **I forgot my secret code (PIN).**  
-Ask a trusted grown-up to help you reset it. They can go to **ventpals.com** and use the parent account to assist with a PIN reset (coming soon). In the meantime, email us at [support@ventpals.com](mailto:support@ventpals.com) with the subject "PIN reset".
+PIN reset is planned for the connected grown-up experience. It is not available in the development preview. Please use fictional demo details only; do not enter real personal information or rely on this preview for account recovery.
 
 **My VentPal app is not working.**  
 1. Close the app completely and reopen it.

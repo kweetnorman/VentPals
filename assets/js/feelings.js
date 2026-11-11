@@ -1,5 +1,5 @@
 /**
- * feelings.js: words for the feelings loop (comfort -> feedback -> tools -> learn -> show a grown-up).
+ * feelings.js: words for the feelings loop (notice -> choose a tool -> learn -> optional sharing).
  * Edit freely. Each feeling has:
  *   comfort   what the bird says first (use {bird} for the child's bird name)
  *   ask       a gentle question so the child can tell us how it fits
@@ -15,7 +15,7 @@
     water:      { icon: '💧', label: 'Cool-down water break',    href: 'water.html',             why: 'A tiny reset' },
     journal:    { icon: '📓', label: 'Write or draw about it',   href: 'feeling-reflection.html', why: 'Get it out of your head' },
     grownup:    { icon: '🤝', label: 'Ask a grown-up for help',  href: '#grownup',               why: 'You do not have to do it alone' },
-    nest:       { icon: '🪺', label: 'Share in a Nest',          href: 'circles-dashboard.html', why: 'Be with others who get it' },
+    nest:       { icon: '🪺', label: 'Return to My Nest',          href: 'nest.html', why: 'Come back to your own space' },
     skills:     { icon: '🧰', label: 'See all calming skills',   href: 'calming-skills.html',    why: 'Pick what fits' }
   };
 
