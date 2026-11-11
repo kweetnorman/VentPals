@@ -1,12 +1,13 @@
 /**
  * growth.js – the VentPals bird economy (demo: stored in this browser's localStorage)
  *
- *   ACTIVITY  --earns-->  BUG  --child feeds it to the bird-->  GROWTH points  (permanent, never lost)
+ *   COMPLETED LEARNING ACTIVITY  --earns-->  BUG  --child feeds it to the bird-->  GROWTH points
  *                                                          \->  FEATHERS       (spendable on the avatar closet)
  *
  * - The bird is chosen once in onboarding and then LOCKED (user.birdLocked).
  * - Growth points move the bird: egg -> baby -> nestling -> feathered -> percher.
- * - Each new stage automatically earns a keepsake and notifies the grown-up (to confirm the address).
+ * - Distinct learning activities earn once; feelings, logins, page visits, and streaks never earn points.
+ * - Each new stage adds a keepsake milestone to the local demo collection; shipping is not active.
  * - Feathers are a tiny money lesson: earn, save toward a goal, then spend. Spending never shrinks growth.
  * - Pages self-configure by file name (see wirePage), so most pages need no wiring.
  *
