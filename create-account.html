@@ -23,18 +23,18 @@
 (function(){
  const $=id=>document.getElementById(id);
  let user={};try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
- const personalName=String(user.displayName||'').trim().replace(/\\s+/g,' ');
+ const personalName=String(user.displayName||'').trim().replace(/\s+/g,' ');
  if(!user.birdLocked||!user.namesLocked||!personalName){location.replace('onboarding/onboarding.html');return}
  $('personalName').textContent=personalName;
  function error(message){$('errorBox').textContent=message;$('errorBox').classList.add('show')}
  $('accountForm').addEventListener('submit',function(e){
   e.preventDefault();$('errorBox').classList.remove('show');
   const pin=$('pin').value.trim(),confirm=$('confirmPin').value.trim();
-  if(!/^\\d{4}$/.test(pin)){error('Your secret PIN must be exactly 4 numbers.');return}
+  if(!/^\d{4}$/.test(pin)){error('Your secret PIN must be exactly 4 numbers.');return}
   if(pin!==confirm){error('Those PINs do not match. Try again.');return}
   let profiles=[];try{profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]')}catch(e){}
   const key=personalName.toLocaleLowerCase();
-  if(profiles.some(p=>String(p.username||'').trim().replace(/\\s+/g,' ').toLocaleLowerCase()===key)){error('This VentPals name is already in use on this device.');return}
+  if(profiles.some(p=>String(p.username||'').trim().replace(/\s+/g,' ').toLocaleLowerCase()===key)){error('This VentPals name is already in use on this device.');return}
   if(profiles.length){error('This development preview currently supports one child demo profile per browser.');return}
   user.username=personalName;user.hasPin=true;user.demoProfile=true;
   const pinHash=btoa(pin),profile={username:personalName,pinHash,user,onboardingComplete:true};
