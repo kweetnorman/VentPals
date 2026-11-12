@@ -1,79 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f4ff">
   <link rel="icon" type="image/png" href="assets/images/logo.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Avatar Name – VentPals</title>
+  <title>Your VentPals Name Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #F7F4FF, #e0f2fe);
-    }
-    .float {
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
+    *{box-sizing:border-box}html{min-width:320px}body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;background:linear-gradient(135deg,#f7f4ff,#e0f2fe);color:#312e4b}
+    .page{width:min(100% - 32px,680px);margin:0 auto;padding:28px 0 56px}.card{background:#fff;border-radius:28px;padding:clamp(20px,5vw,36px);box-shadow:0 14px 40px #49327618}
+    h1{font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.15;color:#6d36b1;margin:0 0 10px;text-align:center}
+    p{line-height:1.6}.field{width:100%;min-height:50px;border:2px solid #ddd6fe;border-radius:14px;padding:12px 14px;font:inherit;font-size:16px}
+    button,.back{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border:0;border-radius:999px;padding:12px 20px;font:700 1rem inherit;cursor:pointer;text-decoration:none}
+    .primary{background:#7c3aed;color:#fff}.secondary{background:#ede9fe;color:#5b21b6}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.actions>*{flex:1 1 180px}
+    .result{margin-top:18px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#faf5ff,#f0f9ff);text-align:center}
+    .power{font-size:clamp(1.6rem,6vw,2.2rem);font-weight:800;color:#7c3aed;overflow-wrap:anywhere}.full{font-size:clamp(1.25rem,4vw,1.7rem);font-weight:800;color:#4c1d95;overflow-wrap:anywhere}
+    .locked{border:2px solid #ddd6fe;background:#faf5ff;border-radius:18px;padding:20px;text-align:center}
+    button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #38bdf8;outline-offset:3px}
+    @media(max-width:480px){.page{width:min(100% - 20px,680px);padding-top:16px}.actions{flex-direction:column}.actions>*{width:100%;flex-basis:auto}}
   </style>
 </head>
-
-<body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
-  <script src="assets/js/session.js"></script>
-  <script src="assets/js/growth.js"></script>
-
-  <!-- NAV -->
-  <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="index.html" class="flex items-center gap-2">
-        <img src="assets/images/logo.png" class="h-8" alt="VentPals Logo">
-        <span class="font-bold text-lg text-purple-700">VentPals</span>
-      </a>
-      <a href="profile.html" class="text-purple-600 hover:text-purple-800 text-sm">
-        ← Back
-      </a>
-    </div>
+<body>
+  <nav style="background:#ffffffd9;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+    <a href="nest.html" style="font-weight:800;color:#6d28d9;text-decoration:none">VentPals</a>
+    <a class="back" href="profile.html" style="min-height:40px;padding:8px 14px;color:#6d28d9">← Profile</a>
   </nav>
-
-  <!-- HEADER -->
-  <section class="text-center py-10 px-4">
-    <div class="text-5xl mb-4 float">✨</div>
-    <h1 class="text-3xl font-bold text-purple-700 mb-2">Your Avatar Name</h1>
-    <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Your avatar name keeps you safe and lets your bird know who you are.
-    </p>
-  </section>
-
-  <!-- MAIN CONTENT -->
-  <section class="max-w-xl mx-auto px-4 pb-20 space-y-6">
-    <div class="bg-white rounded-3xl shadow p-6 text-center">
-      <h2 class="text-xl font-semibold text-purple-700 mb-2">Your Name 🔒</h2>
-      <p class="text-gray-600 text-sm mb-4">You picked your names when you joined. They stay the same so your VentPal's growth always belongs to you.</p>
-      <div class="bg-yellow-100 rounded-xl p-4 text-purple-800 font-bold text-xl mb-3" id="lockedDisplayName">…</div>
-      <p class="text-sm text-gray-600">Nickname: <strong id="lockedNick">…</strong> &bull; PowerWord: <strong id="lockedPower">…</strong></p>
-      <p class="text-sm text-gray-600 mt-1">Your VentPal: <strong id="lockedBird">…</strong></p>
-    </div>
-    <script>
-      (function () {
-        var u = {}; try { u = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
-        var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v || '—'; };
-        set('lockedDisplayName', u.displayName || u.nickname); set('lockedNick', u.nickname);
-        set('lockedPower', u.powerWord); set('lockedBird', u.birdName || u.birdId);
-      })();
-    </script>
-    <a href="profile.html" class="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">Back to Profile</a>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals • The Journey of Growing Up.
-  </footer>
-
+  <main class="page">
+    <section class="card">
+      <div style="text-align:center;font-size:42px;margin-bottom:10px" aria-hidden="true">✨🪶</div>
+      <h1>Your Powerful Bird Name</h1>
+      <p style="text-align:center;color:#64748b;margin:0 0 24px">Pair your nickname with a powerful word inspired by the strength, spirit, and wonder of birds. Try a few until one feels like you.</p>
+      <div id="lockedView" class="locked" hidden>
+        <div style="font-size:13px;font-weight:800;color:#6d28d9;text-transform:uppercase;letter-spacing:.08em">Your chosen name is yours to keep 🔒</div>
+        <div class="full" id="lockedName" style="margin:12px 0"></div>
+        <p style="font-size:14px;color:#64748b;margin:0">Your name was saved to your profile when you selected it. It cannot be changed later.</p>
+        <p style="margin:12px 0 0;font-size:14px">Your VentPal: <strong id="lockedBird"></strong></p>
+      </div>
+      <div id="generatorView">
+        <label for="nickname" style="display:block;font-weight:700;margin-bottom:8px;color:#5b21b6">Your nickname</label>
+        <input class="field" id="nickname" maxlength="20" minlength="3" autocomplete="off" placeholder="e.g. Star, River, Moon">
+        <p style="font-size:12px;color:#64748b;margin:6px 0 16px">Choose a nickname, not your real name. 3–20 characters.</p>
+        <div class="result" aria-live="polite">
+          <div style="font-size:13px;color:#64748b">Your bird-inspired PowerWord</div>
+          <div class="power" id="powerWord">Ready when you are!</div>
+          <div style="font-size:13px;color:#64748b;margin-top:14px">Your complete VentPals name</div>
+          <div class="full" id="namePreview">Your name will appear here</div>
+        </div>
+        <div id="nameError" role="alert" style="color:#b91c1c;font-size:13px;margin-top:10px" hidden></div>
+        <div class="actions">
+          <button class="secondary" type="button" id="generateBtn">Generate a PowerWord ✨</button>
+          <button class="primary" type="button" id="saveBtn" disabled>Choose this name 🔒</button>
+        </div>
+        <p style="font-size:12px;color:#64748b;text-align:center;margin:14px 0 0">You can generate again while exploring. Once you choose and save your name, it becomes permanent.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function(){
+      const words=['Brightcrest','Stormwing','Starfeather','Embercrest','Skybound','Dawnkeeper','Moonwing','Swiftwind','Sunstride','Cloudbreaker','Wildheart','Boldflight','Firecrest','Skydancer','Thunderfeather','Dreamwing','Goldensong','Bravebloom','Windrider','Starlight','Everwing','Trueflight','Hopecrest','Stormfeather','Silverwing','Flamekeeper','Radiantwing','Fearlessflight','Skyspark','Horizonheart','Featherstone','Sunflare'];
+      const $=id=>document.getElementById(id);
+      let chosenWord='';
+      let user={};try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
+      if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');return}
+      const isLocked=user.namesLocked===true||!!(user.powerWord&&user.displayName);
+      if(isLocked){
+        $('generatorView').hidden=true;$('lockedView').hidden=false;
+        $('lockedName').textContent=user.displayName||[user.nickname,user.powerWord].filter(Boolean).join(' ');
+        $('lockedBird').textContent=user.birdName||user.birdId||'Not chosen yet';
+        return;
+      }
+      $('nickname').value=user.nickname||'';
+      function preview(){ $('namePreview').textContent=$('nickname').value.trim()&&chosenWord?$('nickname').value.trim()+' '+chosenWord:'Your name will appear here'; }
+      $('nickname').addEventListener('input',preview);
+      $('generateBtn').addEventListener('click',function(){
+        const nick=$('nickname').value.trim();
+        if(nick.length<3){$('nameError').hidden=false;$('nameError').textContent='Please choose a nickname with at least 3 characters.';return}
+        $('nameError').hidden=true;
+        const options=words.filter(w=>w!==chosenWord);
+        chosenWord=options[Math.floor(Math.random()*options.length)];
+        $('powerWord').textContent=chosenWord;preview();$('saveBtn').disabled=false;
+      });
+      $('saveBtn').addEventListener('click',function(){
+        const nick=$('nickname').value.trim();
+        if(nick.length<3||!chosenWord)return;
+        user.nickname=nick;user.powerWord=chosenWord;user.displayName=nick+' '+chosenWord;user.namesLocked=true;
+        localStorage.setItem('ventpals_user',JSON.stringify(user));
+        try{
+          const profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]');
+          const idx=profiles.findIndex(p=>String(p.username).toLowerCase()===String(user.username||'').toLowerCase());
+          if(idx>=0){profiles[idx].user=user;localStorage.setItem('ventpals_demo_profiles',JSON.stringify(profiles))}
+        }catch(e){}
+        $('generatorView').hidden=true;$('lockedView').hidden=false;$('lockedName').textContent=user.displayName;$('lockedBird').textContent=user.birdName||user.birdId||'Not chosen yet';
+      });
+    })();
+  </script>
 </body>
 </html>
