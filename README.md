@@ -1,15 +1,15 @@
 # VentPals
 
-**VentPals** is a safe, supportive web app for kids to explore big feelings, grow with a personal bird companion, and build emotional skills — with a gentle grown-up portal for families.
+**VentPals** is a child-centered emotional-literacy experience where children explore feelings, express themselves, and practice skills with a bird companion they choose. The current app is a development preview; secure accounts and live adult connections are not active.
 
 ## 🐦 Overview
 
-- **16 VentPal birds** — each offering a different perspective and kind of support (Aura, Breezy, Clover, Cove, Drift, Echo, Ember, Flare, Flicker, Guardian, Lumen, Nova, Pebble, Sable, Solace, Twig)
+- **16 VentPal birds** — each with a distinct personality and story. Children choose a companion that stays theirs through every feeling.
 - **VentPals World** — 6 emotional zones (Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, Sparkle Stream)
 - **Calming skills** — Deep Breathing, Butterfly Hug, 5 Senses Grounding, Sip of Water
-- **Reflections & Nests** — one personal Nest per child, with private journaling and growth tracking
-- **Grown-up experience** — preview only; verified adult-child connections are deferred until the secure authentication phase
-- **Onboarding flow** — 6-step child setup: Welcome → Bird → Name → Avatar → Privacy → My Nest. Adult connections are not part of child onboarding.
+- **Reflections & Nests** — one personal Nest per child. The current preview stores demo reflections and progress in local browser storage; it is not a secure private account.
+- **Grown-up experience** — design preview only; verified adult-child connections are not active.
+- **Onboarding flow** — child setup: Welcome → VentPal → Name → Avatar → Privacy → My Nest. Adult connections are not part of child onboarding.
 
 ## 📁 Structure
 
