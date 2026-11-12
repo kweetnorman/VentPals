@@ -8,7 +8,7 @@
 
 VentPals is being developed as a child-centered emotional literacy and self-discovery experience. It is designed to help children explore feelings, express themselves, learn skills, and connect with trusted adults on their own terms. VentPals is not therapy and does not diagnose or treat mental-health conditions.
 
-**Contact:** [support@ventpals.com](mailto:support@ventpals.com)
+**Contact:** [hello@ventpals.org](mailto:hello@ventpals.org)
 
 ## 2. What the current preview stores
 
@@ -71,4 +71,4 @@ Before real children or families use VentPals, the production service will need 
 Questions about this development preview?
 
 **Email:** [support@ventpals.com](mailto:support@ventpals.com)  
-**Website:** [https://ventpals.com](https://ventpals.com)
+**Website:** [https://ventpals.org](https://ventpals.org)
