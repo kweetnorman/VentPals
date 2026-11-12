@@ -422,6 +422,7 @@
       displayName:   '',
       pronouns:      '',
       colour:        COLOURS[0].hex,
+      nameLocked:    false,
     };
 
     /* ───────────────────────────────
@@ -498,6 +499,7 @@
        STEP 3 — NAME
     ─────────────────────────────── */
     function generatePowerWord() {
+      if (state.nameLocked) return;
       const nick = document.getElementById('nicknameInput').value.trim();
       const alertEl = document.getElementById('alertName');
 
@@ -525,6 +527,15 @@
         document.getElementById('alertName').classList.add('show');
         return;
       }
+      // Save the selected name immediately and lock it. Going back later cannot change it.
+      const raw = localStorage.getItem('ventpals_user');
+      const user = raw ? JSON.parse(raw) : {};
+      Object.assign(user, { nickname: state.nickname, powerWord: state.powerWord, displayName: state.displayName, namesLocked: true });
+      localStorage.setItem('ventpals_user', JSON.stringify(user));
+      state.nameLocked = true;
+      document.getElementById('nicknameInput').disabled = true;
+      document.getElementById('genWordBtn').disabled = true;
+      document.getElementById('nameNextBtn').textContent = 'Name saved ✓';
       goTo(4);
     }
 
