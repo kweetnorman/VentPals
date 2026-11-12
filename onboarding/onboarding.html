@@ -523,9 +523,12 @@
       Object.assign(user, { nickname: state.nickname, powerWord: state.powerWord, displayName: state.displayName, namesLocked: true });
       localStorage.setItem('ventpals_user', JSON.stringify(user));
       state.nameLocked = true;
-      document.getElementById('nicknameInput').disabled = true;
-      document.getElementById('genWordBtn').disabled = true;
-      document.getElementById('nameNextBtn').textContent = 'Name saved ✓';
+      const nicknameInput = document.getElementById('nicknameInput');
+      const generatorButton = document.getElementById('genWordBtn');
+      const nextButton = document.getElementById('nameNextBtn');
+      if (nicknameInput) nicknameInput.disabled = true;
+      if (generatorButton) generatorButton.disabled = true;
+      if (nextButton) nextButton.textContent = 'Name saved ✓';
       goTo(4);
     }
 
