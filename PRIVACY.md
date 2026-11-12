@@ -70,5 +70,5 @@ Before real children or families use VentPals, the production service will need 
 
 Questions about this development preview?
 
-**Email:** [support@ventpals.com](mailto:support@ventpals.com)  
+**Email:** [hello@ventpals.org](mailto:hello@ventpals.org)  
 **Website:** [https://ventpals.org](https://ventpals.org)
