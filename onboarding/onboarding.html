@@ -369,7 +369,8 @@
   <script src="onboarding.js"></script>
   <script src="../assets/js/flock-data.js"></script>
   <script>
-    try { if (JSON.parse(localStorage.getItem('ventpals_user')||'{}').birdLocked) { window.location.replace('../nest.html'); } } catch (e) {}
+    // Do not redirect based on a previously saved bird profile.
+    // The child may intentionally start onboarding from the login screen.
 
     /* ───────────────────────────────
        DATA
