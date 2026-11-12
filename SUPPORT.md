@@ -58,7 +58,7 @@ If you or someone you know is in crisis, please contact:
 
 ## Report a concern
 
-If you have a safety concern about the app or its content, please email [support@ventpals.com](mailto:support@ventpals.com) with the subject "Safety concern". We take all reports seriously and will respond promptly.
+If you have a safety concern about the app or its content, please email [hello@ventpals.org](mailto:hello@ventpals.org) with the subject "Safety concern". We take all reports seriously and will respond promptly.
 
 ---
 
