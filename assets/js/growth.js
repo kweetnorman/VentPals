@@ -99,7 +99,7 @@
 
   var BIRD_META = {
     aura: ['Aura', '🕊️'], breezy: ['Breezy', '🍃'], clover: ['Clover', '🍀'], cove: ['Cove', '🌊'],
-    drift: ['Drift', '🌙'], echo: ['Echo', '🔔'], flamez: ['Ember', '🔥'], flare: ['Flare', '⚡'],
+    drift: ['Drift', '🌙'], echo: ['Echo', '🔔'], flamez: ['Flamez', '🔥'], flare: ['Flare', '⚡'],
     flicker: ['Flicker', '💫'], guardian: ['Guardian', '🛡️'], lumen: ['Lumen', '💡'], nova: ['Nova', '🌟'],
     pebble: ['Pebble', '🪨'], sable: ['Sable', '⭐'], solace: ['Solace', '🌿'], twig: ['Twig', '🌱']
   };
