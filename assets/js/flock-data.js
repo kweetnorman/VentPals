@@ -57,11 +57,11 @@ window.VENTPALS_FLOCK = [
   {
     "id": "flamez",
     "tint": "#FFE0CC",
-    "name": "Ember",
-    "kind": "Falcon",
+    "name": "Flamez",
+    "kind": "Phoenix",
     "emoji": "🔥",
     "role": "Bold expression and fresh starts",
-    "description": "Ember brings bold energy and reminds you that big feelings can be expressed safely and that a fresh start is possible."
+    "description": "Flamez brings bold energy and reminds you that big feelings can be expressed safely and that a fresh start is possible."
   },
   {
     "id": "flare",
