@@ -180,6 +180,7 @@
     <div class="dot"        id="dot-4"></div>
     <div class="dot"        id="dot-5"></div>
     <div class="dot"        id="dot-6"></div>
+    <div class="dot"        id="dot-7"></div>
   </div>
 
   <!-- ═══════════════════════════════════
@@ -342,35 +343,48 @@
     </div>
   </div>
 
-  <!-- STEP 6 — NEST READY -->
+  <!-- STEP 6 — CREATE SIGN-IN DETAILS -->
   <div class="step" id="step-6">
+    <div class="card">
+      <h1 style="text-align:center;margin-bottom:6px;">Make Your Nest Yours 🔐</h1>
+      <p style="text-align:center;margin-bottom:20px;">Create a special username and a 4-digit secret PIN so you can return to your Nest. No email or real name needed.</p>
+      <div id="accountAlert" class="alert" role="alert"></div>
+      <label for="accountUsername">Your special username</label>
+      <input id="accountUsername" maxlength="24" autocomplete="off" placeholder="StarFox, MoonRiver, SkySpark">
+      <p class="hint" style="margin-bottom:16px;">Use 3–24 letters, numbers, dots, dashes, or underscores.</p>
+      <label for="accountPin">Create your 4-digit secret PIN</label>
+      <input id="accountPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="new-password" placeholder="••••">
+      <p class="hint">Choose a PIN you can remember. Keep it private.</p>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-secondary" onclick="goTo(5)">← Back</button>
+      <button class="btn-primary" onclick="confirmAccount()">Save my sign-in →</button>
+    </div>
+  </div>
+
+  <!-- STEP 7 — NEST READY -->
+  <div class="step" id="step-7">
     <div class="card" style="text-align:center;">
       <div class="card-icon">🪺</div>
       <h1>Your Nest is ready!</h1>
-      <p style="margin:12px 0 20px;">
-        You chose your VentPal, made your name, and set up your space. Your bird stays yours through every feeling.
-      </p>
+      <p style="margin:12px 0 20px;">You chose your VentPal, made your name, and set up your space. Your bird stays yours through every feeling.</p>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:16px;text-align:left;">
-        <p style="font-size:13px;color:#166534;">
-          <strong>There's no rush.</strong><br/>
-          Explore your Nest, meet the flock, try an activity, or simply spend time with your VentPal. You can come back to anything whenever you're ready.
-        </p>
+        <p style="font-size:13px;color:#166534;"><strong>There's no rush.</strong><br/>Explore your Nest, meet the flock, try an activity, or simply spend time with your VentPal. You can come back to anything whenever you're ready.</p>
       </div>
     </div>
     <div style="display:flex;gap:10px;margin-top:4px;">
-      <button class="btn-secondary" onclick="goTo(5)">← Back</button>
+      <button class="btn-secondary" onclick="goTo(6)">← Back</button>
       <button class="btn-primary" onclick="finishOnboarding()">Enter My Nest 🪺</button>
     </div>
   </div>
 
   <script>
-    /* Guard: kids must create an account and a secret code before onboarding.
-       Signup (signup.html) shows the PIN screen; set-pin.html covers older accounts. */
+    /* New-user onboarding intentionally runs before sign-in credentials are created. */
     (function () {
-      if (!localStorage.getItem('ventpals_user')) {
+      let user=null;
+      try { user=JSON.parse(localStorage.getItem('ventpals_user')||'null'); } catch(e) {}
+      if (!user || localStorage.getItem('ventpals_logged_in')!=='true') {
         window.location.replace('../welcome.html');
-      } else if (!localStorage.getItem('ventpals_pin_hash')) {
-        window.location.replace('../set-pin.html');
       }
     })();
   </script>
@@ -567,6 +581,24 @@
       goTo(6);
     }
 
+    function confirmAccount() {
+      const username=document.getElementById('accountUsername').value.trim();
+      const pin=document.getElementById('accountPin').value.trim();
+      const alertBox=document.getElementById('accountAlert');
+      alertBox.classList.remove('show');
+      if(!/^[A-Za-z0-9._-]{3,24}$/.test(username)){alertBox.textContent='Use 3–24 letters, numbers, dots, dashes, or underscores for your username.';alertBox.classList.add('show');return;}
+      if(!/^\d{4}$/.test(pin)){alertBox.textContent='Please choose all 4 numbers of your secret PIN.';alertBox.classList.add('show');return;}
+      let profiles=[];try{profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]')}catch(e){}
+      if(profiles.some(p=>String(p.username).toLowerCase()===username.toLowerCase())){alertBox.textContent='That username is already being used on this device. Try another one.';alertBox.classList.add('show');return;}
+      if(profiles.length){alertBox.textContent='This development preview currently supports one child demo profile per browser. Multi-child profiles will be added after each child’s data is safely separated.';alertBox.classList.add('show');return;}
+      const raw=localStorage.getItem('ventpals_user');const user=raw?JSON.parse(raw):{};
+      user.username=username;user.demoProfile=true;user.createdAt=user.createdAt||new Date().toISOString();user.profileVersion=2;
+      localStorage.setItem('ventpals_user',JSON.stringify(user));
+      localStorage.setItem('ventpals_pin_hash',btoa(pin));
+      localStorage.setItem('ventpals_onboarding_pin_pending','true');
+      goTo(7);
+    }
+
     function finishOnboarding() {
       if (!state.selectedBird) { goTo(2); return; }
       // Enrich the local development profile created by the unified entry page
@@ -597,11 +629,12 @@
 
       try {
         const profiles = JSON.parse(localStorage.getItem('ventpals_demo_profiles') || '[]');
-        const index = profiles.findIndex(p => String(p.username).toLowerCase() === String(user.username).toLowerCase());
         const profile = { username:user.username, pinHash:localStorage.getItem('ventpals_pin_hash') || '', user:user, onboardingComplete:true };
+        const index = profiles.findIndex(p => String(p.username).toLowerCase() === String(user.username).toLowerCase());
         if (index >= 0) profiles[index] = profile; else profiles.push(profile);
         localStorage.setItem('ventpals_demo_profiles', JSON.stringify(profiles));
       } catch (e) {}
+      localStorage.removeItem('ventpals_onboarding_pin_pending');
       window.location.href = '../nest.html';
     }
 
