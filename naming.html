@@ -12,7 +12,7 @@
     .page{width:min(100% - 32px,680px);margin:0 auto;padding:28px 0 56px}.card{background:#fff;border-radius:28px;padding:clamp(20px,5vw,36px);box-shadow:0 14px 40px #49327618}
     h1{font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.15;color:#6d36b1;margin:0 0 10px;text-align:center}
     p{line-height:1.6}.field{width:100%;min-height:50px;border:2px solid #ddd6fe;border-radius:14px;padding:12px 14px;font:inherit;font-size:16px}
-    button,.back{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border:0;border-radius:999px;padding:12px 20px;font:700 1rem inherit;cursor:pointer;text-decoration:none}
+    button,.back{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border:0;border-radius:999px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
     .primary{background:#7c3aed;color:#fff}.secondary{background:#ede9fe;color:#5b21b6}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.actions>*{flex:1 1 180px}
     .result{margin-top:18px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#faf5ff,#f0f9ff);text-align:center}
     .power{font-size:clamp(1.6rem,6vw,2.2rem);font-weight:800;color:#7c3aed;overflow-wrap:anywhere}.full{font-size:clamp(1.25rem,4vw,1.7rem);font-weight:800;color:#4c1d95;overflow-wrap:anywhere}
@@ -25,7 +25,7 @@
 <body>
   <nav style="background:#ffffffd9;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px">
     <a href="nest.html" style="font-weight:800;color:#6d28d9;text-decoration:none">VentPals</a>
-    <a class="back" href="profile.html" style="min-height:40px;padding:8px 14px;color:#6d28d9">← Profile</a>
+    <a class="back" id="backLink" href="profile.html" style="min-height:40px;padding:8px 14px;color:#6d28d9">← Back</a>
   </nav>
   <main class="page">
     <section class="card">
@@ -35,7 +35,7 @@
       <div id="lockedView" class="locked" hidden>
         <div style="font-size:13px;font-weight:800;color:#6d28d9;text-transform:uppercase;letter-spacing:.08em">Your chosen name is yours to keep 🔒</div>
         <div class="full" id="lockedName" style="margin:12px 0"></div>
-        <p style="font-size:14px;color:#64748b;margin:0">Your name was saved to your profile when you selected it. It cannot be changed later.</p>
+        <p style="font-size:14px;color:#64748b;margin:0">Your name was saved to your profile when you selected it. It cannot be changed later.</p><div class="actions"><a class="primary" id="continueLink" href="profile.html">Continue</a></div>
         <p style="margin:12px 0 0;font-size:14px">Your VentPal: <strong id="lockedBird"></strong></p>
       </div>
       <div id="generatorView">
@@ -64,6 +64,9 @@
       let chosenWord='';
       let user={};try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
       if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');return}
+      const returnToOnboarding=new URLSearchParams(location.search).get('return')==='onboarding';
+      const returnPath=returnToOnboarding?'onboarding/onboarding.html':'profile.html';
+      $('backLink').href=returnPath;$('backLink').textContent=returnToOnboarding?'← Back to setup':'← Profile';$('continueLink').href=returnPath;$('continueLink').textContent=returnToOnboarding?'Continue setup →':'Back to Profile';
       const isLocked=user.namesLocked===true||!!(user.powerWord&&user.displayName);
       if(isLocked){
         $('generatorView').hidden=true;$('lockedView').hidden=false;
