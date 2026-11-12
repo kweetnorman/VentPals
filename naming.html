@@ -65,7 +65,8 @@
       const $=id=>document.getElementById(id);
       let chosenWord='';
       let user={};try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
-      if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');return}
+      const returnToOnboarding=new URLSearchParams(location.search).get('return')==='onboarding';
+      if(!returnToOnboarding && localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');return}
       let chosenBirdName=user.birdName||'';
       if(!chosenBirdName){
         try{
@@ -76,7 +77,6 @@
       }
       const birdNotice=$('chosenBirdNotice');
       if(chosenBirdName){birdNotice.textContent='Your VentPal: '+chosenBirdName;birdNotice.style.display='block';}
-      const returnToOnboarding=new URLSearchParams(location.search).get('return')==='onboarding';
       const returnPath=returnToOnboarding?'onboarding/onboarding.html':'profile.html';
       $('backLink').href=returnPath;$('backLink').textContent=returnToOnboarding?'← Back to setup':'← Profile';$('continueLink').href=returnPath;$('continueLink').textContent=returnToOnboarding?'Continue setup →':'Back to Profile';
       const isLocked=user.namesLocked===true||!!(user.powerWord&&user.displayName);
