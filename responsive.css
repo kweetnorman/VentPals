@@ -1,0 +1,28 @@
+/* VentPals responsive foundation — shared across the child and guide experiences. */
+*,*::before,*::after{box-sizing:border-box}
+html{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{width:100%;min-width:320px;max-width:100%;overflow-x:hidden}
+img,svg,video,canvas,iframe{max-width:100%}
+img,video{height:auto}
+button,input,select,textarea{max-width:100%;min-width:0}
+input,select,textarea{font-size:16px}
+pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
+table{max-width:100%;border-collapse:collapse}
+main,header,footer,section,article,aside,nav{min-width:0;max-width:100%}
+.flex,.d-flex{min-width:0}
+@media(max-width:760px){
+  .container{width:100%;max-width:100%}
+  .flex,.d-flex{flex-wrap:wrap}
+  .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .w-screen{width:100%;max-width:100%}
+  [style*="width:"]{max-width:100%}
+  .overflow-x-auto{overscroll-behavior-x:contain}
+}
+@media(max-width:480px){
+  .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:minmax(0,1fr)}
+  .text-5xl{font-size:2.25rem;line-height:1.15}
+  .text-4xl{font-size:1.9rem;line-height:1.2}
+  .rounded-3xl{border-radius:1.25rem}
+  [style*="width:"]{max-width:100%}
+  button,a{overflow-wrap:anywhere}
+}
