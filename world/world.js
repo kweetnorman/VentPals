@@ -1,6 +1,6 @@
 // world.js — VentPals World Zone Navigation
 const zones = {
-  'nesting-tree':    { name: 'Nesting Tree',    emoji: '🌳', desc: 'A cozy place to rest and reflect. Your safe home base.' },
+  'nesting-tree':    { name: 'Nesting Tree',    emoji: '🌳', desc: 'A cozy place to rest and reflect. Your home base.' },
   'feelings-forest': { name: 'Feelings Forest', emoji: '🌲', desc: 'Explore the forest of your emotions. Find the feeling that matches you.' },
   'quiet-caves':     { name: 'Quiet Caves',     emoji: '🏔️', desc: 'A quiet space for deep thinking and peaceful reflection.' },
   'firefly-meadow':  { name: 'Firefly Meadow',  emoji: '✨', desc: 'Sparkling with hope and wonder. Come here when you feel hopeful.' },

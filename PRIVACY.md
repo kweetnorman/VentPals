@@ -1,6 +1,6 @@
 # VentPals Development Preview Privacy Notice
 
-**Last updated:** November 11, 2026
+**Last updated:** November 12, 2026
 
 > **Important:** This notice describes the current development preview, not the final production service or a legal compliance determination. VentPals is still being built. Do not enter real child information, adult personal details, passwords, PINs used elsewhere, or shipping addresses. A production privacy policy must be reviewed and published before real child accounts are enabled.
 
@@ -8,7 +8,7 @@
 
 VentPals is being developed as a child-centered emotional literacy and self-discovery experience. It is designed to help children explore feelings, express themselves, learn skills, and connect with trusted adults on their own terms. VentPals is not therapy and does not diagnose or treat mental-health conditions.
 
-**Contact:** [support@ventpals.com](mailto:support@ventpals.com)
+**Contact:** [hello@ventpals.org](mailto:hello@ventpals.org)
 
 ## 2. What the current preview stores
 
@@ -70,5 +70,5 @@ Before real children or families use VentPals, the production service will need 
 
 Questions about this development preview?
 
-**Email:** [support@ventpals.com](mailto:support@ventpals.com)  
-**Website:** [https://ventpals.com](https://ventpals.com)
+**Email:** [hello@ventpals.org](mailto:hello@ventpals.org)  
+**Website:** [https://ventpals.org](https://ventpals.org)

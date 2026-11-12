@@ -6,9 +6,7 @@ Need help with VentPals? Here's how to reach us and find answers.
 
 ## Contact us
 
-**Email:** [support@ventpals.com](mailto:support@ventpals.com)
-
-We aim to respond within 2 business days.
+**Email:** [hello@ventpals.org](mailto:hello@ventpals.org)
 
 ---
 
@@ -20,13 +18,13 @@ We aim to respond within 2 business days.
 Adult registration and child linking are not active in the development preview. Do not enter real personal details or attempt to connect a real child yet. Verified grown-up connections will be added during the final authentication phase.
 
 **Can I see what my child has written?**  
-VentPals is designed so children control their own emotional space. Linked grown-ups receive general emotional check-in updates (e.g., "feeling calm today") but do not have access to private journal entries or detailed reflection notes by default.
+Adult accounts and child connections are not active in this preview. The planned experience is being designed so a child's private reflections are not automatically shared with grown-ups.
 
 **How do I delete my child's account?**  
-Email [support@ventpals.com](mailto:support@ventpals.com) with the subject "Delete account" and the child's username. We will process the request within 30 days.
+The preview does not create real accounts. To remove local demo information, clear this site's browser storage on the device used for testing. A production account-deletion process will be documented before real accounts are enabled.
 
 **What data does VentPals collect from my child?**  
-Please see our [Privacy Policy](PRIVACY.md). The development preview uses a chosen username, a local demo PIN, and a generated connection code. It does not create real child accounts. No real name, photo, or email is needed to try the child experience.
+Please see our [Privacy Policy](PRIVACY.md). The development preview stores demo profile details and activity in this browser. It does not create real child accounts. Use fictional details only.
 
 ---
 
@@ -38,10 +36,10 @@ PIN reset is planned for the connected grown-up experience. It is not available 
 **My VentPal app is not working.**  
 1. Close the app completely and reopen it.
 2. Check that you have an internet connection for features that need it.
-3. If problems continue, email [support@ventpals.com](mailto:support@ventpals.com).
+3. If problems continue, contact [hello@ventpals.org](mailto:hello@ventpals.org).
 
 **I want to choose a different VentPal bird.**  
-Birds are chosen during onboarding. Changing bird companions is coming in a future update. Watch this space!
+Children choose their VentPal during setup. That companion stays theirs through every feeling; feelings never assign or change a child's bird.
 
 ---
 
@@ -60,7 +58,7 @@ If you or someone you know is in crisis, please contact:
 
 ## Report a concern
 
-If you have a safety concern about the app or its content, please email [support@ventpals.com](mailto:support@ventpals.com) with the subject "Safety concern". We take all reports seriously and will respond promptly.
+If you have a safety concern about the app or its content, please email [hello@ventpals.org](mailto:hello@ventpals.org) with the subject "Safety concern". We take all reports seriously and will respond promptly.
 
 ---
 

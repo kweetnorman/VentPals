@@ -100,11 +100,11 @@
 
   <div class="hero">
     <h1>VentPals FAQ</h1>
-    <p>Honest answers about how VentPals works, why it's built the way it is, and how it keeps your child safe while respecting their emotional autonomy.</p>
+    <p>Clear answers about VentPals, its child-centered approach, and what is—and is not—available in the current development preview.</p>
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="showPanel('safety', this)">🔒 Safety Model</button>
+    <button class="tab active" onclick="showPanel('safety', this)">🔒 Safety & Privacy</button>
     <button class="tab"        onclick="showPanel('parent', this)">👨‍👩‍👧 Parents</button>
     <button class="tab"        onclick="showPanel('kid', this)">🐣 Kids</button>
   </div>
@@ -112,35 +112,32 @@
   <!-- SAFETY MODEL -->
   <div class="faq-panel active" id="panel-safety">
     <div class="faq-section">
-      <div class="section-title">🔒 Our Safety Model — Why VentPals Is Built This Way</div>
+      <div class="section-title">🔒 How Safety Is Being Designed</div>
       <div class="model-grid">
-        <div class="model-card"><h3>Children</h3><p>Username + PIN. No email. Privacy first. Children control their own emotional space.</p></div>
-        <div class="model-card"><h3>Parents</h3><p>Email + password. Max 2 per child. Linked with a one-time child-generated code.</p></div>
-        <div class="model-card"><h3>Trusted Adults</h3><p>Teachers, counsellors, coaches. Only linked through parent approval. Child initiates.</p></div>
-        <div class="model-card"><h3>Every Link Is Explicit</h3><p>Who, what role, who approved, and whether it's active or revoked — always visible.</p></div>
+        <div class="model-card"><h3>Child preview</h3><p>A demo username and PIN are stored in this browser. This is not a secure account. Use fictional details only.</p></div>
+        <div class="model-card"><h3>Main Guides</h3><p>The design allows two primary trusted adults. Secure adult accounts and live connections are not active in this preview.</p></div>
+        <div class="model-card"><h3>Nest Guides</h3><p>Children can ask to connect with trusted adults. Verification, approval, and live connections are planned—not active yet.</p></div>
+        <div class="model-card"><h3>Child-led by design</h3><p>The child’s choice comes first. Future connections will require identity checks, clear permissions, and the child’s confirmation.</p></div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" onclick="toggle(this)">Why can't my child log in with an email address? <span class="arrow">▼</span></button>
         <div class="faq-a">
-          <p>VentPals is designed for children. Email accounts are often shared, monitored, or created by adults. Using email would give adults too much control over a child's emotional space.</p>
-          <p>Instead, children use:</p>
-          <ul><li>A username they choose</li><li>A PIN they can remember</li><li>Parent approval for account activation</li></ul>
-          <p>This keeps the child's identity private and safe.</p>
+          <p>The current preview uses a demo username and PIN saved in this browser. It does not create a real child account. The sign-in method for the full service will be finalized as part of the privacy and security design.</p>
         </div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggle(this)">Why does my child complete onboarding before creating an account? <span class="arrow">▼</span></button>
+        <button class="faq-q" onclick="toggle(this)">Why does my child complete setup before entering their Nest? <span class="arrow">▼</span></button>
         <div class="faq-a">
-          <p>Children need to choose their bird, their name, their avatar, and understand privacy before they enter the emotional world. <strong>Onboarding is part of the emotional education, not just account creation.</strong> It ensures children arrive as informed participants, not passive users.</p>
+          <p>Setup gives children a chance to choose their VentPal, create a display name, personalize their space, and learn about privacy before exploring their Nest. The current preview creates a local demo profile first; secure production accounts are not active yet.</p>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-q" onclick="toggle(this)">Why do I have to approve my child's account? <span class="arrow">▼</span></button>
         <div class="faq-a">
-          <p>Your approval confirms this is your child, you understand the platform, you support their emotional growth, and you are aware of who they may connect with. It also prevents strangers from creating fake child accounts.</p>
+          <p>In the planned experience, a verified Main Guide will help confirm the child’s account and support safe connections. Adult verification and account approval are not active in this development preview.</p>
         </div>
       </div>
 
@@ -182,7 +179,7 @@
       <div class="faq-item">
         <button class="faq-q" onclick="toggle(this)">Why is VentPals built this way? <span class="arrow">▼</span></button>
         <div class="faq-a">
-          <p>Because emotional safety is not about restricting children. It's about giving them language, autonomy, safe adults, tools, and control over their emotional world. <strong>VentPals protects children from emotional manipulation — not from connection.</strong></p>
+          <p>VentPals is being designed to give children language, choice, creative tools, and a voice in the trusted relationships around them. Safety should support healthy connection—not replace it.</p>
         </div>
       </div>
     </div>
@@ -193,15 +190,15 @@
     <div class="faq-section">
       <div class="section-title">👨‍👩‍👧 Parent FAQ</div>
 
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What is VentPals? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is a child‑friendly emotional support platform that helps kids understand their feelings, express themselves safely, and build emotional independence.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What is VentPals? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is a child-centered emotional-literacy experience that helps children notice, name, and express feelings, explore creative activities, and practice skills at their own pace.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Is VentPals therapy? <span class="arrow">▼</span></button><div class="faq-a"><p>No. VentPals is not therapy and does not replace mental‑health care. It's an emotional learning tool designed to help kids build healthy emotional habits.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Is VentPals safe for my child? <span class="arrow">▼</span></button><div class="faq-a"><p>Yes. VentPals includes a required privacy module, no public posting, no strangers, no ads, and child-centered Nests with trusted adult connections.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What information does VentPals collect? <span class="arrow">▼</span></button><div class="faq-a"><p>Only the minimum needed to operate the platform. Children's entries stay private unless they choose to share them.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Can I see what my child writes? <span class="arrow">▼</span></button><div class="faq-a"><p>Only if your child chooses to share it with you. VentPals encourages healthy communication while respecting a child's emotional autonomy.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What ages is VentPals for? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is designed for children ages 6–17.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What if my child shares something concerning? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals guides children toward trusted adults and provides tools like the Ask‑With‑Courage Letter Generator.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Is VentPals safe for my child? <span class="arrow">▼</span></button><div class="faq-a"><p>The current app is a development preview, not a finished secure service. It uses local browser storage and does not provide live adult connections. Use fictional details only. Production privacy and safeguarding features must be completed before real child accounts are enabled.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What information does VentPals collect? <span class="arrow">▼</span></button><div class="faq-a"><p>The current preview stores demo profile details and activity data in your browser on this device. It does not create real accounts or send those demo details to a VentPals server. Do not enter real personal information.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Can I see what my child writes? <span class="arrow">▼</span></button><div class="faq-a"><p>The current preview does not have real child or adult accounts or sharing controls. In the planned experience, children’s private reflections will not be shared by default.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What ages is VentPals for? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is being designed with school-aged children in mind. Specific age guidance will be published before the full experience launches.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What if my child shares something concerning? <span class="arrow">▼</span></button><div class="faq-a"><p>Listen calmly, take the child seriously, and help them connect with a trusted adult or qualified professional when needed. VentPals does not monitor private reflections or provide crisis response.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Does VentPals replace talking to my child? <span class="arrow">▼</span></button><div class="faq-a"><p>No. VentPals strengthens communication by giving kids the words and confidence to start conversations.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">How much does VentPals cost? <span class="arrow">▼</span></button><div class="faq-a"><p>The core experience is free. Optional keepsakes and parent tools support the nonprofit mission.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">How much does VentPals cost? <span class="arrow">▼</span></button><div class="faq-a"><p>Pricing and any optional purchases will be explained clearly before the full experience launches. The keepsake marketplace is not active in this preview.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">How do I get started? <span class="arrow">▼</span></button><div class="faq-a"><p>Your child creates a Nest first. When secure adult connections launch, the child can request a trusted adult, a Main Guide can facilitate a private invitation, the adult verifies their identity, and the child confirms the person. Adult registration and live connections are not active yet. Visit <a href="adult-login.html" style="color:#8B5CF6;font-weight:700;">Grown-up access</a> to see the current preview.</p></div></div>
     </div>
   </div>
@@ -211,15 +208,15 @@
     <div class="faq-section">
       <div class="section-title">🐣 Kid FAQ</div>
 
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What is VentPals? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is a cozy place where you can learn about your feelings and use fun tools to help your heart feel calmer and stronger.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What is VentPals? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is a friendly place to notice your feelings, find words for them, and explore creative ways to express yourself.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Do I have to talk about my feelings? <span class="arrow">▼</span></button><div class="faq-a"><p>Nope! You get to choose what you want to do. VentPals never rushes you.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Who can see what I write? <span class="arrow">▼</span></button><div class="faq-a"><p>Only the people you choose. Your feelings stay private unless you decide to share them.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Who can see what I write? <span class="arrow">▼</span></button><div class="faq-a"><p>This preview saves demo activity on this device. Secure accounts and sharing controls are not active yet. Never enter anything you want to keep private.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What's a Nest? <span class="arrow">▼</span></button><div class="faq-a"><p>Your Nest is your own personal space in VentPals. It holds your VentPal, your progress, and the activities you explore. You can connect trusted grown-ups as Nest Guides when you are ready.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What if I don't know how to explain my feelings? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals has tools and characters that help you find the right words. You can start by just picking an emoji!</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What if I feel something really big? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals helps you choose a trusted grown‑up and even write a letter if you want. If you ever feel unsafe, please tell a trusted adult straight away.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What if I feel something really big? <span class="arrow">▼</span></button><div class="faq-a"><p>You can use VentPals to think about what you want to say to a trusted grown-up. The app cannot contact them for you. If you feel unsafe, tell a trusted adult right away.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Is VentPals a game? <span class="arrow">▼</span></button><div class="faq-a"><p>Not exactly — but it is fun! You'll meet friendly characters and explore calming tools.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Why do I have to learn about privacy? <span class="arrow">▼</span></button><div class="faq-a"><p>Because your feelings are important, and you deserve to stay safe online. Privacy means your feelings belong to you.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Can I use VentPals every day? <span class="arrow">▼</span></button><div class="faq-a"><p>Yes! You can visit anytime. Your bird will be happy to see you.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggle(this)">Can I use VentPals every day? <span class="arrow">▼</span></button><div class="faq-a"><p>Yes. You can visit whenever you like. Your VentPal will be here when you return.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggle(this)">What if I make a mistake? <span class="arrow">▼</span></button><div class="faq-a"><p>VentPals is a no‑judgment zone. You can always try again. 💜</p></div></div>
     </div>
   </div>
