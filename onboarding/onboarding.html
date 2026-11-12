@@ -235,25 +235,14 @@
         Your VentPals name keeps you safe. Choose a fun nickname — not your real name.
       </p>
       <div id="alertName" class="alert"></div>
-
-      <div style="margin-bottom:16px;">
-        <label for="nicknameInput">Your Nickname</label>
-        <input id="nicknameInput" type="text" placeholder="e.g. Star, Moon, River…" maxlength="20" autocomplete="off" />
-        <div class="hint">3–20 characters. No real names.</div>
-      </div>
-
-      <button class="btn-primary" id="genWordBtn" onclick="generatePowerWord()" style="margin-bottom:14px;">
-        Generate My PowerWord ⚡
-      </button>
-
-      <div id="powerWordResult" class="power-word-reveal" style="display:none;">
-        <p style="font-size:13px; color:var(--muted); margin-bottom:4px;">Your PowerWord:</p>
+      <div class="power-word-reveal" id="powerWordResult" style="display:none;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:4px;">Your selected PowerWord:</p>
         <div class="power-word-big" id="powerWordDisplay"></div>
-        <p style="font-size:13px; color:var(--muted); margin-top:8px;">
-          Your full VentPals name will be:
-          <strong id="fullNamePreview" style="color:var(--purple);"></strong>
-        </p>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px;">Your permanent VentPals name:</p>
+        <strong id="fullNamePreview" style="color:var(--purple);font-size:1.2rem;"></strong>
       </div>
+      <p class="hint" style="text-align:center;margin:18px 0;">Create a nickname and explore powerful bird-inspired words in the name generator. Once you choose your name, it is saved to your profile and cannot be changed.</p>
+      <a class="btn-primary" href="../naming.html?return=onboarding" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">Open My Name Generator ✨</a>
     </div>
     <div style="display:flex; gap:10px;">
       <button class="btn-secondary" onclick="goTo(2)">← Back</button>
@@ -433,8 +422,7 @@
         state.powerWord = savedUser.powerWord;
         state.displayName = savedUser.displayName || savedUser.nickname + ' ' + savedUser.powerWord;
         state.nameLocked = true;
-        const nicknameField = document.getElementById('nicknameInput');
-        if (nicknameField) { nicknameField.value = state.nickname; nicknameField.disabled = true; }
+        
         const wordDisplay = document.getElementById('powerWordDisplay');
         const namePreview = document.getElementById('fullNamePreview');
         const result = document.getElementById('powerWordResult');
@@ -521,28 +509,7 @@
     /* ───────────────────────────────
        STEP 3 — NAME
     ─────────────────────────────── */
-    function generatePowerWord() {
-      if (state.nameLocked) return;
-      const nick = document.getElementById('nicknameInput').value.trim();
-      const alertEl = document.getElementById('alertName');
-
-      if (nick.length < 3) {
-        alertEl.textContent = 'Please enter a nickname of at least 3 characters.';
-        alertEl.classList.add('show');
-        return;
-      }
-      alertEl.classList.remove('show');
-
-      const word = POWER_WORDS[Math.floor(Math.random() * POWER_WORDS.length)];
-      state.powerWord = word;
-      state.nickname  = nick;
-      state.displayName = nick + ' ' + word;
-
-      document.getElementById('powerWordDisplay').textContent = word;
-      document.getElementById('fullNamePreview').textContent   = state.displayName;
-      document.getElementById('powerWordResult').style.display = 'block';
-      document.getElementById('nameNextBtn').disabled = false;
-    }
+    function generatePowerWord() { window.location.href = '../naming.html?return=onboarding'; }
 
     function confirmName() {
       if (!state.powerWord) {
