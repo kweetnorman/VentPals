@@ -611,10 +611,10 @@
     buildColourGrid();
     buildBirdChoices();
     if (loadBirdChoice()) {
-      // coming back from the bird page: jump to the name step with steps 1-2 marked done
+      // The bird choice is already saved. Return directly to the name step.
       document.getElementById('dot-1').classList.add('complete');
       document.getElementById('dot-2').classList.add('complete');
-      goTo(2);
+      goTo(3);
     }
   </script>
 </body>
