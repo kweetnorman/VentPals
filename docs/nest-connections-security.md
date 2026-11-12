@@ -50,3 +50,32 @@ This document records the intended VentPals relationship model. It is a product 
 
 ## Production prerequisites
 The current repository is a static HTML/JavaScript development preview using localStorage. It has no Firebase Auth, backend API, Firestore rules, or server-side invitation service. Therefore the QR and relationship flows must not be represented as real or secure until the backend, adult identity verification, parental-consent/legal-authority model, data access rules, audit logging, abuse controls, and child-safety review are implemented and tested.
+
+## Main Guide interface preview
+- `main-guide-connections.html` is a front-end design preview linked from the grown-up sign-in placeholder.
+- It displays fictional Main Guide identities, child-originated add requests from the same browser's local preview storage, and an invitation preparation state.
+- The QR area is intentionally a nonfunctional placeholder. No QR image, invitation token, adult identity check, parent notification, or access grant is produced by this static page.
+- A Main Guide may prepare an invitation only for a request initiated by the child. The real service must enforce this relationship server-side, not trust the browser's localStorage.
+- Production invitation sequence: child request → authenticated Main Guide issues scoped one-use QR → invitee verifies identity and accepts → child confirms the invited adult → authorization and policy checks → connection becomes active → Main Guides receive the appropriate security event.
+
+## Invited adult acceptance interface preview
+- `accept-nest-invitation.html` previews the adult-facing explanation and consent journey after scanning a valid invitation.
+- The preview deliberately hides child identity and Nest details before verification.
+- It contains no real QR token, adult sign-in, identity verification, or acceptance endpoint.
+- Production must validate token expiry, one-time use, intended recipient/purpose, and adult authorization server-side before revealing any child-specific information.
+
+
+## Completed Main Guide front-end preview journey
+The Main Guide dashboard now demonstrates the full intended sequence without a backend:
+- Separate child-originated add and removal request queues; removal requests open a private review preview without notifying the named adult.
+- A Nest Guide roster placeholder with no fixed adult cap, subject to consent and safeguarding controls.
+- One invitation preview per add request.
+- Invitation tracker states: prepared → QR scan simulated → adult identity verification simulated → adult acceptance → awaiting child confirmation → child confirmed or declined. Prepared, opened, and verified invitations expire after ten minutes in the local preview; pending invitations can be cancelled.
+- A local activity history records preview invitation events.
+- Two-key Main Guide change request with two distinct approval steps. The preview never changes a real role.
+- Self-withdrawal explanation: an adult can always leave their own connection without the other Main Guide's approval.
+- Urgent safeguarding hold preview that bypasses ordinary two-key approval, so the protection model does not create a deadlock for a child in an unsafe situation.
+- Pending adult acceptances are surfaced inside the child's signed-in Nest Connections page; the child is not sent to the Main Guide dashboard.
+- The child confirmation page presents the adult's display name and gives the child a clear yes/no choice with no required explanation. After deciding, the child returns to My Nest.
+
+All lifecycle transitions are local browser demonstrations. The UI must not be represented as actual security or authorization. Production must independently enforce expiry, token redemption, account verification, consent, two-key approval, safety suspension, notifications, and audit history on trusted server infrastructure.

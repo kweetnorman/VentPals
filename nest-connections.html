@@ -32,6 +32,7 @@ input,select,textarea{width:100%;border:2px solid #e5dcf1;border-radius:14px;pad
 <p class="muted max-w-xl mx-auto mt-3">Your Nest is your space. You can tell your Main Guides about the people you'd like to connect with.</p>
 </section>
 <div class="notice"><strong>Preview only:</strong> This page helps us review the child experience. Requests are saved only in this browser. No adult is actually invited, verified, connected, or removed. Real connections will require secure adult accounts and server-side permissions.</div>
+<section id="pendingInviteSection" class="card p-5 sm:p-6 space-y-3" hidden><div><h2 class="text-xl font-extrabold text-purple-800">💌 Someone accepted your invitation</h2><p class="muted mt-1">Check the name carefully. You decide whether this person is the one you asked for.</p></div><div id="pendingInviteList" class="space-y-3"></div></section>
 <section class="card p-5 sm:p-6 space-y-4">
 <div class="flex items-center justify-between gap-3"><div><h2 class="text-xl font-extrabold text-purple-800">🛡️ My Main Guides</h2><p class="muted mt-1">Up to two adults who help protect your Nest.</p></div><span class="pill">Protected</span></div>
 <div id="mainGuides" class="grid sm:grid-cols-2 gap-3">
@@ -72,12 +73,13 @@ input,select,textarea{width:100%;border:2px solid #e5dcf1;border-radius:14px;pad
 <script>
 (function(){
 'use strict';
-var KEY='ventpals_demo_nest_connection_requests';
+var KEY='ventpals_demo_nest_connection_requests',INVITES='ventpals_demo_main_guide_invites';
 var $=function(id){return document.getElementById(id);};
 function read(){try{var v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[];}catch(e){return [];}}
 function write(items){localStorage.setItem(KEY,JSON.stringify(items));}
+function renderPendingInvites(){var section=$('pendingInviteSection'),host=$('pendingInviteList');host.innerHTML='';var invites=[];try{var raw=JSON.parse(localStorage.getItem(INVITES)||'[]');invites=Array.isArray(raw)?raw:[];}catch(e){}var pending=invites.filter(function(x){return x.status==='awaiting-child';});section.hidden=!pending.length;pending.forEach(function(item){var card=document.createElement('article');card.className='person items-start';var avatar=document.createElement('div');avatar.className='avatar';avatar.textContent='👋';var body=document.createElement('div');body.className='min-w-0 flex-1';var title=document.createElement('b');title.className='block text-sm text-purple-800';title.textContent=item.adultDisplayName||'Invited adult (demo)';var detail=document.createElement('p');detail.className='muted';detail.textContent='This adult accepted your request to invite '+item.name+'. Make sure the name above matches the person you wanted.';var link=document.createElement('a');link.className='inline-flex mt-3 rounded-full bg-purple-700 px-4 py-2 text-sm font-bold text-white no-underline';link.href='confirm-nest-guide.html?invite='+encodeURIComponent(item.id);link.textContent='Review and choose →';body.append(title,detail,link);card.append(avatar,body);host.append(card);});}
 function render(){
- var items=read(),list=$('guideList'),rem=$('removeRequests');
+ var items=read(),list=$('guideList'),rem=$('removeRequests');renderPendingInvites();
  list.innerHTML='';rem.innerHTML='';
  var active=items.filter(function(x){return x.kind==='add';});
  var removals=items.filter(function(x){return x.kind==='remove';});
@@ -110,6 +112,7 @@ $('removeForm').addEventListener('submit',function(e){
  items.push({id:'demo-'+Date.now(),kind:'remove',name:name,createdAt:new Date().toISOString(),status:'local-preview'});
  write(items);$('removeForm').reset();$('removeStatus').textContent='Your request is saved in this preview. It has not been sent, and no connection was changed.';render();
 });
+window.addEventListener('storage',function(e){if(e.key===INVITES)renderPendingInvites();});
 render();
 })();
 </script>
