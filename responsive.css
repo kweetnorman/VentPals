@@ -1,25 +1,32 @@
-/* VentPals responsive foundation — shared across the child and guide experiences. */
+/* VentPals responsive foundation — shared across child and guide experiences. */
 *,*::before,*::after{box-sizing:border-box}
 html{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{width:100%;min-width:320px;max-width:100%;overflow-x:hidden}
+body{width:100%;min-width:0;max-width:100%;margin-inline:0;overflow-x:hidden}
+main,header,footer,section,article,aside,nav,form,fieldset{min-width:0;max-width:100%}
 img,svg,video,canvas,iframe{max-width:100%}
 img,video{height:auto}
 button,input,select,textarea{max-width:100%;min-width:0}
 input,select,textarea{font-size:16px}
 pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
 table{max-width:100%;border-collapse:collapse}
-main,header,footer,section,article,aside,nav{min-width:0;max-width:100%}
-.flex,.d-flex{min-width:0}
+:where(.shell,.page,.wrap,.content,.main-content,.layout,.panel,.card,.soft-card){min-width:0;max-width:100%}
+:where(.flex,.d-flex,.grid)>*{min-width:0}
+:where(h1,h2,h3,h4,p,a,button,label,small,strong,span){overflow-wrap:break-word}
 @media(max-width:760px){
-  .container{width:100%;max-width:100%}
-  .flex,.d-flex{flex-wrap:wrap}
-  .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .shell{width:calc(100% - 32px);margin-inline:auto}
+  .container{width:100%;max-width:100%;padding-inline:clamp(12px,3vw,24px)}
+  .flex,.d-flex{min-width:0;flex-wrap:wrap}
+  [style*="display:flex"],[style*="display: flex"]{min-width:0;flex-wrap:wrap}
+  .grid,.grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:repeat(2,minmax(0,1fr))}
   .w-screen{width:100%;max-width:100%}
   [style*="width:"]{max-width:100%}
-  .overflow-x-auto{overscroll-behavior-x:contain}
+  table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .overflow-x-auto{max-width:100%;overscroll-behavior-x:contain}
+  iframe{width:100%;height:auto}
 }
 @media(max-width:480px){
-  .grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:minmax(0,1fr)}
+  .shell{width:calc(100% - 24px)}
+  .grid,.grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:minmax(0,1fr)}
   .text-5xl{font-size:2.25rem;line-height:1.15}
   .text-4xl{font-size:1.9rem;line-height:1.2}
   .rounded-3xl{border-radius:1.25rem}
