@@ -80,8 +80,7 @@
       (function () {
         var u = {}; try { u = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch (e) {}
         var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v || '—'; };
-        set('lockedDisplayName', u.displayName || u.nickname); set('lockedNick', u.nickname);
-        set('lockedPower', u.powerWord); set('lockedBird', u.birdName || u.birdId);
+        set('lockedDisplayName', u.displayName || u.nickname); set('lockedBird', u.birdName || u.birdId);
       })();
     </script>
 
