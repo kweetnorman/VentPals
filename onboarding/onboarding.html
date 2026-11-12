@@ -587,7 +587,7 @@
       const alertBox=document.getElementById('accountAlert');
       alertBox.classList.remove('show');
       if(!/^[A-Za-z0-9._-]{3,24}$/.test(username)){alertBox.textContent='Use 3–24 letters, numbers, dots, dashes, or underscores for your username.';alertBox.classList.add('show');return;}
-      if(!/^\\d{4}$/.test(pin)){alertBox.textContent='Please choose all 4 numbers of your secret PIN.';alertBox.classList.add('show');return;}
+      if(!/^\d{4}$/.test(pin)){alertBox.textContent='Please choose all 4 numbers of your secret PIN.';alertBox.classList.add('show');return;}
       let profiles=[];try{profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]')}catch(e){}
       if(profiles.some(p=>String(p.username).toLowerCase()===username.toLowerCase())){alertBox.textContent='That username is already being used on this device. Try another one.';alertBox.classList.add('show');return;}
       if(profiles.length){alertBox.textContent='This development preview currently supports one child demo profile per browser. Multi-child profiles will be added after each child’s data is safely separated.';alertBox.classList.add('show');return;}
