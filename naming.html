@@ -32,6 +32,7 @@
       <div style="text-align:center;font-size:42px;margin-bottom:10px" aria-hidden="true">✨🪶</div>
       <h1>Create Your VentPals Name</h1>
       <p style="text-align:center;color:#64748b;margin:0 0 24px">Pair your nickname with a powerful, bird-inspired PowerWord. Try a few combinations until one feels like you.</p>
+      <div id="chosenBirdNotice" style="display:none;margin:0 0 18px;padding:12px 16px;border-radius:14px;background:#f0fdf4;color:#166534;text-align:center;font-weight:700" aria-live="polite"></div>
       <div id="lockedView" class="locked" hidden>
         <div style="font-size:13px;font-weight:800;color:#6d28d9;text-transform:uppercase;letter-spacing:.08em">Your chosen name is yours to keep 🔒</div>
         <div class="full" id="lockedName" style="margin:12px 0"></div>
@@ -57,6 +58,7 @@
       </div>
     </section>
   </main>
+  <script src="assets/js/flock-data.js"></script>
   <script>
     (function(){
       const words=['Brightcrest','Stormwing','Starfeather','Embercrest','Skybound','Dawnkeeper','Moonwing','Swiftwind','Sunstride','Cloudbreaker','Wildheart','Boldflight','Firecrest','Skydancer','Thunderfeather','Dreamwing','Goldensong','Bravebloom','Windrider','Starlight','Everwing','Trueflight','Hopecrest','Stormfeather','Silverwing','Flamekeeper','Radiantwing','Fearlessflight','Skyspark','Horizonheart','Featherstone','Sunflare'];
@@ -64,6 +66,16 @@
       let chosenWord='';
       let user={};try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
       if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');return}
+      let chosenBirdName=user.birdName||'';
+      if(!chosenBirdName){
+        try{
+          const choice=JSON.parse(localStorage.getItem('ventpals_onboarding_choice')||'null');
+          const bird=(window.VENTPALS_FLOCK||[]).find(item=>item.id===(choice&&choice.birdId));
+          chosenBirdName=bird?bird.name:(user.birdId||'');
+        }catch(e){}
+      }
+      const birdNotice=$('chosenBirdNotice');
+      if(chosenBirdName){birdNotice.textContent='Your VentPal: '+chosenBirdName;birdNotice.style.display='block';}
       const returnToOnboarding=new URLSearchParams(location.search).get('return')==='onboarding';
       const returnPath=returnToOnboarding?'onboarding/onboarding.html':'profile.html';
       $('backLink').href=returnPath;$('backLink').textContent=returnToOnboarding?'← Back to setup':'← Profile';$('continueLink').href=returnPath;$('continueLink').textContent=returnToOnboarding?'Continue setup →':'Back to Profile';
@@ -71,7 +83,7 @@
       if(isLocked){
         $('generatorView').hidden=true;$('lockedView').hidden=false;
         $('lockedName').textContent=user.displayName||[user.nickname,user.powerWord].filter(Boolean).join(' ');
-        $('lockedBird').textContent=user.birdName||user.birdId||'Not chosen yet';
+        $('lockedBird').textContent=chosenBirdName||'Not chosen yet';
         return;
       }
       $('nickname').value=user.nickname||'';
@@ -95,7 +107,7 @@
           const idx=profiles.findIndex(p=>String(p.username).toLowerCase()===String(user.username||'').toLowerCase());
           if(idx>=0){profiles[idx].user=user;localStorage.setItem('ventpals_demo_profiles',JSON.stringify(profiles))}
         }catch(e){}
-        $('generatorView').hidden=true;$('lockedView').hidden=false;$('lockedName').textContent=user.displayName;$('lockedBird').textContent=user.birdName||user.birdId||'Not chosen yet';
+        $('generatorView').hidden=true;$('lockedView').hidden=false;$('lockedName').textContent=user.displayName;$('lockedBird').textContent=chosenBirdName||'Not chosen yet';
       });
     })();
   </script>
