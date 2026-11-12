@@ -1,6 +1,6 @@
 # VentPals Development Preview Privacy Notice
 
-**Last updated:** November 11, 2026
+**Last updated:** November 12, 2026
 
 > **Important:** This notice describes the current development preview, not the final production service or a legal compliance determination. VentPals is still being built. Do not enter real child information, adult personal details, passwords, PINs used elsewhere, or shipping addresses. A production privacy policy must be reviewed and published before real child accounts are enabled.
 
