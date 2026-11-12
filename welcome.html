@@ -31,8 +31,20 @@ label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6
 (function(){
  const $=id=>document.getElementById(id);let mode='login';
  function showError(msg){$('errorBox').textContent=msg;$('errorBox').classList.add('show')}
- function setMode(next){mode=next;$('errorBox').classList.remove('show');const creating=mode==='create';$('loginTab').classList.toggle('active',!creating);$('createTab').classList.toggle('active',creating);$('loginTab').setAttribute('aria-selected',String(!creating));$('createTab').setAttribute('aria-selected',String(creating));$('heading').textContent=creating?'Create your Nest!':'Welcome back!';$('lead').textContent=creating?'Choose a special username and a secret PIN. Your Nest name can be different from your real name.':'Enter your special username and secret PIN to return to your Nest.';$('usernameHint').textContent=creating?'Choose a unique username for this device.':'Use the username you chose when you made your Nest.';$('submitBtn').textContent=creating?'Create My Nest 🌱':'Enter My Nest 🐦';$('switchHint').innerHTML=creating?'Already have a Nest? <button type="button" class="switch-link">Sign in</button>':'New to VentPals? <button type="button" class="switch-link">Create your Nest</button>'; document.querySelector('.switch-link').addEventListener('click',e=>{e.preventDefault();setMode(creating?'login':'create')});}
- $('loginTab').addEventListener('click',()=>setMode('login'));$('createTab').addEventListener('click',()=>setMode('create'));
+ function setMode(next){mode=next;$('errorBox').classList.remove('show');const creating=mode==='create';$('loginTab').classList.toggle('active',!creating);$('createTab').classList.toggle('active',creating);$('loginTab').setAttribute('aria-selected',String(!creating));$('createTab').setAttribute('aria-selected',String(creating));$('heading').textContent=creating?'Create your Nest!':'Welcome back!';$('lead').textContent=creating?'Choose a special username and a secret PIN. Your Nest name can be different from your real name.':'Enter your special username and secret PIN to return to your Nest.';$('usernameHint').textContent=creating?'Choose a unique username for this device.':'Use the username you chose when you made your Nest.';$('submitBtn').textContent=creating?'Create My Nest 🌱':'Enter My Nest 🐦';$('switchHint').innerHTML='New to VentPals? <button type="button" class="switch-link">Create your Nest</button>'; const link=document.querySelector('.switch-link');if(link)link.addEventListener('click',e=>{e.preventDefault();if(creating){setMode('login')}else{beginOnboarding()}});}
+ function beginOnboarding(){
+   // Start a temporary local draft only. Username and PIN are created at the end.
+   let draft={};try{draft=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
+   if(!draft.demoProfile||draft.username){draft={demoProfile:true,createdAt:new Date().toISOString(),profileVersion:2};}
+   localStorage.setItem('ventpals_user',JSON.stringify(draft));
+   localStorage.setItem('ventpals_logged_in','true');
+   localStorage.setItem('ventpals_development_mode','true');
+   localStorage.setItem('ventpals_onboarding_complete','false');
+   localStorage.removeItem('ventpals_pin_hash');
+   location.href='onboarding/onboarding.html';
+  }
+  $('loginTab').addEventListener('click',()=>setMode('login'));
+  $('createTab').addEventListener('click',beginOnboarding);
  function readProfiles(){try{return JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]')}catch(e){return []}}
  $('entryForm').addEventListener('submit',e=>{e.preventDefault();$('errorBox').classList.remove('show');const username=$('username').value.trim();const pin=$('pin').value.trim();if(!/^[A-Za-z0-9._-]{3,24}$/.test(username)){showError('Use 3–24 letters, numbers, dots, dashes, or underscores for your username.');return}if(!/^\d{4}$/.test(pin)){showError('Please enter all 4 numbers of your PIN.');return}
  let profiles=readProfiles();const key=username.toLowerCase();let profile=profiles.find(p=>String(p.username).toLowerCase()===key);
