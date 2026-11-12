@@ -424,6 +424,28 @@
       colour:        COLOURS[0].hex,
       nameLocked:    false,
     };
+    // If the child selected a name before leaving setup, restore it as locked.
+    try {
+      const savedUser = JSON.parse(localStorage.getItem('ventpals_user') || '{}');
+      if (savedUser.namesLocked && savedUser.powerWord && savedUser.nickname) {
+        state.nickname = savedUser.nickname;
+        state.powerWord = savedUser.powerWord;
+        state.displayName = savedUser.displayName || savedUser.nickname + ' ' + savedUser.powerWord;
+        state.nameLocked = true;
+        const nicknameField = document.getElementById('nicknameInput');
+        if (nicknameField) { nicknameField.value = state.nickname; nicknameField.disabled = true; }
+        const wordDisplay = document.getElementById('powerWordDisplay');
+        const namePreview = document.getElementById('fullNamePreview');
+        const result = document.getElementById('powerWordResult');
+        const next = document.getElementById('nameNextBtn');
+        const generate = document.getElementById('genWordBtn');
+        if (wordDisplay) wordDisplay.textContent = state.powerWord;
+        if (namePreview) namePreview.textContent = state.displayName;
+        if (result) result.style.display = 'block';
+        if (next) { next.disabled = false; next.textContent = 'Name saved ✓'; }
+        if (generate) generate.disabled = true;
+      }
+    } catch (e) {}
 
     /* ───────────────────────────────
        STEP NAVIGATION
