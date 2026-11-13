@@ -1,36 +1,171 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f5efff"><link rel="icon" type="image/png" href="assets/images/logo.png">
-<title>Enter Your Nest • VentPals</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;font-family:Poppins,system-ui,sans-serif;color:#38264f;background:radial-gradient(circle at 15% 10%,#fff 0,transparent 30%),linear-gradient(135deg,#f4eaff,#effaf2 58%,#fff7df)}
-.wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:18px}.mark{width:104px;height:104px;object-fit:contain;display:block;margin:0 auto 8px;animation:float 3s ease-in-out infinite}.brand h1{font-size:32px;margin:0;color:#7549b3}.brand p{margin:4px 0;color:#716780;font-size:14px}
-.card{background:#ffffffed;border:1px solid #e9def6;border-radius:28px;padding:26px;box-shadow:0 18px 55px #49336a18}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f4effa;padding:5px;border-radius:16px;margin-bottom:22px}.switch a{display:block;text-align:center;text-decoration:none;border-radius:12px;padding:11px 8px;background:#fff;color:#7044ad;box-shadow:0 3px 12px #49336a16;font-weight:700;font-size:13px}
-h2{margin:0 0 6px;font-size:23px;color:#563b7c;text-align:center}.lead{text-align:center;color:#786e84;font-size:13px;line-height:1.6;margin:0 0 22px}
-label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6px}input,select{width:100%;padding:13px 14px;border:2px solid #e5d9f2;border-radius:13px;font:500 15px Poppins;color:#39294e;background:white}input:focus,select:focus{outline:3px solid #a78bfa40;border-color:#9b75cc}.hint{font-size:11px;color:#847a90;margin-top:5px}
-.pin{letter-spacing:.45em;text-align:center;font-size:21px}.primary{width:100%;border:0;border-radius:999px;padding:14px;margin-top:22px;background:linear-gradient(110deg,#8d5ac5,#62b98a);color:white;font:800 15px Poppins;cursor:pointer}.secondary{width:100%;border:0;border-radius:999px;padding:12px;margin-top:12px;background:#f1eafa;color:#6740a0;font:700 13px Poppins;cursor:pointer}.error{display:none;background:#fff0f0;color:#a12e42;padding:10px 12px;border-radius:12px;font-size:12px;margin-bottom:12px}.error.show{display:block}.foot{text-align:center;color:#82788e;font-size:12px;margin-top:18px}.adult{text-align:center;margin-top:16px;font-size:12px}.dev{margin-top:18px;border-radius:14px;background:#f4f0fa;padding:11px 13px;font-size:10px;line-height:1.5;color:#756b80;text-align:center}.identity{padding:15px;border-radius:17px;background:linear-gradient(135deg,#f7efff,#effaf2);text-align:center;margin:12px 0}.identity strong{display:block;color:#6740a0;font-size:23px;overflow-wrap:anywhere}.hidden{display:none!important}
-@keyframes float{50%{transform:translateY(-6px)}}@media(prefers-reduced-motion:reduce){.mark{animation:none}}
-</style><link rel="stylesheet" href="responsive.css">
-  <link rel="stylesheet" href="assets/css/app-theme.css">
-</head><body><main class="wrap">
-<div class="brand"><img class="mark" src="assets/images/logo.png" alt="VentPals logo"><h1>VentPals</h1><p>Your space. Your pace. Your VentPal.</p></div>
-<section class="card">
-<div class="switch"><a href="onboarding/onboarding.html">I'm new here</a><span style="text-align:center;padding:11px 8px;color:#7044ad;font-weight:700;font-size:13px">I have a Nest</span></div>
-<div id="errorBox" class="error" role="alert"></div>
-<h2>Welcome back!</h2><p class="lead">Let's find your Nest. Is this your VentPals name?</p>
-<div id="identity" class="identity"><small>Your VentPals name</small><strong id="shownName">Friend</strong></div>
-<div id="confirmActions"><button class="primary" id="yesBtn" type="button">Yes, that's me!</button><button class="secondary" id="noBtn" type="button">No, choose another account</button></div>
-<div id="chooser" class="hidden"><label for="profileSelect">Choose your VentPals name</label><select id="profileSelect"></select><button class="primary" id="chooseBtn" type="button">Continue</button></div>
-<form id="pinForm" class="hidden"><label for="pin">Your 4-digit secret PIN</label><input class="pin" id="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="off" placeholder="••••" required><div class="hint">Your PIN stays in this development demo on this device.</div><button class="primary" type="submit">Enter My Nest 🐦</button><button class="secondary" id="backBtn" type="button">Choose a different name</button></form>
-<div class="foot">New to VentPals? <a href="onboarding/onboarding.html">Create your Nest</a></div></section>
-<div class="adult">Grown-up tools are being built alongside the child experience.</div>
-<div class="dev"><strong>Development Mode</strong><br>VentPals saves demo profiles in this browser only. Use fictional details and do not enter anything you need to keep private.</div>
-<img src="assets/album/social/flock-banner-2400x800.jpg" width="2400" height="800" loading="lazy" decoding="async" alt="The sixteen VentPals birds gathered together on a sunny hill" style="display:block;width:100%;height:auto;border-radius:20px;margin-top:18px;box-shadow:0 10px 26px rgba(46,26,71,.14)">
-</main>
-<script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5edff">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <title>Welcome Back • VentPals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="responsive.css">
+  <style>
+    :root{
+      --ink:#493b66;--purple:#7654aa;--purple-deep:#59417f;--pink:#d779a8;
+      --mint:#dff3e8;--sky:#e2f1ff;--gold:#fff0c9;--line:#e9ddf5;
+      --shadow:0 22px 65px rgba(91,68,130,.13);
+    }
+    *{box-sizing:border-box}
+    html{min-height:100%;background:#f7efff}
+    body{
+      margin:0;min-height:100vh;padding:26px 20px 34px;color:var(--ink);
+      font-family:'Nunito',system-ui,sans-serif;
+      background:
+        radial-gradient(circle at 7% 12%,rgba(255,204,225,.72),transparent 25rem),
+        radial-gradient(circle at 94% 13%,rgba(190,222,255,.78),transparent 27rem),
+        radial-gradient(circle at 82% 92%,rgba(255,224,165,.58),transparent 25rem),
+        linear-gradient(145deg,#f8efff 0%,#eef6ff 46%,#fff5e9 100%);
+      display:flex;align-items:center;justify-content:center;
+    }
+    button,input,select{font:inherit}
+    .page{width:min(100%,1040px);margin:auto}
+    .topbar{display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+    .brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--purple-deep)}
+    .brand img{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 5px 9px rgba(94,67,137,.13))}
+    .brand-name{font-size:26px;font-weight:1000;letter-spacing:-.045em}
+    .brand-tag{display:block;margin-top:-4px;color:#8b789f;font-size:11px;font-weight:800;letter-spacing:.07em}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.95fr);gap:24px;align-items:stretch}
+    .story{
+      position:relative;overflow:hidden;min-height:590px;padding:38px 34px 26px;
+      border:2px solid rgba(255,255,255,.9);border-radius:34px;
+      background:linear-gradient(155deg,rgba(255,255,255,.78),rgba(248,238,255,.78) 54%,rgba(231,246,255,.85));
+      box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;
+    }
+    .story:before,.story:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .story:before{width:210px;height:210px;top:-90px;left:-75px;background:rgba(255,215,232,.5)}
+    .story:after{width:180px;height:180px;right:-65px;bottom:-65px;background:rgba(205,235,255,.65)}
+    .story-kicker{position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;background:#fff9e8;color:#96702d;font-size:11px;font-weight:1000;letter-spacing:.12em;text-transform:uppercase}
+    .hero-bird{position:relative;z-index:1;width:min(72%,270px);height:245px;object-fit:contain;margin:16px auto 10px;filter:drop-shadow(0 13px 12px rgba(95,69,127,.12));animation:bird-float 4s ease-in-out infinite}
+    @keyframes bird-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+    .story h1{position:relative;z-index:1;margin:0;color:#674b96;font-size:clamp(28px,4vw,42px);line-height:1.05;font-weight:1000;letter-spacing:-.045em}
+    .story-copy{position:relative;z-index:1;max-width:340px;margin:12px auto 0;color:#786b8b;font-size:15px;line-height:1.65;font-weight:700}
+    .story-pills{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+    .story-pills span{padding:8px 12px;border:1px solid rgba(255,255,255,.95);border-radius:999px;background:rgba(255,255,255,.7);color:#755b9b;font-size:11px;font-weight:900}
+    .login-card{
+      align-self:center;width:100%;padding:30px;border:2px solid rgba(255,255,255,.94);border-radius:32px;
+      background:rgba(255,255,255,.9);box-shadow:var(--shadow);backdrop-filter:blur(16px);
+    }
+    .switch{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:6px;margin-bottom:27px;border-radius:18px;background:#f4effb}
+    .switch a,.switch span{display:flex;align-items:center;justify-content:center;min-height:42px;padding:9px 8px;border-radius:13px;text-align:center;text-decoration:none;font-size:12px;font-weight:1000}
+    .switch a{color:#7654aa;transition:background .18s,transform .18s}
+    .switch a:hover{background:#fff;transform:translateY(-1px)}
+    .switch span{background:#fff;color:#634987;box-shadow:0 3px 10px rgba(83,59,119,.08)}
+    .eyebrow{text-align:center;color:#b16e9b;font-size:11px;font-weight:1000;letter-spacing:.15em;text-transform:uppercase}
+    h2{margin:7px 0 5px;text-align:center;color:#59417f;font-size:29px;line-height:1.15;font-weight:1000;letter-spacing:-.04em}
+    .lead{margin:0 auto 21px;max-width:330px;text-align:center;color:#82758f;font-size:13px;line-height:1.6;font-weight:700}
+    .identity{margin:18px 0 15px;padding:18px 14px;border:2px solid #eadcf7;border-radius:22px;text-align:center;background:linear-gradient(135deg,#f8efff,#fff5f8 55%,#eff9f2)}
+    .identity small{display:block;color:#8d7a9e;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .identity strong{display:block;margin-top:4px;color:#7654aa;font-size:27px;line-height:1.2;font-weight:1000;overflow-wrap:anywhere}
+    label{display:block;margin:15px 0 7px;color:#624d7e;font-size:12px;font-weight:1000}
+    input,select{width:100%;min-height:51px;padding:13px 15px;border:2px solid #e6d9f1;border-radius:15px;background:#fff;color:#493b66;font-size:15px;font-weight:800}
+    input:focus,select:focus{outline:0;border-color:#a889d0;box-shadow:0 0 0 4px rgba(168,137,208,.15)}
+    .pin{text-align:center;font-size:23px;letter-spacing:.55em}
+    .hint{margin-top:7px;color:#8b8096;font-size:11px;line-height:1.5;font-weight:700;text-align:center}
+    .primary,.secondary{width:100%;min-height:52px;border:0;border-radius:999px;cursor:pointer;font-size:14px;font-weight:1000;transition:transform .17s,box-shadow .17s,filter .17s}
+    .primary{margin-top:17px;color:#fff;background:linear-gradient(105deg,#805cba,#b86fa8 55%,#69b98b);box-shadow:0 9px 20px rgba(118,84,170,.2)}
+    .primary:hover{transform:translateY(-2px);box-shadow:0 13px 25px rgba(118,84,170,.25);filter:saturate(1.08)}
+    .secondary{margin-top:10px;color:#70549a;background:#f1eafa;border:1px solid #e5d8f2}
+    .secondary:hover{background:#eae0f7;transform:translateY(-1px)}
+    .error{display:none;margin:0 0 14px;padding:12px 14px;border:1px solid #f1c6cf;border-radius:14px;background:#fff1f3;color:#a23f58;font-size:12px;line-height:1.5;font-weight:800}
+    .error.show{display:block}
+    .foot{margin-top:20px;text-align:center;color:#897d96;font-size:12px;font-weight:700}
+    .foot a{color:#805bb3;font-weight:1000;text-decoration:none;text-underline-offset:3px}
+    .foot a:hover{text-decoration:underline}
+    .adult{margin-top:20px;text-align:center;color:#897d96;font-size:12px;font-weight:800}
+    .dev{max-width:700px;margin:20px auto 0;padding:11px 16px;border:1px solid rgba(198,180,221,.55);border-radius:15px;background:rgba(255,255,255,.52);color:#82758f;text-align:center;font-size:10px;line-height:1.55;font-weight:700}
+    .dev strong{color:#7654aa}
+    .hidden{display:none!important}
+    @media(max-width:760px){
+      body{padding:18px 14px 25px;align-items:flex-start}
+      .topbar{margin-bottom:17px}
+      .layout{grid-template-columns:1fr;gap:14px;max-width:520px;margin:auto}
+      .story{min-height:0;padding:22px 20px 20px;border-radius:27px}
+      .hero-bird{width:145px;height:130px;margin:8px auto 6px}
+      .story h1{font-size:29px}
+      .story-copy{margin-top:7px;font-size:13px}
+      .story-pills{margin-top:13px}
+      .login-card{padding:22px 19px;border-radius:27px}
+      .switch{margin-bottom:20px}
+      h2{font-size:26px}
+    }
+    @media(max-width:380px){.login-card{padding:18px 15px}.story-pills span{font-size:10px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="VentPals home">
+        <img src="assets/images/logo.png" alt="">
+        <span><span class="brand-name">VentPals</span><span class="brand-tag">BIG FEELINGS. LITTLE DISCOVERIES.</span></span>
+      </a>
+    </header>
+
+    <div class="layout">
+      <section class="story" aria-label="Welcome to VentPals">
+        <span class="story-kicker">✦ Your little corner of Mimbleton</span>
+        <img class="hero-bird" src="assets/images/pebble-feathered.png" alt="Pebble the VentPals dove">
+        <h1>Your Nest is waiting.</h1>
+        <p class="story-copy">A familiar face, a little room to breathe, and a whole world of discoveries whenever you're ready.</p>
+        <div class="story-pills" aria-label="VentPals values">
+          <span>🌱 Grow at your pace</span><span>💜 Your space, your choice</span><span>✨ Keep exploring</span>
+        </div>
+      </section>
+
+      <section class="login-card" aria-labelledby="welcomeHeading">
+        <nav class="switch" aria-label="Account options">
+          <a href="onboarding/onboarding.html">🌱 I'm new here</a>
+          <span>🪺 I have a Nest</span>
+        </nav>
+        <p class="eyebrow">Good to see you again</p>
+        <h2 id="welcomeHeading">Welcome back!</h2>
+        <p class="lead">Let's find your Nest and pick up right where you left off.</p>
+
+        <div id="errorBox" class="error" role="alert" aria-live="polite"></div>
+        <div id="identity" class="identity">
+          <small>Your VentPals name</small>
+          <strong id="shownName">Friend</strong>
+        </div>
+
+        <div id="confirmActions">
+          <p class="lead">Is this you?</p>
+          <button class="primary" id="yesBtn" type="button">Yes, that's me! 💜</button>
+          <button class="secondary" id="noBtn" type="button">No, choose another account</button>
+        </div>
+
+        <div id="chooser" class="hidden">
+          <label for="profileSelect">Choose your VentPals name</label>
+          <select id="profileSelect"></select>
+          <button class="primary" id="chooseBtn" type="button">Continue to my Nest</button>
+        </div>
+
+        <form id="pinForm" class="hidden">
+          <label for="pin">Your 4-digit secret PIN</label>
+          <input class="pin" id="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="off" placeholder="••••" required aria-label="Four digit PIN">
+          <div class="hint">Your PIN stays in this development demo on this device.</div>
+          <button class="primary" type="submit">Enter My Nest 🐦</button>
+          <button class="secondary" id="backBtn" type="button">Choose a different name</button>
+        </form>
+
+        <div class="foot">New to VentPals? <a href="onboarding/onboarding.html">Create your Nest</a></div>
+      </section>
+    </div>
+
+    <p class="adult">Grown-up tools are being built alongside the child experience. 💛</p>
+    <aside class="dev"><strong>Development Preview</strong> · VentPals saves demo profiles in this browser only. Use fictional details and do not enter anything you need to keep private.</aside>
+  </main>
+  <script>
 (function(){
  const $=id=>document.getElementById(id), KEY='ventpals_demo_profiles';
  function showError(msg){$('errorBox').textContent=msg;$('errorBox').classList.add('show')}
@@ -62,4 +197,6 @@ label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6
  });
  if(!profiles.length)showError('No saved Nest yet. Select “I’m new here” to get started.');
 })();
-</script></body></html>
+</script>
+</body>
+</html>
