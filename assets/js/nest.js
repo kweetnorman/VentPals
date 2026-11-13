@@ -41,8 +41,18 @@
   }
   $('feedAll').addEventListener('click',function(){showFeed(G.feedAll());});
   $('saveReflection').addEventListener('click',function(){
-    localStorage.setItem(reflectionKey,$('nestReflection').value);
-    $('saveMessage').textContent='Saved in your Nest ✓';
+    var text=$('nestReflection').value.trim();
+    if(!text){$('saveMessage').textContent='Write a little something first.';return;}
+    var entries=[];
+    try{entries=JSON.parse(localStorage.getItem('ventpals_reflections')||'[]');if(!Array.isArray(entries))entries=[];}catch(e){entries=[];}
+    entries.unshift({id:'reflection-'+Date.now().toString(36),text:text,feeling:'A reflection',emoji:'💜',date:new Date().toISOString(),birdId:bird.id});
+    try{localStorage.setItem('ventpals_reflections',JSON.stringify(entries));}catch(e){$('saveMessage').textContent='This device could not save your reflection. Please try again.';return;}
+    $('nestReflection').value='';
+    localStorage.removeItem(reflectionKey);
+    $('saveMessage').textContent='Your reflection is on its way to Quiet Caves. ✓';
+    var card=$('saveReflection').closest('section'),rect=card.getBoundingClientRect(),flight=document.createElement('div');
+    flight.className='reflection-fly';flight.textContent='💌';flight.style.left=(rect.left+rect.width*.72)+'px';flight.style.top=(rect.top+20)+'px';document.body.appendChild(flight);
+    flight.addEventListener('animationend',function(){flight.remove();});
   });
   render();
 })();
