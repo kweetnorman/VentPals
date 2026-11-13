@@ -8,54 +8,56 @@
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;font-family:Poppins,system-ui,sans-serif;color:#38264f;background:radial-gradient(circle at 15% 10%,#fff 0,transparent 30%),linear-gradient(135deg,#f4eaff,#effaf2 58%,#fff7df)}
 .wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:18px}.mark{width:104px;height:104px;object-fit:contain;display:block;margin:0 auto 8px;animation:float 3s ease-in-out infinite}.brand h1{font-size:32px;margin:0;color:#7549b3}.brand p{margin:4px 0;color:#716780;font-size:14px}
-.card{background:#ffffffed;border:1px solid #e9def6;border-radius:28px;padding:26px;box-shadow:0 18px 55px #49336a18}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f4effa;padding:5px;border-radius:16px;margin-bottom:22px}.switch button,.switch a{display:block;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:11px 8px;background:transparent;color:#705d86;font:700 13px Poppins;cursor:pointer}.switch button.active,.switch a.active{background:#fff;color:#7044ad;box-shadow:0 3px 12px #49336a16}
+.card{background:#ffffffed;border:1px solid #e9def6;border-radius:28px;padding:26px;box-shadow:0 18px 55px #49336a18}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f4effa;padding:5px;border-radius:16px;margin-bottom:22px}.switch a{display:block;text-align:center;text-decoration:none;border-radius:12px;padding:11px 8px;background:#fff;color:#7044ad;box-shadow:0 3px 12px #49336a16;font-weight:700;font-size:13px}
 h2{margin:0 0 6px;font-size:23px;color:#563b7c;text-align:center}.lead{text-align:center;color:#786e84;font-size:13px;line-height:1.6;margin:0 0 22px}
-label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6px}input{width:100%;padding:13px 14px;border:2px solid #e5d9f2;border-radius:13px;font:500 15px Poppins;color:#39294e}input:focus{outline:3px solid #a78bfa40;border-color:#9b75cc}.hint{font-size:11px;color:#847a90;margin-top:5px}
-.pin{letter-spacing:.45em;text-align:center;font-size:21px}.primary{width:100%;border:0;border-radius:999px;padding:14px;margin-top:22px;background:linear-gradient(110deg,#8d5ac5,#62b98a);color:white;font:800 15px Poppins;cursor:pointer}.error{display:none;background:#fff0f0;color:#a12e42;padding:10px 12px;border-radius:12px;font-size:12px;margin-bottom:12px}.error.show{display:block}.foot{text-align:center;color:#82788e;font-size:12px;margin-top:18px}.foot button,.foot a{color:#7044ad;font-weight:700;border:0;background:none;padding:0;font:inherit;text-decoration:underline;cursor:pointer}.adult{text-align:center;margin-top:16px;font-size:12px}.dev{margin-top:18px;border-radius:14px;background:#f4f0fa;padding:11px 13px;font-size:10px;line-height:1.5;color:#756b80;text-align:center}
+label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6px}input,select{width:100%;padding:13px 14px;border:2px solid #e5d9f2;border-radius:13px;font:500 15px Poppins;color:#39294e;background:white}input:focus,select:focus{outline:3px solid #a78bfa40;border-color:#9b75cc}.hint{font-size:11px;color:#847a90;margin-top:5px}
+.pin{letter-spacing:.45em;text-align:center;font-size:21px}.primary{width:100%;border:0;border-radius:999px;padding:14px;margin-top:22px;background:linear-gradient(110deg,#8d5ac5,#62b98a);color:white;font:800 15px Poppins;cursor:pointer}.secondary{width:100%;border:0;border-radius:999px;padding:12px;margin-top:12px;background:#f1eafa;color:#6740a0;font:700 13px Poppins;cursor:pointer}.error{display:none;background:#fff0f0;color:#a12e42;padding:10px 12px;border-radius:12px;font-size:12px;margin-bottom:12px}.error.show{display:block}.foot{text-align:center;color:#82788e;font-size:12px;margin-top:18px}.adult{text-align:center;margin-top:16px;font-size:12px}.dev{margin-top:18px;border-radius:14px;background:#f4f0fa;padding:11px 13px;font-size:10px;line-height:1.5;color:#756b80;text-align:center}.identity{padding:15px;border-radius:17px;background:linear-gradient(135deg,#f7efff,#effaf2);text-align:center;margin:12px 0}.identity strong{display:block;color:#6740a0;font-size:23px;overflow-wrap:anywhere}.hidden{display:none!important}
 @keyframes float{50%{transform:translateY(-6px)}}@media(prefers-reduced-motion:reduce){.mark{animation:none}}
 </style><link rel="stylesheet" href="responsive.css">
 </head><body><main class="wrap">
 <div class="brand"><img class="mark" src="assets/images/logo.png" alt="VentPals logo"><h1>VentPals</h1><p>Your space. Your pace. Your VentPal.</p></div>
 <section class="card">
-<div class="switch" role="tablist" aria-label="Choose how to enter"><button id="loginTab" class="active" type="button" role="tab" aria-selected="true">I have a Nest</button><a id="createTab" href="onboarding/onboarding.html" role="tab" aria-selected="false">I'm new here</a></div>
+<div class="switch"><a href="onboarding/onboarding.html">I'm new here</a><span style="text-align:center;padding:11px 8px;color:#7044ad;font-weight:700;font-size:13px">I have a Nest</span></div>
 <div id="errorBox" class="error" role="alert"></div>
-<form id="entryForm"><h2>Welcome back!</h2><p class="lead">Enter your personal VentPals name and 4-digit secret PIN to return to your Nest.</p>
-<label for="username">Your personal VentPals name</label><input id="username" maxlength="40" autocomplete="username" placeholder="The bird name you chose" required><div class="hint">This is the name you created with the bird name generator.</div>
-<label for="pin">Your 4-digit secret PIN</label><input class="pin" id="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="off" placeholder="••••" required><div class="hint">Your PIN stays in this development demo on this device.</div>
-<button class="primary" type="submit">Enter My Nest 🐦</button></form>
-<div class="foot">New to VentPals? <a id="startOnboarding" href="onboarding/onboarding.html">Create your Nest</a></div></section>
+<h2>Welcome back!</h2><p class="lead">Let's find your Nest. Is this your VentPals name?</p>
+<div id="identity" class="identity"><small>Your VentPals name</small><strong id="shownName">Friend</strong></div>
+<div id="confirmActions"><button class="primary" id="yesBtn" type="button">Yes, that's me!</button><button class="secondary" id="noBtn" type="button">No, choose another account</button></div>
+<div id="chooser" class="hidden"><label for="profileSelect">Choose your VentPals name</label><select id="profileSelect"></select><button class="primary" id="chooseBtn" type="button">Continue</button></div>
+<form id="pinForm" class="hidden"><label for="pin">Your 4-digit secret PIN</label><input class="pin" id="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="off" placeholder="••••" required><div class="hint">Your PIN stays in this development demo on this device.</div><button class="primary" type="submit">Enter My Nest 🐦</button><button class="secondary" id="backBtn" type="button">Choose a different name</button></form>
+<div class="foot">New to VentPals? <a href="onboarding/onboarding.html">Create your Nest</a></div></section>
 <div class="adult">Grown-up tools are being built alongside the child experience.</div>
-<div class="dev"><strong>Development Mode</strong><br>VentPals is being built. This local demo does not create real accounts or send information to a server. Use fictional details only. One child demo profile per browser for now; multi-child profile isolation is a later step.</div>
+<div class="dev"><strong>Development Mode</strong><br>VentPals saves demo profiles in this browser only. Use fictional details and do not enter anything you need to keep private.</div>
 </main>
 <script>
 (function(){
- const $=id=>document.getElementById(id);
+ const $=id=>document.getElementById(id), KEY='ventpals_demo_profiles';
  function showError(msg){$('errorBox').textContent=msg;$('errorBox').classList.add('show')}
- function normalizeName(value){return String(value||'').trim().replace(/\s+/g,' ').toLocaleLowerCase()}
- $('entryForm').addEventListener('submit',e=>{
-  e.preventDefault();$('errorBox').classList.remove('show');
-  const username=$('username').value.trim().replace(/\s+/g,' '),pin=$('pin').value.trim();
-  if(username.length<3||username.length>40){showError('Enter the personal VentPals name you chose during setup.');return}
-  if(!/^\d{4}$/.test(pin)){showError('Please enter all 4 numbers of your PIN.');return}
-  let profiles=[];try{profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]')}catch(e){}
-  const key=normalizeName(username);
-  let profile=profiles.find(p=>normalizeName(p.username)===key);
-  if(!profile){
-   let legacy=null;try{legacy=JSON.parse(localStorage.getItem('ventpals_user')||'null')}catch(e){}
-   if(legacy&&normalizeName(legacy.username||legacy.displayName)===key){
-    const oldPin=localStorage.getItem('ventpals_pin_hash');
-    if(oldPin&&oldPin!==btoa(pin)){showError('That PIN does not match. Try again.');return}
-    profile={username:legacy.username||legacy.displayName,pinHash:oldPin||btoa(pin),user:legacy,onboardingComplete:localStorage.getItem('ventpals_onboarding_complete')==='true'};
-    profiles.push(profile);localStorage.setItem('ventpals_demo_profiles',JSON.stringify(profiles));
-   }else{showError('We could not find that Nest on this device. Check your VentPals name or create a new Nest.');return}
-  }
-  if(profile.pinHash!==btoa(pin)){showError('That PIN does not match. Try again.');return}
-  localStorage.setItem('ventpals_user',JSON.stringify(profile.user));
-  localStorage.setItem('ventpals_pin_hash',profile.pinHash);
-  localStorage.setItem('ventpals_logged_in','true');
-  localStorage.setItem('ventpals_development_mode','true');
-  localStorage.setItem('ventpals_onboarding_complete',profile.onboardingComplete?'true':'false');
-  location.href=profile.onboardingComplete?'app-switcher.html':'onboarding/onboarding.html';
+ function norm(v){return String(v||'').trim().replace(/\s+/g,' ').toLocaleLowerCase()}
+ function readProfiles(){try{return JSON.parse(localStorage.getItem(KEY)||'[]').filter(p=>p&&p.username&&p.user)}catch(e){return []}}
+ let profiles=readProfiles(),selected=null;
+ // Import the earlier single-profile demo into the account list without losing it.
+ if(!profiles.length){try{const old=JSON.parse(localStorage.getItem('ventpals_user')||'null'),hash=localStorage.getItem('ventpals_pin_hash');if(old&&(old.username||old.displayName)&&hash){const p={username:old.username||old.displayName,pinHash:hash,user:old,onboardingComplete:localStorage.getItem('ventpals_onboarding_complete')==='true'};profiles=[p];localStorage.setItem(KEY,JSON.stringify(profiles));}}catch(e){}}
+ profiles.sort((a,b)=>(b.lastUsedAt||0)-(a.lastUsedAt||0));
+ const select=$('profileSelect');
+ profiles.forEach((p,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=p.username;select.appendChild(o)});
+ function choose(index){selected=profiles[index]||null;if(!selected){showError('No saved Nest was found on this device. Choose “I’m new here” to create one.');return false;}$('shownName').textContent=selected.username;$('identity').classList.remove('hidden');$('confirmActions').classList.remove('hidden');$('chooser').classList.add('hidden');$('pinForm').classList.add('hidden');$('errorBox').classList.remove('show');return true}
+ if(profiles.length){choose(0)}else{$('shownName').textContent='No Nest saved yet';$('confirmActions').classList.add('hidden');$('identity').classList.add('hidden');$('chooser').classList.add('hidden')}
+ $('yesBtn').addEventListener('click',()=>{if(!selected)return;$('confirmActions').classList.add('hidden');$('pinForm').classList.remove('hidden');$('pin').focus()});
+ $('noBtn').addEventListener('click',()=>{if(!profiles.length){showError('There are no other saved accounts on this device yet.');return}$('confirmActions').classList.add('hidden');$('identity').classList.add('hidden');$('chooser').classList.remove('hidden');select.value='0'});
+ $('chooseBtn').addEventListener('click',()=>{if(choose(Number(select.value))){$('confirmActions').classList.add('hidden');$('identity').classList.add('hidden');$('chooser').classList.add('hidden');$('pinForm').classList.remove('hidden');$('pin').value='';$('pin').focus()}});
+ $('backBtn').addEventListener('click',()=>choose(profiles.indexOf(selected)));
+ $('pinForm').addEventListener('submit',e=>{
+  e.preventDefault();$('errorBox').classList.remove('show');const pin=$('pin').value.trim();
+  if(!selected){showError('Choose your Nest first.');return}if(!/^\d{4}$/.test(pin)){showError('Please enter all 4 numbers of your PIN.');return}
+  if(selected.pinHash!==btoa(pin)){showError('That PIN does not match. Try again.');$('pin').value='';$('pin').focus();return}
+  selected.lastUsedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(profiles));
+  localStorage.setItem('ventpals_active_profile',selected.username);
+  localStorage.setItem('ventpals_user',JSON.stringify(selected.user));localStorage.setItem('ventpals_pin_hash',selected.pinHash);
+  localStorage.setItem('ventpals_logged_in','true');localStorage.setItem('ventpals_development_mode','true');
+  localStorage.setItem('ventpals_onboarding_complete',selected.onboardingComplete?'true':'false');
+  localStorage.setItem('ventpals_demo_last_activity',String(Date.now()));
+  location.href=selected.onboardingComplete?'app-switcher.html':'onboarding/onboarding.html';
  });
+ if(!profiles.length)showError('No saved Nest yet. Select “I’m new here” to get started.');
 })();
 </script></body></html>

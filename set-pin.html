@@ -286,20 +286,26 @@
       }
 
       // Store encoded PIN (btoa is acceptable for this static demo)
-      localStorage.setItem('ventpals_pin_hash', btoa(pin1));
+      var pinHash = btoa(pin1);
+      localStorage.setItem('ventpals_pin_hash', pinHash);
 
       // Also update the user object to record pin is set
       try {
         var user = JSON.parse(localStorage.getItem('ventpals_user') || '{}');
         user.hasPin = true;
         localStorage.setItem('ventpals_user', JSON.stringify(user));
+        var profiles = JSON.parse(localStorage.getItem('ventpals_demo_profiles') || '[]');
+        var activeName = localStorage.getItem('ventpals_active_profile') || user.username || user.displayName;
+        var profileIndex = profiles.findIndex(function(p){ return String(p.username || '').trim().toLowerCase() === String(activeName || '').trim().toLowerCase(); });
+        if (profileIndex >= 0) { profiles[profileIndex].pinHash = pinHash; profiles[profileIndex].user = user; profiles[profileIndex].lastUsedAt = Date.now(); localStorage.setItem('ventpals_demo_profiles', JSON.stringify(profiles)); }
+        localStorage.setItem('ventpals_logged_in', 'true');
+        localStorage.setItem('ventpals_active_profile', activeName);
+        localStorage.setItem('ventpals_onboarding_complete', 'true');
+        localStorage.setItem('ventpals_demo_last_activity', String(Date.now()));
       } catch (err) {}
 
-      // Redirect to last page or app-switcher
-      var lastUrl = localStorage.getItem('ventpals_last_url');
-      var sameOrigin = false; try { sameOrigin = !!lastUrl && new URL(lastUrl, location.href).origin === location.origin; } catch (e) {}
-      var allowed = lastUrl && sameOrigin && lastUrl.indexOf('login') === -1 && lastUrl.indexOf('signup') === -1 && lastUrl.indexOf('set-pin') === -1;
-      window.location.href = allowed ? lastUrl : 'app-switcher.html';
+      // A new PIN completes setup; always continue into the child's Nest.
+      window.location.href = 'nest.html';
     });
   </script>
 </body>
