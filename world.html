@@ -2,251 +2,312 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="assets/images/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VentPals World – VentPals</title>
+  <meta name="theme-color" content="#d9f0e4" />
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <title>Mimbleton – The VentPals World</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(ellipse at top, #e0e7ff 0%, #f0fdf4 50%, #F7F4FF 100%);
-      min-height: 100vh;
-    }
-
-    .zone-card {
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      cursor: pointer;
-    }
-    .zone-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(139,92,246,0.18);
-    }
-
-    .float {
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
-    }
-
-    /* Zone panel overlay */
-    #zonePanel {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 50;
-      align-items: center;
-      justify-content: center;
-    }
-    #zonePanel.open { display: flex; }
-  </style>
   <link rel="stylesheet" href="responsive.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
+    :root{--ink:#24423d;--deep:#315e51;--cream:#fffaf0;--gold:#f4c86a;--mint:#dff3e7}
+    *{box-sizing:border-box}
+    body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#dff2ec 0%,#f8f4df 48%,#f5e9d9 100%);min-height:100vh;color:var(--ink)}
+    .world-shell{max-width:1280px;margin:0 auto}
+    .map-frame{position:relative;overflow:hidden;border:5px solid rgba(255,255,255,.86);border-radius:32px;background:#bfe5d8;box-shadow:0 24px 70px rgba(43,91,75,.18),inset 0 0 0 1px rgba(48,99,78,.12)}
+    .map-frame:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:27px;box-shadow:inset 0 0 45px rgba(35,81,68,.12)}
+    .world-map{display:block;width:100%;height:auto;min-height:330px}
+    .map-hotspot{cursor:pointer;outline:none}
+    .map-hotspot .hotspot-halo{opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .2s ease,transform .2s ease}
+    .map-hotspot:hover .hotspot-halo,.map-hotspot:focus .hotspot-halo{opacity:1;transform:scale(1.12)}
+    .map-hotspot:focus .hotspot-label rect{stroke:#fff;stroke-width:5}
+    .map-hotspot:focus-visible .hotspot-label rect{stroke:#183f37;stroke-width:5}
+    .map-hotspot .zone-art{transition:filter .2s ease}
+    .map-hotspot:hover .zone-art{filter:brightness(1.06) saturate(1.08)}
+    .map-hotspot .hotspot-label{filter:drop-shadow(0 3px 4px rgba(28,66,56,.2))}
+    .map-hotspot .hotspot-label text{font-family:'Nunito',sans-serif;font-weight:900;letter-spacing:.2px}
+    .map-path{fill:none;stroke:#fff8d9;stroke-width:13;stroke-linecap:round;stroke-dasharray:2 19;opacity:.96;filter:drop-shadow(0 2px 2px rgba(75,108,82,.2))}
+    .map-path-under{fill:none;stroke:#c59c63;stroke-width:22;stroke-linecap:round;opacity:.65}
+    .map-water{stroke-dasharray:16 12;animation:waterflow 18s linear infinite}
+    .firefly{animation:glow 2.8s ease-in-out infinite alternate}
+    .firefly:nth-child(2n){animation-delay:1s}
+    .cloud{animation:cloud-drift 28s ease-in-out infinite alternate}
+    @keyframes waterflow{to{stroke-dashoffset:-280}}
+    @keyframes glow{from{opacity:.35;transform:scale(.8)}to{opacity:1;transform:scale(1.12)}}
+    @keyframes cloud-drift{from{transform:translateX(-8px)}to{transform:translateX(18px)}}
+    .zone-card{transition:transform .22s ease,box-shadow .22s ease;cursor:pointer}
+    .zone-card:hover,.zone-card:focus-visible{transform:translateY(-4px);box-shadow:0 14px 30px rgba(55,94,78,.14)}
+    .zone-card:focus-visible{outline:3px solid #4f9b7d;outline-offset:4px}
+    #zonePanel{display:none;position:fixed;inset:0;background:rgba(23,51,45,.62);backdrop-filter:blur(8px);z-index:60;align-items:center;justify-content:center;padding:18px}
+    #zonePanel.open{display:flex}
+    .panel-card{max-height:min(88vh,760px);overflow:auto}
+    .map-caption{background:rgba(255,255,255,.72);backdrop-filter:blur(12px)}
+    .home-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#f4f8ef;padding:6px 10px;font-size:12px;font-weight:800;color:#426b59}
+    @media(max-width:640px){.world-map{min-height:0}.map-frame{border-width:3px;border-radius:22px}.map-caption{font-size:12px}.panel-card{padding:24px}.map-hotspot .hotspot-label text{font-size:17px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
 </head>
-
-<body class="text-gray-800">
+<body class="text-slate-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
 
-  <!-- NAV -->
-  <nav class="bg-white/70 backdrop-blur-md shadow-sm sticky top-0 z-40">
+  <nav class="bg-white/75 backdrop-blur-md shadow-sm sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="nest.html" class="flex items-center gap-2">
+      <a href="nest.html" class="flex items-center gap-2" aria-label="VentPals dashboard">
         <img src="assets/images/logo.png" class="h-8" alt="VentPals Logo">
-        <span class="font-bold text-lg text-purple-700">VentPals</span>
+        <span class="font-extrabold text-lg text-emerald-800">VentPals</span>
       </a>
-
-      <button class="sm:hidden text-purple-700 text-2xl" id="menuToggle">&#9776;</button>
-
-      <ul id="mobileMenu"
-          class="hidden sm:flex flex-col sm:flex-row gap-4 text-sm font-semibold text-purple-700 sm:static absolute right-4 top-14 bg-white/90 sm:bg-transparent p-4 sm:p-0 rounded-xl shadow sm:shadow-none">
-        <li><a href="profile.html"  class="hover:text-purple-900">Profile</a></li>
-        <li><a href="settings.html" class="hover:text-purple-900">Settings</a></li>
+      <button class="sm:hidden text-emerald-800 text-2xl" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul id="mobileMenu" class="hidden sm:flex flex-col sm:flex-row gap-4 text-sm font-extrabold text-emerald-800 sm:static absolute right-4 top-14 bg-white/95 sm:bg-transparent p-4 sm:p-0 rounded-xl shadow sm:shadow-none">
+        <li><a href="profile.html" class="hover:text-emerald-950">Profile</a></li>
+        <li><a href="settings.html" class="hover:text-emerald-950">Settings</a></li>
       </ul>
     </div>
   </nav>
 
-  <script>
-    document.getElementById('menuToggle').onclick = () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    };
-  </script>
+  <main class="world-shell px-4 pb-16">
+    <header class="text-center pt-9 pb-6 sm:pt-12 sm:pb-8">
+      <p class="uppercase tracking-[.28em] text-xs sm:text-sm font-black text-emerald-700 mb-3">A world of big feelings & little discoveries</p>
+      <h1 class="text-5xl sm:text-7xl font-black tracking-tight text-emerald-900 mb-2">Mimbleton</h1>
+      <p class="max-w-2xl mx-auto text-emerald-900/75 text-base sm:text-lg font-semibold">One big, welcoming world. Six special places to explore. And plenty more beyond the horizon.</p>
+    </header>
 
-  <!-- HEADER -->
-  <section class="text-center py-12 px-4">
-    <div class="text-7xl float mb-4 select-none">&#127758;</div>
-    <h1 class="text-4xl font-extrabold text-purple-700 mb-2">VentPals World</h1>
-    <p class="text-gray-600 max-w-xl mx-auto text-sm">
-      Explore the world of VentPals. Each zone is a different emotional landscape &#8212;
-      pick the one that matches how you feel right now.
-    </p>
-  </section>
+    <section aria-labelledby="mapHeading" class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-3 px-1">
+        <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-emerald-950">Explore the world</h2><p class="text-sm text-emerald-900/70 font-semibold">Choose a place on the map to see who calls it home.</p></div>
+        <span class="map-caption rounded-full px-4 py-2 font-extrabold text-emerald-800 shadow-sm">✦ Tap a habitat to explore</span>
+      </div>
 
-  <!-- WORLD MAP IMAGE (optional visual anchor) -->
-  <section class="max-w-2xl mx-auto px-4 mb-6">
-    <div class="rounded-3xl overflow-hidden shadow-lg bg-purple-50 flex items-center justify-center p-4 min-h-40">
-      <img src="assets/world-map-placeholder.png"
-           alt="VentPals World Map"
-           class="max-h-56 w-full object-contain rounded-2xl"
-           onerror="this.parentElement.innerHTML='<p class=\'text-purple-400 text-sm font-semibold py-12 px-8 text-center\'>&#127752; World map coming soon &#8212; explore the zones below!</p>'">
-    </div>
-  </section>
+      <div class="map-frame">
+        <svg class="world-map" viewBox="0 0 1200 760" role="group" aria-labelledby="mapTitle mapDesc" xmlns="http://www.w3.org/2000/svg">
+          <title id="mapTitle">Illustrated map of Mimbleton</title>
+          <desc id="mapDesc">A connected fantasy landscape with six interactive habitats: Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, and Sparkle Stream. Select any habitat to explore its characters.</desc>
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0df"/><stop offset=".58" stop-color="#c9eadb"/><stop offset="1" stop-color="#e9edc8"/></linearGradient>
+            <linearGradient id="meadow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b7dc91"/><stop offset="1" stop-color="#75b77c"/></linearGradient>
+            <linearGradient id="stream" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a7e9ee"/><stop offset="1" stop-color="#42b9d0"/></linearGradient>
+            <linearGradient id="cave" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7183a7"/><stop offset="1" stop-color="#343d69"/></linearGradient>
+            <linearGradient id="treeCanopy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8ccf83"/><stop offset="1" stop-color="#3c956c"/></linearGradient>
+            <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
+            <pattern id="flowerDots" width="48" height="42" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="3" fill="#fff5c8" opacity=".8"/><circle cx="34" cy="30" r="2.5" fill="#f9c5c7" opacity=".85"/></pattern>
+          </defs>
+          <rect width="1200" height="760" fill="url(#sky)"/>
+          <circle cx="1000" cy="105" r="58" fill="#fff1b2" opacity=".92"/>
+          <circle cx="1000" cy="105" r="77" fill="#fff1b2" opacity=".2"/>
+          <g class="cloud" fill="#fff" opacity=".75"><ellipse cx="230" cy="110" rx="76" ry="23"/><ellipse cx="270" cy="96" rx="42" ry="30"/><ellipse cx="305" cy="111" rx="55" ry="20"/></g>
+          <g class="cloud" fill="#fff" opacity=".65" transform="translate(620 35) scale(.75)"><ellipse cx="230" cy="110" rx="76" ry="23"/><ellipse cx="270" cy="96" rx="42" ry="30"/><ellipse cx="305" cy="111" rx="55" ry="20"/></g>
+          <path d="M0 340 Q160 250 315 320 T630 300 T930 285 T1200 330 L1200 760H0Z" fill="#a8d69b"/>
+          <path d="M0 455 Q160 365 350 430 T700 400 T1000 420 T1200 385 L1200 760H0Z" fill="url(#meadow)"/>
+          <path d="M0 590 Q180 530 350 575 T690 550 T1000 565 T1200 535 L1200 760H0Z" fill="#6eaf78"/>
+          <path d="M0 600 Q180 540 350 585 T690 560 T1000 575 T1200 545 L1200 760H0Z" fill="url(#flowerDots)" opacity=".65"/>
+          <ellipse cx="600" cy="700" rx="590" ry="38" fill="#4d936d" opacity=".25" filter="url(#softShadow)"/>
 
-  <!-- ZONES GRID -->
-  <section class="max-w-4xl mx-auto px-4 pb-20">
-    <h2 class="text-xl font-bold text-purple-700 mb-6 text-center">Choose a Zone</h2>
+          <!-- distant unexplored country -->
+          <g opacity=".55">
+            <path d="M820 290 L900 160 965 252 1030 130 1120 270 1200 205V400H820Z" fill="#91b6b1"/>
+            <path d="M900 160l-20 34 20-8 15 14 15-25 25 77-60-25zM1030 130l-25 40 24-12 20 18 18-27 48 121-85-28z" fill="#f7fbec"/>
+            <text x="1040" y="315" text-anchor="middle" font-size="17" font-weight="900" fill="#416d6a" letter-spacing="3">BEYOND</text>
+          </g>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="zonesGrid">
-      <!-- Populated by script -->
-    </div>
+          <!-- winding paths -->
+          <path class="map-path-under" d="M245 430 C300 500 410 510 505 465 S675 370 760 420 S920 495 1030 420"/>
+          <path class="map-path" d="M245 430 C300 500 410 510 505 465 S675 370 760 420 S920 495 1030 420"/>
+          <path class="map-path-under" d="M505 465 C470 365 520 280 610 245 S770 250 830 310"/>
+          <path class="map-path" d="M505 465 C470 365 520 280 610 245 S770 250 830 310"/>
 
-    <!-- BACK -->
-    <div class="text-center mt-10">
-      <a href="nest.html"
-         class="inline-block text-purple-600 hover:text-purple-800 font-semibold text-sm">
-        &#8592; Back to Dashboard
-      </a>
-    </div>
-  </section>
+          <!-- nesting tree -->
+          <g class="map-hotspot" data-zone="nesting-tree" role="button" tabindex="0" aria-label="Explore Nesting Tree, home to Clover, Pebble, and Twig">
+            <ellipse class="hotspot-halo" cx="220" cy="350" rx="145" ry="150" fill="#fff4bb" opacity=".65"/>
+            <g class="zone-art">
+              <path d="M190 520 Q215 420 198 320 Q205 245 255 205 Q286 250 280 330 Q275 435 315 520Z" fill="#8b6043"/>
+              <path d="M215 380Q145 330 120 280M250 340Q325 275 350 235M215 425Q140 400 100 375" fill="none" stroke="#8b6043" stroke-width="25" stroke-linecap="round"/>
+              <g fill="url(#treeCanopy)"><circle cx="155" cy="280" r="82"/><circle cx="245" cy="235" r="105"/><circle cx="330" cy="285" r="78"/><circle cx="190" cy="350" r="80"/><circle cx="300" cy="365" r="82"/></g>
+              <g fill="#b7e59b"><circle cx="130" cy="250" r="18"/><circle cx="220" cy="180" r="17"/><circle cx="330" cy="260" r="15"/><circle cx="290" cy="330" r="17"/></g>
+              <g><path d="M165 330q24-35 48 0v34h-48z" fill="#f6d38c" stroke="#8a6547" stroke-width="5"/><path d="M160 331l29-25 29 25" fill="#c77b55" stroke="#8a6547" stroke-width="5"/><circle cx="190" cy="350" r="5" fill="#76503d"/>
+                <path d="M270 285q22-30 44 0v32h-44z" fill="#e9a8a5" stroke="#8a6547" stroke-width="4"/><path d="M266 286l26-22 26 22" fill="#9d6f91" stroke="#8a6547" stroke-width="4"/>
+                <path d="M230 425q20-28 40 0v29h-40z" fill="#e8d9a3" stroke="#8a6547" stroke-width="4"/><path d="M226 426l24-20 24 20" fill="#bf8c60" stroke="#8a6547" stroke-width="4"/></g>
+              <g fill="#f4c96c"><circle cx="112" cy="340" r="7"/><circle cx="345" cy="375" r="7"/><circle cx="145" cy="420" r="6"/></g>
+            </g>
+            <g class="hotspot-label"><rect x="95" y="535" width="260" height="48" rx="24" fill="#fffaf0" stroke="#74aa70" stroke-width="3"/><text x="225" y="566" text-anchor="middle" font-size="23" fill="#315f48">Nesting Tree</text></g>
+          </g>
 
-  <!-- ZONE DETAIL PANEL -->
-  <div id="zonePanel">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
-      <div id="panelEmoji" class="text-7xl mb-4">&#127758;</div>
-      <h2 id="panelName"  class="text-2xl font-bold text-purple-700 mb-2"></h2>
-      <p  id="panelDesc"  class="text-gray-600 text-sm mb-2"></p>
-      <p  id="panelFeeling" class="text-purple-500 text-sm font-semibold italic mb-6"></p>
+          <!-- feelings forest -->
+          <g class="map-hotspot" data-zone="feelings-forest" role="button" tabindex="0" aria-label="Explore Feelings Forest, home to Aura, Breezy, and Flicker">
+            <ellipse class="hotspot-halo" cx="490" cy="270" rx="155" ry="135" fill="#fff4bb" opacity=".62"/>
+            <g class="zone-art">
+              <g><path d="M395 405V235" stroke="#76553e" stroke-width="24" stroke-linecap="round"/><path d="M395 260l-30-50M395 300l45-55" stroke="#76553e" stroke-width="12" stroke-linecap="round"/><circle cx="395" cy="220" r="68" fill="#388d69"/><circle cx="350" cy="250" r="48" fill="#58a978"/><circle cx="440" cy="250" r="48" fill="#4d9b70"/></g>
+              <g><path d="M505 410V200" stroke="#76553e" stroke-width="28" stroke-linecap="round"/><circle cx="505" cy="195" r="83" fill="#2f805f"/><circle cx="455" cy="235" r="52" fill="#47996c"/><circle cx="560" cy="245" r="55" fill="#63ad77"/></g>
+              <g><path d="M610 400V250" stroke="#76553e" stroke-width="20" stroke-linecap="round"/><circle cx="610" cy="235" r="64" fill="#4b9867"/><circle cx="570" cy="260" r="42" fill="#71b77c"/></g>
+              <g fill="#f7d67c"><circle cx="350" cy="355" r="8"/><circle cx="470" cy="385" r="7"/><circle cx="565" cy="350" r="8"/></g>
+              <g fill="#f4b6bf"><circle cx="375" cy="375" r="6"/><circle cx="540" cy="390" r="6"/><circle cx="620" cy="360" r="6"/></g>
+            </g>
+            <g class="hotspot-label"><rect x="365" y="430" width="250" height="48" rx="24" fill="#fffaf0" stroke="#5d9f79" stroke-width="3"/><text x="490" y="461" text-anchor="middle" font-size="23" fill="#315f48">Feelings Forest</text></g>
+          </g>
 
+          <!-- quiet caves -->
+          <g class="map-hotspot" data-zone="quiet-caves" role="button" tabindex="0" aria-label="Explore Quiet Caves, home to Drift, Echo, Sable, and Lumen">
+            <ellipse class="hotspot-halo" cx="860" cy="480" rx="155" ry="130" fill="#d9dcff" opacity=".65"/>
+            <g class="zone-art">
+              <path d="M705 560 Q715 405 805 370 Q855 325 920 380 Q1000 405 1015 560Z" fill="#59658e"/>
+              <path d="M735 560 Q750 430 815 415 Q875 365 930 425 Q980 445 990 560Z" fill="url(#cave)"/>
+              <path d="M800 560 Q810 460 860 450 Q915 465 925 560Z" fill="#202c55"/>
+              <path d="M755 540Q780 510 805 540T855 540T905 540T955 540" fill="none" stroke="#79d9dc" stroke-width="9" stroke-linecap="round"/>
+              <ellipse cx="860" cy="550" rx="112" ry="18" fill="#54bfc7" opacity=".7"/>
+              <g fill="#a8eff0"><circle cx="790" cy="465" r="7"/><circle cx="930" cy="470" r="6"/><circle cx="870" cy="425" r="5"/></g>
+              <g fill="#f8d889"><path d="M745 560l18-42 18 42z"/><path d="M950 560l14-35 14 35z"/></g>
+            </g>
+            <g class="hotspot-label"><rect x="740" y="590" width="240" height="48" rx="24" fill="#fffaf0" stroke="#7987bb" stroke-width="3"/><text x="860" y="621" text-anchor="middle" font-size="23" fill="#3f4e7b">Quiet Caves</text></g>
+          </g>
+
+          <!-- firefly meadow -->
+          <g class="map-hotspot" data-zone="firefly-meadow" role="button" tabindex="0" aria-label="Explore Firefly Meadow, home to Flamez, Flare, and Solace">
+            <ellipse class="hotspot-halo" cx="675" cy="590" rx="175" ry="105" fill="#fff0b4" opacity=".55"/>
+            <g class="zone-art">
+              <path d="M500 620Q570 545 650 580T820 585T900 620" fill="none" stroke="#7dbb71" stroke-width="18" stroke-linecap="round"/>
+              <g stroke="#43875e" stroke-width="5" stroke-linecap="round"><path d="M570 625v-55m0 25l-15-12m15 20l17-16"/><path d="M650 620v-65m0 30l-15-13m15 23l18-18"/><path d="M740 625v-52m0 22l-14-12m14 18l15-14"/><path d="M820 625v-58m0 25l-14-13m14 20l18-16"/></g>
+              <g fill="#f6d06d"><circle cx="570" cy="565" r="10"/><circle cx="650" cy="555" r="10"/><circle cx="740" cy="573" r="9"/><circle cx="820" cy="567" r="10"/></g>
+              <g class="firefly" fill="#fff2a1"><circle cx="550" cy="510" r="7"/><circle cx="720" cy="500" r="8"/><circle cx="790" cy="535" r="6"/><circle cx="610" cy="530" r="5"/><circle cx="850" cy="505" r="7"/></g>
+              <g fill="#fff4d4"><circle cx="585" cy="600" r="5"/><circle cx="685" cy="610" r="5"/><circle cx="770" cy="600" r="5"/></g>
+            </g>
+            <g class="hotspot-label"><rect x="550" y="655" width="250" height="48" rx="24" fill="#fffaf0" stroke="#d7ae55" stroke-width="3"/><text x="675" y="686" text-anchor="middle" font-size="23" fill="#805b28">Firefly Meadow</text></g>
+          </g>
+
+          <!-- sky bridge -->
+          <g class="map-hotspot" data-zone="sky-bridge" role="button" tabindex="0" aria-label="Explore Sky Bridge, home to Nova and Guardian">
+            <ellipse class="hotspot-halo" cx="800" cy="190" rx="175" ry="115" fill="#fff4bb" opacity=".62"/>
+            <g class="zone-art">
+              <path d="M680 310Q800 115 930 300" fill="none" stroke="#d4a96e" stroke-width="48" stroke-linecap="round"/>
+              <path d="M680 310Q800 115 930 300" fill="none" stroke="#fff0c2" stroke-width="30" stroke-linecap="round"/>
+              <path d="M690 300Q800 145 920 292" fill="none" stroke="#f7c96e" stroke-width="7" stroke-linecap="round"/>
+              <path d="M690 310v50M735 260v50M780 220v50M825 220v50M870 255v50M920 310v50" stroke="#a97c54" stroke-width="9" stroke-linecap="round"/>
+              <g fill="#f7f5e7"><ellipse cx="690" cy="330" rx="65" ry="18"/><ellipse cx="930" cy="330" rx="70" ry="20"/></g>
+              <g fill="#7bb58b"><path d="M660 335l35-70 35 70z"/><path d="M895 335l40-85 40 85z"/></g>
+              <g fill="#fff"><circle cx="730" cy="145" r="5"/><circle cx="860" cy="155" r="5"/><circle cx="820" cy="110" r="4"/></g>
+            </g>
+            <g class="hotspot-label"><rect x="700" y="65" width="200" height="48" rx="24" fill="#fffaf0" stroke="#82b9cb" stroke-width="3"/><text x="800" y="96" text-anchor="middle" font-size="23" fill="#356b82">Sky Bridge</text></g>
+          </g>
+
+          <!-- sparkle stream -->
+          <g class="map-hotspot" data-zone="sparkle-stream" role="button" tabindex="0" aria-label="Explore Sparkle Stream, home to Cove">
+            <ellipse class="hotspot-halo" cx="1080" cy="475" rx="115" ry="150" fill="#c9f5f5" opacity=".65"/>
+            <g class="zone-art">
+              <path d="M1120 320C1035 390 1170 430 1075 500S1085 615 1015 680" fill="none" stroke="#238fb0" stroke-width="72" stroke-linecap="round"/>
+              <path class="map-water" d="M1120 320C1035 390 1170 430 1075 500S1085 615 1015 680" fill="none" stroke="url(#stream)" stroke-width="58" stroke-linecap="round"/>
+              <path d="M1110 335C1050 395 1150 430 1065 505S1080 610 1015 670" fill="none" stroke="#e2ffff" stroke-width="7" stroke-linecap="round" opacity=".85"/>
+              <g fill="#fff" opacity=".9"><ellipse cx="1080" cy="405" rx="13" ry="5" transform="rotate(24 1080 405)"/><ellipse cx="1090" cy="535" rx="12" ry="5" transform="rotate(-28 1090 535)"/><ellipse cx="1040" cy="620" rx="11" ry="4" transform="rotate(28 1040 620)"/></g>
+              <g fill="#f7d978"><circle cx="1000" cy="445" r="8"/><circle cx="1145" cy="560" r="7"/></g>
+              <g fill="#4d986f"><path d="M970 470q-20-40 0-55q22 23 0 55M1160 640q-20-40 0-55q22 23 0 55"/></g>
+            </g>
+            <g class="hotspot-label"><rect x="955" y="245" width="250" height="48" rx="24" fill="#fffaf0" stroke="#62b7c5" stroke-width="3"/><text x="1080" y="276" text-anchor="middle" font-size="23" fill="#286b7d">Sparkle Stream</text></g>
+          </g>
+
+          <!-- little environmental details -->
+          <g fill="#fff6d0" opacity=".95"><circle cx="390" cy="520" r="5"/><circle cx="420" cy="545" r="4"/><circle cx="465" cy="565" r="5"/><circle cx="925" cy="355" r="4"/><circle cx="950" cy="375" r="5"/></g>
+          <g fill="#fff" opacity=".9"><path d="M70 660q12-20 24 0q-12 15-24 0z"/><path d="M425 690q10-18 20 0q-10 14-20 0z"/></g>
+          <g transform="translate(35 35)"><rect width="180" height="42" rx="21" fill="#fffaf0" opacity=".9"/><text x="90" y="27" text-anchor="middle" font-size="17" font-weight="900" fill="#426b59" letter-spacing="1.5">THE HEART OF MIMBLETON</text></g>
+        </svg>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-2 mt-3 px-1 text-xs sm:text-sm text-emerald-900/70 font-bold">
+        <span>✦ Six habitats • One connected world</span><span>More of Mimbleton waits beyond the horizon →</span>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto mt-12" aria-labelledby="placesHeading">
+      <div class="text-center mb-6"><p class="text-xs uppercase tracking-[.25em] font-black text-emerald-700">Your next adventure</p><h2 id="placesHeading" class="text-2xl sm:text-3xl font-black text-emerald-950">Get to know the habitats</h2><p class="text-emerald-900/70 font-semibold mt-1">You can explore from the map or choose a place below.</p></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="zonesGrid"></div>
+    </section>
+
+    <div class="text-center mt-12"><a href="nest.html" class="inline-flex items-center gap-2 rounded-full bg-white/80 px-6 py-3 text-emerald-800 font-extrabold shadow-sm hover:bg-white">← Back to Dashboard</a></div>
+  </main>
+
+  <div id="zonePanel" role="dialog" aria-modal="true" aria-labelledby="panelName" aria-describedby="panelDesc">
+    <div class="panel-card bg-[#fffdf6] rounded-[2rem] shadow-2xl p-7 sm:p-9 max-w-lg w-full text-center relative">
+      <button id="panelClose" type="button" aria-label="Close habitat details" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-emerald-50 text-emerald-900 text-2xl font-bold hover:bg-emerald-100">×</button>
+      <div id="panelEmoji" class="text-6xl mb-3" aria-hidden="true">🌎</div>
+      <p class="text-xs uppercase tracking-[.22em] text-emerald-700 font-black mb-1">A place in Mimbleton</p>
+      <h2 id="panelName" class="text-3xl font-black text-emerald-950 mb-2"></h2>
+      <p id="panelDesc" class="text-emerald-900/75 font-semibold text-sm mb-4"></p>
+      <p id="panelFeeling" class="text-emerald-700 text-sm font-extrabold italic mb-4"></p>
+      <div id="panelResidents" class="flex flex-wrap justify-center gap-2 mb-6" aria-label="Residents"></div>
       <div class="flex flex-col gap-3">
-        <a id="panelAction" href="nest.html"
-           class="block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
-          Enter Zone
-        </a>
-        <button onclick="closePanel()"
-                class="block bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-3 rounded-full">
-          Back to World
-        </button>
+        <a id="panelAction" href="nest.html" class="block bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-full shadow-md">Explore this habitat</a>
+        <button id="panelBack" type="button" class="block bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-extrabold py-3 rounded-full">Back to Mimbleton</button>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals &#8226; The Journey of Growing Up.
-  </footer>
+  <footer class="py-7 text-center text-emerald-900/60 text-xs font-bold">VentPals • The Journey of Growing Up • Welcome to Mimbleton</footer>
 
   <script>
     const ZONES = [
-      {
-        id:      'nesting-tree',
-        name:    'Nesting Tree',
-        emoji:   '🌳',
-        color:   'from-green-100 to-emerald-50',
-        border:  'border-green-300',
-        feeling: 'Feeling: Calm, Safe, or Tired',
-        desc:    'A cosy place high in the branches where you can rest, breathe, and just be yourself. No pressure here.',
-        action:  { label: 'Visit Your Nest', href: 'nest.html' },
-      },
-      {
-        id:      'feelings-forest',
-        name:    'Feelings Forest',
-        emoji:   '🌲',
-        color:   'from-teal-50 to-green-50',
-        border:  'border-teal-300',
-        feeling: 'Feeling: Confused, Sad, or Curious',
-        desc:    'Deep in the forest of feelings, every emotion has a name and a home. Start with a feeling and explore what it means.',
-        action:  { label: 'Start With a Feeling', href: 'start-with-a-feeling.html' },
-      },
-      {
-        id:      'quiet-caves',
-        name:    'Quiet Caves',
-        emoji:   '🏔\uFE0F',
-        color:   'from-indigo-50 to-purple-50',
-        border:  'border-indigo-300',
-        feeling: 'Feeling: Overwhelmed, Anxious, or Reflective',
-        desc:    'A hushed and peaceful underground space. Come here to think slowly, journal, and listen to yourself.',
-        action:  { label: 'Try a Reflection', href: 'feeling-reflection.html' },
-      },
-      {
-        id:      'firefly-meadow',
-        name:    'Firefly Meadow',
-        emoji:   '\u2728',
-        color:   'from-amber-50 to-yellow-50',
-        border:  'border-amber-300',
-        feeling: 'Feeling: Hopeful, Grateful, or Playful',
-        desc:    'When tiny lights flicker in the dark, it means hope is near. Firefly Meadow is full of wonder and small joys.',
-        action:  { label: 'Meet the Flock', href: 'meet-the-flock.html' },
-      },
-      {
-        id:      'sky-bridge',
-        name:    'Sky Bridge',
-        emoji:   '🌈',
-        color:   'from-sky-50 to-blue-50',
-        border:  'border-sky-300',
-        feeling: 'Feeling: Brave, Growing, or Stuck',
-        desc:    'A rainbow bridge stretching between where you are and where you\'re going. Take a step. The view is worth it.',
-        action:  { label: 'Practice Calming Skills', href: 'calming-skills.html' },
-      },
-      {
-        id:      'sparkle-stream',
-        name:    'Sparkle Stream',
-        emoji:   '💧',
-        color:   'from-cyan-50 to-sky-50',
-        border:  'border-cyan-300',
-        feeling: 'Feeling: Anxious, Heavy, or Restless',
-        desc:    'Let worries float downstream like leaves. The Sparkle Stream washes away what you no longer need to carry.',
-        action:  { label: 'Try Calming Skills', href: 'calming-skills.html' },
-      },
+      {id:'nesting-tree',name:'Nesting Tree',emoji:'🌳',tone:'from-lime-100 to-emerald-50',edge:'border-lime-300',feeling:'A place to feel calm, safe, and welcome',desc:'A grand, living tree with cozy spaces tucked among its branches and roots. There is room to rest, recharge, and simply be yourself.',residents:['Clover','Pebble','Twig'],action:{label:'Visit Your Nest',href:'nest.html'}},
+      {id:'feelings-forest',name:'Feelings Forest',emoji:'🌲',tone:'from-emerald-100 to-teal-50',edge:'border-emerald-300',feeling:'A place for curiosity and understanding',desc:'Follow winding trails through a lively forest of hidden clearings, colorful plants, and little discoveries. Every feeling has room here.',residents:['Aura','Breezy','Flicker'],action:{label:'Start With a Feeling',href:'start-with-a-feeling.html'}},
+      {id:'quiet-caves',name:'Quiet Caves',emoji:'🪨',tone:'from-indigo-100 to-violet-50',edge:'border-indigo-300',feeling:'A place to slow down and reflect',desc:'Explore peaceful underground spaces, glowing pools, and secret passages where thoughts can settle and you can listen to yourself.',residents:['Drift','Echo','Sable','Lumen'],action:{label:'Try a Reflection',href:'feeling-reflection.html'}},
+      {id:'firefly-meadow',name:'Firefly Meadow',emoji:'✨',tone:'from-amber-100 to-yellow-50',edge:'border-amber-300',feeling:'A place for hope, joy, and fresh starts',desc:'Wander through open fields of wildflowers as tiny lights begin to glow. There is wonder to find in the smallest moments.',residents:['Flamez','Flare','Solace'],action:{label:'Meet the Flock',href:'meet-the-flock.html'}},
+      {id:'sky-bridge',name:'Sky Bridge',emoji:'🌈',tone:'from-sky-100 to-blue-50',edge:'border-sky-300',feeling:'A place for courage and new perspectives',desc:'Cross a sweeping bridge high above the hills. Look out over the world, imagine what is possible, and take your next brave step.',residents:['Nova','Guardian'],action:{label:'Practice Calming Skills',href:'calming-skills.html'}},
+      {id:'sparkle-stream',name:'Sparkle Stream',emoji:'💧',tone:'from-cyan-100 to-sky-50',edge:'border-cyan-300',feeling:'A place to find comfort and ease',desc:'Follow the sparkling water as it winds through Mimbleton. Pause by the banks, watch the ripples, and let the day slow down.',residents:['Cove'],action:{label:'Try Calming Skills',href:'calming-skills.html'}}
     ];
 
-    const grid = document.getElementById('zonesGrid');
+    const grid=document.getElementById('zonesGrid');
+    const panel=document.getElementById('zonePanel');
+    let lastTrigger=null;
 
-    ZONES.forEach(zone => {
-      const card = document.createElement('div');
-      card.className = `zone-card bg-gradient-to-br ${zone.color} border-2 ${zone.border} rounded-3xl p-6 shadow-sm`;
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', 'Open ' + zone.name);
-      card.innerHTML = `
-        <div class="text-5xl mb-3 text-center">${zone.emoji}</div>
-        <h3 class="font-bold text-purple-700 text-lg text-center mb-1">${zone.name}</h3>
-        <p class="text-xs text-gray-500 text-center italic mb-3">${zone.feeling}</p>
-        <p class="text-sm text-gray-600 text-center">${zone.desc}</p>
-        <div class="mt-4 text-center">
-          <span class="inline-block bg-white/80 text-purple-700 font-semibold text-xs py-1 px-4 rounded-full shadow-sm">
-            Enter Zone &#8594;
-          </span>
-        </div>
-      `;
-      card.addEventListener('click', () => openPanel(zone));
-      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openPanel(zone); });
+    function openPanel(zone,trigger){
+      lastTrigger=trigger||document.activeElement;
+      document.getElementById('panelEmoji').textContent=zone.emoji;
+      document.getElementById('panelName').textContent=zone.name;
+      document.getElementById('panelDesc').textContent=zone.desc;
+      document.getElementById('panelFeeling').textContent=zone.feeling;
+      const residents=document.getElementById('panelResidents');
+      residents.replaceChildren();
+      zone.residents.forEach(function(name){
+        const chip=document.createElement('span');
+        chip.className='home-chip';
+        chip.textContent='⌂ '+name;
+        residents.appendChild(chip);
+      });
+      const action=document.getElementById('panelAction');
+      action.textContent=zone.action.label;
+      action.href=zone.action.href;
+      panel.classList.add('open');
+      document.body.style.overflow='hidden';
+      document.getElementById('panelClose').focus();
+    }
+    function closePanel(){
+      panel.classList.remove('open');
+      document.body.style.overflow='';
+      if(lastTrigger&&typeof lastTrigger.focus==='function')lastTrigger.focus();
+    }
+
+    ZONES.forEach(function(zone){
+      const card=document.createElement('button');
+      card.type='button';
+      card.className='zone-card text-left bg-gradient-to-br '+zone.tone+' border-2 '+zone.edge+' rounded-3xl p-5 shadow-sm';
+      card.setAttribute('aria-label','Explore '+zone.name);
+      const residents=zone.residents.join(' · ');
+      card.innerHTML='<div class="flex items-center gap-4"><span class="text-4xl" aria-hidden="true">'+zone.emoji+'</span><div><h3 class="font-black text-emerald-900 text-lg">'+zone.name+'</h3><p class="text-xs text-emerald-800/75 font-bold">'+residents+'</p></div></div><p class="text-sm text-emerald-950/75 font-semibold mt-3">'+zone.desc+'</p><div class="mt-4 inline-flex bg-white/80 text-emerald-800 font-black text-xs py-2 px-4 rounded-full">Explore habitat →</div>';
+      card.addEventListener('click',function(){openPanel(zone,card);});
       grid.appendChild(card);
     });
 
-    function openPanel(zone) {
-      document.getElementById('panelEmoji').textContent   = zone.emoji;
-      document.getElementById('panelName').textContent    = zone.name;
-      document.getElementById('panelDesc').textContent    = zone.desc;
-      document.getElementById('panelFeeling').textContent = zone.feeling;
-      const btn = document.getElementById('panelAction');
-      btn.textContent = zone.action.label;
-      btn.href        = zone.action.href;
-      document.getElementById('zonePanel').classList.add('open');
-    }
+    document.querySelectorAll('.map-hotspot').forEach(function(hotspot){
+      function activate(){const zone=ZONES.find(function(item){return item.id===hotspot.dataset.zone;});if(zone)openPanel(zone,hotspot);}
+      hotspot.addEventListener('click',activate);
+      hotspot.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});
+    });
 
-    function closePanel() {
-      document.getElementById('zonePanel').classList.remove('open');
-    }
+    document.getElementById('panelClose').addEventListener('click',closePanel);
+    document.getElementById('panelBack').addEventListener('click',closePanel);
+    panel.addEventListener('click',function(event){if(event.target===panel)closePanel();});
+    document.addEventListener('keydown',function(event){if(event.key==='Escape'&&panel.classList.contains('open'))closePanel();});
 
-    // Close on backdrop click
-    document.getElementById('zonePanel').addEventListener('click', function(e) {
-      if (e.target === this) closePanel();
+    const menuToggle=document.getElementById('menuToggle');
+    menuToggle.addEventListener('click',function(){
+      const menu=document.getElementById('mobileMenu');
+      const isHidden=menu.classList.toggle('hidden');
+      menuToggle.setAttribute('aria-expanded',String(!isHidden));
     });
   </script>
-
 </body>
 </html>
