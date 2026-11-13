@@ -30,7 +30,7 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
 <p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">A little about you</p>
 <h1 class="mt-2 text-3xl sm:text-4xl font-black text-purple-800">My Profile</h1>
 <p class="mt-2 text-gray-600">Your choices from setup, all together in one place.</p>
-<div id="profileBirdArt" class="float min-h-40 flex items-center justify-center mt-4" aria-label="Your VentPal"></div>
+<div id="profileBirdArt" class="flex items-center justify-center mt-4" aria-label="Your VentPal"></div>
 <h2 id="profileBirdName" class="text-2xl font-extrabold text-purple-800">Your VentPal</h2>
 <p class="text-sm font-bold text-purple-600" id="profileBirdStage">Egg stage</p>
 </section>
@@ -83,8 +83,24 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
  const stage=progress?progress.stage.name:(user.stage||'Egg');
  text('profileBirdStage',stage+' stage');
  text('profileStageDetail',stage+' stage');
- if(growth){growth.renderAvatar($('profileBirdArt'),{height:150});}
- else {const img=document.createElement('img');img.src='assets/images/'+(user.birdId||'pebble')+'-egg.png';img.alt=birdName;img.className='h-36 object-contain';$('profileBirdArt').appendChild(img);}
+ /* Profile picture: comes from the bird's character ID, never its growth stage, so it stays the same as the bird grows.
+    Files live in assets/profile-portraits/{id}.png. Fallbacks: the bird's nestling illustration, then its emoji. */
+ (function(){
+  const bird=growth?growth.getBird():{id:user.birdId||'pebble',name:birdName,emoji:'🐦'};
+  const id=String(bird.id||user.birdId||'pebble').toLowerCase().replace(/[^a-z]/g,'');
+  const box=$('profileBirdArt');
+  const img=document.createElement('img');
+  img.alt=birdName+' portrait';img.width=144;img.height=144;
+  img.className='w-36 h-36 object-cover shadow-lg';img.style.borderRadius='28%';
+  let step=0;
+  img.onerror=function(){
+   step++;
+   if(step===1){img.src='assets/images/'+id+'-nestling.png';img.className='w-36 h-36 object-contain';}
+   else{img.onerror=null;const span=document.createElement('span');span.style.fontSize='72px';span.textContent=bird.emoji||'🐦';span.setAttribute('role','img');span.setAttribute('aria-label',birdName);box.replaceChildren(span);}
+  };
+  img.src='assets/profile-portraits/'+id+'.png';
+  box.appendChild(img);
+ })();
  const colour=user.avatarColour||'#c084fc';
  $('profileColourSwatch').style.backgroundColor=colour;
  const colourNames={'#c084fc':'Default','#60a5fa':'Blue','#f9a8d4':'Pink','#4ade80':'Green','#fbbf24':'Gold','#2dd4bf':'Teal','#fb923c':'Orange'};
