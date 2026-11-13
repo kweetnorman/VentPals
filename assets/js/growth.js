@@ -166,6 +166,26 @@
     s.closet = s.closet || { owned: [], worn: {} };
     s.milestones = s.milestones || {};
     s.rainbowEvents = Array.isArray(s.rainbowEvents) ? s.rainbowEvents : [];
+    // One-time carry-forward: preserve the legacy 30-item activity log and summarize older balances.
+    if (!s.rainbowMigrated) {
+      var legacy = Array.isArray(s.log) ? s.log : [];
+      legacy.forEach(function (entry) {
+        if (!entry) return;
+        if (entry.bug) {
+          var bugInfo = BUG_TYPES[entry.bug];
+          s.rainbowEvents.push({ id:'legacy-bug-'+entry.t+'-'+entry.bug, kind:'bug-earned', label:'Found '+(bugInfo ? bugInfo.name : entry.bug), icon:bugInfo ? bugInfo.icon : '🐛', amount:1, detail:entry.label || 'Earlier activity', ts:entry.t || Date.now() });
+        } else if (entry.fed) {
+          var fedInfo = BUG_TYPES[entry.fed];
+          s.rainbowEvents.push({ id:'legacy-feed-'+entry.t+'-'+entry.fed, kind:'bug-used', label:'Fed '+(fedInfo ? fedInfo.name.toLowerCase() : entry.fed), icon:fedInfo ? fedInfo.icon : '🐛', amount:1, detail:entry.label || 'Earlier activity', ts:entry.t || Date.now() });
+        }
+      });
+      var oldBugCount = BUG_ORDER.reduce(function(n,b){return n+(s.bugs[b]||0)+(s.fed[b]||0);},0);
+      if (s.xp || oldBugCount || s.feathers.earned || s.feathers.spent) {
+        s.rainbowEvents.push({ id:'legacy-summary', kind:'history', label:'Your journey was already growing!', icon:'🌈', amount:0, detail:s.xp+' growth points · '+oldBugCount+' bugs discovered · '+s.feathers.earned+' feathers earned · '+s.feathers.spent+' feathers spent before Rainbow Stream began', ts:Date.now() });
+      }
+      s.rainbowMigrated = true;
+      writeJSON(GROWTH_KEY, s);
+    }
     return s;
   }
   function saveState(s) { writeJSON(GROWTH_KEY, s); }
