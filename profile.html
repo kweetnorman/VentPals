@@ -59,17 +59,9 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
 <section class="soft-card p-5 sm:p-7">
 <div class="flex items-center gap-3 mb-5"><span class="text-3xl">🎨</span><div><h2 class="text-xl font-black text-purple-800">Your look & choices</h2><p class="text-sm text-gray-600">The optional details you picked during setup.</p></div></div>
 <div class="grid sm:grid-cols-2 gap-4">
-<div class="rounded-2xl bg-purple-50 p-4"><p class="detail-label">Bird colour</p><div class="flex items-center gap-3 mt-2"><span id="profileColourSwatch" class="w-7 h-7 rounded-full border border-purple-200"></span><p class="detail-value" id="profileColourName">Default</p></div></div>
-<div class="rounded-2xl bg-pink-50 p-4"><p class="detail-label">Pronouns (optional)</p><p class="detail-value mt-1" id="profilePronounsText">Prefer not to say</p></div>
+<div class="rounded-2xl bg-purple-50 p-4 sm:col-span-2"><p class="detail-label">Bird colour</p><div class="flex items-center gap-3 mt-2"><span id="profileColourSwatch" class="w-7 h-7 rounded-full border border-purple-200"></span><p class="detail-value" id="profileColourName">Default</p></div></div>
 </div>
-<div class="mt-5">
-<label for="profilePronouns" class="block text-sm font-bold text-purple-800 mb-2">Update your pronouns (optional)</label>
-<select id="profilePronouns" class="w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm">
-<option value="">Prefer not to say</option><option value="she/her">She / Her</option><option value="he/him">He / Him</option><option value="they/them">They / Them</option><option value="ze/zir">Ze / Zir</option><option value="any">Any / All</option>
-</select>
-<button id="savePronounsBtn" class="primary w-full mt-3" type="button">Save pronouns</button>
-<p id="profileSaveMessage" class="text-sm font-bold text-green-700 mt-3" role="status" aria-live="polite"></p>
-</div>
+
 </section>
 <section class="text-center"><a href="nest.html" class="primary inline-block no-underline">← Back to My Nest</a></section>
 <p class="text-center text-xs text-gray-500">VentPals • Your space. Your pace. Your VentPal. 💚</p>
