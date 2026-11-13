@@ -8,23 +8,31 @@
 :root{--purple:#7651b5;--ink:#40394d}
 *{box-sizing:border-box}
 body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8);min-height:100vh}
-.shell{max-width:900px;margin:auto}
+.shell{width:min(100% - 32px,900px);margin-inline:auto}
 .soft-card{background:rgba(255,255,255,.9);border:1px solid rgba(118,81,181,.12);border-radius:28px;box-shadow:0 12px 34px rgba(65,48,94,.08)}
 .primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:12px 20px}
-.float{animation:float 4s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .detail-label{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:800;color:#8b72ae}
 .detail-value{font-size:15px;font-weight:700;color:#51406b;overflow-wrap:anywhere}
-@media(prefers-reduced-motion:reduce){.float{animation:none}}
+.destination-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.destination{min-width:0;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:13px 8px;border:2px solid rgba(118,81,181,.13);border-radius:24px 24px 30px 30px;background:linear-gradient(160deg,#fff 0%,var(--bubble,#f2eaff) 100%);box-shadow:0 6px 0 rgba(93,69,132,.08),0 10px 18px rgba(65,48,94,.05);color:#59427f;text-decoration:none;text-align:center;transition:transform .18s}
+.destination:hover,.destination:focus-visible{transform:translateY(-3px);outline:3px solid rgba(118,81,181,.2);outline-offset:2px}
+.destination .emoji{font-size:29px;line-height:1}
+.destination .name{font-size:13px;font-weight:900;line-height:1.2}
+.destination small{font-size:10px;font-weight:600;line-height:1.25;opacity:.78}
+@media(min-width:640px){.destination-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}}
+@media(min-width:850px){.destination-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:360px){.destination-grid{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.destination{transition:none}}
 </style><link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){location.replace('welcome.html');}</script>
 <script src="assets/js/session.js"></script><script src="assets/js/growth.js"></script>
-<header class="shell px-4 pt-6 flex items-center justify-between">
+<header class="shell px-1 pt-6 flex items-center justify-between gap-3">
 <a href="nest.html" class="flex items-center gap-2 no-underline"><img src="assets/images/logo.png" class="h-9 w-9" alt=""><b class="text-xl text-purple-800">VentPals</b></a>
-<a href="settings.html" class="rounded-full bg-white/80 border border-purple-100 px-4 py-2 text-sm font-bold text-purple-700">⚙️ Settings</a>
+<a href="settings.html" class="rounded-full bg-white/80 border border-purple-100 px-4 py-2 text-sm font-bold text-purple-700 whitespace-nowrap">⚙️ Settings</a>
 </header>
-<main class="shell px-4 pt-6 pb-24 space-y-5">
+<main class="shell px-1 pt-6 pb-24 space-y-5">
 <section class="soft-card p-6 sm:p-9 text-center relative overflow-hidden">
 <div class="absolute -left-3 top-3 text-5xl opacity-30">🌿</div><div class="absolute -right-3 bottom-3 text-5xl opacity-30">✨</div>
 <p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Your companion</p>
@@ -42,7 +50,7 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
 <div id="profileStageArt" class="flex items-center justify-center min-h-44 mt-3" aria-label="Your VentPal's current growth stage"></div>
 <p id="profileBirdStage" class="text-lg font-extrabold text-purple-700 mt-2">Egg stage</p>
 <div class="mt-4 max-w-md mx-auto">
-<div class="flex justify-between text-xs font-bold text-purple-600"><span id="profileGrowthPoints">0 growth points</span><span id="profileNextStage">Next stage</span></div>
+<div class="flex justify-between text-xs font-bold text-purple-600 gap-3"><span id="profileGrowthPoints">0 growth points</span><span id="profileNextStage" class="text-right">Next stage</span></div>
 <div class="h-3 rounded-full bg-purple-100 overflow-hidden mt-2"><div id="profileGrowthBar" class="h-full rounded-full bg-gradient-to-r from-purple-400 to-green-400" style="width:0%"></div></div>
 </div>
 </section>
@@ -59,21 +67,36 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
 <p class="text-xs text-gray-500 mt-3">Your VentPals name is your username and stays locked after setup.</p>
 </section>
 
-
-
 <a href="avatar-customization.html" class="soft-card block p-5 sm:p-7 no-underline transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-3 focus-visible:outline-purple-400 focus-visible:outline-offset-4" aria-label="Your look, your choices — open avatar customization">
 <div class="flex items-center justify-between gap-3">
-<div class="flex items-center gap-3"><span class="text-3xl" aria-hidden="true">🎨</span><div><h2 class="text-xl font-black text-purple-800">Your look, your choices</h2><p class="text-sm text-gray-600">Play with your avatar’s colors, accessories, and background.</p></div></div>
-<span class="text-2xl text-purple-600" aria-hidden="true">→</span>
+<div class="flex items-center gap-3 min-w-0"><span class="text-3xl" aria-hidden="true">🎨</span><div class="min-w-0"><h2 class="text-xl font-black text-purple-800">Your look, your choices</h2><p class="text-sm text-gray-600">Play with your avatar’s colors, accessories, and background.</p></div></div>
+<span class="text-2xl text-purple-600 shrink-0" aria-hidden="true">→</span>
 </div>
 <div class="mt-5 flex items-center justify-between gap-3 rounded-2xl bg-purple-50 border border-purple-100 px-4 py-3">
-<span class="text-sm font-extrabold text-purple-800">Open Avatar Studio</span><span class="text-xs font-bold text-purple-600">Customize anytime</span>
+<span class="text-sm font-extrabold text-purple-800">Open Avatar Studio</span><span class="text-xs font-bold text-purple-600 text-right">Customize anytime</span>
 </div>
 </a>
-<div class="grid grid-cols-2 gap-3 text-center text-sm font-extrabold" style="margin-top:16px;margin-bottom:28px;position:relative;z-index:1">
-<a href="closet.html" class="soft-card block px-4 py-3 text-purple-800 no-underline hover:-translate-y-0.5 transition">🪶 The Closet</a>
-<a href="rewards.html" class="soft-card block px-4 py-3 text-purple-800 no-underline hover:-translate-y-0.5 transition">🎁 My Rewards</a>
-</div>
+
+<section class="soft-card p-5 sm:p-7">
+<div class="text-center mb-5"><p class="text-2xl">🫧 🥚 ✨</p><h2 class="text-2xl font-black text-purple-800 mt-1">Where would you like to go?</h2><p class="text-sm text-gray-600 mt-1">All your VentPals spaces, together in one place.</p></div>
+<nav class="destination-grid" aria-label="Explore VentPals spaces">
+<a class="destination" style="--bubble:#fff0c9" href="nest.html"><span class="emoji">🏡</span><span class="name">My Nest</span><small>Your home base</small></a>
+<a class="destination" style="--bubble:#fff0c9" href="start-with-a-feeling.html"><span class="emoji">💜</span><span class="name">Feelings</span><small>Check in with yourself</small></a>
+<a class="destination" style="--bubble:#e7f7e7" href="feeling-reflection.html"><span class="emoji">📓</span><span class="name">Reflect</span><small>Write what's on your mind</small></a>
+<a class="destination" style="--bubble:#e7efff" href="calming-skills.html"><span class="emoji">🌬️</span><span class="name">Calm Corner</span><small>Try a calming activity</small></a>
+<a class="destination" style="--bubble:#f3e8ff" href="meet-the-flock.html"><span class="emoji">🐦</span><span class="name">Flockopedia</span><small>Meet all the birds</small></a>
+<a class="destination" style="--bubble:#dff5ff" href="world.html"><span class="emoji">🌎</span><span class="name">Explore</span><small>Visit VentPals World</small></a>
+<a class="destination" style="--bubble:#ffe8f1" href="bird-growth.html"><span class="emoji">🪶</span><span class="name">Grow</span><small>Care for your bird</small></a>
+<a class="destination" style="--bubble:#fff0dc" href="keepsakes.html"><span class="emoji">🎒</span><span class="name">Keepsakes</span><small>See what you've earned</small></a>
+<a class="destination" style="--bubble:#e8eaff" href="reflection-journal.html"><span class="emoji">💎</span><span class="name">Quiet Caves</span><small>Your Reflection Journal</small></a>
+<a class="destination" style="--bubble:#e4f8ff" href="sparkle-stream.html"><span class="emoji">🌈</span><span class="name">Sparkle Stream</span><small>Your journey moments</small></a>
+<a class="destination" style="--bubble:#e8f5ed" href="nest-connections.html"><span class="emoji">💜</span><span class="name">Nest Connections</span><small>People you trust</small></a>
+<a class="destination" style="--bubble:#f0eaff" href="closet.html"><span class="emoji">🧺</span><span class="name">The Closet</span><small>Your collected items</small></a>
+<a class="destination" style="--bubble:#ffe8f1" href="rewards.html"><span class="emoji">🎁</span><span class="name">My Rewards</span><small>Celebrate your progress</small></a>
+<a class="destination" style="--bubble:#e8eaff" href="settings.html"><span class="emoji">⚙️</span><span class="name">Settings</span><small>Your choices and controls</small></a>
+</nav>
+</section>
+
 <section class="text-center"><a href="nest.html" class="primary inline-block no-underline">← Back to My Nest</a></section>
 <p class="text-center text-xs text-gray-500">VentPals • Your space. Your pace. Your VentPal. 💚</p>
 </main>
@@ -88,13 +111,10 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
  text('profilePowerWord',user.powerWord||'—');
  const birdName=user.birdName||user.birdId||'Your VentPal';
  text('profileBirdName',birdName);
- text('profileBirdDetail',birdName);
  const growth=window.VPGrowth;
  const progress=growth?growth.getProgress():null;
  const stage=progress?progress.stage.name:(user.stage||'Egg');
  text('profileBirdStage',stage+' stage');
- text('profileStageDetail',stage+' stage');
- // The portrait is a fixed character image; the growth illustration is rendered separately from saved XP.
  (function(){
   const bird=growth?growth.getBird():{id:user.birdId||'aura',name:birdName,emoji:'🐦'};
   const id=String(bird.id||user.birdId||'aura').toLowerCase().replace(/[^a-z]/g,'');
@@ -133,11 +153,6 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
    text('profileNextStage','Next stage');
   }
  })();
- const ap=user.appearance||{};const swatchByColor={default:'#c084fc',blue:'#60a5fa',pink:'#f9a8d4',green:'#4ade80',gold:'#fbbf24'};
- const colour=swatchByColor[ap.color]||user.avatarColour||'#c084fc';
- const swatch=$('profileColourSwatch');if(swatch)swatch.style.backgroundColor=colour;
- const colourNames={'#c084fc':'Default','#60a5fa':'Blue','#f9a8d4':'Pink','#4ade80':'Green','#fbbf24':'Gold','#2dd4bf':'Teal','#fb923c':'Orange'};
- text('profileColourName',colourNames[colour]||'Custom colour');
 })();
 </script>
 </body></html>
