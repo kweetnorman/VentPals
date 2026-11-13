@@ -25,7 +25,15 @@
     .search-wrap input{width:100%;min-height:48px;padding:12px 16px 12px 44px;border:1px solid #e3d8f1;border-radius:16px;background:#fff;font-size:16px}
     .search-wrap input:focus{outline:3px solid rgba(56,189,248,.35);border-color:#9b82c7}
     .search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);pointer-events:none}
-    @media(max-width:520px){.feel-shell{width:calc(100% - 24px)}.feeling-card{min-height:190px;padding:16px 12px}.feeling-emoji{width:58px;height:58px;font-size:32px}}
+.survey-overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(42,31,58,.48);backdrop-filter:blur(5px)}
+    .survey-overlay.is-open{display:flex}
+    .survey-dialog{width:min(100%,480px);max-height:min(90vh,680px);overflow:auto;border:1px solid rgba(118,81,181,.16);border-radius:30px;background:linear-gradient(160deg,#fff 10%,#f8f4ff 100%);padding:28px;box-shadow:0 24px 70px rgba(39,26,58,.25);animation:survey-in .2s ease-out}
+    .survey-choice{width:100%;border:1px solid #e7ddf3;border-radius:18px;padding:15px 18px;text-align:left;font-weight:800;color:#59427f;background:#fff;transition:transform .15s ease,background .15s ease}
+    .survey-choice:hover,.survey-choice:focus-visible{background:#f1eaff;transform:translateY(-1px);outline:3px solid rgba(125,211,252,.55);outline-offset:2px}
+    .survey-choice span{display:block;font-size:12px;font-weight:500;color:#766d80;margin-top:3px}
+    @keyframes survey-in{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media(prefers-reduced-motion:reduce){.survey-dialog{animation:none}.survey-choice{transition:none}}
+        @media(max-width:520px){.feel-shell{width:calc(100% - 24px)}.feeling-card{min-height:190px;padding:16px 12px}.feeling-emoji{width:58px;height:58px;font-size:32px}}
     @media(prefers-reduced-motion:reduce){.feeling-card{transition:none}.feeling-card:hover{transform:none}}
   </style>
 </head>
@@ -109,6 +117,14 @@
     <p class="mt-8 text-center text-xs text-gray-500">Every feeling is welcome here. Take your time. 💚</p>
   </main>
 
+  <div id="feelingSurveyOverlay" class="survey-overlay" aria-hidden="true">
+    <section id="feelingSurveyDialog" class="survey-dialog" role="dialog" aria-modal="true" aria-labelledby="surveyTitle" aria-describedby="surveyPrompt">
+      <div class="flex items-start justify-between gap-4"><div><p class="text-xs font-extrabold uppercase tracking-[.16em] text-purple-500">A little more about your feeling</p><h2 id="surveyTitle" class="mt-2 text-2xl font-black text-purple-800">💜 <span id="surveyFeelingName">This feeling</span></h2></div><button id="closeFeelingSurvey" type="button" class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-purple-50 text-xl font-bold text-purple-700 hover:bg-purple-100" aria-label="Close survey">×</button></div>
+      <p id="surveyPrompt" class="mt-4 text-base font-bold leading-relaxed text-gray-700">Do you feel this way all of the time, sometimes, or just right now?</p><p class="mt-1 text-sm text-gray-500">There’s no wrong answer. We’re just checking in.</p>
+      <div class="mt-5 space-y-3"><button class="survey-choice" type="button" data-frequency="all">All of the time<span>This feeling has been showing up a lot.</span></button><button class="survey-choice" type="button" data-frequency="sometimes">Sometimes<span>This feeling comes and goes.</span></button><button class="survey-choice" type="button" data-frequency="just-now">Just right now<span>This is how I feel in this moment.</span></button></div>
+      <button id="cancelFeelingSurvey" type="button" class="mt-5 w-full rounded-full py-3 text-sm font-bold text-purple-700 hover:bg-purple-50">Go back to feelings</button>
+    </section>
+  </div>
   <script>
     (function(){
       var search = document.getElementById('feelingSearch');
@@ -129,11 +145,16 @@
         grid.classList.toggle('hidden', visible === 0);
       }
       search.addEventListener('input', filterFeelings);
-      document.getElementById('clearSearch').addEventListener('click',function(){
-        search.value = '';
-        filterFeelings();
-        search.focus();
-      });
+      document.getElementById('clearSearch').addEventListener('click',function(){search.value='';filterFeelings();search.focus();});
+      var overlay=document.getElementById('feelingSurveyOverlay'),dialog=document.getElementById('feelingSurveyDialog'),surveyName=document.getElementById('surveyFeelingName'),closeButton=document.getElementById('closeFeelingSurvey');
+      var previousFocus=null,selectedUrl=null;
+      function closeSurvey(){overlay.classList.remove('is-open');overlay.setAttribute('aria-hidden','true');selectedUrl=null;if(previousFocus)previousFocus.focus();}
+      function openSurvey(card){selectedUrl=new URL(card.href,window.location.href);surveyName.textContent=card.querySelector('h2').textContent;previousFocus=card;overlay.classList.add('is-open');overlay.setAttribute('aria-hidden','false');closeButton.focus();}
+      cards.forEach(function(card){card.addEventListener('click',function(event){if(card.hidden)return;event.preventDefault();openSurvey(card);});});
+      overlay.querySelectorAll('[data-frequency]').forEach(function(button){button.addEventListener('click',function(){if(!selectedUrl)return;selectedUrl.searchParams.set('frequency',button.getAttribute('data-frequency'));window.location.assign(selectedUrl.toString());});});
+      closeButton.addEventListener('click',closeSurvey);document.getElementById('cancelFeelingSurvey').addEventListener('click',closeSurvey);
+      overlay.addEventListener('click',function(event){if(event.target===overlay)closeSurvey();});
+      document.addEventListener('keydown',function(event){if(event.key==='Escape'&&overlay.classList.contains('is-open'))closeSurvey();if(event.key==='Tab'&&overlay.classList.contains('is-open')){var f=dialog.querySelectorAll('button:not([disabled])'),first=f[0],last=f[f.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
     })();
   </script>
 </body>
