@@ -27,12 +27,24 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
 <main class="shell px-4 pt-6 pb-24 space-y-5">
 <section class="soft-card p-6 sm:p-9 text-center relative overflow-hidden">
 <div class="absolute -left-3 top-3 text-5xl opacity-30">🌿</div><div class="absolute -right-3 bottom-3 text-5xl opacity-30">✨</div>
-<p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">A little about you</p>
-<h1 class="mt-2 text-3xl sm:text-4xl font-black text-purple-800">My Profile</h1>
-<p class="mt-2 text-gray-600">Your choices from setup, all together in one place.</p>
-<div id="profileBirdArt" class="flex items-center justify-center mt-4" aria-label="Your VentPal"></div>
-<h2 id="profileBirdName" class="text-2xl font-extrabold text-purple-800">Your VentPal</h2>
-<p class="text-sm font-bold text-purple-600" id="profileBirdStage">Egg stage</p>
+<p class="text-xs font-extrabold uppercase tracking-widest text-purple-500">Your companion</p>
+<h1 class="mt-2 text-3xl sm:text-4xl font-black text-purple-800">Your VentPal</h1>
+<p class="mt-2 text-gray-600">Your bird, your companion, your own little personality.</p>
+<div id="profileBirdArt" class="flex items-center justify-center mt-5" aria-label="Your VentPal profile picture"></div>
+<h2 id="profileBirdName" class="text-2xl font-extrabold text-purple-800 mt-3">Your VentPal</h2>
+<p class="text-sm font-semibold text-purple-600 mt-1">Your chosen companion</p>
+</section>
+
+<section class="soft-card p-5 sm:p-7 text-center">
+<p class="text-xs font-extrabold uppercase tracking-widest text-green-600">Growing at your pace</p>
+<h2 class="text-2xl font-black text-purple-800 mt-1">Your Growth Stage</h2>
+<p class="text-sm text-gray-600 mt-2">This shows the stage your own VentPal has reached.</p>
+<div id="profileStageArt" class="flex items-center justify-center min-h-44 mt-3" aria-label="Your VentPal's current growth stage"></div>
+<p id="profileBirdStage" class="text-lg font-extrabold text-purple-700 mt-2">Egg stage</p>
+<div class="mt-4 max-w-md mx-auto">
+<div class="flex justify-between text-xs font-bold text-purple-600"><span id="profileGrowthPoints">0 growth points</span><span id="profileNextStage">Next stage</span></div>
+<div class="h-3 rounded-full bg-purple-100 overflow-hidden mt-2"><div id="profileGrowthBar" class="h-full rounded-full bg-gradient-to-r from-purple-400 to-green-400" style="width:0%"></div></div>
+</div>
 </section>
 
 <section class="soft-card p-5 sm:p-7">
@@ -47,14 +59,7 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
 <p class="text-xs text-gray-500 mt-3">Your VentPals name is your username and stays locked after setup.</p>
 </section>
 
-<section class="soft-card p-5 sm:p-7">
-<div class="flex items-center gap-3 mb-5"><span class="text-3xl">🐦</span><div><h2 class="text-xl font-black text-purple-800">Your VentPal</h2><p class="text-sm text-gray-600">The bird you chose during onboarding.</p></div></div>
-<div class="grid sm:grid-cols-2 gap-4">
-<div class="rounded-2xl bg-green-50 p-4"><p class="detail-label">Chosen companion</p><p class="detail-value mt-1" id="profileBirdDetail">—</p></div>
-<div class="rounded-2xl bg-blue-50 p-4"><p class="detail-label">Current growth stage</p><p class="detail-value mt-1" id="profileStageDetail">—</p></div>
-</div>
-<a href="bird-growth.html" class="inline-block mt-4 text-sm font-extrabold text-purple-700 underline">Explore your bird's growth →</a>
-</section>
+
 
 <section class="soft-card p-5 sm:p-7">
 <div class="flex items-center gap-3 mb-5"><span class="text-3xl">🎨</span><div><h2 class="text-xl font-black text-purple-800">Your look & choices</h2><p class="text-sm text-gray-600">The optional details you picked during setup.</p></div></div>
@@ -83,14 +88,13 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
  const stage=progress?progress.stage.name:(user.stage||'Egg');
  text('profileBirdStage',stage+' stage');
  text('profileStageDetail',stage+' stage');
- /* Profile picture: comes from the bird's character ID, never its growth stage, so it stays the same as the bird grows.
-    Files live in assets/profile-portraits/{id}.png. Fallbacks: the bird's nestling illustration, then its emoji. */
+ // The portrait is a fixed character image; the growth illustration is rendered separately from saved XP.
  (function(){
-  const bird=growth?growth.getBird():{id:user.birdId||'pebble',name:birdName,emoji:'🐦'};
-  const id=String(bird.id||user.birdId||'pebble').toLowerCase().replace(/[^a-z]/g,'');
+  const bird=growth?growth.getBird():{id:user.birdId||'aura',name:birdName,emoji:'🐦'};
+  const id=String(bird.id||user.birdId||'aura').toLowerCase().replace(/[^a-z]/g,'');
   const box=$('profileBirdArt');
   const img=document.createElement('img');
-  img.alt=birdName+' portrait';img.width=144;img.height=144;
+  img.alt=birdName+' profile picture';img.width=144;img.height=144;
   img.className='w-36 h-36 object-cover shadow-lg';img.style.borderRadius='28%';
   let step=0;
   img.onerror=function(){
@@ -100,6 +104,28 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
   };
   img.src='assets/profile-portraits/'+id+'.png';
   box.appendChild(img);
+ })();
+ (function(){
+  const art=$('profileStageArt');
+  if(growth && typeof growth.renderAvatar==='function'){
+   growth.renderAvatar(art,{height:170,bare:true});
+  } else {
+   const img=document.createElement('img');
+   const id=String(user.birdId||'aura').toLowerCase().replace(/[^a-z]/g,'');
+   const stageId=String(user.stage||'egg').toLowerCase();
+   img.src='assets/images/'+id+'-'+(stageId==='egg'?'egg':stageId)+'.png';
+   img.alt=stage+' stage';img.className='h-40 object-contain';
+   img.onerror=function(){this.replaceWith(document.createTextNode(stageId==='egg'?'🥚':'🐦'));};
+   art.appendChild(img);
+  }
+  if(progress){
+   text('profileGrowthPoints',progress.xp+' growth points');
+   text('profileNextStage',progress.next?progress.toNext+' to '+progress.next.name:'Top stage reached');
+   const bar=$('profileGrowthBar');if(bar)bar.style.width=progress.pct+'%';
+  } else {
+   text('profileGrowthPoints','0 growth points');
+   text('profileNextStage','Next stage');
+  }
  })();
  const colour=user.avatarColour||'#c084fc';
  $('profileColourSwatch').style.backgroundColor=colour;
