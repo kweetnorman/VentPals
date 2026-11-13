@@ -5,7 +5,7 @@ const zones = {
   'quiet-caves':     { name: 'Quiet Caves',     emoji: '🏔️', desc: 'A quiet space for deep thinking and peaceful reflection.' },
   'firefly-meadow':  { name: 'Firefly Meadow',  emoji: '✨', desc: 'Sparkling with hope and wonder. Come here when you feel hopeful.' },
   'sky-bridge':      { name: 'Sky Bridge',      emoji: '🌈', desc: 'Cross into new possibilities and see things from a higher view.' },
-  'sparkle-stream':  { name: 'Rainbow Stream',  emoji: '💧', desc: 'Let your worries flow away. Calm your feelings here.' },
+  'sparkle-stream':  { name: 'Sparkle Stream',  emoji: '💧', desc: 'Let your worries flow away. Calm your feelings here.' },
 };
 
 Object.entries(zones).forEach(([id, zone]) => {

@@ -142,12 +142,51 @@
       header h1{font-size:3.6rem!important}
     }
 
+    /* Mimbleton world art + life */
+    .world-map{filter:none!important;touch-action:manipulation}
+    .world-map .sway{animation:sway 5s ease-in-out infinite alternate}
+    .world-map .twinkle{animation:twinkle 3.2s ease-in-out infinite}
+    .world-map .fall{stroke-dasharray:10 14;animation:fall 1.3s linear infinite}
+    .world-map .mist{animation:mist 14s ease-in-out infinite alternate}
+    .world-map .crystal{animation:glow 3.4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+    .world-map .flyer{animation:fly 26s linear infinite;offset-rotate:0deg}
+    .world-map .bob{animation:bob 3.4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+    .world-map .mm-bird.walking .bob{animation:stepbob .42s ease-in-out infinite}
+    .world-map .mm-bird,.world-map .mm-home,.world-map .mm-glint,.world-map .map-unexplored{cursor:pointer;outline:none}
+    .world-map .mm-home .home-art{transition:transform .2s ease,filter .2s ease;transform-box:fill-box;transform-origin:50% 100%}
+    .world-map .mm-home:hover .home-art,.world-map .mm-home:focus-visible .home-art{transform:scale(1.08);filter:brightness(1.07) drop-shadow(0 0 6px #fff7b8)}
+    .world-map .mm-bird:hover .bob,.world-map .mm-bird:focus-visible .bob{filter:drop-shadow(0 0 7px #fff7b8)}
+    .world-map .mm-glint .glint-star{animation:twinkle 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;filter:drop-shadow(0 0 5px #fff3a0)}
+    .world-map .mm-glint.found .glint-star{animation:none;opacity:.75;filter:none}
+    .world-map .mm-glint:focus-visible .glint-star,.world-map .mm-home:focus-visible,.world-map .mm-bird:focus-visible{outline:none;filter:drop-shadow(0 0 9px #7958b8)}
+    .world-map .map-unexplored{transition:opacity .2s}.world-map .map-unexplored:hover{opacity:.82}
+    .world-map .map-water.w2{animation-duration:11s;animation-direction:reverse}
+    @keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+    @keyframes twinkle{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+    @keyframes fall{to{stroke-dashoffset:-48}}
+    @keyframes mist{from{transform:translateX(-14px)}to{transform:translateX(18px)}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    @keyframes stepbob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+    @keyframes fly{from{offset-distance:0%}to{offset-distance:100%}}
+    @media(prefers-reduced-motion:reduce){.world-map *{animation:none!important}}
+    #birdBubble{position:absolute;z-index:5;max-width:230px;transform:translate(-50%,-100%);background:#fffdfb;border:3px solid #cdb6ef;border-radius:18px;padding:8px 12px;font-size:13px;font-weight:800;color:#59447f;box-shadow:0 8px 20px rgba(80,55,120,.22);pointer-events:none;text-align:center}
+    #birdBubble:after{content:"";position:absolute;left:50%;bottom:-9px;width:14px;height:14px;background:#fffdfb;border-right:3px solid #cdb6ef;border-bottom:3px solid #cdb6ef;transform:translateX(-50%) rotate(45deg)}
+    #infoModal{display:none;position:fixed;inset:0;background:rgba(62,48,86,.58);backdrop-filter:blur(8px);z-index:70;align-items:center;justify-content:center;padding:18px}
+    #infoModal.open{display:flex}
+    .show-ribbon{display:inline-block;margin:0 auto 10px;padding:6px 14px;border-radius:999px;background:#ffe9a8;color:#7a5410;font-size:12px;font-weight:900;letter-spacing:.04em}
+    .device-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .device{width:210px;min-height:150px;border-radius:50% 50% 48% 52%/58% 58% 42% 42%;padding:26px 20px 22px;color:#fff;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;border:6px solid #fff;box-shadow:0 0 0 3px var(--dev,#9675d4),0 0 26px var(--dev,#9675d4),inset 0 -10px 22px rgba(0,0,0,.18);background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.55),transparent 38%),var(--dev,#9675d4);animation:devglow 3s ease-in-out infinite alternate}
+    .device small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+    .device b{font-size:17px;line-height:1.15;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+    @keyframes devglow{from{box-shadow:0 0 0 3px var(--dev,#9675d4),0 0 14px var(--dev,#9675d4),inset 0 -10px 22px rgba(0,0,0,.18)}to{box-shadow:0 0 0 3px var(--dev,#9675d4),0 0 34px var(--dev,#9675d4),inset 0 -10px 22px rgba(0,0,0,.18)}}
   </style>
 </head>
 <body class="text-slate-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
+  <script src="assets/js/mimbleton-map.js"></script>
+  <script src="assets/js/mimbleton-episodes.js"></script>
 
   <nav class="bg-white/85 backdrop-blur-xl shadow-sm sticky top-0 z-40 border-b border-white/80">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -170,147 +209,18 @@
       <p class="max-w-2xl mx-auto text-violet-900/75 text-base sm:text-lg font-semibold">One big, welcoming world. Six special places to explore. And plenty more beyond the horizon.</p>
     </header>
 
-  <div class="max-w-6xl mx-auto" style="margin-bottom:28px">
-    <img src="assets/album/social/flock-banner-2400x800.jpg" width="2400" height="800" loading="lazy" decoding="async" alt="The sixteen VentPals birds gathered together on a sunny hill" style="display:block;width:100%;height:auto;border-radius:24px;box-shadow:0 12px 32px rgba(46,26,71,.14)">
-  </div>
-
     <section id="mimbleton-map" aria-labelledby="mapHeading" class="max-w-6xl mx-auto">
       <div class="flex flex-wrap items-end justify-between gap-3 mb-3 px-1">
         <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-violet-950">Explore the world</h2><p class="text-sm text-violet-900/70 font-semibold">Choose a place on the map to see who calls it home.</p></div>
-        <span class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✦ Tap a habitat to explore</span>
+        <span class="flex flex-wrap gap-2"><span class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✦ Tap a place, a home, or a sparkle</span><span id="discCount" class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✧ Sparkles found 0</span></span>
       </div>
 
       <div class="map-frame">
-        <svg class="world-map" viewBox="0 0 1200 760" role="group" aria-labelledby="mapTitle mapDesc" xmlns="http://www.w3.org/2000/svg">
-          <title id="mapTitle">Illustrated map of Mimbleton</title>
-          <desc id="mapDesc">A connected fantasy landscape with six interactive habitats: Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, and Rainbow Stream. Select any habitat to explore its characters.</desc>
-          <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9c8ff"/><stop offset=".48" stop-color="#f2d6ff"/><stop offset="1" stop-color="#ffe5d1"/></linearGradient>
-            <linearGradient id="meadow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f6c8d9"/><stop offset=".52" stop-color="#c9b8f1"/><stop offset="1" stop-color="#91c9c4"/></linearGradient>
-            <linearGradient id="stream" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a7e9ee"/><stop offset="1" stop-color="#42b9d0"/></linearGradient>
-            <linearGradient id="cave" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7183a7"/><stop offset="1" stop-color="#343d69"/></linearGradient>
-            <linearGradient id="treeCanopy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9dd9b4"/><stop offset=".55" stop-color="#70b99b"/><stop offset="1" stop-color="#548e91"/></linearGradient>
-            <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
-            <pattern id="flowerDots" width="48" height="42" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="3" fill="#fff5c8" opacity=".8"/><circle cx="34" cy="30" r="2.5" fill="#f9c5c7" opacity=".85"/></pattern>
-          </defs>
-          <rect width="1200" height="760" fill="url(#sky)"/>
-          <circle cx="1000" cy="105" r="58" fill="#fff1b2" opacity=".92"/>
-          <circle cx="1000" cy="105" r="77" fill="#fff1b2" opacity=".2"/>
-          <g class="cloud" fill="#fff" opacity=".75"><ellipse cx="230" cy="110" rx="76" ry="23"/><ellipse cx="270" cy="96" rx="42" ry="30"/><ellipse cx="305" cy="111" rx="55" ry="20"/></g>
-          <g class="cloud" fill="#fff" opacity=".65" transform="translate(620 35) scale(.75)"><ellipse cx="230" cy="110" rx="76" ry="23"/><ellipse cx="270" cy="96" rx="42" ry="30"/><ellipse cx="305" cy="111" rx="55" ry="20"/></g>
-          <path d="M0 340 Q160 250 315 320 T630 300 T930 285 T1200 330 L1200 760H0Z" fill="#c7b4e9"/>
-          <path d="M0 455 Q160 365 350 430 T700 400 T1000 420 T1200 385 L1200 760H0Z" fill="url(#meadow)"/>
-          <path d="M0 590 Q180 530 350 575 T690 550 T1000 565 T1200 535 L1200 760H0Z" fill="#8bbeb1"/>
-          <path d="M0 600 Q180 540 350 585 T690 560 T1000 575 T1200 545 L1200 760H0Z" fill="url(#flowerDots)" opacity=".9"/>
-          <ellipse cx="600" cy="700" rx="590" ry="38" fill="#7862a8" opacity=".18" filter="url(#softShadow)"/>
-
-          <!-- distant unexplored country -->
-          <g opacity=".55">
-            <path d="M820 290 L900 160 965 252 1030 130 1120 270 1200 205V400H820Z" fill="#91b6b1"/>
-            <path d="M900 160l-20 34 20-8 15 14 15-25 25 77-60-25zM1030 130l-25 40 24-12 20 18 18-27 48 121-85-28z" fill="#f7fbec"/>
-            <text x="1040" y="315" text-anchor="middle" font-size="17" font-weight="900" fill="#416d6a" letter-spacing="3">BEYOND</text>
-          </g>
-
-          <!-- winding paths -->
-          <path class="map-path-under" d="M245 430 C300 500 410 510 505 465 S675 370 760 420 S920 495 1030 420"/>
-          <path class="map-path" d="M245 430 C300 500 410 510 505 465 S675 370 760 420 S920 495 1030 420"/>
-          <path class="map-path-under" d="M505 465 C470 365 520 280 610 245 S770 250 830 310"/>
-          <path class="map-path" d="M505 465 C470 365 520 280 610 245 S770 250 830 310"/>
-
-          <!-- nesting tree -->
-          <g class="map-hotspot" data-zone="nesting-tree" role="button" tabindex="0" aria-label="Explore Nesting Tree, home to Clover, Pebble, and Twig">
-            <ellipse class="hotspot-halo" cx="220" cy="350" rx="145" ry="150" fill="#fff4bb" opacity=".65"/>
-            <g class="zone-art">
-              <path d="M190 520 Q215 420 198 320 Q205 245 255 205 Q286 250 280 330 Q275 435 315 520Z" fill="#8b6043"/>
-              <path d="M215 380Q145 330 120 280M250 340Q325 275 350 235M215 425Q140 400 100 375" fill="none" stroke="#8b6043" stroke-width="25" stroke-linecap="round"/>
-              <g fill="url(#treeCanopy)"><circle cx="155" cy="280" r="82"/><circle cx="245" cy="235" r="105"/><circle cx="330" cy="285" r="78"/><circle cx="190" cy="350" r="80"/><circle cx="300" cy="365" r="82"/></g>
-              <g fill="#b7e59b"><circle cx="130" cy="250" r="18"/><circle cx="220" cy="180" r="17"/><circle cx="330" cy="260" r="15"/><circle cx="290" cy="330" r="17"/></g>
-              <g><path d="M165 330q24-35 48 0v34h-48z" fill="#f6d38c" stroke="#8a6547" stroke-width="5"/><path d="M160 331l29-25 29 25" fill="#c77b55" stroke="#8a6547" stroke-width="5"/><circle cx="190" cy="350" r="5" fill="#76503d"/>
-                <path d="M270 285q22-30 44 0v32h-44z" fill="#e9a8a5" stroke="#8a6547" stroke-width="4"/><path d="M266 286l26-22 26 22" fill="#9d6f91" stroke="#8a6547" stroke-width="4"/>
-                <path d="M230 425q20-28 40 0v29h-40z" fill="#e8d9a3" stroke="#8a6547" stroke-width="4"/><path d="M226 426l24-20 24 20" fill="#bf8c60" stroke="#8a6547" stroke-width="4"/></g>
-              <g fill="#f4c96c"><circle cx="112" cy="340" r="7"/><circle cx="345" cy="375" r="7"/><circle cx="145" cy="420" r="6"/></g>
-            </g>
-            <g class="hotspot-label"><rect x="95" y="535" width="260" height="48" rx="24" fill="#fffaf0" stroke="#74aa70" stroke-width="3"/><text x="225" y="566" text-anchor="middle" font-size="23" fill="#315f48">Nesting Tree</text></g>
-          </g>
-
-          <!-- feelings forest -->
-          <g class="map-hotspot" data-zone="feelings-forest" role="button" tabindex="0" aria-label="Explore Feelings Forest, home to Aura, Breezy, and Flicker">
-            <ellipse class="hotspot-halo" cx="490" cy="270" rx="155" ry="135" fill="#fff4bb" opacity=".62"/>
-            <g class="zone-art">
-              <g><path d="M395 405V235" stroke="#76553e" stroke-width="24" stroke-linecap="round"/><path d="M395 260l-30-50M395 300l45-55" stroke="#76553e" stroke-width="12" stroke-linecap="round"/><circle cx="395" cy="220" r="68" fill="#388d69"/><circle cx="350" cy="250" r="48" fill="#58a978"/><circle cx="440" cy="250" r="48" fill="#4d9b70"/></g>
-              <g><path d="M505 410V200" stroke="#76553e" stroke-width="28" stroke-linecap="round"/><circle cx="505" cy="195" r="83" fill="#2f805f"/><circle cx="455" cy="235" r="52" fill="#47996c"/><circle cx="560" cy="245" r="55" fill="#63ad77"/></g>
-              <g><path d="M610 400V250" stroke="#76553e" stroke-width="20" stroke-linecap="round"/><circle cx="610" cy="235" r="64" fill="#4b9867"/><circle cx="570" cy="260" r="42" fill="#71b77c"/></g>
-              <g fill="#f7d67c"><circle cx="350" cy="355" r="8"/><circle cx="470" cy="385" r="7"/><circle cx="565" cy="350" r="8"/></g>
-              <g fill="#f4b6bf"><circle cx="375" cy="375" r="6"/><circle cx="540" cy="390" r="6"/><circle cx="620" cy="360" r="6"/></g>
-            </g>
-            <g class="hotspot-label"><rect x="365" y="430" width="250" height="48" rx="24" fill="#fffaf0" stroke="#5d9f79" stroke-width="3"/><text x="490" y="461" text-anchor="middle" font-size="23" fill="#315f48">Feelings Forest</text></g>
-          </g>
-
-          <!-- quiet caves -->
-          <g class="map-hotspot" data-zone="quiet-caves" role="button" tabindex="0" aria-label="Explore Quiet Caves, home to Drift, Echo, Sable, and Lumen">
-            <ellipse class="hotspot-halo" cx="860" cy="480" rx="155" ry="130" fill="#d9dcff" opacity=".65"/>
-            <g class="zone-art">
-              <path d="M705 560 Q715 405 805 370 Q855 325 920 380 Q1000 405 1015 560Z" fill="#59658e"/>
-              <path d="M735 560 Q750 430 815 415 Q875 365 930 425 Q980 445 990 560Z" fill="url(#cave)"/>
-              <path d="M800 560 Q810 460 860 450 Q915 465 925 560Z" fill="#202c55"/>
-              <path d="M755 540Q780 510 805 540T855 540T905 540T955 540" fill="none" stroke="#79d9dc" stroke-width="9" stroke-linecap="round"/>
-              <ellipse cx="860" cy="550" rx="112" ry="18" fill="#54bfc7" opacity=".7"/>
-              <g fill="#a8eff0"><circle cx="790" cy="465" r="7"/><circle cx="930" cy="470" r="6"/><circle cx="870" cy="425" r="5"/></g>
-              <g fill="#f8d889"><path d="M745 560l18-42 18 42z"/><path d="M950 560l14-35 14 35z"/></g>
-            </g>
-            <g class="hotspot-label"><rect x="740" y="590" width="240" height="48" rx="24" fill="#fffaf0" stroke="#7987bb" stroke-width="3"/><text x="860" y="621" text-anchor="middle" font-size="23" fill="#3f4e7b">Quiet Caves</text></g>
-          </g>
-
-          <!-- firefly meadow -->
-          <g class="map-hotspot" data-zone="firefly-meadow" role="button" tabindex="0" aria-label="Explore Firefly Meadow, home to Flamez, Flare, and Solace">
-            <ellipse class="hotspot-halo" cx="675" cy="590" rx="175" ry="105" fill="#fff0b4" opacity=".55"/>
-            <g class="zone-art">
-              <path d="M500 620Q570 545 650 580T820 585T900 620" fill="none" stroke="#7dbb71" stroke-width="18" stroke-linecap="round"/>
-              <g stroke="#43875e" stroke-width="5" stroke-linecap="round"><path d="M570 625v-55m0 25l-15-12m15 20l17-16"/><path d="M650 620v-65m0 30l-15-13m15 23l18-18"/><path d="M740 625v-52m0 22l-14-12m14 18l15-14"/><path d="M820 625v-58m0 25l-14-13m14 20l18-16"/></g>
-              <g fill="#f6d06d"><circle cx="570" cy="565" r="10"/><circle cx="650" cy="555" r="10"/><circle cx="740" cy="573" r="9"/><circle cx="820" cy="567" r="10"/></g>
-              <g class="firefly" fill="#fff2a1"><circle cx="550" cy="510" r="7"/><circle cx="720" cy="500" r="8"/><circle cx="790" cy="535" r="6"/><circle cx="610" cy="530" r="5"/><circle cx="850" cy="505" r="7"/></g>
-              <g fill="#fff4d4"><circle cx="585" cy="600" r="5"/><circle cx="685" cy="610" r="5"/><circle cx="770" cy="600" r="5"/></g>
-            </g>
-            <g class="hotspot-label"><rect x="550" y="655" width="250" height="48" rx="24" fill="#fffaf0" stroke="#d7ae55" stroke-width="3"/><text x="675" y="686" text-anchor="middle" font-size="23" fill="#805b28">Firefly Meadow</text></g>
-          </g>
-
-          <!-- sky bridge -->
-          <g class="map-hotspot" data-zone="sky-bridge" role="button" tabindex="0" aria-label="Explore Sky Bridge, home to Nova and Guardian">
-            <ellipse class="hotspot-halo" cx="800" cy="190" rx="175" ry="115" fill="#fff4bb" opacity=".62"/>
-            <g class="zone-art">
-              <path d="M680 310Q800 115 930 300" fill="none" stroke="#d4a96e" stroke-width="48" stroke-linecap="round"/>
-              <path d="M680 310Q800 115 930 300" fill="none" stroke="#fff0c2" stroke-width="30" stroke-linecap="round"/>
-              <path d="M690 300Q800 145 920 292" fill="none" stroke="#f7c96e" stroke-width="7" stroke-linecap="round"/>
-              <path d="M690 310v50M735 260v50M780 220v50M825 220v50M870 255v50M920 310v50" stroke="#a97c54" stroke-width="9" stroke-linecap="round"/>
-              <g fill="#f7f5e7"><ellipse cx="690" cy="330" rx="65" ry="18"/><ellipse cx="930" cy="330" rx="70" ry="20"/></g>
-              <g fill="#7bb58b"><path d="M660 335l35-70 35 70z"/><path d="M895 335l40-85 40 85z"/></g>
-              <g fill="#fff"><circle cx="730" cy="145" r="5"/><circle cx="860" cy="155" r="5"/><circle cx="820" cy="110" r="4"/></g>
-            </g>
-            <g class="hotspot-label"><rect x="700" y="65" width="200" height="48" rx="24" fill="#fffaf0" stroke="#82b9cb" stroke-width="3"/><text x="800" y="96" text-anchor="middle" font-size="23" fill="#356b82">Sky Bridge</text></g>
-          </g>
-
-          <!-- rainbow stream -->
-          <g class="map-hotspot" data-zone="sparkle-stream" role="button" tabindex="0" aria-label="Explore Rainbow Stream, home to Cove">
-            <ellipse class="hotspot-halo" cx="1080" cy="475" rx="115" ry="150" fill="#c9f5f5" opacity=".65"/>
-            <g class="zone-art">
-              <path d="M1120 320C1035 390 1170 430 1075 500S1085 615 1015 680" fill="none" stroke="#238fb0" stroke-width="72" stroke-linecap="round"/>
-              <path class="map-water" d="M1120 320C1035 390 1170 430 1075 500S1085 615 1015 680" fill="none" stroke="url(#stream)" stroke-width="58" stroke-linecap="round"/>
-              <path d="M1110 335C1050 395 1150 430 1065 505S1080 610 1015 670" fill="none" stroke="#e2ffff" stroke-width="7" stroke-linecap="round" opacity=".85"/>
-              <g fill="#fff" opacity=".9"><ellipse cx="1080" cy="405" rx="13" ry="5" transform="rotate(24 1080 405)"/><ellipse cx="1090" cy="535" rx="12" ry="5" transform="rotate(-28 1090 535)"/><ellipse cx="1040" cy="620" rx="11" ry="4" transform="rotate(28 1040 620)"/></g>
-              <g fill="#f7d978"><circle cx="1000" cy="445" r="8"/><circle cx="1145" cy="560" r="7"/></g>
-              <g fill="#4d986f"><path d="M970 470q-20-40 0-55q22 23 0 55M1160 640q-20-40 0-55q22 23 0 55"/></g>
-            </g>
-            <g class="hotspot-label"><rect x="955" y="245" width="250" height="48" rx="24" fill="#fffaf0" stroke="#62b7c5" stroke-width="3"/><text x="1080" y="276" text-anchor="middle" font-size="23" fill="#286b7d">Rainbow Stream</text></g>
-          </g>
-
-          <!-- little environmental details -->
-          <g fill="#fff6d0" opacity=".95"><circle cx="390" cy="520" r="5"/><circle cx="420" cy="545" r="4"/><circle cx="465" cy="565" r="5"/><circle cx="925" cy="355" r="4"/><circle cx="950" cy="375" r="5"/></g>
-          <g fill="#fff" opacity=".9"><path d="M70 660q12-20 24 0q-12 15-24 0z"/><path d="M425 690q10-18 20 0q-10 14-20 0z"/></g>
-          <g transform="translate(35 35)"><rect width="180" height="42" rx="21" fill="#fffaf0" opacity=".9"/><text x="90" y="27" text-anchor="middle" font-size="17" font-weight="900" fill="#426b59" letter-spacing="1.5">THE HEART OF MIMBLETON</text></g>
-        </svg>
+        <svg class="world-map" viewBox="0 0 1600 1000" role="group" aria-label="Illustrated map of Mimbleton: a connected world with six places to explore, Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge and Sparkle Stream, and sparkles to discover." xmlns="http://www.w3.org/2000/svg"></svg>
+        <div id="birdBubble" role="status" aria-live="polite" hidden></div>
       </div>
       <div class="flex flex-wrap items-center justify-between gap-2 mt-3 px-1 text-xs sm:text-sm text-violet-900/70 font-bold">
-        <span>✦ Six habitats • One connected world</span><span>More of Mimbleton waits beyond the horizon →</span>
+        <span>✦ Six habitats • One connected world • The Sparkle Stream flows through all of it</span><span>Misty places wait to be explored →</span>
       </div>
     </section>
 
@@ -326,6 +236,7 @@
     <div class="panel-card bg-[#fffdf6] rounded-[2rem] shadow-2xl p-7 sm:p-9 max-w-lg w-full text-center relative">
       <button id="panelClose" type="button" aria-label="Close habitat details" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-emerald-50 text-violet-900 text-2xl font-bold hover:bg-emerald-100">×</button>
       <div id="panelEmoji" class="text-6xl mb-3" aria-hidden="true">🌎</div>
+      <p id="showRibbon" class="show-ribbon" hidden></p>
       <p class="text-xs uppercase tracking-[.22em] text-violet-700 font-black mb-1">A place in Mimbleton</p>
       <h2 id="panelName" class="text-3xl font-black text-violet-950 mb-2"></h2>
       <p id="panelDesc" class="text-violet-900/75 font-semibold text-sm mb-4"></p>
@@ -346,6 +257,19 @@
         <a id="panelAction" href="nest.html" class="block bg-violet-600 hover:bg-violet-700 text-white font-black py-3 rounded-full shadow-md">Explore this habitat</a>
         <button id="panelBack" type="button" class="block bg-emerald-50 hover:bg-emerald-100 text-violet-900 font-extrabold py-3 rounded-full">Back to Mimbleton</button>
       </div>
+    </div>
+  </div>
+
+  <div id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+    <div class="panel-card bg-[#fffdf6] rounded-[2rem] shadow-2xl p-7 sm:p-8 max-w-md w-full text-center relative">
+      <button id="infoClose" type="button" aria-label="Close" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-emerald-50 text-violet-900 text-2xl font-bold hover:bg-emerald-100">×</button>
+      <p id="infoShow" class="show-ribbon" hidden></p>
+      <div id="infoArt" class="mb-2" aria-hidden="true"></div>
+      <p id="infoKicker" class="text-xs uppercase tracking-[.22em] text-violet-700 font-black mb-1"></p>
+      <h2 id="infoTitle" class="text-2xl font-black text-violet-950 mb-2"></h2>
+      <p id="infoBody" class="text-violet-900/80 font-semibold text-sm mb-4"></p>
+      <div id="infoDevice" class="device-wrap" hidden></div>
+      <div id="infoActions" class="flex flex-col gap-2 mt-4"></div>
     </div>
   </div>
 
@@ -414,16 +338,16 @@
         action:{label:'Practice Calming Skills',href:'calming-skills.html'}
       },
       {
-        id:'sparkle-stream',name:'Rainbow Stream',emoji:'💧',tone:'from-cyan-100 to-sky-50',edge:'border-cyan-300',
+        id:'sparkle-stream',name:'Sparkle Stream',emoji:'💧',tone:'from-cyan-100 to-sky-50',edge:'border-cyan-300',
         feeling:'Follow the water, notice its rhythm, and explore at whatever pace feels comfortable.',
-        desc:'Clear water winds through the lower valley, passing smooth stones, little cascades, and quiet banks. The Rainbow Stream keeps a colorful record of your journey—bugs discovered and used, growth points earned, and feathers collected or spent.',
+        desc:'Clear water winds through the lower valley, passing smooth stones, little cascades, and quiet banks. The Sparkle Stream keeps a colorful record of your journey—bugs discovered and used, growth points earned, and feathers collected or spent.',
         residents:['Cove'],
         discoveries:[
           {name:'Ripple Bend',detail:'A gentle curve in the stream where tiny ripples catch the sunlight.'},
           {name:'Pebblebank',detail:'A smooth stretch of shore filled with rounded stones in different shapes and colors.'},
           {name:'Waterfall Steps',detail:'A series of small cascades that make a soft, steady sound as the water travels downstream.'}
         ],
-        action:{label:'Visit Your Rainbow Stream',href:'rainbow-stream.html'}
+        action:{label:'Visit Your Sparkle Stream',href:'sparkle-stream.html'}
       }
     ];
 
@@ -518,7 +442,12 @@
           const description=document.createElement('p');
           description.className='text-sm text-violet-900/80 font-semibold';
           description.textContent=home.description;
-          homeDetail.append(heading,description);
+          const visit=document.createElement('button');
+          visit.type='button';
+          visit.className='mt-3 inline-flex rounded-full bg-violet-600 text-white font-black text-xs py-2 px-4 hover:bg-violet-700';
+          visit.textContent='Step inside '+name+'’s home →';
+          visit.addEventListener('click',function(){openHome(name,visit);});
+          homeDetail.append(heading,description,visit);
           homeDetail.hidden=false;
         });
         homes.appendChild(tile);
@@ -548,11 +477,154 @@
       grid.appendChild(card);
     });
 
+    /* ───── devices, bird voices, discoveries ───── */
+    const DEVICE_KIND='Glow Stone'; // the birds' playful gadget; rename here and it changes everywhere
+    const DEVICES={
+      Clover:{color:'#6fbf73',tool:'Your Nest',href:'nest.html',say:'Tap my stone and your whole nest lights up.'},
+      Pebble:{color:'#8d9bb5',tool:'Grounding',href:'grounding.html',say:'My stone helps me feel my feet on the ground.'},
+      Twig:{color:'#8bc34a',tool:'Grow Your Bird',href:'bird-growth.html',say:'Mine shows how much I have grown. Slowly, then suddenly!'},
+      Aura:{color:'#f48fb1',tool:'Start With a Feeling',href:'start-with-a-feeling.html',say:'My stone glows the color of whatever I feel.'},
+      Breezy:{color:'#4dd0e1',tool:'Breathing',href:'breathing.html',say:'It hums when I breathe in slow. Try it with me.'},
+      Flicker:{color:'#ffd54f',tool:'Feeling Reflection',href:'feeling-reflection.html',say:'I use mine to look back at my day.'},
+      Drift:{color:'#7986cb',tool:'Water Break',href:'water.html',say:'My stone ripples like still water. Sip, then settle.'},
+      Echo:{color:'#9575cd',tool:'Calming Skills',href:'calming-skills.html',say:'It echoes back the kind things I whisper.'},
+      Sable:{color:'#5c6bc0',tool:'Butterfly Hug',href:'butterfly-hug.html',say:'Mine glows when I hug myself softly. Want to try?'},
+      Lumen:{color:'#80deea',tool:'Rewards',href:'rewards.html',say:'My stone sparkles for every brave little step.'},
+      Flamez:{color:'#ff8a65',tool:'Feed Your Bird',href:'bird-growth.html#feed',say:'It warms up when someone is hungry. Feed time!'},
+      Flare:{color:'#ffb74d',tool:'Closet',href:'closet.html',say:'My stone shows what I want to wear today.'},
+      Solace:{color:'#81c784',tool:'Grounding',href:'grounding.html',say:'It glows softly when I name five things I can see.'},
+      Nova:{color:'#64b5f6',tool:'Build Your Avatar',href:'avatar-customization.html',say:'Mine draws a brand new me every morning.'},
+      Guardian:{color:'#7e8fb8',tool:'Your Connections',href:'nest-connections.html',say:'My stone checks that everyone has someone.'},
+      Cove:{color:'#4fc3d9',tool:'Sparkle Stream',href:'sparkle-stream.html',say:'It keeps every bug, point and feather I find.'}
+    };
+    const VOICE={Clover:'Welcome! There is always room at the Nesting Tree.',Pebble:'Slow and steady is still moving.',Twig:'I am small today, but I am growing.',Aura:'What color is your feeling right now?',Breezy:'Take a big breath. Whoosh!',Flicker:'Every day has a little spark in it.',Drift:'It is okay to float for a while.',Echo:'Hello... hello... you are heard.',Sable:'Quiet is a good place to rest.',Lumen:'Look closer. There is light in there.',Flamez:'Big feelings are just big energy!',Flare:'Today feels like a fresh start!',Solace:'You can catch your breath here.',Nova:'The view from up here is big and kind.',Guardian:'I am watching over the whole valley. You are safe.',Cove:'Follow the water. It knows the way.'};
+    const FOUND_KEY='ventpals_world_found';
+    function loadFound(){try{return JSON.parse(localStorage.getItem(FOUND_KEY))||{};}catch(e){return {};}}
+    const found=loadFound();
+    function saveFound(){try{localStorage.setItem(FOUND_KEY,JSON.stringify(found));}catch(e){}}
+    const cap=function(n){return n.charAt(0).toUpperCase()+n.slice(1);};
+    const idToName={};Object.keys(HOME_DETAILS).forEach(function(n){idToName[HOME_DETAILS[n].id]=n;});
+
+    const info=document.getElementById('infoModal');
+    let infoTrigger=null;
+    function showInfo(o,trigger){
+      infoTrigger=trigger||document.activeElement;
+      document.getElementById('infoKicker').textContent=o.kicker||'';
+      document.getElementById('infoTitle').textContent=o.title||'';
+      document.getElementById('infoBody').textContent=o.body||'';
+      const art=document.getElementById('infoArt');art.replaceChildren();
+      if(o.img){const im=document.createElement('img');im.src=o.img;im.alt='';im.className='mx-auto h-28 object-contain';im.style.cssText='height:112px;width:auto;margin:0 auto;display:block';im.onerror=function(){im.remove();};art.appendChild(im);}
+      else if(o.emoji){art.textContent=o.emoji;art.className='text-5xl mb-2';}
+      const ribbon=document.getElementById('infoShow');
+      if(o.show){ribbon.textContent=o.show;ribbon.hidden=false;}else ribbon.hidden=true;
+      const dev=document.getElementById('infoDevice');dev.replaceChildren();dev.hidden=!o.device;
+      if(o.device){
+        const d=document.createElement('div');d.className='device';d.style.setProperty('--dev',o.device.color);
+        d.innerHTML='<small></small><b></b>';
+        d.querySelector('small').textContent=DEVICE_KIND;
+        d.querySelector('b').textContent=o.device.tool;
+        const say=document.createElement('p');say.className='text-xs text-violet-900/75 font-bold italic max-w-xs';say.textContent='“'+o.device.say+'”';
+        dev.append(d,say);
+      }
+      const acts=document.getElementById('infoActions');acts.replaceChildren();
+      (o.actions||[]).forEach(function(a){
+        const l=document.createElement('a');l.href=a.href;l.textContent=a.label;
+        if(a.external){l.target='_blank';l.rel='noopener';}
+        l.className=a.secondary?'block bg-emerald-50 hover:bg-emerald-100 text-violet-900 font-extrabold py-3 rounded-full':'block bg-violet-600 hover:bg-violet-700 text-white font-black py-3 rounded-full shadow-md';
+        acts.appendChild(l);
+      });
+      const done=document.createElement('button');done.type='button';done.textContent=o.closeLabel||'Back to Mimbleton';
+      done.className='block bg-emerald-50 hover:bg-emerald-100 text-violet-900 font-extrabold py-3 rounded-full';
+      done.addEventListener('click',closeInfo);acts.appendChild(done);
+      info.classList.add('open');document.body.style.overflow='hidden';
+      document.getElementById('infoClose').focus();
+    }
+    function closeInfo(){
+      info.classList.remove('open');
+      if(!panel.classList.contains('open'))document.body.style.overflow='';
+      if(infoTrigger&&typeof infoTrigger.focus==='function')infoTrigger.focus();
+    }
+    function episodeFor(key,val){return (window.VP_EPISODES||[]).find(function(e){return e[key]===val;});}
+    function openHome(name,trigger,ep){
+      const h=HOME_DETAILS[name];if(!h)return;
+      ep=ep||episodeFor('home',h.id);
+      const actions=[];
+      if(ep&&ep.youtube)actions.push({label:'Watch the episode ▶',href:ep.youtube,external:true,secondary:true});
+      const zone=ZONES.find(function(z){return z.residents.indexOf(name)>-1;});
+      showInfo({kicker:(zone?zone.name+' · ':'')+'A home in Mimbleton',title:name+'’s home',img:'assets/images/'+h.id+'-nestling.png',
+        body:h.style+'. '+h.description+' '+name+' says: “'+VOICE[name]+'”',device:DEVICES[name],
+        show:ep?'From the show: '+ep.title:'',
+        actions:DEVICES[name]?[{label:'Try it: '+DEVICES[name].tool+' →',href:DEVICES[name].href}].concat(actions):actions},trigger);
+    }
+    function updateCount(){
+      const n=Object.keys(found).length,total=ctrl.discoveryCount();
+      document.getElementById('discCount').textContent='✧ Sparkles found '+Math.min(n,total)+' of '+total;
+    }
+
+    /* ───── mount the world ───── */
+    const mapSvg=document.querySelector('.world-map');
+    let bubbleTimer=0;
+    const bubble=document.getElementById('birdBubble');
+    const ctrl=window.MimbletonMap.mount(mapSvg,{
+      found:found,
+      onHome:function(bird,g){openHome(cap(bird),g);},
+      onBird:function(bird,g){
+        const b=ctrl.birds[bird];if(!b)return;
+        const pt=ctrl.pointOf(b.x,b.y-70),fr=mapSvg.parentNode.getBoundingClientRect();
+        bubble.textContent=cap(bird)+': '+VOICE[cap(bird)];
+        bubble.style.left=Math.max(120,Math.min(fr.width-120,pt.x-fr.left))+'px';
+        bubble.style.top=Math.max(60,pt.y-fr.top)+'px';
+        bubble.hidden=false;clearTimeout(bubbleTimer);bubbleTimer=setTimeout(function(){bubble.hidden=true;},4200);
+      },
+      onDiscovery:function(d,g){
+        const first=!found[d.id];found[d.id]=true;saveFound();ctrl.markFound(d.id);updateCount();
+        const z=ZONES.find(function(x){return x.id===d.zone;});
+        if(d.hidden){
+          showInfo({kicker:(z?z.name:'')+' · A hidden sparkle',emoji:'✨',title:d.hidden.name,body:d.hidden.text,actions:d.hidden.action?[d.hidden.action]:[]},g);
+        }else{
+          const p=z&&z.discoveries[d.index];
+          showInfo({kicker:(z?z.name:'')+' · '+(first?'You found a place!':'A place you found'),emoji:z?z.emoji:'✨',title:p?p.name:'A little discovery',body:p?p.detail:'',actions:z?[{label:z.action.label+' →',href:z.action.href}]:[]},g);
+        }
+      },
+      onUnexplored:function(u,g){showInfo({kicker:'Not explored yet',emoji:'🌫️',title:u.label.length>1?u.label+' Mountains':'A misty place',body:u.teaser},g);}
+    });
+    updateCount();
+
     document.querySelectorAll('.map-hotspot').forEach(function(hotspot){
       function activate(){const zone=ZONES.find(function(item){return item.id===hotspot.dataset.zone;});if(zone)openPanel(zone,hotspot);}
       hotspot.addEventListener('click',activate);
       hotspot.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});
     });
+
+    document.getElementById('infoClose').addEventListener('click',closeInfo);
+    info.addEventListener('click',function(e){if(e.target===info)closeInfo();});
+    document.addEventListener('keydown',function(event){
+      if(!info.classList.contains('open'))return;
+      if(event.key==='Escape'){event.stopImmediatePropagation();closeInfo();return;}
+      if(event.key==='Tab'){
+        const f=Array.from(info.querySelectorAll('a[href],button:not([disabled])')).filter(function(el){return el.offsetParent!==null;});
+        if(!f.length)return;
+        if(event.shiftKey&&document.activeElement===f[0]){event.preventDefault();f[f.length-1].focus();}
+        else if(!event.shiftKey&&document.activeElement===f[f.length-1]){event.preventDefault();f[0].focus();}
+        event.stopImmediatePropagation();
+      }
+    },true);
+
+    /* ───── from the show: ?episode=<id>, ?place=<habitat>, ?home=<bird> ───── */
+    (function(){
+      const q=new URLSearchParams(location.search);
+      const ep=q.get('episode')?(window.VP_EPISODES||[]).find(function(e){return e.id===q.get('episode');}):null;
+      const placeId=q.get('place')||(ep&&ep.place),homeId=q.get('home')||(ep&&ep.home);
+      const zone=ZONES.find(function(z){return z.id===placeId;});
+      if(homeId&&idToName[homeId]){setTimeout(function(){openHome(idToName[homeId],null,ep);},350);}
+      else if(zone){
+        setTimeout(function(){
+          openPanel(zone,null);
+          if(ep){const r=document.getElementById('showRibbon');r.textContent='From the show: '+ep.title;r.hidden=false;}
+          if(ctrl.focusZone)ctrl.focusZone(zone.id);
+        },350);
+      }
+    })();
 
     document.getElementById('panelClose').addEventListener('click',closePanel);
     document.getElementById('panelBack').addEventListener('click',closePanel);

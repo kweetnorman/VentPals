@@ -181,7 +181,7 @@
       });
       var oldBugCount = BUG_ORDER.reduce(function(n,b){return n+(s.bugs[b]||0)+(s.fed[b]||0);},0);
       if (s.xp || oldBugCount || s.feathers.earned || s.feathers.spent) {
-        s.rainbowEvents.push({ id:'legacy-summary', kind:'history', label:'Your journey was already growing!', icon:'🌈', amount:0, detail:s.xp+' growth points · '+oldBugCount+' bugs discovered · '+s.feathers.earned+' feathers earned · '+s.feathers.spent+' feathers spent before Rainbow Stream began', ts:Date.now() });
+        s.rainbowEvents.push({ id:'legacy-summary', kind:'history', label:'Your journey was already growing!', icon:'🌈', amount:0, detail:s.xp+' growth points · '+oldBugCount+' bugs discovered · '+s.feathers.earned+' feathers earned · '+s.feathers.spent+' feathers spent before Sparkle Stream began', ts:Date.now() });
       }
       s.rainbowMigrated = true;
       writeJSON(GROWTH_KEY, s);
@@ -247,7 +247,7 @@
     s.log = s.log.concat([{ t: Date.now(), id: id, label: label, bug: extra && extra.bug, fed: extra && extra.fed }]).slice(-30);
   }
 
-  // Rainbow Stream is the append-only child-facing record of earned and used items.
+  // Sparkle Stream is the append-only child-facing record of earned and used items.
   function addRainbowEvent(s, kind, label, icon, amount, detail) {
     s.rainbowEvents.push({ id: 'rs-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7), kind: kind, label: label, icon: icon || '🌈', amount: amount || 0, detail: detail || '', ts: Date.now() });
   }
