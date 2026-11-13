@@ -90,6 +90,25 @@
       </button>
     </div>
 
+    <!-- YOUR REFLECTION JOURNAL -->
+    <section id="reflectionJournal" class="bg-white/90 rounded-3xl shadow p-6 space-y-4">
+      <div class="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <p class="text-xs font-extrabold uppercase tracking-wider text-purple-500">Your story, in your words</p>
+          <h2 class="text-xl font-bold text-purple-800 mt-1">📖 My Reflection Journal</h2>
+          <p class="text-sm text-gray-600 mt-1">Come back anytime to reread what you wrote and notice what has changed—or what you understand differently now.</p>
+        </div>
+        <span id="reflectionCount" class="text-xs font-bold rounded-full bg-purple-100 text-purple-700 px-3 py-2">0 saved reflections</span>
+      </div>
+      <div id="reflectionHistory" class="space-y-3" aria-live="polite"></div>
+      <div id="reflectionEmpty" class="rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/70 p-5 text-center">
+        <div class="text-3xl mb-2">🌱</div>
+        <p class="font-bold text-purple-800">Your journal is waiting for its first page.</p>
+        <p class="text-sm text-gray-600 mt-1">When you save a reflection, it will appear here so you can revisit it later.</p>
+      </div>
+      <p class="text-xs text-gray-500">Your reflections are for you. In this demo, they stay in this browser on this device and are not a secure cloud account.</p>
+    </section>
+
     <!-- WHAT NEXT -->
     <div class="bg-white rounded-3xl shadow p-6 space-y-4">
       <h2 class="text-xl font-semibold text-purple-700">What would you like to do next?</h2>
@@ -112,41 +131,92 @@
     VentPals • The Journey of Growing Up.
   </footer>
 
-  <!-- SCRIPT: Inject feeling name + emoji from URL params, save reflection -->
+  <!-- REFLECTION JOURNAL: private history for looking back and noticing growth -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const feeling = params.get("feeling");
-    const emoji = params.get("emoji");
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const feeling = params.get("feeling");
+      const emoji = params.get("emoji");
+      const input = document.getElementById("reflectionInput");
+      const saveButton = document.getElementById("saveReflection");
+      const history = document.getElementById("reflectionHistory");
+      const emptyState = document.getElementById("reflectionEmpty");
+      const count = document.getElementById("reflectionCount");
+      const status = document.getElementById("reflectionStatus");
 
-    if (feeling) {
-      document.getElementById("feelingName").textContent = feeling;
-    }
-    if (emoji) {
-      document.getElementById("feelingEmoji").textContent = emoji;
-    }
+      if (feeling) document.getElementById("feelingName").textContent = feeling;
+      if (emoji) document.getElementById("feelingEmoji").textContent = emoji;
 
-    document.getElementById("saveReflection").addEventListener("click", () => {
-      const text = document.getElementById("reflectionInput").value.trim();
-      if (!text) return;
+      function readReflections() {
+        try {
+          const saved = JSON.parse(localStorage.getItem("ventpals_reflections") || "[]");
+          return Array.isArray(saved) ? saved.filter(item => item && typeof item.text === "string") : [];
+        } catch (error) {
+          return [];
+        }
+      }
 
-      const reflections = JSON.parse(localStorage.getItem("ventpals_reflections") || "[]");
-      reflections.unshift({
-        text,
-        feeling: params.get("feeling") || "Unnamed",
-        emoji:   params.get("emoji")   || "💛",
-        date:    new Date().toISOString()
+      function formatDate(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "Date not available";
+        return date.toLocaleString(undefined, {
+          month: "long", day: "numeric", year: "numeric",
+          hour: "numeric", minute: "2-digit"
+        });
+      }
+
+      function renderHistory() {
+        const reflections = readReflections();
+        history.replaceChildren();
+        count.textContent = reflections.length + (reflections.length === 1 ? " saved reflection" : " saved reflections");
+        emptyState.classList.toggle("hidden", reflections.length > 0);
+
+        reflections.forEach(entry => {
+          const card = document.createElement("article");
+          card.className = "rounded-2xl border border-purple-100 bg-white/90 p-4 sm:p-5 shadow-sm";
+
+          const top = document.createElement("div");
+          top.className = "flex items-start justify-between gap-3 flex-wrap";
+          const feelingLabel = document.createElement("p");
+          feelingLabel.className = "font-extrabold text-purple-800";
+          feelingLabel.textContent = (entry.emoji || "💛") + " " + (entry.feeling || "A reflection");
+          const dateLabel = document.createElement("time");
+          dateLabel.className = "text-xs text-gray-500";
+          dateLabel.textContent = formatDate(entry.date);
+          if (entry.date) dateLabel.dateTime = entry.date;
+          top.append(feelingLabel, dateLabel);
+
+          const body = document.createElement("p");
+          body.className = "mt-3 text-sm leading-relaxed text-gray-700 whitespace-pre-wrap break-words";
+          body.textContent = entry.text;
+
+          card.append(top, body);
+          history.appendChild(card);
+        });
+      }
+
+      saveButton.addEventListener("click", () => {
+        const text = input.value.trim();
+        if (!text) {
+          status.textContent = "Write a little something first. It can be just a few words.";
+          input.focus();
+          return;
+        }
+
+        const reflections = readReflections();
+        reflections.unshift({
+          text,
+          feeling: feeling || "A reflection",
+          emoji: emoji || "💛",
+          date: new Date().toISOString()
+        });
+        localStorage.setItem("ventpals_reflections", JSON.stringify(reflections));
+        status.textContent = "Saved in your Reflection Journal ✓ You can come back and read it whenever you want.";
+        renderHistory();
       });
-      localStorage.setItem("ventpals_reflections", JSON.stringify(reflections));
 
-      const btn = document.getElementById("saveReflection");
-      const original = btn.textContent;
-      btn.textContent = "Saved ✓";
-      btn.style.background = "#16a34a";
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.style.background = "";
-      }, 2000);
-    });
+      renderHistory();
+    })();
   </script>
 
 </body>
