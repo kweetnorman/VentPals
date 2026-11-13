@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;font-family:Poppins,system-ui,sans-serif;color:#38264f;background:radial-gradient(circle at 15% 10%,#fff 0,transparent 30%),linear-gradient(135deg,#f4eaff,#effaf2 58%,#fff7df)}
-.wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:18px}.mark{font-size:54px;animation:float 3s ease-in-out infinite}.brand h1{font-size:32px;margin:0;color:#7549b3}.brand p{margin:4px 0;color:#716780;font-size:14px}
+.wrap{width:min(100%,470px)}.brand{text-align:center;margin-bottom:18px}.mark{width:104px;height:104px;object-fit:contain;display:block;margin:0 auto 8px;animation:float 3s ease-in-out infinite}.brand h1{font-size:32px;margin:0;color:#7549b3}.brand p{margin:4px 0;color:#716780;font-size:14px}
 .card{background:#ffffffed;border:1px solid #e9def6;border-radius:28px;padding:26px;box-shadow:0 18px 55px #49336a18}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#f4effa;padding:5px;border-radius:16px;margin-bottom:22px}.switch button{border:0;border-radius:12px;padding:11px 8px;background:transparent;color:#705d86;font:700 13px Poppins;cursor:pointer}.switch button.active{background:#fff;color:#7044ad;box-shadow:0 3px 12px #49336a16}
 h2{margin:0 0 6px;font-size:23px;color:#563b7c;text-align:center}.lead{text-align:center;color:#786e84;font-size:13px;line-height:1.6;margin:0 0 22px}
 label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6px}input{width:100%;padding:13px 14px;border:2px solid #e5d9f2;border-radius:13px;font:500 15px Poppins;color:#39294e}input:focus{outline:3px solid #a78bfa40;border-color:#9b75cc}.hint{font-size:11px;color:#847a90;margin-top:5px}
@@ -15,7 +15,7 @@ label{display:block;font-size:13px;font-weight:700;color:#5b4776;margin:14px 0 6
 @keyframes float{50%{transform:translateY(-6px)}}@media(prefers-reduced-motion:reduce){.mark{animation:none}}
 </style><link rel="stylesheet" href="responsive.css">
 </head><body><main class="wrap">
-<div class="brand"><div class="mark">🪺</div><h1>VentPals</h1><p>Your space. Your pace. Your VentPal.</p></div>
+<div class="brand"><img class="mark" src="assets/images/logo.png" alt="VentPals logo"><h1>VentPals</h1><p>Your space. Your pace. Your VentPal.</p></div>
 <section class="card">
 <div class="switch" role="tablist" aria-label="Choose how to enter"><button id="loginTab" class="active" type="button" role="tab" aria-selected="true">I have a Nest</button><button id="createTab" type="button" role="tab" aria-selected="false">I'm new here</button></div>
 <div id="errorBox" class="error" role="alert"></div>
