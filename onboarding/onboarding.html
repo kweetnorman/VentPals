@@ -391,7 +391,6 @@
       nickname:      '',
       powerWord:     '',
       displayName:   '',
-      pronouns:      '',
       colour:        COLOURS[0].hex,
       nameLocked:    false,
     };
@@ -533,7 +532,6 @@
     }
 
     function confirmAvatar() {
-      state.pronouns = document.getElementById('pronounSelect').value;
       goTo(5);
     }
 
@@ -561,7 +559,6 @@
         nickname:    state.nickname,
         powerWord:   state.powerWord,
         displayName: state.displayName,
-        pronouns:    state.pronouns,
         avatarColour:state.colour,
         stage:       'egg',
         status:      'pending',
