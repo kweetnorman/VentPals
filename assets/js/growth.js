@@ -165,6 +165,7 @@
     s.feathers = s.feathers || { earned: 0, spent: 0 };
     s.closet = s.closet || { owned: [], worn: {} };
     s.milestones = s.milestones || {};
+    s.rainbowEvents = Array.isArray(s.rainbowEvents) ? s.rainbowEvents : [];
     return s;
   }
   function saveState(s) { writeJSON(GROWTH_KEY, s); }
@@ -226,6 +227,12 @@
     s.log = s.log.concat([{ t: Date.now(), id: id, label: label, bug: extra && extra.bug, fed: extra && extra.fed }]).slice(-30);
   }
 
+  // Rainbow Stream is the append-only child-facing record of earned and used items.
+  function addRainbowEvent(s, kind, label, icon, amount, detail) {
+    s.rainbowEvents.push({ id: 'rs-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7), kind: kind, label: label, icon: icon || '🌈', amount: amount || 0, detail: detail || '', ts: Date.now() });
+  }
+  function getRainbowEvents() { return getState().rainbowEvents.slice().sort(function(a,b){return b.ts-a.ts;}); }
+
   // Badges are tied to learning milestones and exploration, never streaks or feelings.
   function checkBadges(s) {
     var d = today(), fresh = [];
@@ -256,6 +263,7 @@
       s.completed[completionId] = true;
       s.bugs[food] += 1;
       addLog(s, completionId, act.label, { bug: food });
+      addRainbowEvent(s, 'bug-earned', 'Found ' + BUG_TYPES[food].name, BUG_TYPES[food].icon, 1, act.label);
     }
     if (first && act.badge && !s.badges[act.badge]) { s.badges[act.badge] = today(); newBadges.push(act.badge); }
     newBadges = newBadges.concat(checkBadges(s));
@@ -324,6 +332,9 @@
     s.xp += info.growth * n;
     s.feathers.earned += info.feathers * n;
     addLog(s, 'fed', 'Fed ' + n + ' ' + info.name.toLowerCase() + (n > 1 ? 's' : ''), { fed: type });
+    addRainbowEvent(s, 'bug-used', 'Fed ' + n + ' ' + info.name.toLowerCase() + (n > 1 ? 's' : ''), info.icon, n, 'Helped ' + getBird().name + ' grow');
+    addRainbowEvent(s, 'points-earned', 'Growth points earned', '🌱', info.growth * n, 'From feeding ' + n + ' ' + info.name.toLowerCase() + (n > 1 ? 's' : ''));
+    addRainbowEvent(s, 'feathers-earned', 'Feathers earned', '🪶', info.feathers * n, 'From feeding ' + n + ' ' + info.name.toLowerCase() + (n > 1 ? 's' : ''));
     var fresh = checkBadges(s);
     var after = stageIndexFor(s.xp, s);
     var newStages = [];
@@ -360,6 +371,7 @@
     var bal = s.feathers.earned - s.feathers.spent;
     if (bal < it.cost) return { ok: false, error: 'You need ' + (it.cost - bal) + ' more feathers.' };
     s.feathers.spent += it.cost; s.closet.owned.push(id);
+    addRainbowEvent(s, 'feathers-spent', 'Spent feathers on ' + it.name, '🪶', it.cost, 'Added to your Closet');
     s.closet.worn[it.slot] = id;                      // wear it right away
     var wasGoal = s.goal === id; if (wasGoal) s.goal = null;
     saveState(s);
@@ -434,6 +446,10 @@
   }
 
   function getLog() { return getState().log.slice().reverse(); }
+  function getRainbowSummary() {
+    var s=getState();
+    return { points:s.xp, bugsFound:Object.keys(s.bugs).reduce(function(n,k){return n+s.bugs[k]+(s.fed[k]||0);},0), feathers:getFeathers(), events:getRainbowEvents() };
+  }
 
   /* ───────────── automatic wiring by page ───────────── */
   function wirePage() {
@@ -451,7 +467,7 @@
   window.VPGrowth = {
     STAGES: STAGES, BADGES: BADGES, ACTIVITIES: ACTIVITIES, BUG_TYPES: BUG_TYPES, BUG_ORDER: BUG_ORDER, TIERS: TIERS, TIER_ORDER: TIER_ORDER, DIET: DIET, FOOD_KINDS: FOOD_KINDS, foodsFor: foodsFor, dietFor: dietFor,
     MILESTONES: MILESTONES, submitMoment: submitMoment, getMoments: getMoments, CLOSET: CLOSET, STAGE_BADGES: STAGE_BADGES,
-    getBird: getBird, getProgress: getProgress, getLog: getLog,
+    getBird: getBird, getProgress: getProgress, getLog: getLog, getRainbowEvents: getRainbowEvents, getRainbowSummary: getRainbowSummary,
     award: award, getBasket: getBasket, basketTotal: basketTotal, feed: feed, feedAll: feedAll,
     getFeathers: getFeathers, getCloset: getCloset, setGoal: setGoal, buy: buy, wear: wear, item: item,
     renderAvatar: renderAvatar, COLOR_FILTERS: COLOR_FILTERS, renderStagesGrid: renderStagesGrid, toast: toast,
