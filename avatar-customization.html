@@ -170,12 +170,10 @@
       var colorSelect = document.getElementById('colorSelect');
       var accessorySelect = document.getElementById('accessorySelect');
       var backgroundSelect = document.getElementById('backgroundSelect');
-      var pronounSelect = document.getElementById('pronounSelect');
       var preview = document.getElementById('avatarPreview');
       var art = document.getElementById('avatarArt');
       var accessory = document.getElementById('avatarAccessory');
       var name = document.getElementById('avatarName');
-      var pronouns = document.getElementById('avatarPronouns');
       var status = document.getElementById('avatarStatus');
       var saveButton = document.getElementById('saveAvatar');
 
@@ -199,9 +197,7 @@
       colorSelect.value = colorFilters[appearance.color] ? appearance.color : 'default';
       accessorySelect.value = accessoryArt.hasOwnProperty(appearance.accessory) ? appearance.accessory : 'none';
       backgroundSelect.value = backgrounds[appearance.background] ? appearance.background : 'soft';
-      pronounSelect.value = user.pronouns || '';
       name.textContent = user.displayName || user.nickname || 'Friend';
-      pronouns.textContent = pronounSelect.value;
 
       function drawBird() {
         art.innerHTML = '';
@@ -225,8 +221,7 @@
         accessory.style.top = accessoryPositions[accessorySelect.value] || '0';
         preview.style.background = backgrounds[backgroundSelect.value] || backgrounds.soft;
         preview.style.transition = 'background .2s ease';
-        pronouns.textContent = pronounSelect.value;
-        status.textContent = 'Preview updated. Try another look whenever you like!';
+          status.textContent = 'Preview updated. Try another look whenever you like!';
       }
 
       [colorSelect, accessorySelect, backgroundSelect].forEach(function (control) {
@@ -234,7 +229,6 @@
       });
 
       saveButton.addEventListener('click', function () {
-        user.pronouns = pronounSelect.value;
         user.appearance = {
           color: colorSelect.value,
           accessory: accessorySelect.value,
