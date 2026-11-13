@@ -17,7 +17,7 @@
     .float {
       animation: float 4s ease-in-out infinite;
     }
-    @keyframes float {
+    @keyframes reflectionFly { from { transform:translate(0,0) scale(1);opacity:1 } to { transform:translate(180px,-180px) scale(.3);opacity:0 } }\n    @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
@@ -84,30 +84,11 @@
                 class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
                 rows="5"></textarea>
 
-      <button id="saveReflection"
+      <p id="reflectionStatus" class="text-sm font-bold text-green-700 mb-3" role="status" aria-live="polite"></p>\n      <button id="saveReflection"
               class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full">
         Save Reflection
       </button>
     </div>
-
-    <!-- YOUR REFLECTION JOURNAL -->
-    <section id="reflectionJournal" class="bg-white/90 rounded-3xl shadow p-6 space-y-4">
-      <div class="flex items-start justify-between gap-3 flex-wrap">
-        <div>
-          <p class="text-xs font-extrabold uppercase tracking-wider text-purple-500">Your story, in your words</p>
-          <h2 class="text-xl font-bold text-purple-800 mt-1">📖 My Reflection Journal</h2>
-          <p class="text-sm text-gray-600 mt-1">Come back anytime to reread what you wrote and notice what has changed—or what you understand differently now.</p>
-        </div>
-        <span id="reflectionCount" class="text-xs font-bold rounded-full bg-purple-100 text-purple-700 px-3 py-2">0 saved reflections</span>
-      </div>
-      <div id="reflectionHistory" class="space-y-3" aria-live="polite"></div>
-      <div id="reflectionEmpty" class="rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/70 p-5 text-center">
-        <div class="text-3xl mb-2">🌱</div>
-        <p class="font-bold text-purple-800">Your journal is waiting for its first page.</p>
-        <p class="text-sm text-gray-600 mt-1">When you save a reflection, it will appear here so you can revisit it later.</p>
-      </div>
-      <p class="text-xs text-gray-500">Your reflections are for you. In this demo, they stay in this browser on this device and are not a secure cloud account.</p>
-    </section>
 
     <!-- WHAT NEXT -->
     <div class="bg-white rounded-3xl shadow p-6 space-y-4">
@@ -131,93 +112,34 @@
     VentPals • The Journey of Growing Up.
   </footer>
 
-  <!-- REFLECTION JOURNAL: private history for looking back and noticing growth -->
   <script>
     (function () {
-      const params = new URLSearchParams(window.location.search);
-      const feeling = params.get("feeling");
-      const emoji = params.get("emoji");
-      const input = document.getElementById("reflectionInput");
-      const saveButton = document.getElementById("saveReflection");
-      const history = document.getElementById("reflectionHistory");
-      const emptyState = document.getElementById("reflectionEmpty");
-      const count = document.getElementById("reflectionCount");
-      const status = document.getElementById("reflectionStatus");
-
-      if (feeling) document.getElementById("feelingName").textContent = feeling;
-      if (emoji) document.getElementById("feelingEmoji").textContent = emoji;
-
-      function readReflections() {
-        try {
-          const saved = JSON.parse(localStorage.getItem("ventpals_reflections") || "[]");
-          return Array.isArray(saved) ? saved.filter(item => item && typeof item.text === "string") : [];
-        } catch (error) {
-          return [];
-        }
-      }
-
-      function formatDate(value) {
-        const date = new Date(value);
-        if (Number.isNaN(date.getTime())) return "Date not available";
-        return date.toLocaleString(undefined, {
-          month: "long", day: "numeric", year: "numeric",
-          hour: "numeric", minute: "2-digit"
-        });
-      }
-
-      function renderHistory() {
-        const reflections = readReflections();
-        history.replaceChildren();
-        count.textContent = reflections.length + (reflections.length === 1 ? " saved reflection" : " saved reflections");
-        emptyState.classList.toggle("hidden", reflections.length > 0);
-
-        reflections.forEach(entry => {
-          const card = document.createElement("article");
-          card.className = "rounded-2xl border border-purple-100 bg-white/90 p-4 sm:p-5 shadow-sm";
-
-          const top = document.createElement("div");
-          top.className = "flex items-start justify-between gap-3 flex-wrap";
-          const feelingLabel = document.createElement("p");
-          feelingLabel.className = "font-extrabold text-purple-800";
-          feelingLabel.textContent = (entry.emoji || "💛") + " " + (entry.feeling || "A reflection");
-          const dateLabel = document.createElement("time");
-          dateLabel.className = "text-xs text-gray-500";
-          dateLabel.textContent = formatDate(entry.date);
-          if (entry.date) dateLabel.dateTime = entry.date;
-          top.append(feelingLabel, dateLabel);
-
-          const body = document.createElement("p");
-          body.className = "mt-3 text-sm leading-relaxed text-gray-700 whitespace-pre-wrap break-words";
-          body.textContent = entry.text;
-
-          card.append(top, body);
-          history.appendChild(card);
-        });
-      }
-
-      saveButton.addEventListener("click", () => {
-        const text = input.value.trim();
-        if (!text) {
-          status.textContent = "Write a little something first. It can be just a few words.";
-          input.focus();
-          return;
-        }
-
-        const reflections = readReflections();
-        reflections.unshift({
-          text,
-          feeling: feeling || "A reflection",
-          emoji: emoji || "💛",
-          date: new Date().toISOString()
-        });
-        localStorage.setItem("ventpals_reflections", JSON.stringify(reflections));
-        status.textContent = "Saved in your Reflection Journal ✓ You can come back and read it whenever you want.";
-        renderHistory();
+      'use strict';
+      var params = new URLSearchParams(window.location.search);
+      var feeling = params.get('feeling') || 'A reflection';
+      var emoji = params.get('emoji') || '💜';
+      var input = document.getElementById('reflectionInput');
+      var saveButton = document.getElementById('saveReflection');
+      var status = document.getElementById('reflectionStatus');
+      document.getElementById('feelingName').textContent = feeling;
+      document.getElementById('feelingEmoji').textContent = emoji;
+      saveButton.addEventListener('click', function () {
+        var text = input.value.trim();
+        if (!text) { status.textContent = 'Write a little something first. A few words are enough.'; input.focus(); return; }
+        var entries = [];
+        try { entries = JSON.parse(localStorage.getItem('ventpals_reflections') || '[]'); if (!Array.isArray(entries)) entries = []; } catch (e) { entries = []; }
+        entries.unshift({ id: 'reflection-' + Date.now().toString(36), text: text, feeling: feeling, emoji: emoji, date: new Date().toISOString() });
+        try { localStorage.setItem('ventpals_reflections', JSON.stringify(entries)); }
+        catch (e) { status.textContent = 'This device could not save your reflection. Please try again.'; return; }
+        input.value = '';
+        status.textContent = 'Your reflection is on its way to Quiet Caves. ✓';
+        var card = saveButton.closest('div');
+        var flight = document.createElement('span');
+        flight.textContent = '💌'; flight.style.cssText = 'position:fixed;z-index:10000;pointer-events:none;font-size:30px;left:' + (card.getBoundingClientRect().left + 20) + 'px;top:' + (card.getBoundingClientRect().top + 10) + 'px;animation:reflectionFly 1.1s ease forwards';
+        document.body.appendChild(flight);
+        flight.addEventListener('animationend', function () { flight.remove(); });
       });
-
-      renderHistory();
     })();
   </script>
-
 </body>
 </html>
