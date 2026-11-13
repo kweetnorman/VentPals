@@ -106,8 +106,8 @@
 
     <!-- BUG GUIDE -->
     <div class="bg-white rounded-3xl shadow p-6">
-      <h2 class="text-lg font-bold text-purple-700 mb-1">How to earn bugs</h2>
-      <p class="text-gray-500 text-xs mb-4">Each learning activity can earn a discovery reward once. Feelings, emotional check-ins, and daily visits are never scored.</p>
+      <h2 class="text-lg font-bold text-purple-700 mb-1">How to earn snacks</h2>
+      <p class="text-gray-500 text-xs mb-4">Practice skills once a day for small snacks. Finish a feeling lesson for a big feast. Hatching is quick, but growing takes time, practice and learning. Feelings, check-ins, and daily visits are never scored.</p>
       <ul id="waysList" class="space-y-2 text-sm"></ul>
     </div>
 
@@ -130,7 +130,7 @@
         $('nextLabel').textContent = p.next ? p.next.name + ' at ' + p.next.min : 'Fully grown!';
         $('xpBar').style.width = Math.max(4, p.pct) + '%';
         $('xpHint').textContent = p.next
-          ? (p.stage.id === 'egg' ? 'Your egg is waiting to hatch. ' : '') + p.toNext + ' more growth points to reach ' + p.next.name + '.'
+          ? (p.stage.id === 'egg' ? 'Your egg is waiting to hatch. ' : '') + (p.toNext ? p.toNext + ' more growth points' : 'Enough growth points') + (p.needModules ? (p.toNext ? ' and ' : '. Finish ') + p.needModules + ' more feeling lesson' + (p.needModules === 1 ? '' : 's') : '') + ' to reach ' + p.next.name + '.'
           : 'Your VentPal reached the top stage. Keep collecting badges!';
 
         // basket
@@ -160,14 +160,20 @@
 
         // ways
         var ways = $('waysList'); ways.innerHTML = '';
-        ['mosquito', 'worm', 'ladybug', 'butterfly'].forEach(function (t) {
-          var bt = G.BUG_TYPES[t];
-          if (!bt) return; // bug types the engine doesn't define are skipped
-          var acts = Object.keys(G.ACTIVITIES).filter(function (k) { return G.ACTIVITIES[k].bug === t; }).map(function (k) { return G.ACTIVITIES[k].label; });
+        var mine = G.dietFor(bird.id);
+        G.TIER_ORDER.forEach(function (t) {
+          var tier = G.TIERS[t];
+          var acts = Object.keys(G.ACTIVITIES).filter(function (k) { return G.ACTIVITIES[k].tier === t; }).map(function (k) { return G.ACTIVITIES[k].label + (G.ACTIVITIES[k].daily ? ' (once a day)' : ''); });
+          if (!acts.length) return; // no activity earns this size yet
+          var icons = G.foodsFor(bird.id, t).map(function (f) { return G.BUG_TYPES[f].icon; }).join(' ');
           var li = document.createElement('li'); li.className = 'bg-purple-50 rounded-xl px-3 py-2';
-          li.innerHTML = '<div class="flex justify-between font-bold text-purple-700"><span>' + bt.icon + ' ' + bt.name + ' (' + bt.size + ')</span><span class="text-xs">+' + bt.growth + ' growth, +' + bt.feathers + ' 🪶</span></div><p class="text-xs text-gray-600 mt-1">' + acts.join(', ') + '</p>';
+          li.innerHTML = '<div class="flex justify-between font-bold text-purple-700"><span>' + icons + ' ' + tier.name + '</span><span class="text-xs">+' + tier.growth + ' growth, +' + tier.feathers + ' 🪶</span></div>' +
+            '<p class="text-xs text-gray-600 mt-1">' + acts.join(', ') + '</p>';
           ways.appendChild(li);
         });
+        var eats = document.createElement('li'); eats.className = 'text-xs text-gray-500 px-1 pt-1';
+        eats.textContent = bird.name + ' loves ' + mine.map(function (k) { return G.FOOD_KINDS[k].name.toLowerCase(); }).join(' and ') + '.';
+        ways.appendChild(eats);
       }
 
       function celebrate(r) {

@@ -25,31 +25,75 @@
   var MOMENTS_KEY = 'ventpals_moments';
 
   /* ───────────── growth stages (growth points) ───────────── */
+  // Hatching is quick: one first activity cracks the egg. Every later stage takes real time AND learning:
+  // `modules` is how many feeling-learning modules must be finished before the bird can reach that stage.
   var STAGES = [
-    { id: 'egg',       name: 'Egg',       min: 0,   blurb: 'Your VentPal is safe and warm inside, waiting for you. Feed it a bug to help it hatch!' },
-    { id: 'baby',      name: 'Baby',      min: 10,  blurb: 'Your VentPal just hatched. Soft, new, and full of possibility.' },
-    { id: 'nestling',  name: 'Nestling',  min: 50,  blurb: 'Learning, growing, and finding a voice, one gentle step at a time.' },
-    { id: 'feathered', name: 'Feathered', min: 120, blurb: 'You have tried new ideas and built skills at your own pace.' },
-    { id: 'percher',   name: 'Percher',   min: 200, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
+    { id: 'egg',       name: 'Egg',       min: 0,   modules: 0,  blurb: 'Your VentPal is safe and warm inside, waiting for you. Feed it a snack to help it hatch!' },
+    { id: 'baby',      name: 'Baby',      min: 3,   modules: 0,  blurb: 'Your VentPal just hatched. Soft, new, and full of possibility.' },
+    { id: 'nestling',  name: 'Nestling',  min: 120,  modules: 2,  blurb: 'Learning, growing, and finding a voice, one gentle step at a time.' },
+    { id: 'feathered', name: 'Feathered', min: 300, modules: 6,  blurb: 'You have tried new ideas and built skills at your own pace.' },
+    { id: 'percher',   name: 'Percher',   min: 700, modules: 12, blurb: 'You and your VentPal have explored, practiced, and discovered many new things.' }
   ];
 
+
   /* ───────────── bugs: discovery tokens earned by completing activities ───────────── */
-  var BUG_TYPES = {
-    worm:     { icon: '🪱', name: 'Worm',     size: 'a good snack',  growth: 4,  feathers: 2 },
-    ladybug:  { icon: '🐞', name: 'Ladybug',  size: 'a tasty treat', growth: 6,  feathers: 3 },
-    butterfly:{ icon: '🦋', name: 'Butterfly',size: 'a big feast',   growth: 12, feathers: 6 }
+  var TIERS = {
+    small:  { name: 'Small snack',  growth: 1,  feathers: 1 },
+    medium: { name: 'Good snack',   growth: 3,  feathers: 2 },
+    large:  { name: 'Tasty treat',  growth: 6,  feathers: 4 },
+    feast:  { name: 'Big feast',    growth: 12, feathers: 8 }
   };
-  var BUG_ORDER = ['worm', 'ladybug', 'butterfly'];
+  var TIER_ORDER = ['small', 'medium', 'large', 'feast'];
+  // kind -> tier -> foods. Birds only find foods from the kinds they eat (DIET below).
+  var FOOD_KINDS = {
+    bugs:    { name: 'Bugs',    small: [['mosquito','🦟','Mosquito'], ['ant','🐜','Ant'], ['fly','🪰','Fly']],
+               medium: [['worm','🪱','Worm'], ['cricket','🦗','Cricket'], ['caterpillar','🐛','Caterpillar']],
+               large: [['ladybug','🐞','Ladybug'], ['beetle','🪲','Beetle']], feast: [['butterfly','🦋','Butterfly']] },
+    berries: { name: 'Berries', small: [['blueberry','🫐','Blueberry']], medium: [['strawberry','🍓','Strawberry'], ['cherry','🍒','Cherry']],
+               large: [['grapes','🍇','Grapes']], feast: [['peach','🍑','Juicy peach']] },
+    seeds:   { name: 'Seeds',   small: [['grain','🌾','Grain']], medium: [['sunflower','🌻','Sunflower seeds']],
+               large: [['acorn','🌰','Acorn']], feast: [['corn','🌽','Corn']] },
+    fish:    { name: 'Fish',    small: [['shrimp','🦐','Shrimp']], medium: [['minnow','🐟','Minnow']],
+               large: [['fish','🐠','Tropical fish']], feast: [['squid','🦑','Squid']] },
+    nectar:  { name: 'Nectar',  small: [['blossom','🌸','Blossom']], medium: [['nectar','🌺','Sweet nectar']],
+               large: [['honey','🍯','Honey']], feast: [['mango','🥭','Mango']] }
+  };
+  // What each VentPal likes to eat (first kind is its favourite).
+  var DIET = {
+    flamez: ['bugs','berries'], echo: ['bugs','seeds'], guardian: ['seeds','bugs'], sable: ['bugs','berries'],
+    breezy: ['nectar','bugs'], clover: ['seeds','berries'], cove: ['fish','bugs'], solace: ['nectar','berries'],
+    drift: ['fish','bugs'], pebble: ['seeds','bugs'], flicker: ['seeds','nectar'], twig: ['seeds','bugs'],
+    flare: ['bugs','nectar'], aura: ['nectar','berries'], nova: ['berries','nectar'], lumen: ['fish','berries']
+  };
+  var BUG_TYPES = {}, FOOD_TIER = {}, FOOD_KIND = {};
+  Object.keys(FOOD_KINDS).forEach(function (k) {
+    TIER_ORDER.forEach(function (t) {
+      FOOD_KINDS[k][t].forEach(function (f) {
+        BUG_TYPES[f[0]] = { icon: f[1], name: f[2], size: TIERS[t].name.toLowerCase(), tier: t, kind: k, growth: TIERS[t].growth, feathers: TIERS[t].feathers };
+        FOOD_TIER[f[0]] = t; FOOD_KIND[f[0]] = k;
+      });
+    });
+  });
+  var BUG_ORDER = Object.keys(BUG_TYPES).sort(function (a, b) { return TIER_ORDER.indexOf(FOOD_TIER[a]) - TIER_ORDER.indexOf(FOOD_TIER[b]); });
+  function dietFor(birdId) { return DIET[birdId] || ['bugs', 'berries']; }
+  // foods a given bird can find, optionally for one tier
+  function foodsFor(birdId, tier) {
+    var out = [];
+    dietFor(birdId).forEach(function (k) { TIER_ORDER.forEach(function (t) { if (!tier || tier === t) FOOD_KINDS[k][t].forEach(function (f) { out.push(f[0]); }); }); });
+    return out;
+  }
 
   /* ───────────── discovery activities: each distinct activity earns once ───────────── */
+  // tier = how big a snack it earns. daily = can be earned once per day (practice); otherwise once ever per key.
   var ACTIVITIES = {
-    water:      { bug: 'worm',      label: 'Took a mindful sip',        badge: 'sip-and-settle' },
-    butterfly:  { bug: 'worm',      label: 'Did a butterfly hug',       badge: 'butterfly-hugger' },
-    breathing:  { bug: 'worm',      label: 'Practiced slow breathing',  badge: 'deep-breather' },
-    grounding:  { bug: 'worm',      label: 'Did a grounding exercise',  badge: 'grounded' },
-    reflection: { bug: 'ladybug',   label: 'Wrote a reflection',        badge: 'reflector' },
-    module:     { bug: 'butterfly', label: 'Finished a learning module', badge: 'learner' },
+    water:      { tier: 'medium', daily: true, label: 'Took a mindful sip',         badge: 'sip-and-settle' },
+    butterfly:  { tier: 'medium', daily: true, label: 'Did a butterfly hug',        badge: 'butterfly-hugger' },
+    breathing:  { tier: 'medium', daily: true, label: 'Practiced slow breathing',   badge: 'deep-breather' },
+    grounding:  { tier: 'medium', daily: true, label: 'Did a grounding exercise',   badge: 'grounded' },
+    reflection: { tier: 'large',  daily: true, label: 'Wrote a reflection',         badge: 'reflector' },
+    module:     { tier: 'feast',               label: 'Finished a learning module', badge: 'learner' }
   };
+
 
   /* ───────────── badges ───────────── */
   var BADGES = {
@@ -63,12 +107,12 @@
     'butterfly-hugger': { icon: '🦋', name: 'Butterfly Hugger',  how: 'Do a butterfly hug' },
     'sip-and-settle':   { icon: '💧', name: 'Sip & Settle',      how: 'Take a mindful sip' },
     'learner':          { icon: '🎓', name: 'Feeling Learner',   how: 'Finish a learning module' },
-    'worm-gatherer':    { icon: '🪱', name: 'Worm Gatherer',     how: 'Feed your bird 5 bugs' },
-    'bug-sharer':       { icon: '🐞', name: 'Bug Sharer',        how: 'Feed your bird 10 bugs' },
-    'butterfly-feeder': { icon: '🦋', name: 'Butterfly Feeder',  how: 'Feed your bird 20 bugs' }
+    'worm-gatherer':    { icon: '🍽️', name: 'Snack Sharer',      how: 'Feed your bird 5 snacks' },
+    'bug-sharer':       { icon: '🧺', name: 'Picnic Host',       how: 'Feed your bird 25 snacks' },
+    'butterfly-feeder': { icon: '🌟', name: 'Feast Maker',       how: 'Feed your bird 75 snacks' }
   };
   var STAGE_BADGES = ['hatched', 'nestling', 'feathered', 'percher'];
-  var FEED_BADGES = [['worm-gatherer', 5], ['bug-sharer', 10], ['butterfly-feeder', 20]];
+  var FEED_BADGES = [['worm-gatherer', 5], ['bug-sharer', 25], ['butterfly-feeder', 75]];
 
   /* ───────────── milestone keepsakes: earned automatically when the bird reaches a stage ───────────── */
   var MILESTONES = {
@@ -125,9 +169,11 @@
   }
   function saveState(s) { writeJSON(GROWTH_KEY, s); }
 
-  function stageIndexFor(xp) {
-    var idx = 0;
-    STAGES.forEach(function (st, i) { if (xp >= st.min) idx = i; });
+  function modulesDone(s) { return Object.keys(s.completed).filter(function (k) { return k.indexOf('module') === 0; }).length; }
+  // A stage needs enough growth points AND enough finished learning modules.
+  function stageIndexFor(xp, s) {
+    var mods = modulesDone(s || getState()), idx = 0;
+    STAGES.forEach(function (st, i) { if (xp >= st.min && mods >= (st.modules || 0)) idx = i; });
     return idx;
   }
   function totalFed(s) { return BUG_ORDER.reduce(function (n, b) { return n + s.fed[b]; }, 0); }
@@ -143,8 +189,12 @@
     var s = getState();
     var i = stageIndexFor(s.xp);
     var cur = STAGES[i], next = STAGES[i + 1] || null;
-    var pct = next ? Math.round(((s.xp - cur.min) / (next.min - cur.min)) * 100) : 100;
-    return { xp: s.xp, index: i, stage: cur, next: next, pct: pct, toNext: next ? next.min - s.xp : 0, badges: s.badges };
+    var mods = modulesDone(s);
+    var pct = next ? Math.min(100, Math.round(((s.xp - cur.min) / (next.min - cur.min)) * 100)) : 100;
+    var needModules = next ? Math.max(0, (next.modules || 0) - mods) : 0;
+    if (needModules && pct >= 100) pct = 99;
+    return { xp: s.xp, index: i, stage: cur, next: next, pct: pct, toNext: next ? Math.max(0, next.min - s.xp) : 0,
+             needModules: needModules, modulesDone: mods, badges: s.badges };
   }
 
   // Keep user.stage in sync so older pages that read it stay correct.
@@ -180,7 +230,7 @@
   function checkBadges(s) {
     var d = today(), fresh = [];
     function give(id) { if (!s.badges[id]) { s.badges[id] = d; fresh.push(id); } }
-    var idx = stageIndexFor(s.xp);
+    var idx = stageIndexFor(s.xp, s);
     if (idx >= 1) give('hatched');
     for (var i = 2; i <= idx; i++) give(STAGES[i].id);
     var fed = totalFed(s);
@@ -196,33 +246,38 @@
     if (uniqueKey != null && String(uniqueKey).trim()) {
       completionId += ':' + String(uniqueKey).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-').slice(0, 60);
     }
+    if (act.daily) completionId += '@' + today();
     var s = getState();
     var first = !s.completed[completionId];
     var newBadges = [];
+    var pool = foodsFor(getBird().id, act.tier);
+    var food = pool[Math.floor(Math.random() * pool.length)] || 'worm';
     if (first) {
       s.completed[completionId] = true;
-      s.bugs[act.bug] += 1;
-      addLog(s, completionId, act.label, { bug: act.bug });
+      s.bugs[food] += 1;
+      addLog(s, completionId, act.label, { bug: food });
     }
     if (first && act.badge && !s.badges[act.badge]) { s.badges[act.badge] = today(); newBadges.push(act.badge); }
     newBadges = newBadges.concat(checkBadges(s));
     saveState(s);
     var lines = [];
     if (first) {
-      var b = BUG_TYPES[act.bug];
-      lines.push(b.icon + ' You discovered a ' + b.name.toLowerCase() + '!');
+      var b = BUG_TYPES[food];
+      lines.push(b.icon + ' You found ' + b.name.toLowerCase() + '!');
       lines.push('<span style="font-weight:500;font-size:12px">' + act.label + '. You can feed it to ' + getBird().name + '.</span>');
     }
     newBadges.forEach(function (id) {
       if (STAGE_BADGES.indexOf(id) === -1) lines.push(BADGES[id].icon + ' New badge: ' + BADGES[id].name);
     });
     if (lines.length) toast(lines, false, 'bird-growth.html#feed');
-    return { first: first, bug: first ? act.bug : null, badges: newBadges };
+    return { first: first, bug: first ? food : null, badges: newBadges };
   }
 
   function getBasket() {
     var s = getState();
-    return BUG_ORDER.map(function (b) { return { type: b, count: s.bugs[b], info: BUG_TYPES[b] }; });
+    var mine = foodsFor(getBird().id);
+    return BUG_ORDER.filter(function (b) { return mine.indexOf(b) !== -1 || s.bugs[b] > 0; })
+      .map(function (b) { return { type: b, count: s.bugs[b], info: BUG_TYPES[b] }; });
   }
   function basketTotal() { var s = getState(); return BUG_ORDER.reduce(function (n, b) { return n + s.bugs[b]; }, 0); }
 
@@ -264,13 +319,13 @@
     if (!IS_KID || !BUG_TYPES[type]) return null;
     var s = getState(), n = Math.min(count || 1, s.bugs[type]);
     if (n < 1) return { fed: 0 };
-    var before = stageIndexFor(s.xp), info = BUG_TYPES[type];
+    var before = stageIndexFor(s.xp, s), info = BUG_TYPES[type];
     s.bugs[type] -= n; s.fed[type] += n;
     s.xp += info.growth * n;
     s.feathers.earned += info.feathers * n;
     addLog(s, 'fed', 'Fed ' + n + ' ' + info.name.toLowerCase() + (n > 1 ? 's' : ''), { fed: type });
     var fresh = checkBadges(s);
-    var after = stageIndexFor(s.xp);
+    var after = stageIndexFor(s.xp, s);
     var newStages = [];
     for (var i = before + 1; i <= after; i++) { newStages.push(STAGES[i].id); s.milestones[STAGES[i].id] = true; }
     saveState(s); syncUserStage();
@@ -385,7 +440,7 @@
   }
 
   window.VPGrowth = {
-    STAGES: STAGES, BADGES: BADGES, ACTIVITIES: ACTIVITIES, BUG_TYPES: BUG_TYPES, BUG_ORDER: BUG_ORDER,
+    STAGES: STAGES, BADGES: BADGES, ACTIVITIES: ACTIVITIES, BUG_TYPES: BUG_TYPES, BUG_ORDER: BUG_ORDER, TIERS: TIERS, TIER_ORDER: TIER_ORDER, DIET: DIET, FOOD_KINDS: FOOD_KINDS, foodsFor: foodsFor, dietFor: dietFor,
     MILESTONES: MILESTONES, submitMoment: submitMoment, getMoments: getMoments, CLOSET: CLOSET, STAGE_BADGES: STAGE_BADGES,
     getBird: getBird, getProgress: getProgress, getLog: getLog,
     award: award, getBasket: getBasket, basketTotal: basketTotal, feed: feed, feedAll: feedAll,
