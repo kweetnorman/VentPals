@@ -257,25 +257,13 @@
     <div class="card">
       <h1 style="text-align:center; margin-bottom:6px;">Your Look 🎨</h1>
       <p style="text-align:center; margin-bottom:20px;">
-        Give your bird a colour and choose your pronouns — totally optional, totally yours.
+        Give your bird a colour that feels like you.
       </p>
 
       <!-- Bird colour -->
       <label style="margin-bottom:10px;">Bird Colour</label>
       <div class="colour-grid" id="colourGrid" style="margin-bottom:20px;"></div>
 
-      <!-- Pronouns -->
-      <div style="margin-bottom:8px;">
-        <label for="pronounSelect">Pronouns (optional)</label>
-        <select id="pronounSelect">
-          <option value="">Prefer not to say</option>
-          <option value="she/her">She / Her</option>
-          <option value="he/him">He / Him</option>
-          <option value="they/them">They / Them</option>
-          <option value="ze/zir">Ze / Zir</option>
-          <option value="any">Any / All</option>
-        </select>
-      </div>
     </div>
     <div style="display:flex; gap:10px;">
       <button class="btn-secondary" onclick="goTo(3)">← Back</button>
@@ -403,7 +391,6 @@
       nickname:      '',
       powerWord:     '',
       displayName:   '',
-      pronouns:      '',
       colour:        COLOURS[0].hex,
       nameLocked:    false,
     };
@@ -545,7 +532,6 @@
     }
 
     function confirmAvatar() {
-      state.pronouns = document.getElementById('pronounSelect').value;
       goTo(5);
     }
 
@@ -573,7 +559,6 @@
         nickname:    state.nickname,
         powerWord:   state.powerWord,
         displayName: state.displayName,
-        pronouns:    state.pronouns,
         avatarColour:state.colour,
         stage:       'egg',
         status:      'pending',
