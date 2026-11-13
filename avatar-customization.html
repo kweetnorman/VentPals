@@ -125,17 +125,7 @@
         </select>
       </div>
 
-      <!-- Pronouns -->
-      <div>
-        <p class="text-sm font-semibold text-gray-700 mb-2">Pronouns (Optional)</p>
-        <select id="pronounSelect"
-                class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-          <option value="">Prefer not to say</option>
-          <option value="she/her">She/Her</option>
-          <option value="he/him">He/Him</option>
-          <option value="they/them">They/Them</option>
-        </select>
-      </div>
+ 
     </div>
 
     <!-- PREVIEW -->
@@ -152,8 +142,6 @@
           Your Name Will Appear Here
         </p>
 
-        <p id="avatarPronouns"
-           class="text-sm text-gray-600 mt-1"></p>
       </div>
       <p id="avatarStatus" class="text-sm text-gray-500 mt-3" role="status" aria-live="polite">Your choices will appear here as you make them.</p>
     </div>
@@ -241,7 +229,7 @@
         status.textContent = 'Preview updated. Try another look whenever you like!';
       }
 
-      [colorSelect, accessorySelect, backgroundSelect, pronounSelect].forEach(function (control) {
+      [colorSelect, accessorySelect, backgroundSelect].forEach(function (control) {
         control.addEventListener('change', drawBird);
       });
 
