@@ -13,7 +13,7 @@
     :root{--ink:#24423d;--deep:#315e51;--cream:#fffaf0;--gold:#f4c86a;--mint:#dff3e7}
     *{box-sizing:border-box}
     body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#dff2ec 0%,#f8f4df 48%,#f5e9d9 100%);min-height:100vh;color:var(--ink)}
-    .world-shell{max-width:1280px;margin:0 auto}
+    .world-shell{max-width:1280px;margin:0 auto}#mimbleton-map{scroll-margin-top:90px;scroll-behavior:smooth}
     .map-frame{position:relative;overflow:hidden;border:5px solid rgba(255,255,255,.86);border-radius:32px;background:#bfe5d8;box-shadow:0 24px 70px rgba(43,91,75,.18),inset 0 0 0 1px rgba(48,99,78,.12)}
     .map-frame:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:27px;box-shadow:inset 0 0 45px rgba(35,81,68,.12)}
     .world-map{display:block;width:100%;height:auto;min-height:330px}
@@ -43,6 +43,10 @@
     .panel-card{max-height:min(88vh,760px);overflow:auto}
     .map-caption{background:rgba(255,255,255,.72);backdrop-filter:blur(12px)}
     .home-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#f4f8ef;padding:6px 10px;font-size:12px;font-weight:800;color:#426b59}
+    .home-tile{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;border:1px solid #d8e8d9;background:#f7fbf3;border-radius:16px;padding:12px;min-height:104px;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+    .home-tile:hover,.home-tile:focus-visible{transform:translateY(-2px);border-color:#6eaa81;outline:none}
+    .home-tile[aria-pressed="true"]{background:#e5f3e7;border:2px solid #4d9569;padding:11px}
+    .home-detail{background:#edf6eb;border:1px solid #c9e2ce;border-radius:16px;padding:14px;text-align:left}
     @media(max-width:640px){.world-map{min-height:0}.map-frame{border-width:3px;border-radius:22px}.map-caption{font-size:12px}.panel-card{padding:24px}.map-hotspot .hotspot-label text{font-size:17px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
   </style>
@@ -73,7 +77,7 @@
       <p class="max-w-2xl mx-auto text-emerald-900/75 text-base sm:text-lg font-semibold">One big, welcoming world. Six special places to explore. And plenty more beyond the horizon.</p>
     </header>
 
-    <section aria-labelledby="mapHeading" class="max-w-6xl mx-auto">
+    <section id="mimbleton-map" aria-labelledby="mapHeading" class="max-w-6xl mx-auto">
       <div class="flex flex-wrap items-end justify-between gap-3 mb-3 px-1">
         <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-emerald-950">Explore the world</h2><p class="text-sm text-emerald-900/70 font-semibold">Choose a place on the map to see who calls it home.</p></div>
         <span class="map-caption rounded-full px-4 py-2 font-extrabold text-emerald-800 shadow-sm">✦ Tap a habitat to explore</span>
@@ -218,7 +222,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="zonesGrid"></div>
     </section>
 
-    <div class="text-center mt-12"><a href="nest.html" class="inline-flex items-center gap-2 rounded-full bg-white/80 px-6 py-3 text-emerald-800 font-extrabold shadow-sm hover:bg-white">← Back to Dashboard</a></div>
+    <div class="text-center mt-12"><a href="#mimbleton-map" class="inline-flex items-center gap-2 rounded-full bg-white/80 px-6 py-3 text-emerald-800 font-extrabold shadow-sm hover:bg-white">↑ Back to Map</a></div>
   </main>
 
   <div id="zonePanel" role="dialog" aria-modal="true" aria-labelledby="panelName" aria-describedby="panelDesc">
@@ -229,7 +233,13 @@
       <h2 id="panelName" class="text-3xl font-black text-emerald-950 mb-2"></h2>
       <p id="panelDesc" class="text-emerald-900/75 font-semibold text-sm mb-4"></p>
       <p id="panelFeeling" class="text-emerald-700 text-sm font-extrabold italic mb-4"></p>
-      <div id="panelResidents" class="flex flex-wrap justify-center gap-2 mb-6" aria-label="Residents"></div>
+      <div id="panelResidents" class="flex flex-wrap justify-center gap-2 mb-5" aria-label="Residents"></div>
+      <section class="text-left mb-5" aria-labelledby="homesHeading">
+        <h3 id="homesHeading" class="text-lg font-black text-emerald-950 mb-2">Their own little places</h3>
+        <p class="text-sm text-emerald-900/70 font-semibold mb-3">Every VentPal has a home of their own. Tap a home to peek inside.</p>
+        <div id="panelHomes" class="grid grid-cols-2 gap-2"></div>
+        <div id="panelHomeDetail" class="home-detail mt-3" aria-live="polite" hidden></div>
+      </section>
       <div class="flex flex-col gap-3">
         <a id="panelAction" href="nest.html" class="block bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-full shadow-md">Explore this habitat</a>
         <button id="panelBack" type="button" class="block bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-extrabold py-3 rounded-full">Back to Mimbleton</button>
@@ -249,6 +259,25 @@
       {id:'sparkle-stream',name:'Sparkle Stream',emoji:'💧',tone:'from-cyan-100 to-sky-50',edge:'border-cyan-300',feeling:'A place to find comfort and ease',desc:'Follow the sparkling water as it winds through Mimbleton. Pause by the banks, watch the ripples, and let the day slow down.',residents:['Cove'],action:{label:'Try Calming Skills',href:'calming-skills.html'}}
     ];
 
+    const HOME_DETAILS = {
+      Aura:{icon:'🌸',style:'A blossom nook',description:'A bright, flower-framed hideaway tucked into the forest canopy, with room to pause and notice the little things.'},
+      Breezy:{icon:'🍃',style:'An open-air canopy home',description:'A breezy, airy home among the branches, with open views and gentle places to settle.'},
+      Clover:{icon:'☘️',style:'A leafy welcome nook',description:'A warm, sheltered home woven into the great tree, surrounded by soft leaves and signs of belonging.'},
+      Cove:{icon:'💧',style:'A waterside hideaway',description:'A snug home beside the stream, close to the sound of moving water and quiet places to explore.'},
+      Drift:{icon:'🌙',style:'A still-water alcove',description:'A peaceful cave-side home near a calm pool, with a quiet corner for thoughts to settle.'},
+      Echo:{icon:'🔔',style:'A listening chamber',description:'A sheltered cave nook shaped by gentle curves, where sounds soften and there is room to be heard.'},
+      Flamez:{icon:'🔥',style:'A warm meadow hollow',description:'A sturdy, sun-warmed home nestled among meadow grasses, made for bold ideas and fresh starts.'},
+      Flare:{icon:'✨',style:'A bright lookout nook',description:'A cheerful little home on a sunny rise, with a clear view of the next adventure.'},
+      Flicker:{icon:'🌼',style:'A sun-dappled nest',description:'A small, lively hideaway among forest blooms, full of light and tiny discoveries.'},
+      Guardian:{icon:'🛡️',style:'A sheltered high-roost',description:'A strong, protected home set into the high cliffs, with a wide view over the places Guardian watches over.'},
+      Lumen:{icon:'💎',style:'A crystal-lit retreat',description:'A calm cave home beside glowing stone and still water, made for looking closer and finding clarity.'},
+      Nova:{icon:'☁️',style:'A sky-facing aerie',description:'A lofty home near the bridge, open to the breeze and wide views across Mimbleton.'},
+      Pebble:{icon:'🪨',style:'A rounded root nook',description:'A gentle, snug home nestled near the great tree roots, with smooth stones and a welcoming feel.'},
+      Sable:{icon:'⭐',style:'A twilight hideaway',description:'A tucked-away cave retreat with a soft, starry glow and a peaceful place to gather strength.'},
+      Solace:{icon:'🌿',style:'A quiet meadow shelter',description:'A cozy, sheltered home among meadow plants, with a comforting spot to rest and catch a breath.'},
+      Twig:{icon:'🌱',style:'A little branch home',description:'A small, growing home close to the tree’s younger branches, with room for new discoveries.'}
+    };
+
     const grid=document.getElementById('zonesGrid');
     const panel=document.getElementById('zonePanel');
     let lastTrigger=null;
@@ -267,6 +296,36 @@
         chip.textContent='⌂ '+name;
         residents.appendChild(chip);
       });
+
+      const homes=document.getElementById('panelHomes');
+      const homeDetail=document.getElementById('panelHomeDetail');
+      homes.replaceChildren();
+      homeDetail.hidden=true;
+      homeDetail.textContent='';
+      zone.residents.forEach(function(name,index){
+        const home=HOME_DETAILS[name];
+        if(!home)return;
+        const tile=document.createElement('button');
+        tile.type='button';
+        tile.className='home-tile';
+        tile.setAttribute('aria-pressed','false');
+        tile.innerHTML='<span class="text-2xl" aria-hidden="true">'+home.icon+'</span><span class="font-black text-emerald-950 text-sm">'+name+'’s home</span><span class="text-xs text-emerald-800 font-bold">'+home.style+'</span>';
+        tile.addEventListener('click',function(){
+          homes.querySelectorAll('.home-tile').forEach(function(item){item.setAttribute('aria-pressed','false');});
+          tile.setAttribute('aria-pressed','true');
+          homeDetail.innerHTML='';
+          const heading=document.createElement('p');
+          heading.className='font-black text-emerald-950 text-sm mb-1';
+          heading.textContent=name+'’s home';
+          const description=document.createElement('p');
+          description.className='text-sm text-emerald-900/80 font-semibold';
+          description.textContent=home.description;
+          homeDetail.append(heading,description);
+          homeDetail.hidden=false;
+        });
+        homes.appendChild(tile);
+      });
+
       const action=document.getElementById('panelAction');
       action.textContent=zone.action.label;
       action.href=zone.action.href;
