@@ -169,7 +169,7 @@
           </g>
 
           <!-- firefly meadow -->
-          <g class="map-hotspot" data-zone="firefly-meadow" role="button" tabindex="0" aria-label="Explore Firefly Meadow, home to Flamez, Flare, and Solace">
+          <g class="map-hotspot" data-zone="firefly-meadow" role="button" tabindex="0" aria-label="Explore Firefly Meadow, home to Flare and Solace">
             <ellipse class="hotspot-halo" cx="675" cy="590" rx="175" ry="105" fill="#fff0b4" opacity=".55"/>
             <g class="zone-art">
               <path d="M500 620Q570 545 650 580T820 585T900 620" fill="none" stroke="#7dbb71" stroke-width="18" stroke-linecap="round"/>
@@ -238,6 +238,11 @@
       <p id="panelDesc" class="text-emerald-900/75 font-semibold text-sm mb-4"></p>
       <p id="panelFeeling" class="text-emerald-700 text-sm font-extrabold italic mb-4"></p>
       <div id="panelResidents" class="flex flex-wrap justify-center gap-2 mb-5" aria-label="Residents"></div>
+      <section class="text-left mb-5" aria-labelledby="discoveriesHeading">
+        <h3 id="discoveriesHeading" class="text-lg font-black text-emerald-950 mb-2">Places to discover</h3>
+        <p class="text-sm text-emerald-900/70 font-semibold mb-3">Every habitat has little corners, landmarks, and surprises waiting to be noticed.</p>
+        <div id="panelDiscoveries" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+      </section>
       <section class="text-left mb-5" aria-labelledby="homesHeading">
         <h3 id="homesHeading" class="text-lg font-black text-emerald-950 mb-2">Their own little places</h3>
         <p class="text-sm text-emerald-900/70 font-semibold mb-3">Every VentPal has a home of their own. Tap a home to peek inside.</p>
@@ -255,31 +260,96 @@
 
   <script>
     const ZONES = [
-      {id:'nesting-tree',name:'Nesting Tree',emoji:'🌳',tone:'from-lime-100 to-emerald-50',edge:'border-lime-300',feeling:'A place to feel calm, safe, and welcome',desc:'A grand, living tree with cozy spaces tucked among its branches and roots. There is room to rest, recharge, and simply be yourself.',residents:['Clover','Pebble','Twig'],action:{label:'Visit Your Nest',href:'nest.html'}},
-      {id:'feelings-forest',name:'Feelings Forest',emoji:'🌲',tone:'from-emerald-100 to-teal-50',edge:'border-emerald-300',feeling:'A place for curiosity and understanding',desc:'Follow winding trails through a lively forest of hidden clearings, colorful plants, and little discoveries. Every feeling has room here.',residents:['Aura','Breezy','Flicker'],action:{label:'Start With a Feeling',href:'start-with-a-feeling.html'}},
-      {id:'quiet-caves',name:'Quiet Caves',emoji:'🪨',tone:'from-indigo-100 to-violet-50',edge:'border-indigo-300',feeling:'A place to slow down and reflect',desc:'Explore peaceful underground spaces, glowing pools, and secret passages where thoughts can settle and you can listen to yourself.',residents:['Drift','Echo','Sable','Lumen'],action:{label:'Try a Reflection',href:'feeling-reflection.html'}},
-      {id:'firefly-meadow',name:'Firefly Meadow',emoji:'✨',tone:'from-amber-100 to-yellow-50',edge:'border-amber-300',feeling:'A place for hope, joy, and fresh starts',desc:'Wander through open fields of wildflowers as tiny lights begin to glow. There is wonder to find in the smallest moments.',residents:['Flamez','Flare','Solace'],action:{label:'Meet the Flock',href:'meet-the-flock.html'}},
-      {id:'sky-bridge',name:'Sky Bridge',emoji:'🌈',tone:'from-sky-100 to-blue-50',edge:'border-sky-300',feeling:'A place for courage and new perspectives',desc:'Cross a sweeping bridge high above the hills. Look out over the world, imagine what is possible, and take your next brave step.',residents:['Nova','Guardian'],action:{label:'Practice Calming Skills',href:'calming-skills.html'}},
-      {id:'sparkle-stream',name:'Sparkle Stream',emoji:'💧',tone:'from-cyan-100 to-sky-50',edge:'border-cyan-300',feeling:'A place to find comfort and ease',desc:'Follow the sparkling water as it winds through Mimbleton. Pause by the banks, watch the ripples, and let the day slow down.',residents:['Cove'],action:{label:'Try Calming Skills',href:'calming-skills.html'}}
+      {
+        id:'nesting-tree',name:'Nesting Tree',emoji:'🌳',tone:'from-lime-100 to-emerald-50',edge:'border-lime-300',
+        feeling:'Come as you are. Rest, reconnect, or find a cozy corner that feels like yours.',
+        desc:'At the heart of Mimbleton stands a grand, living tree. Its broad branches hold tucked-away rooms, its roots make welcoming nooks, and its leafy paths connect neighbors without making anyone feel rushed.',
+        residents:['Clover','Pebble','Twig'],
+        discoveries:[
+          {name:'Welcome Hollow',detail:'A warm little gathering nook beneath the oldest branches, where everyone has room to arrive in their own way.'},
+          {name:'Leaflight Walk',detail:'A winding branch path where sunlight filters through the canopy and paints moving patterns on the ground.'},
+          {name:'Root Nook',detail:'A snug place among the roots, with smooth stones, soft cushions, and space for a quiet pause.'}
+        ],
+        action:{label:'Visit Your Nest',href:'nest.html'}
+      },
+      {
+        id:'feelings-forest',name:'Feelings Forest',emoji:'🌲',tone:'from-emerald-100 to-teal-50',edge:'border-emerald-300',
+        feeling:'Follow your curiosity. Notice what you feel, what you wonder, and what you want to name.',
+        desc:'A lively woodland full of winding trails, color-changing leaves, hidden clearings, and tiny discoveries. The forest makes room for every kind of feeling without asking anyone to change it.',
+        residents:['Aura','Breezy','Flicker'],
+        discoveries:[
+          {name:'Colorleaf Trail',detail:'Leaves shift through a whole palette of colors as the light changes, inviting visitors to notice the details.'},
+          {name:'Listening Clearing',detail:'A peaceful open space where friends can talk, sit quietly, or simply listen to the sounds around them.'},
+          {name:'Wonder Grove',detail:'A playful pocket of the forest filled with curious plants, tiny creatures, and questions waiting to be explored.'}
+        ],
+        action:{label:'Start With a Feeling',href:'start-with-a-feeling.html'}
+      },
+      {
+        id:'quiet-caves',name:'Quiet Caves',emoji:'🪨',tone:'from-indigo-100 to-violet-50',edge:'border-indigo-300',
+        feeling:'Take your time. There is room to pause, listen, reflect, or enjoy a little quiet.',
+        desc:'Beyond the rocky hillside is a peaceful network of sheltered caves, glowing pools, crystal passages, and gentle echoes. The caves are never about hiding a feeling; they offer space to hear your own thoughts.',
+        residents:['Drift','Echo','Sable','Lumen'],
+        discoveries:[
+          {name:'Stillwater Pool',detail:'A glassy underground pool where soft reflections ripple across the cave ceiling.'},
+          {name:'Echo Chamber',detail:'A rounded chamber where sounds travel gently and visitors can experiment with listening.'},
+          {name:'Crystal Passage',detail:'A winding corridor lined with softly glowing stones that reveal new colors as you move through.'}
+        ],
+        action:{label:'Try a Reflection',href:'feeling-reflection.html'}
+      },
+      {
+        id:'firefly-meadow',name:'Firefly Meadow',emoji:'✨',tone:'from-amber-100 to-yellow-50',edge:'border-amber-300',
+        feeling:'Look for little sparks of wonder, comfort, and possibility—at your own pace.',
+        desc:'An open stretch of wildflowers, soft grasses, and rolling hills. As evening arrives, fireflies drift across the meadow like tiny floating lanterns. There is always room for a fresh start, a gentle moment, or a new idea.',
+        residents:['Flare','Solace'],
+        discoveries:[
+          {name:'Lantern Grass',detail:'Tall meadow grass sways in the breeze while fireflies blink between the stems.'},
+          {name:'Firefly Rise',detail:'A gentle hill with a wide view of the meadow, especially magical when the first lights appear.'},
+          {name:'Sunwarm Hollow',detail:'A sheltered dip in the hillside that holds the last warmth of the afternoon sun.'}
+        ],
+        action:{label:'Meet the Flock',href:'meet-the-flock.html'}
+      },
+      {
+        id:'sky-bridge',name:'Sky Bridge',emoji:'🌈',tone:'from-sky-100 to-blue-50',edge:'border-sky-300',
+        feeling:'Look from a new angle, take a brave little step, or decide what feels right for you.',
+        desc:'A sweeping bridge links the high cliffs and overlooks of Mimbleton. Breezes carry the sounds of the world below, and every lookout offers a different perspective. The bridge is a connector, not a shortcut anyone has to take.',
+        residents:['Nova','Guardian'],
+        discoveries:[
+          {name:'High Lookout',detail:'A wide ledge above the valley where the whole connected world comes into view.'},
+          {name:'Cloudwalk',detail:'A sheltered stretch of bridge where drifting clouds seem close enough to wave at.'},
+          {name:'Wind Bell Arch',detail:'A curved stone arch with gentle chimes that ring when the breeze passes through.'}
+        ],
+        action:{label:'Practice Calming Skills',href:'calming-skills.html'}
+      },
+      {
+        id:'sparkle-stream',name:'Sparkle Stream',emoji:'💧',tone:'from-cyan-100 to-sky-50',edge:'border-cyan-300',
+        feeling:'Follow the water, notice its rhythm, and explore at whatever pace feels comfortable.',
+        desc:'Clear water winds through the lower valley, passing smooth stones, little cascades, and quiet banks. The stream connects different parts of Mimbleton and gives visitors a place to watch, listen, and take a breather.',
+        residents:['Cove'],
+        discoveries:[
+          {name:'Ripple Bend',detail:'A gentle curve in the stream where tiny ripples catch the sunlight.'},
+          {name:'Pebblebank',detail:'A smooth stretch of shore filled with rounded stones in different shapes and colors.'},
+          {name:'Waterfall Steps',detail:'A series of small cascades that make a soft, steady sound as the water travels downstream.'}
+        ],
+        action:{label:'Try Calming Skills',href:'calming-skills.html'}
+      }
     ];
 
     const HOME_DETAILS = {
-      Aura:{icon:'🌸',style:'A blossom nook',description:'A bright, flower-framed hideaway tucked into the forest canopy, with room to pause and notice the little things.'},
-      Breezy:{icon:'🍃',style:'An open-air canopy home',description:'A breezy, airy home among the branches, with open views and gentle places to settle.'},
-      Clover:{icon:'☘️',style:'A leafy welcome nook',description:'A warm, sheltered home woven into the great tree, surrounded by soft leaves and signs of belonging.'},
-      Cove:{icon:'💧',style:'A waterside hideaway',description:'A snug home beside the stream, close to the sound of moving water and quiet places to explore.'},
-      Drift:{icon:'🌙',style:'A still-water alcove',description:'A peaceful cave-side home near a calm pool, with a quiet corner for thoughts to settle.'},
-      Echo:{icon:'🔔',style:'A listening chamber',description:'A sheltered cave nook shaped by gentle curves, where sounds soften and there is room to be heard.'},
-      Flamez:{icon:'🔥',style:'A warm meadow hollow',description:'A sturdy, sun-warmed home nestled among meadow grasses, made for bold ideas and fresh starts.'},
-      Flare:{icon:'✨',style:'A bright lookout nook',description:'A cheerful little home on a sunny rise, with a clear view of the next adventure.'},
-      Flicker:{icon:'🌼',style:'A sun-dappled nest',description:'A small, lively hideaway among forest blooms, full of light and tiny discoveries.'},
-      Guardian:{icon:'🛡️',style:'A sheltered high-roost',description:'A strong, protected home set into the high cliffs, with a wide view over the places Guardian watches over.'},
-      Lumen:{icon:'💎',style:'A crystal-lit retreat',description:'A calm cave home beside glowing stone and still water, made for looking closer and finding clarity.'},
-      Nova:{icon:'☁️',style:'A sky-facing aerie',description:'A lofty home near the bridge, open to the breeze and wide views across Mimbleton.'},
-      Pebble:{icon:'🪨',style:'A rounded root nook',description:'A gentle, snug home nestled near the great tree roots, with smooth stones and a welcoming feel.'},
-      Sable:{icon:'⭐',style:'A twilight hideaway',description:'A tucked-away cave retreat with a soft, starry glow and a peaceful place to gather strength.'},
-      Solace:{icon:'🌿',style:'A quiet meadow shelter',description:'A cozy, sheltered home among meadow plants, with a comforting spot to rest and catch a breath.'},
-      Twig:{icon:'🌱',style:'A little branch home',description:'A small, growing home close to the tree’s younger branches, with room for new discoveries.'}
+      Aura:{id:'aura',icon:'🌸',style:'A blossom nook',description:'A bright, flower-framed hideaway tucked into the forest canopy, with room to pause and notice the little things.'},
+      Breezy:{id:'breezy',icon:'🍃',style:'An open-air canopy home',description:'A breezy, airy home among the branches, with open views and gentle places to settle.'},
+      Clover:{id:'clover',icon:'☘️',style:'A leafy welcome nook',description:'A warm, sheltered home woven into the great tree, surrounded by soft leaves and signs of belonging.'},
+      Cove:{id:'cove',icon:'💧',style:'A waterside hideaway',description:'A snug home beside the stream, close to the sound of moving water and quiet places to explore.'},
+      Drift:{id:'drift',icon:'🌙',style:'A still-water alcove',description:'A peaceful cave-side home near a calm pool, with a quiet corner for thoughts to settle.'},
+      Echo:{id:'echo',icon:'🔔',style:'A listening chamber',description:'A sheltered cave nook shaped by gentle curves, where sounds soften and there is room to be heard.'},
+      Flare:{id:'flare',icon:'✨',style:'A bright lookout nook',description:'A cheerful little home on a sunny rise, with a clear view of the next adventure.'},
+      Flicker:{id:'flicker',icon:'🌼',style:'A sun-dappled nest',description:'A small, lively hideaway among forest blooms, full of light and tiny discoveries.'},
+      Guardian:{id:'guardian',icon:'🛡️',style:'A sheltered high-roost',description:'A strong, protected home set into the high cliffs, with a wide view over the places Guardian watches over.'},
+      Lumen:{id:'lumen',icon:'💎',style:'A crystal-lit retreat',description:'A calm cave home beside glowing stone and still water, made for looking closer and finding clarity.'},
+      Nova:{id:'nova',icon:'☁️',style:'A sky-facing aerie',description:'A lofty home near the bridge, open to the breeze and wide views across Mimbleton.'},
+      Pebble:{id:'pebble',icon:'🪨',style:'A rounded root nook',description:'A gentle, snug home nestled near the great tree roots, with smooth stones and a welcoming feel.'},
+      Sable:{id:'sable',icon:'⭐',style:'A twilight hideaway',description:'A tucked-away cave retreat with a soft, starry glow and a peaceful place to gather strength.'},
+      Solace:{id:'solace',icon:'🌿',style:'A quiet meadow shelter',description:'A cozy, sheltered home among meadow plants, with a comforting spot to rest and catch a breath.'},
+      Twig:{id:'twig',icon:'🌱',style:'A little branch home',description:'A small, growing home close to the tree’s younger branches, with room for new discoveries.'}
     };
 
     const grid=document.getElementById('zonesGrid');
@@ -292,6 +362,20 @@
       document.getElementById('panelName').textContent=zone.name;
       document.getElementById('panelDesc').textContent=zone.desc;
       document.getElementById('panelFeeling').textContent=zone.feeling;
+      const discoveries=document.getElementById('panelDiscoveries');
+      discoveries.replaceChildren();
+      zone.discoveries.forEach(function(place){
+        const item=document.createElement('article');
+        item.className='rounded-2xl border border-emerald-100 bg-white/80 p-3';
+        const title=document.createElement('h4');
+        title.className='font-black text-emerald-950 text-sm mb-1';
+        title.textContent=place.name;
+        const detail=document.createElement('p');
+        detail.className='text-xs leading-relaxed text-emerald-900/75 font-semibold';
+        detail.textContent=place.detail;
+        item.append(title,detail);
+        discoveries.appendChild(item);
+      });
       const residents=document.getElementById('panelResidents');
       residents.replaceChildren();
       zone.residents.forEach(function(name){
@@ -313,7 +397,23 @@
         tile.type='button';
         tile.className='home-tile';
         tile.setAttribute('aria-pressed','false');
-        tile.innerHTML='<span class="text-2xl" aria-hidden="true">'+home.icon+'</span><span class="font-black text-emerald-950 text-sm">'+name+'’s home</span><span class="text-xs text-emerald-800 font-bold">'+home.style+'</span>';
+        const portrait=document.createElement('img');
+        portrait.src='assets/images/'+home.id+'-nestling.png';
+        portrait.alt='';
+        portrait.loading='lazy';
+        portrait.className='w-16 h-16 object-contain self-center';
+        portrait.onerror=function(){portrait.remove();};
+        const icon=document.createElement('span');
+        icon.className='text-2xl';
+        icon.setAttribute('aria-hidden','true');
+        icon.textContent=home.icon;
+        const title=document.createElement('span');
+        title.className='font-black text-emerald-950 text-sm';
+        title.textContent=name+'’s home';
+        const style=document.createElement('span');
+        style.className='text-xs text-emerald-800 font-bold';
+        style.textContent=home.style;
+        tile.append(portrait,icon,title,style);
         tile.addEventListener('click',function(){
           homes.querySelectorAll('.home-tile').forEach(function(item){item.setAttribute('aria-pressed','false');});
           tile.setAttribute('aria-pressed','true');
@@ -363,7 +463,17 @@
     document.getElementById('panelClose').addEventListener('click',closePanel);
     document.getElementById('panelBack').addEventListener('click',closePanel);
     panel.addEventListener('click',function(event){if(event.target===panel)closePanel();});
-    document.addEventListener('keydown',function(event){if(event.key==='Escape'&&panel.classList.contains('open'))closePanel();});
+    document.addEventListener('keydown',function(event){
+      if(!panel.classList.contains('open'))return;
+      if(event.key==='Escape'){closePanel();return;}
+      if(event.key==='Tab'){
+        const focusable=Array.from(panel.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')).filter(function(el){return el.offsetParent!==null;});
+        if(!focusable.length)return;
+        const first=focusable[0],last=focusable[focusable.length-1];
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+      }
+    });
 
     const menuToggle=document.getElementById('menuToggle');
     menuToggle.addEventListener('click',function(){
