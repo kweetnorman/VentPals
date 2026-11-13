@@ -162,6 +162,7 @@
         var ways = $('waysList'); ways.innerHTML = '';
         ['mosquito', 'worm', 'ladybug', 'butterfly'].forEach(function (t) {
           var bt = G.BUG_TYPES[t];
+          if (!bt) return; // bug types the engine doesn't define are skipped
           var acts = Object.keys(G.ACTIVITIES).filter(function (k) { return G.ACTIVITIES[k].bug === t; }).map(function (k) { return G.ACTIVITIES[k].label; });
           var li = document.createElement('li'); li.className = 'bg-purple-50 rounded-xl px-3 py-2';
           li.innerHTML = '<div class="flex justify-between font-bold text-purple-700"><span>' + bt.icon + ' ' + bt.name + ' (' + bt.size + ')</span><span class="text-xs">+' + bt.growth + ' growth, +' + bt.feathers + ' 🪶</span></div><p class="text-xs text-gray-600 mt-1">' + acts.join(', ') + '</p>';
