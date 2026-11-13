@@ -1,217 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="assets/images/logo.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Settings – VentPals</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #F7F4FF, #f0f9ff);
-    }
-
-    .float {
-      animation: float 4s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    /* Toggle switch */
-    .toggle-track {
-      position: relative; display: inline-block;
-      width: 52px; height: 28px;
-    }
-    .toggle-track input { opacity:0; width:0; height:0; }
-    .toggle-slider {
-      position:absolute; cursor:pointer;
-      top:0; left:0; right:0; bottom:0;
-      background:#d1d5db; border-radius:999px;
-      transition: background .2s;
-    }
-    .toggle-slider:before {
-      content:''; position:absolute;
-      height:22px; width:22px; left:3px; bottom:3px;
-      background:#fff; border-radius:50%;
-      transition: transform .2s;
-    }
-    .toggle-track input:checked + .toggle-slider { background:#A259FF; }
-    .toggle-track input:checked + .toggle-slider:before { transform:translateX(24px); }
-    .vp-hidden { display: none; }
-  </style>
-  <link rel="stylesheet" href="responsive.css">
-</head>
-
-<body class="text-gray-800">
-  <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
-  <script src="assets/js/session.js"></script>
-  <script src="assets/js/growth.js"></script>
-  <script src="assets/js/native-bridge.js"></script>
-
-  <!-- HEADER -->
-  <section class="text-center py-12 px-6">
-    <div class="text-6xl float mb-4">⚙️</div>
-
-    <h1 class="text-3xl font-bold text-purple-700 mb-2">Settings</h1>
-    <p class="text-gray-600 text-sm max-w-md mx-auto">
-      This is your space to view your profile details, customize your VentPal world, and review your available settings.
-    </p>
-    <a href="profile.html" class="inline-block mt-4 text-purple-700 font-semibold text-sm hover:text-purple-900">← Back to Profile</a>
-  </section>
-
-  <!-- MAIN CONTENT -->
-  <section class="max-w-md mx-auto px-6 pb-20 space-y-10">
-
-    <!-- DISPLAY NAME -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Display Name 🔒</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        This is the display name shown in your VentPals profile. It was set during setup and cannot be changed later.
-      </p>
-
-      <input id="settingsDisplayName" type="text" readonly aria-readonly="true"
-             placeholder="Your display name"
-             class="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 mb-1 bg-gray-50 text-gray-600 cursor-not-allowed">
-    </div>
-
-    <!-- YOUR VENTPAL -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your VentPal</h2>
-
-      <div class="flex items-center gap-4 mb-4">
-        <div id="settingsBirdEmoji" class="text-5xl">🐦</div>
-        <div>
-          <p id="settingsBirdName" class="font-semibold text-purple-700">—</p>
-          <p class="text-xs text-gray-600">Your VentPal companion</p>
-        </div>
-      </div>
-
-      <a href="bird-growth.html"
-         class="inline-block text-purple-700 font-semibold text-sm hover:text-purple-900">
-        Learn About Your VentPal →
-      </a>
-    </div>
-
-    <!-- AVATAR SETTINGS -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Your Avatar</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        Customize how you look in your VentPals world.
-      </p>
-
-      <a href="avatar.html"
-         class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-full text-center">
-        Customize Avatar
-      </a>
-    </div>
-
-    <!-- CHECK-IN REMINDERS (local notifications) -->
-    <div class="bg-white rounded-3xl shadow p-8">
-      <h2 class="text-xl font-semibold text-purple-700 mb-3">Optional Reminder</h2>
-      <p class="text-gray-600 text-sm mb-4">
-        Choose whether you'd like a gentle reminder. There is no streak, deadline, or penalty if you skip a check-in.
-      </p>
-
-      <div class="flex items-center justify-between mb-5">
-        <span class="text-sm font-semibold text-gray-700">Send a gentle reminder</span>
-        <label class="toggle-track" aria-label="Toggle reminder">
-          <input type="checkbox" id="notifToggle" />
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div id="notifTimeRow" class="vp-hidden flex items-center gap-3">
-        <label class="text-sm font-semibold text-gray-700 flex-1" for="notifTime">Reminder time</label>
-        <input type="time" id="notifTime"
-               class="border border-purple-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-               value="09:00" />
-      </div>
-
-      <p id="notifStatus" class="text-xs text-gray-500 mt-3 hidden"></p>
-    </div>
-
-    <!-- LOGOUT -->
-    <div class="bg-white rounded-3xl shadow p-8 text-center">
-      <button id="logoutBtn" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 rounded-full">
-        Log Out
-      </button>
-    </div>
-
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="py-6 text-center text-gray-500 text-xs">
-    VentPals • The Journey of Growing Up.
-  </footer>
-
-  <script>
-    let user = {};
-    try { user = JSON.parse(localStorage.getItem('ventpals_user') || '{}'); } catch(e) { console.error('Could not load user data:', e); }
-
-    const displayNameInput = document.getElementById('settingsDisplayName');
-    if (user.displayName || user.nickname) {
-      displayNameInput.value = user.displayName || user.nickname;
-    }
-
-    const birdEmoji = user.birdEmoji || '🐦';
-    const birdName  = user.birdName  || user.birdId || '—';
-    document.getElementById('settingsBirdEmoji').textContent = birdEmoji;
-    document.getElementById('settingsBirdName').textContent  = birdName;
-
-
-    // ── Notification toggle ──
-    (function initNotifUI() {
-      const native = window.VentPalsNative;
-      if (!native) return;
-
-      const toggle  = document.getElementById('notifToggle');
-      const timeRow = document.getElementById('notifTimeRow');
-      const timeIn  = document.getElementById('notifTime');
-      const status  = document.getElementById('notifStatus');
-
-      function setTimeRowVisible(on) {
-        timeRow.classList.toggle('vp-hidden', !on);
-      }
-
-      const enabled = native.Notifications.isEnabled();
-      toggle.checked = enabled;
-      timeIn.value   = native.Notifications.getTime();
-      setTimeRowVisible(enabled);
-
-      toggle.addEventListener('change', () => {
-        native.Haptics.tap();
-        const on = toggle.checked;
-        native.Notifications.setEnabled(on);
-        setTimeRowVisible(on);
-        if (on) {
-          status.textContent = '✓ Reminder set for ' + timeIn.value;
-          status.classList.remove('hidden');
-        } else {
-          status.classList.add('hidden');
-        }
-      });
-
-      timeIn.addEventListener('change', () => {
-        native.Notifications.setTime(timeIn.value);
-        status.textContent = '✓ Reminder updated to ' + timeIn.value;
-        status.classList.remove('hidden');
-      });
-    })();
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem("ventpals_logged_in");
-      localStorage.removeItem("ventpals_parent_logged_in");
-      localStorage.removeItem("ventpals_parent_email");
-      window.location.href = "welcome.html";
-    });
-  </script>
-
-</body>
-</html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efff">
+<link rel="icon" type="image/png" href="assets/images/logo.png"><title>Settings • VentPals</title>
+<script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="responsive.css">
+<style>
+:root{--purple:#7651b5;--ink:#40394d;--muted:#766d82;--line:rgba(118,81,181,.13)}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 8% 3%,#fff 0,transparent 27%),linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8)}
+.shell{width:min(100% - 32px,780px);margin:auto}.soft-card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:26px;box-shadow:0 10px 30px rgba(65,48,94,.07)}
+.eyebrow{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:900;color:#9277b9}.section-title{font-size:19px;line-height:1.25;font-weight:900;color:#5d428d}.muted{color:var(--muted)}
+.action{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:11px 17px;font-size:13px;font-weight:800;text-decoration:none;transition:transform .15s,box-shadow .15s}.action:hover{transform:translateY(-1px)}
+.action-primary{background:linear-gradient(110deg,#7651b5,#9a76d0);color:#fff;box-shadow:0 6px 16px rgba(118,81,181,.2)}.action-soft{background:#f3edff;color:#694b9b;border:1px solid #e8def8}
+.toggle{position:relative;display:inline-flex;width:50px;height:29px;flex-shrink:0}.toggle input{position:absolute;opacity:0;width:1px;height:1px}.toggle span{position:absolute;inset:0;border-radius:99px;background:#d7d2df;transition:background .2s;cursor:pointer}.toggle span:after{content:"";position:absolute;width:21px;height:21px;left:4px;top:4px;border-radius:50%;background:#fff;box-shadow:0 1px 4px #0002;transition:transform .2s}.toggle input:checked+span{background:#8b67c2}.toggle input:checked+span:after{transform:translateX(21px)}.toggle input:focus-visible+span{outline:3px solid #c4b5fd;outline-offset:3px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:16px}.bird-frame{width:88px;height:88px;display:grid;place-items:center;border-radius:25px;background:linear-gradient(145deg,#f5efff,#e9f7ed);border:1px solid #e8def8;overflow:hidden}.bird-frame img{width:100%;height:100%;object-fit:contain}.status{font-size:12px;color:#477b55;min-height:18px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head>
+<body>
+<script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
+<script src="assets/js/session.js"></script><script src="assets/js/growth.js"></script><script src="assets/js/native-bridge.js"></script>
+<header class="shell flex items-center justify-between pt-5">
+<a href="nest.html" class="flex items-center gap-2 no-underline" aria-label="VentPals home"><img src="assets/images/logo.png" alt="" class="w-9 h-9 object-contain"><span class="text-xl font-black text-purple-800">VentPals</span></a>
+<a href="profile.html" class="action action-soft">← My Profile</a></header>
+<main class="shell pt-7 pb-28 space-y-5">
+<section class="text-center py-3"><div class="text-5xl mb-3" aria-hidden="true">⚙️</div><p class="eyebrow">Make this space yours</p><h1 class="text-3xl sm:text-4xl font-black text-purple-800 mt-1">Your Settings</h1><p class="muted text-sm max-w-lg mx-auto mt-2">Your choices, your companion, your pace. You can come back and adjust these options whenever you need.</p></section>
+<section class="soft-card p-5 sm:p-7">
+<div class="flex items-center justify-between gap-3 mb-5"><div><p class="eyebrow">Your account</p><h2 class="section-title mt-1">Your VentPals name</h2></div><span class="text-2xl" aria-hidden="true">✨</span></div>
+<div class="rounded-2xl bg-purple-50/90 border border-purple-100 p-4"><p class="eyebrow">Your username</p><p id="settingsDisplayName" class="text-2xl font-black text-purple-800 mt-1 break-words">Loading…</p><p class="text-xs muted mt-2">This is the name you created with the VentPals name generator. It stays connected to your profile.</p></div>
+<div class="grid grid-cols-2 gap-3 mt-4"><div class="rounded-2xl bg-white border border-purple-100 p-3"><p class="eyebrow">Nickname</p><p id="settingsNickname" class="font-bold text-sm text-purple-800 mt-1 break-words">—</p></div><div class="rounded-2xl bg-white border border-purple-100 p-3"><p class="eyebrow">PowerWord</p><p id="settingsPowerWord" class="font-bold text-sm text-purple-800 mt-1 break-words">—</p></div></div></section>
+<section class="soft-card p-5 sm:p-7">
+<div class="flex items-center justify-between gap-3 mb-4"><div><p class="eyebrow">Your companion</p><h2 class="section-title mt-1">Your VentPal</h2></div><span class="text-2xl" aria-hidden="true">🐦</span></div>
+<div class="flex items-center gap-4"><div class="bird-frame" id="settingsBirdArt" role="img" aria-label="Your VentPal profile picture"><span class="text-5xl" aria-hidden="true">🐦</span></div><div class="min-w-0"><p id="settingsBirdName" class="text-xl font-black text-purple-800 break-words">Your companion</p><p class="text-sm muted mt-1">Your chosen bird stays yours as you grow.</p></div></div>
+<div class="mt-5 rounded-2xl bg-green-50/80 border border-green-100 p-4"><div class="flex items-center justify-between gap-3"><div><p class="eyebrow" style="color:#4d8b61">Growing at your pace</p><p class="font-extrabold text-purple-800 mt-1">Your Growth Stage</p></div><span id="settingsStageLabel" class="text-sm font-extrabold text-green-700">Egg stage</span></div>
+<div id="settingsStageArt" class="min-h-24 flex items-center justify-center mt-2" aria-label="Current VentPal growth stage"></div><div class="flex justify-between text-xs font-bold text-purple-700 mt-2"><span id="settingsGrowthPoints">0 growth points</span><span id="settingsNextStage">Next stage</span></div><div class="h-2.5 rounded-full bg-white overflow-hidden mt-2"><div id="settingsGrowthBar" class="h-full rounded-full bg-gradient-to-r from-purple-400 to-green-400" style="width:0%"></div></div></div>
+<a href="bird-growth.html" class="action action-soft mt-4">Explore the growth journey →</a></section>
+<section class="soft-card p-5 sm:p-7"><div class="flex items-center justify-between gap-3 mb-2"><div><p class="eyebrow">Make it yours</p><h2 class="section-title mt-1">Your look & style</h2></div><span class="text-2xl" aria-hidden="true">🎨</span></div><p class="muted text-sm mb-4">Change the look of your avatar and revisit the choices you made during setup.</p><a href="avatar-customization.html" class="action action-primary w-full sm:w-auto">Customize my avatar <span aria-hidden="true">→</span></a></section>
+<section class="soft-card p-5 sm:p-7">
+<div class="flex items-center justify-between gap-3 mb-2"><div><p class="eyebrow">A gentle nudge</p><h2 class="section-title mt-1">Check-in reminders</h2></div><span class="text-2xl" aria-hidden="true">🌱</span></div><p class="muted text-sm mb-5">Choose whether you’d like a reminder to pause and check in. There are no streaks, deadlines, or penalties for skipping.</p>
+<div class="setting-row"><div><p class="font-bold text-sm text-gray-800">Send me a gentle reminder</p><p class="text-xs muted mt-1">Optional and easy to turn off</p></div><label class="toggle"><input type="checkbox" id="notifToggle" aria-label="Enable check-in reminders"><span></span></label></div>
+<div id="notifTimeRow" class="setting-row mt-5 pt-4 border-t border-purple-100" hidden><label for="notifTime" class="text-sm font-bold text-gray-700">Reminder time</label><input type="time" id="notifTime" value="09:00" class="border border-purple-200 rounded-xl px-3 py-2 text-sm bg-white"></div>
+<p id="notifStatus" class="status mt-3" role="status" aria-live="polite"></p><p class="text-xs muted mt-2">Your device may ask for permission before reminders can be sent.</p></section>
+<section class="soft-card p-5 sm:p-7"><div class="flex items-center gap-3 mb-3"><span class="text-2xl" aria-hidden="true">🔒</span><div><p class="eyebrow">Your space</p><h2 class="section-title mt-1">Privacy & preview</h2></div></div><p class="text-sm muted">This version of VentPals is a sandbox preview. Your profile choices and progress are saved in this browser on this device. They are not yet a synced, secure online account, so use pretend details and avoid entering anything private.</p><div class="mt-4 rounded-2xl bg-purple-50 p-4"><p class="text-xs font-extrabold text-purple-800">A quick reminder</p><p class="text-xs muted mt-1">You can explore at your own pace. You can skip an activity, take a break, or ask a trusted grown-up for help whenever you need it.</p></div></section>
+<section class="soft-card p-5 sm:p-7"><div class="flex items-center gap-3 mb-4"><span class="text-2xl" aria-hidden="true">🚪</span><div><p class="eyebrow">When you’re finished</p><h2 class="section-title mt-1">Your session</h2></div></div><p class="text-sm muted mb-4">Logging out ends this session on this device. It does not erase your saved sandbox profile or growth progress.</p><button id="logoutBtn" type="button" class="w-full rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-extrabold py-3">Log out of VentPals</button></section>
+<p class="text-center text-xs muted pt-2">VentPals • Your space. Your pace. Your VentPal. 💚</p></main>
+<script>
+(function(){
+'use strict';var $=function(id){return document.getElementById(id)},user={};
+try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){user={}}
+$('settingsDisplayName').textContent=user.displayName||user.username||'Your name is not set yet';
+$('settingsNickname').textContent=user.nickname||'—';$('settingsPowerWord').textContent=user.powerWord||'—';
+var growth=window.VPGrowth,bird=growth&&typeof growth.getBird==='function'?growth.getBird():{id:user.birdId||'aura',name:user.birdName||'Your VentPal',emoji:user.birdEmoji||'🐦'};
+var birdId=String(bird.id||'aura').toLowerCase().replace(/[^a-z]/g,'');$('settingsBirdName').textContent=bird.name||user.birdName||'Your VentPal';
+var portrait=$('settingsBirdArt'),img=document.createElement('img'),portraitTried=false;img.alt=(bird.name||'Your VentPal')+' profile picture';
+img.onerror=function(){if(!portraitTried){portraitTried=true;this.remove();var fallback=document.createElement('span');fallback.className='text-5xl';fallback.textContent=bird.emoji||'🐦';fallback.setAttribute('aria-hidden','true');portrait.replaceChildren(fallback)}};
+img.src='assets/profile-portraits/'+birdId+'.png';portrait.replaceChildren(img);
+var progress=growth&&typeof growth.getProgress==='function'?growth.getProgress():null,stage=progress&&progress.stage?progress.stage.name:(user.stage||'Egg');
+$('settingsStageLabel').textContent=stage+' stage';
+if(growth&&typeof growth.renderAvatar==='function')growth.renderAvatar($('settingsStageArt'),{height:112,bare:true});else $('settingsStageArt').textContent=stage.toLowerCase()==='egg'?'🥚':'🐦';
+if(progress){$('settingsGrowthPoints').textContent=progress.xp+' growth points';$('settingsNextStage').textContent=progress.next?progress.toNext+' to '+progress.next.name:'Top stage reached';$('settingsGrowthBar').style.width=progress.pct+'%'}
+var native=window.VentPalsNative,notifications=native&&native.Notifications,toggle=$('notifToggle'),time=$('notifTime'),row=$('notifTimeRow'),status=$('notifStatus');
+if(notifications){toggle.checked=notifications.isEnabled();time.value=notifications.getTime();row.hidden=!toggle.checked;
+toggle.addEventListener('change',function(){if(native.Haptics)native.Haptics.tap();var enabled=toggle.checked;notifications.setEnabled(enabled);row.hidden=!enabled;status.textContent=enabled?'Reminder preference saved. Your device may ask for notification permission.':'Reminders are turned off.';if(enabled&&'Notification'in window&&Notification.permission==='denied')status.textContent='Notifications are blocked in your device or browser settings. You can turn them on there.'});
+time.addEventListener('change',function(){notifications.setTime(time.value);status.textContent='Reminder time saved.'})}
+else{toggle.disabled=true;time.disabled=true;status.textContent='Reminders are not available in this browser session.'}
+$('logoutBtn').addEventListener('click',function(){if(window.VPSession&&typeof window.VPSession.logout==='function'){window.VPSession.logout();return}localStorage.removeItem('ventpals_logged_in');localStorage.removeItem('ventpals_demo_last_activity');window.location.href='welcome.html'})
+})();
+</script></body></html>
