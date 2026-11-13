@@ -12,7 +12,8 @@
 .bubble{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:112px;padding:14px 9px;border:2px solid rgba(118,81,181,.13);border-radius:28px 28px 34px 34px;background:linear-gradient(160deg,#fff 0%,var(--bubble,#f2eaff) 100%);box-shadow:0 7px 0 rgba(93,69,132,.09),0 12px 22px rgba(65,48,94,.07);color:#59427f;text-decoration:none;font-weight:800;text-align:center;transition:transform .18s}
 .bubble:hover,.bubble:focus-visible{transform:translateY(-4px);outline:3px solid rgba(118,81,181,.2);outline-offset:2px}.bubble .emoji{font-size:32px;line-height:1}.bubble small{font-size:11px;font-weight:600;opacity:.78}
 .bug-button{border:1px solid #d9c9ef;border-radius:18px;background:#fbf9ff;padding:10px 5px;font-weight:700;color:#5d4782}.bug-button:disabled{opacity:.4}
-.primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:12px 20px}.primary:disabled{opacity:.4}
+.primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:12px 20px} .primary:disabled{opacity:.4}
+.reflection-fly{position:fixed;z-index:10000;pointer-events:none;font-size:28px;animation:reflectionFly 1.15s cubic-bezier(.2,.7,.2,1) forwards}@keyframes reflectionFly{0%{transform:translate(0,0) scale(1);opacity:1}70%{opacity:1}100%{transform:translate(150px,-180px) scale(.35);opacity:0}}
 @media(prefers-reduced-motion:reduce){.float,.bubble{animation:none;transition:none}}
 </style>
   <link rel="stylesheet" href="responsive.css">
@@ -54,14 +55,14 @@
 <a class="bubble" style="--bubble:#dff5ff" href="world.html"><span class="emoji">🌎</span><span>Explore</span><small>Visit VentPals World</small></a>
 <a class="bubble" style="--bubble:#ffe8f1" href="bird-growth.html#feed"><span class="emoji">🪶</span><span>Grow</span><small>Care for your bird</small></a>
 <a class="bubble" style="--bubble:#fff0dc" href="keepsakes.html"><span class="emoji">🎒</span><span>Keepsakes</span><small>See what you've earned</small></a>
-<a class="bubble" style="--bubble:#e8f5ed" href="profile.html"><span class="emoji">😊</span><span>My Profile</span><small>Your personal details</small></a>
+<a class="bubble" style="--bubble:#e8eaff" href="reflection-journal.html"><span class="emoji">💎</span><span>Quiet Caves</span><small>Visit your Reflection Journal</small></a>\n<a class="bubble" style="--bubble:#e4f8ff" href="rainbow-stream.html"><span class="emoji">🌈</span><span>Rainbow Stream</span><small>See your journey moments</small></a>\n<a class="bubble" style="--bubble:#e8f5ed" href="profile.html"><span class="emoji">😊</span><span>My Profile</span><small>Your personal details</small></a>
 <a class="bubble" style="--bubble:#f0eaff" href="nest-connections.html"><span class="emoji">💜</span><span>Nest Connections</span><small>People you trust</small></a>
 </div></section>
 <section class="soft-card p-5 sm:p-6"><h2 class="text-lg font-extrabold text-purple-800">💌 A little space to reflect</h2>
 <p class="text-sm text-gray-600 mt-1 mb-3">Write something just for yourself. You decide what you want to share.</p>
 <textarea id="nestReflection" rows="4" class="w-full rounded-2xl border border-purple-200 bg-white/80 p-4 text-sm outline-none focus:ring-2 focus:ring-purple-300" placeholder="What's on your mind today?"></textarea>
-<div class="flex flex-wrap items-center justify-between gap-3 mt-3"><span id="saveMessage" class="text-sm font-bold text-green-700" role="status"></span><button id="saveReflection" type="button" class="primary">Save in my Nest</button></div>
-<p class="text-xs text-gray-500 mt-3">This demo saves your reflection in this browser on this device.</p></section>
+<div class="flex flex-wrap items-center justify-between gap-3 mt-3"><span id="saveMessage" class="text-sm font-bold text-green-700" role="status"></span><button id="saveReflection" type="button" class="primary">Send to Quiet Caves</button></div>
+<p class="text-xs text-gray-500 mt-3">Your words fly to your private Reflection Journal in Quiet Caves. This demo stores them on this device.</p></section>
 <p class="text-center text-xs text-gray-500">Your Nest is yours. Explore when you're ready, and take things at your own pace. 💚</p>
 </main>
 <script src="assets/js/nest.js"></script>
