@@ -35,7 +35,7 @@ function inject(){
   {href:'meet-the-flock.html',icon:'🐦',label:'Flockopedia',match:['meet-the-flock','meet-the-birds']},
   {href:'profile.html',icon:'😊',label:'Me',match:['profile','settings']}
  ];
- var bar=document.createElement('nav');bar.id='vp-tabbar';bar.setAttribute('aria-label','VentPals navigation');
+ var style=document.createElement('style');style.id='vp-tabbar-layout';style.textContent='#vp-tabbar{position:fixed!important;left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;top:auto!important;z-index:99999!important;display:flex!important;flex-flow:row nowrap!important;justify-content:space-around!important;align-items:stretch!important;width:auto!important;max-width:760px!important;margin:0 auto!important;transform:none!important;box-sizing:border-box!important}#vp-tabbar>*{flex:1 1 0!important;min-width:0!important;max-width:none!important;white-space:normal!important}body.vp-has-tabbar{padding-bottom:calc(116px + env(safe-area-inset-bottom))!important}';document.head.appendChild(style);\n var bar=document.createElement('nav');bar.id='vp-tabbar';bar.setAttribute('aria-label','VentPals navigation');
  bar.style.cssText='position:fixed;left:10px;right:10px;bottom:8px;z-index:9999;display:flex;justify-content:space-around;align-items:center;gap:4px;max-width:760px;margin:auto;background:rgba(255,255,255,.97);border:1px solid rgba(118,81,181,.14);border-radius:25px;box-shadow:0 8px 28px rgba(46,26,71,.16);padding:7px 6px calc(7px + env(safe-area-inset-bottom));font-family:inherit;backdrop-filter:blur(12px)';
  function add(href,icon,label,active,action){
   var el=document.createElement(action?'button':'a');if(!action)el.href=href;else el.type='button';
@@ -46,7 +46,7 @@ function inject(){
  }
  tabs.forEach(function(t){bar.appendChild(add(base+t.href,t.icon,t.label,t.match.some(function(m){return file.indexOf(m)!==-1;})));});
  var out=add('','🚪','Log out',false,logout);out.id='vp-logout-btn';out.setAttribute('aria-label','Log out of VentPals');bar.appendChild(out);
- document.body.appendChild(bar);document.body.style.paddingBottom='105px';
+ document.body.appendChild(bar);document.body.classList.add('vp-has-tabbar');document.body.style.setProperty('padding-bottom','calc(116px + env(safe-area-inset-bottom))','important');
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',inject);else inject();
 window.VPSession={logout:logout,isLoggedIn:true,idleTimeoutMs:IDLE_LIMIT};
