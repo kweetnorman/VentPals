@@ -61,7 +61,7 @@
       padding: 28px 24px;
       margin-bottom: 18px;
     }
-    .card-icon { font-size: 56px; text-align: center; margin-bottom: 14px; animation: floaty 3.5s ease-in-out infinite; }
+    .card-icon { width:112px;height:112px;object-fit:contain;display:block;margin:0 auto 14px;animation:floaty 3.5s ease-in-out infinite; }
     @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
     h1 { color: var(--purple); font-size: clamp(1.5rem,4vw,2rem); font-weight: 800; letter-spacing:-0.02em; margin-bottom: 8px; }
@@ -122,7 +122,7 @@
     }
     .bird-option:hover   { border-color: var(--purple); background: #faf5ff; transform:scale(1.03); }
     .bird-option.selected { border-color: var(--purple); background: #faf5ff; box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
-    .bird-option .bird-emoji { font-size: 32px; margin-bottom: 6px; }
+    .bird-option .bird-art { width:88px;height:88px;object-fit:contain;display:block;margin:0 auto 8px; }
     .bird-option .bird-name  { font-size: 12px; font-weight: 700; color: #5B4B8A; }
     .bird-option .bird-trait { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
@@ -187,7 +187,7 @@
   ════════════════════════════════════ -->
   <div class="step active" id="step-1">
     <div class="card" style="text-align:center;">
-      <div class="card-icon">🐦</div>
+      <img class="card-icon" src="../assets/images/pebble-baby.png" alt="Pebble the VentPal dove">
       <h1>Welcome to VentPals!</h1>
       <p style="margin-bottom:20px;">
         This is your space to explore, express yourself, and grow at your own pace.
@@ -206,7 +206,7 @@
   <div class="step" id="step-2">
     <div class="card" style="text-align:center;">
       <div id="birdPending">
-        <div class="card-icon">🪶</div>
+        <img class="card-icon" src="../assets/images/pebble-feathered.png" alt="A VentPals bird feathered growth stage">
         <h1 style="margin-bottom:6px;">Choose Your VentPal</h1>
         <p style="margin-bottom:18px;">Pick the bird you like best. Choose by its look, colors, or personality. Your feelings never decide who your VentPal is.</p>
         <div class="bird-grid" id="birdChoiceGrid"></div>
@@ -459,8 +459,8 @@
         const option = document.createElement('button');
         option.type = 'button';
         option.className = 'bird-option';
-        option.innerHTML = '<div class="bird-emoji"></div><div class="bird-name"></div><div class="bird-trait"></div>';
-        option.querySelector('.bird-emoji').textContent = bird.emoji;
+        option.innerHTML = '<img class="bird-art" src="../assets/images/' + bird.id + '-baby.png" alt=""><div class="bird-name"></div><div class="bird-trait"></div>';
+        option.querySelector('.bird-art').alt = bird.name + ', ' + bird.kind;
         option.querySelector('.bird-name').textContent = bird.name;
         option.querySelector('.bird-trait').textContent = bird.kind;
         option.addEventListener('click', () => {
