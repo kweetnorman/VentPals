@@ -89,23 +89,6 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
  $('profileColourSwatch').style.backgroundColor=colour;
  const colourNames={'#c084fc':'Default','#60a5fa':'Blue','#f9a8d4':'Pink','#4ade80':'Green','#fbbf24':'Gold','#2dd4bf':'Teal','#fb923c':'Orange'};
  text('profileColourName',colourNames[colour]||'Custom colour');
- const pronouns=user.pronouns||'';
- text('profilePronounsText',pronouns||'Prefer not to say');
- $('profilePronouns').value=pronouns;
- $('savePronounsBtn').addEventListener('click',function(){
-  user.pronouns=$('profilePronouns').value;
-  localStorage.setItem('ventpals_user',JSON.stringify(user));
-  // Keep the active sandbox account in sync so the choice survives switching accounts.
-  try{
-   const profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]');
-   const active=localStorage.getItem('ventpals_active_profile');
-   const profile=profiles.find(p=>p.username===active);
-   if(profile){profile.user=Object.assign({},profile.user||{},user);localStorage.setItem('ventpals_demo_profiles',JSON.stringify(profiles));}
-  }catch(e){}
-  text('profilePronounsText',user.pronouns||'Prefer not to say');
-  $('profileSaveMessage').textContent='Saved ✓ Your profile is up to date.';
-  $('savePronounsBtn').textContent='Saved ✓';
- });
 })();
 </script>
 </body></html>
