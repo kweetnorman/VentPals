@@ -5,7 +5,7 @@
 ## 🐦 Overview
 
 - **16 VentPal birds** — each with a distinct personality and story. Children choose a companion that stays theirs through every feeling.
-- **VentPals World** — 6 emotional zones (Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, Sparkle Stream)
+- **VentPals World** — 6 emotional zones (Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, Rainbow Stream)
 - **Calming skills** — Deep Breathing, Butterfly Hug, 5 Senses Grounding, Sip of Water
 - **Reflections & Nests** — one personal Nest per child. The current preview stores demo reflections and progress in local browser storage; it is not a secure private account.
 - **Grown-up experience** — design preview only; verified adult-child connections are not active.
