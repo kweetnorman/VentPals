@@ -1,0 +1,60 @@
+/* Shared VentPals app theme — child-facing sandbox pages */
+:root {
+  --vp-app-ink:#40394d;
+  --vp-app-purple:#7651b5;
+  --vp-app-purple-deep:#563b83;
+  --vp-app-green:#78bd69;
+  --vp-app-lilac:#f4efff;
+  --vp-app-line:rgba(118,81,181,.14);
+  --vp-app-shadow:0 12px 34px rgba(65,48,94,.08);
+}
+html { scroll-behavior:smooth; }
+body {
+  color:var(--vp-app-ink);
+  background:
+    radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),
+    linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8) !important;
+  font-family:'Plus Jakarta Sans',Inter,system-ui,sans-serif !important;
+  min-height:100vh;
+}
+h1,h2,h3,h4,.font-bold,.font-extrabold,.font-black {
+  letter-spacing:-.025em;
+}
+h1,h2,h3 { color:var(--vp-app-purple-deep); }
+nav {
+  background:rgba(255,255,255,.82);
+  border-bottom:1px solid var(--vp-app-line);
+  box-shadow:0 5px 20px rgba(65,48,94,.045);
+  backdrop-filter:blur(14px);
+}
+main > section,
+main > header,
+.soft-card,
+.card,
+.dialog-inner {
+  border-color:var(--vp-app-line);
+}
+.soft-card,
+main > section.bg-white,
+main > div.bg-white,
+main > section.rounded-3xl,
+main > div.rounded-3xl {
+  border:1px solid var(--vp-app-line);
+  border-radius:28px;
+  box-shadow:var(--vp-app-shadow);
+}
+button,.primary,.btn-primary {
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
+  outline:3px solid rgba(56,189,248,.7);
+  outline-offset:3px;
+}
+input,select,textarea {
+  border-color:#e3d8f1;
+  border-radius:14px;
+}
+a { text-underline-offset:3px; }
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
