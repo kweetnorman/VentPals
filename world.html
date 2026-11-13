@@ -61,6 +61,87 @@
     @media(max-width:640px){header h1{font-size:3.5rem!important}.map-frame{border-radius:24px}}
     @media(max-width:640px){.world-map{min-height:0}.map-frame{border-width:3px;border-radius:22px}.map-caption{font-size:12px}.panel-card{padding:24px}.map-hotspot .hotspot-label text{font-size:17px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  
+    /* Mimbleton visual refresh: playful, colorful, and consistent with VentPals */
+    body{
+      background:
+        radial-gradient(circle at 8% 8%,rgba(255,208,226,.72),transparent 25rem),
+        radial-gradient(circle at 94% 16%,rgba(194,224,255,.78),transparent 28rem),
+        radial-gradient(circle at 75% 85%,rgba(255,225,167,.62),transparent 26rem),
+        linear-gradient(145deg,#f8efff 0%,#eef6ff 42%,#fff4e8 100%) !important;
+      color:#493b66;
+    }
+    nav.bg-white\/75{
+      background:rgba(255,255,255,.82)!important;
+      border-bottom:1px solid rgba(211,190,239,.55);
+      box-shadow:0 8px 26px rgba(93,72,133,.08)!important;
+    }
+    nav .text-emerald-800,nav .text-emerald-950{color:#7255a2!important}
+    header p.text-emerald-700{color:#a05b9d!important}
+    header h1{
+      color:#6c4ba0!important;
+      text-shadow:0 4px 0 rgba(255,255,255,.8),0 10px 28px rgba(123,91,166,.15);
+      letter-spacing:-.055em!important;
+    }
+    header>p:last-child{color:#66577f!important}
+    #mapHeading,.text-emerald-950{color:#574477!important}
+    #mimbleton-map .text-emerald-900\/70,
+    #mimbleton-map .text-emerald-900\/75{color:#75658e!important}
+    .map-frame{
+      border:7px solid rgba(255,255,255,.94);
+      border-radius:34px;
+      background:linear-gradient(135deg,#f9d9ec,#dceaff 48%,#fff0c9);
+      box-shadow:0 22px 60px rgba(105,76,145,.18),0 5px 0 rgba(255,255,255,.75),inset 0 0 0 2px rgba(255,255,255,.7);
+    }
+    .world-map{
+      filter:saturate(1.28) brightness(1.035) hue-rotate(7deg);
+    }
+    .map-caption{
+      background:rgba(255,255,255,.9);
+      color:#76539d!important;
+      border:1px solid #eadcf8;
+      box-shadow:0 5px 16px rgba(104,77,144,.1)!important;
+    }
+    .map-path-under{stroke:#d9a5d5;opacity:.8}
+    .map-path{stroke:#fff9e9;stroke-width:15;filter:drop-shadow(0 3px 3px rgba(120,87,149,.22))}
+    .map-hotspot .hotspot-label rect{
+      fill:#fffdfb;
+      stroke-width:4;
+      filter:drop-shadow(0 5px 8px rgba(91,67,126,.16));
+    }
+    .map-hotspot .hotspot-label text{font-size:23px;font-weight:900}
+    .zone-card{
+      border-radius:26px!important;
+      border-width:2px!important;
+      box-shadow:0 10px 24px rgba(105,78,139,.09)!important;
+      background-image:linear-gradient(135deg,rgba(255,255,255,.94),rgba(248,241,255,.92))!important;
+    }
+    .zone-card:nth-child(6n+1){border-color:#e9b6d7!important}
+    .zone-card:nth-child(6n+2){border-color:#b8d9c7!important}
+    .zone-card:nth-child(6n+3){border-color:#c8c4ee!important}
+    .zone-card:nth-child(6n+4){border-color:#f1d18d!important}
+    .zone-card:nth-child(6n+5){border-color:#b8d9ee!important}
+    .zone-card:nth-child(6n){border-color:#a9dfe6!important}
+    .zone-card h3{color:#674b91!important}
+    .zone-card p{color:#706181!important}
+    .zone-card>div:last-child{background:#f1e7fb!important;color:#76519b!important}
+    .zone-card:hover{box-shadow:0 18px 32px rgba(105,78,139,.16)!important}
+    #placesHeading~p{color:#75658e!important}
+    #zonePanel{background:rgba(62,48,86,.58)}
+    .panel-card{
+      border:3px solid rgba(255,255,255,.9);
+      box-shadow:0 24px 70px rgba(42,31,65,.3)!important;
+    }
+    .home-chip{background:#f1e8fb;color:#76519b}
+    .home-tile{background:#fffafd;border-color:#e8d9f4}
+    .home-tile[aria-pressed="true"]{background:#f1e8fb;border-color:#a986ce}
+    .home-detail{background:#f5effb;border-color:#dfcbed}
+    footer{color:#806f98!important}
+    @media(max-width:640px){
+      .map-frame{border-radius:24px}
+      header h1{font-size:3.6rem!important}
+    }
+
   </style>
 </head>
 <body class="text-slate-800">
