@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#d9f0e4" />
+  <meta name="theme-color" content="#eee5ff" />
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <title>Mimbleton – The VentPals World</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="responsive.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
-    :root{--ink:#24423d;--deep:#315e51;--cream:#fffaf0;--gold:#f4c86a;--mint:#dff3e7}
+    :root{--ink:#40365f;--deep:#7356a8;--cream:#fffaf7;--gold:#ffd978;--mint:#e9e1ff}
     *{box-sizing:border-box}
-    body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#dff2ec 0%,#f8f4df 48%,#f5e9d9 100%);min-height:100vh;color:var(--ink)}
+    body{font-family:'Nunito',sans-serif;background:radial-gradient(ellipse at 8% 8%,rgba(255,207,226,.72),transparent 30%),radial-gradient(ellipse at 92% 20%,rgba(190,224,255,.72),transparent 32%),linear-gradient(180deg,#f2eaff 0%,#fff4ee 48%,#eaf5ff 100%);min-height:100vh;color:var(--ink)}
     .world-shell{max-width:1280px;margin:0 auto}html{scroll-behavior:smooth}#mimbleton-map{scroll-margin-top:90px}
-    .map-frame{position:relative;overflow:hidden;border:5px solid rgba(255,255,255,.86);border-radius:32px;background:#bfe5d8;box-shadow:0 24px 70px rgba(43,91,75,.18),inset 0 0 0 1px rgba(48,99,78,.12)}
-    .map-frame:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:27px;box-shadow:inset 0 0 45px rgba(35,81,68,.12)}
+    .map-frame{position:relative;overflow:hidden;border:7px solid rgba(255,255,255,.94);border-radius:34px;background:linear-gradient(135deg,#d9c9ff,#ffd7e6 48%,#bceeff);box-shadow:0 26px 70px rgba(102,74,145,.2),0 8px 0 rgba(255,255,255,.55),inset 0 0 0 2px rgba(255,255,255,.7)}
+    .map-frame:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:27px;box-shadow:inset 0 0 55px rgba(100,72,145,.10)}
     .world-map{display:block;width:100%;height:auto;min-height:330px}
     .map-hotspot{cursor:pointer;outline:none}
     .map-hotspot .hotspot-halo{opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .2s ease,transform .2s ease}
@@ -26,8 +26,8 @@
     .map-hotspot:hover .zone-art{filter:brightness(1.06) saturate(1.08)}
     .map-hotspot .hotspot-label{filter:drop-shadow(0 3px 4px rgba(28,66,56,.2))}
     .map-hotspot .hotspot-label text{font-family:'Nunito',sans-serif;font-weight:900;letter-spacing:.2px}
-    .map-path{fill:none;stroke:#fff8d9;stroke-width:13;stroke-linecap:round;stroke-dasharray:2 19;opacity:.96;filter:drop-shadow(0 2px 2px rgba(75,108,82,.2))}
-    .map-path-under{fill:none;stroke:#c59c63;stroke-width:22;stroke-linecap:round;opacity:.65}
+    .map-path{fill:none;stroke:#fffdf8;stroke-width:15;stroke-linecap:round;stroke-dasharray:3 20;opacity:1;filter:drop-shadow(0 3px 3px rgba(106,75,145,.22))}
+    .map-path-under{fill:none;stroke:#c5a5ed;stroke-width:25;stroke-linecap:round;opacity:.72}
     .map-water{stroke-dasharray:16 12;animation:waterflow 18s linear infinite}
     .firefly{animation:glow 2.8s ease-in-out infinite alternate}
     .firefly:nth-child(2n){animation-delay:1s}
@@ -41,12 +41,24 @@
     #zonePanel{display:none;position:fixed;inset:0;background:rgba(23,51,45,.62);backdrop-filter:blur(8px);z-index:60;align-items:center;justify-content:center;padding:18px}
     #zonePanel.open{display:flex}
     .panel-card{max-height:min(88vh,760px);overflow:auto}
-    .map-caption{background:rgba(255,255,255,.72);backdrop-filter:blur(12px)}
-    .home-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#f4f8ef;padding:6px 10px;font-size:12px;font-weight:800;color:#426b59}
-    .home-tile{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;border:1px solid #d8e8d9;background:#f7fbf3;border-radius:16px;padding:12px;min-height:104px;transition:transform .18s ease,border-color .18s ease,background .18s ease}
-    .home-tile:hover,.home-tile:focus-visible{transform:translateY(-2px);border-color:#6eaa81;outline:none}
-    .home-tile[aria-pressed="true"]{background:#e5f3e7;border:2px solid #4d9569;padding:11px}
-    .home-detail{background:#edf6eb;border:1px solid #c9e2ce;border-radius:16px;padding:14px;text-align:left}
+    .map-caption{background:rgba(255,255,255,.86);backdrop-filter:blur(12px);color:#7356a8!important;border:1px solid rgba(255,255,255,.9)}
+    .home-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#f0eaff;padding:7px 12px;font-size:12px;font-weight:900;color:#674c9c;border:1px solid #dfd1ff}
+    .home-tile{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;border:1px solid #e5d9ff;background:linear-gradient(145deg,#fff,#f7f1ff);border-radius:18px;padding:12px;min-height:104px;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+    .home-tile:hover,.home-tile:focus-visible{transform:translateY(-3px) rotate(-.5deg);border-color:#a78be2;outline:none;box-shadow:0 8px 18px rgba(117,85,171,.12)}
+    .home-tile[aria-pressed="true"]{background:#eee5ff;border:2px solid #9675d4;padding:11px}
+    .home-detail{background:linear-gradient(135deg,#f0eaff,#fff0f6);border:1px solid #dfd1ff;border-radius:18px;padding:14px;text-align:left}
+
+    /* Mimbleton's playful visual skin */
+    header h1{background:linear-gradient(100deg,#7958b8 0%,#d46e9e 48%,#4d9fb0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+    header p:first-child{display:inline-block;padding:8px 15px;border-radius:999px;background:rgba(255,255,255,.72);box-shadow:0 5px 18px rgba(117,85,171,.08);letter-spacing:.18em}
+    #mapHeading{color:#57427f!important}
+    .zone-card{box-shadow:0 10px 24px rgba(104,78,147,.09);border-radius:26px!important}
+    .zone-card:hover,.zone-card:focus-visible{box-shadow:0 18px 34px rgba(104,78,147,.16)}
+    .panel-card{border:5px solid rgba(255,255,255,.9);background:linear-gradient(145deg,#fffdfb,#f5efff)!important}
+    #panelAction{background:#7958b8!important}#panelAction:hover{background:#62439d!important}
+    #panelBack{background:#eee7ff!important;color:#59447f!important}
+    #panelClose{background:#f0eaff!important;color:#654b9a!important}
+    @media(max-width:640px){header h1{font-size:3.5rem!important}.map-frame{border-radius:24px}}
     @media(max-width:640px){.world-map{min-height:0}.map-frame{border-width:3px;border-radius:22px}.map-caption{font-size:12px}.panel-card{padding:24px}.map-hotspot .hotspot-label text{font-size:17px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
   </style>
@@ -56,25 +68,25 @@
   <script src="assets/js/session.js"></script>
   <script src="assets/js/growth.js"></script>
 
-  <nav class="bg-white/75 backdrop-blur-md shadow-sm sticky top-0 z-40">
+  <nav class="bg-white/85 backdrop-blur-xl shadow-sm sticky top-0 z-40 border-b border-white/80">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="nest.html" class="flex items-center gap-2" aria-label="VentPals dashboard">
         <img src="assets/images/logo.png" class="h-8" alt="VentPals Logo">
-        <span class="font-extrabold text-lg text-emerald-800">VentPals</span>
+        <span class="font-extrabold text-lg text-violet-800">VentPals</span>
       </a>
-      <button class="sm:hidden text-emerald-800 text-2xl" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
-      <ul id="mobileMenu" class="hidden sm:flex flex-col sm:flex-row gap-4 text-sm font-extrabold text-emerald-800 sm:static absolute right-4 top-14 bg-white/95 sm:bg-transparent p-4 sm:p-0 rounded-xl shadow sm:shadow-none">
-        <li><a href="profile.html" class="hover:text-emerald-950">Profile</a></li>
-        <li><a href="settings.html" class="hover:text-emerald-950">Settings</a></li>
+      <button class="sm:hidden text-violet-800 text-2xl" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <ul id="mobileMenu" class="hidden sm:flex flex-col sm:flex-row gap-4 text-sm font-extrabold text-violet-800 sm:static absolute right-4 top-14 bg-white/95 sm:bg-transparent p-4 sm:p-0 rounded-xl shadow sm:shadow-none">
+        <li><a href="profile.html" class="hover:text-violet-950">Profile</a></li>
+        <li><a href="settings.html" class="hover:text-violet-950">Settings</a></li>
       </ul>
     </div>
   </nav>
 
   <main class="world-shell px-4 pb-16">
     <header class="text-center pt-9 pb-6 sm:pt-12 sm:pb-8">
-      <p class="uppercase tracking-[.28em] text-xs sm:text-sm font-black text-emerald-700 mb-3">A world of big feelings & little discoveries</p>
-      <h1 class="text-5xl sm:text-7xl font-black tracking-tight text-emerald-900 mb-2">Mimbleton</h1>
-      <p class="max-w-2xl mx-auto text-emerald-900/75 text-base sm:text-lg font-semibold">One big, welcoming world. Six special places to explore. And plenty more beyond the horizon.</p>
+      <p class="uppercase tracking-[.28em] text-xs sm:text-sm font-black text-violet-700 mb-3">A world of big feelings & little discoveries</p>
+      <h1 class="text-5xl sm:text-7xl font-black tracking-tight text-violet-900 mb-2">Mimbleton</h1>
+      <p class="max-w-2xl mx-auto text-violet-900/75 text-base sm:text-lg font-semibold">One big, welcoming world. Six special places to explore. And plenty more beyond the horizon.</p>
     </header>
 
   <div class="max-w-6xl mx-auto" style="margin-bottom:28px">
@@ -83,8 +95,8 @@
 
     <section id="mimbleton-map" aria-labelledby="mapHeading" class="max-w-6xl mx-auto">
       <div class="flex flex-wrap items-end justify-between gap-3 mb-3 px-1">
-        <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-emerald-950">Explore the world</h2><p class="text-sm text-emerald-900/70 font-semibold">Choose a place on the map to see who calls it home.</p></div>
-        <span class="map-caption rounded-full px-4 py-2 font-extrabold text-emerald-800 shadow-sm">✦ Tap a habitat to explore</span>
+        <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-violet-950">Explore the world</h2><p class="text-sm text-violet-900/70 font-semibold">Choose a place on the map to see who calls it home.</p></div>
+        <span class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✦ Tap a habitat to explore</span>
       </div>
 
       <div class="map-frame">
@@ -92,11 +104,11 @@
           <title id="mapTitle">Illustrated map of Mimbleton</title>
           <desc id="mapDesc">A connected fantasy landscape with six interactive habitats: Nesting Tree, Feelings Forest, Quiet Caves, Firefly Meadow, Sky Bridge, and Sparkle Stream. Select any habitat to explore its characters.</desc>
           <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0df"/><stop offset=".58" stop-color="#c9eadb"/><stop offset="1" stop-color="#e9edc8"/></linearGradient>
-            <linearGradient id="meadow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b7dc91"/><stop offset="1" stop-color="#75b77c"/></linearGradient>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9c8ff"/><stop offset=".48" stop-color="#f2d6ff"/><stop offset="1" stop-color="#ffe5d1"/></linearGradient>
+            <linearGradient id="meadow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f6c8d9"/><stop offset=".52" stop-color="#c9b8f1"/><stop offset="1" stop-color="#91c9c4"/></linearGradient>
             <linearGradient id="stream" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a7e9ee"/><stop offset="1" stop-color="#42b9d0"/></linearGradient>
             <linearGradient id="cave" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#7183a7"/><stop offset="1" stop-color="#343d69"/></linearGradient>
-            <linearGradient id="treeCanopy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8ccf83"/><stop offset="1" stop-color="#3c956c"/></linearGradient>
+            <linearGradient id="treeCanopy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9dd9b4"/><stop offset=".55" stop-color="#70b99b"/><stop offset="1" stop-color="#548e91"/></linearGradient>
             <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
             <pattern id="flowerDots" width="48" height="42" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="3" fill="#fff5c8" opacity=".8"/><circle cx="34" cy="30" r="2.5" fill="#f9c5c7" opacity=".85"/></pattern>
           </defs>
@@ -105,11 +117,11 @@
           <circle cx="1000" cy="105" r="77" fill="#fff1b2" opacity=".2"/>
           <g class="cloud" fill="#fff" opacity=".75"><ellipse cx="230" cy="110" rx="76" ry="23"/><ellipse cx="270" cy="96" rx="42" ry="30"/><ellipse cx="305" cy="111" rx="55" ry="20"/></g>
           <g class="cloud" fill="#fff" opacity=".65" transform="translate(620 35) scale(.75)"><ellipse cx="230" cy="110" rx="76" ry="23"/><ellipse cx="270" cy="96" rx="42" ry="30"/><ellipse cx="305" cy="111" rx="55" ry="20"/></g>
-          <path d="M0 340 Q160 250 315 320 T630 300 T930 285 T1200 330 L1200 760H0Z" fill="#a8d69b"/>
+          <path d="M0 340 Q160 250 315 320 T630 300 T930 285 T1200 330 L1200 760H0Z" fill="#c7b4e9"/>
           <path d="M0 455 Q160 365 350 430 T700 400 T1000 420 T1200 385 L1200 760H0Z" fill="url(#meadow)"/>
-          <path d="M0 590 Q180 530 350 575 T690 550 T1000 565 T1200 535 L1200 760H0Z" fill="#6eaf78"/>
-          <path d="M0 600 Q180 540 350 585 T690 560 T1000 575 T1200 545 L1200 760H0Z" fill="url(#flowerDots)" opacity=".65"/>
-          <ellipse cx="600" cy="700" rx="590" ry="38" fill="#4d936d" opacity=".25" filter="url(#softShadow)"/>
+          <path d="M0 590 Q180 530 350 575 T690 550 T1000 565 T1200 535 L1200 760H0Z" fill="#8bbeb1"/>
+          <path d="M0 600 Q180 540 350 585 T690 560 T1000 575 T1200 545 L1200 760H0Z" fill="url(#flowerDots)" opacity=".9"/>
+          <ellipse cx="600" cy="700" rx="590" ry="38" fill="#7862a8" opacity=".18" filter="url(#softShadow)"/>
 
           <!-- distant unexplored country -->
           <g opacity=".55">
@@ -216,47 +228,47 @@
           <g transform="translate(35 35)"><rect width="180" height="42" rx="21" fill="#fffaf0" opacity=".9"/><text x="90" y="27" text-anchor="middle" font-size="17" font-weight="900" fill="#426b59" letter-spacing="1.5">THE HEART OF MIMBLETON</text></g>
         </svg>
       </div>
-      <div class="flex flex-wrap items-center justify-between gap-2 mt-3 px-1 text-xs sm:text-sm text-emerald-900/70 font-bold">
+      <div class="flex flex-wrap items-center justify-between gap-2 mt-3 px-1 text-xs sm:text-sm text-violet-900/70 font-bold">
         <span>✦ Six habitats • One connected world</span><span>More of Mimbleton waits beyond the horizon →</span>
       </div>
     </section>
 
     <section class="max-w-6xl mx-auto mt-12" aria-labelledby="placesHeading">
-      <div class="text-center mb-6"><p class="text-xs uppercase tracking-[.25em] font-black text-emerald-700">Your next adventure</p><h2 id="placesHeading" class="text-2xl sm:text-3xl font-black text-emerald-950">Get to know the habitats</h2><p class="text-emerald-900/70 font-semibold mt-1">You can explore from the map or choose a place below.</p></div>
+      <div class="text-center mb-6"><p class="text-xs uppercase tracking-[.25em] font-black text-violet-700">Your next adventure</p><h2 id="placesHeading" class="text-2xl sm:text-3xl font-black text-violet-950">Get to know the habitats</h2><p class="text-violet-900/70 font-semibold mt-1">You can explore from the map or choose a place below.</p></div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="zonesGrid"></div>
     </section>
 
-    <div class="text-center mt-12"><a href="#mimbleton-map" class="inline-flex items-center gap-2 rounded-full bg-white/80 px-6 py-3 text-emerald-800 font-extrabold shadow-sm hover:bg-white">↑ Back to Map</a></div>
+    <div class="text-center mt-12"><a href="#mimbleton-map" class="inline-flex items-center gap-2 rounded-full bg-white/80 px-6 py-3 text-violet-800 font-extrabold shadow-sm hover:bg-white">↑ Back to Map</a></div>
   </main>
 
   <div id="zonePanel" role="dialog" aria-modal="true" aria-labelledby="panelName" aria-describedby="panelDesc">
     <div class="panel-card bg-[#fffdf6] rounded-[2rem] shadow-2xl p-7 sm:p-9 max-w-lg w-full text-center relative">
-      <button id="panelClose" type="button" aria-label="Close habitat details" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-emerald-50 text-emerald-900 text-2xl font-bold hover:bg-emerald-100">×</button>
+      <button id="panelClose" type="button" aria-label="Close habitat details" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-emerald-50 text-violet-900 text-2xl font-bold hover:bg-emerald-100">×</button>
       <div id="panelEmoji" class="text-6xl mb-3" aria-hidden="true">🌎</div>
-      <p class="text-xs uppercase tracking-[.22em] text-emerald-700 font-black mb-1">A place in Mimbleton</p>
-      <h2 id="panelName" class="text-3xl font-black text-emerald-950 mb-2"></h2>
-      <p id="panelDesc" class="text-emerald-900/75 font-semibold text-sm mb-4"></p>
-      <p id="panelFeeling" class="text-emerald-700 text-sm font-extrabold italic mb-4"></p>
+      <p class="text-xs uppercase tracking-[.22em] text-violet-700 font-black mb-1">A place in Mimbleton</p>
+      <h2 id="panelName" class="text-3xl font-black text-violet-950 mb-2"></h2>
+      <p id="panelDesc" class="text-violet-900/75 font-semibold text-sm mb-4"></p>
+      <p id="panelFeeling" class="text-violet-700 text-sm font-extrabold italic mb-4"></p>
       <div id="panelResidents" class="flex flex-wrap justify-center gap-2 mb-5" aria-label="Residents"></div>
       <section class="text-left mb-5" aria-labelledby="discoveriesHeading">
-        <h3 id="discoveriesHeading" class="text-lg font-black text-emerald-950 mb-2">Places to discover</h3>
-        <p class="text-sm text-emerald-900/70 font-semibold mb-3">Every habitat has little corners, landmarks, and surprises waiting to be noticed.</p>
+        <h3 id="discoveriesHeading" class="text-lg font-black text-violet-950 mb-2">Places to discover</h3>
+        <p class="text-sm text-violet-900/70 font-semibold mb-3">Every habitat has little corners, landmarks, and surprises waiting to be noticed.</p>
         <div id="panelDiscoveries" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
       </section>
       <section class="text-left mb-5" aria-labelledby="homesHeading">
-        <h3 id="homesHeading" class="text-lg font-black text-emerald-950 mb-2">Their own little places</h3>
-        <p class="text-sm text-emerald-900/70 font-semibold mb-3">Every VentPal has a home of their own. Tap a home to peek inside.</p>
+        <h3 id="homesHeading" class="text-lg font-black text-violet-950 mb-2">Their own little places</h3>
+        <p class="text-sm text-violet-900/70 font-semibold mb-3">Every VentPal has a home of their own. Tap a home to peek inside.</p>
         <div id="panelHomes" class="grid grid-cols-2 gap-2"></div>
         <div id="panelHomeDetail" class="home-detail mt-3" aria-live="polite" hidden></div>
       </section>
       <div class="flex flex-col gap-3">
-        <a id="panelAction" href="nest.html" class="block bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-full shadow-md">Explore this habitat</a>
-        <button id="panelBack" type="button" class="block bg-emerald-50 hover:bg-emerald-100 text-emerald-900 font-extrabold py-3 rounded-full">Back to Mimbleton</button>
+        <a id="panelAction" href="nest.html" class="block bg-violet-600 hover:bg-violet-700 text-white font-black py-3 rounded-full shadow-md">Explore this habitat</a>
+        <button id="panelBack" type="button" class="block bg-emerald-50 hover:bg-emerald-100 text-violet-900 font-extrabold py-3 rounded-full">Back to Mimbleton</button>
       </div>
     </div>
   </div>
 
-  <footer class="py-7 text-center text-emerald-900/60 text-xs font-bold">VentPals • The Journey of Growing Up • Welcome to Mimbleton</footer>
+  <footer class="py-7 text-center text-violet-900/60 text-xs font-bold">VentPals • The Journey of Growing Up • Welcome to Mimbleton</footer>
 
   <script>
     const ZONES = [
@@ -369,10 +381,10 @@
         const item=document.createElement('article');
         item.className='rounded-2xl border border-emerald-100 bg-white/80 p-3';
         const title=document.createElement('h4');
-        title.className='font-black text-emerald-950 text-sm mb-1';
+        title.className='font-black text-violet-950 text-sm mb-1';
         title.textContent=place.name;
         const detail=document.createElement('p');
-        detail.className='text-xs leading-relaxed text-emerald-900/75 font-semibold';
+        detail.className='text-xs leading-relaxed text-violet-900/75 font-semibold';
         detail.textContent=place.detail;
         item.append(title,detail);
         discoveries.appendChild(item);
@@ -409,10 +421,10 @@
         icon.setAttribute('aria-hidden','true');
         icon.textContent=home.icon;
         const title=document.createElement('span');
-        title.className='font-black text-emerald-950 text-sm';
+        title.className='font-black text-violet-950 text-sm';
         title.textContent=name+'’s home';
         const style=document.createElement('span');
-        style.className='text-xs text-emerald-800 font-bold';
+        style.className='text-xs text-violet-800 font-bold';
         style.textContent=home.style;
         tile.append(portrait,icon,title,style);
         tile.addEventListener('click',function(){
@@ -420,10 +432,10 @@
           tile.setAttribute('aria-pressed','true');
           homeDetail.innerHTML='';
           const heading=document.createElement('p');
-          heading.className='font-black text-emerald-950 text-sm mb-1';
+          heading.className='font-black text-violet-950 text-sm mb-1';
           heading.textContent=name+'’s home';
           const description=document.createElement('p');
-          description.className='text-sm text-emerald-900/80 font-semibold';
+          description.className='text-sm text-violet-900/80 font-semibold';
           description.textContent=home.description;
           homeDetail.append(heading,description);
           homeDetail.hidden=false;
@@ -450,7 +462,7 @@
       card.className='zone-card text-left bg-gradient-to-br '+zone.tone+' border-2 '+zone.edge+' rounded-3xl p-5 shadow-sm';
       card.setAttribute('aria-label','Explore '+zone.name);
       const residents=zone.residents.join(' · ');
-      card.innerHTML='<div class="flex items-center gap-4"><span class="text-4xl" aria-hidden="true">'+zone.emoji+'</span><div><h3 class="font-black text-emerald-900 text-lg">'+zone.name+'</h3><p class="text-xs text-emerald-800/75 font-bold">'+residents+'</p></div></div><p class="text-sm text-emerald-950/75 font-semibold mt-3">'+zone.desc+'</p><div class="mt-4 inline-flex bg-white/80 text-emerald-800 font-black text-xs py-2 px-4 rounded-full">Explore habitat →</div>';
+      card.innerHTML='<div class="flex items-center gap-4"><span class="text-4xl" aria-hidden="true">'+zone.emoji+'</span><div><h3 class="font-black text-violet-900 text-lg">'+zone.name+'</h3><p class="text-xs text-violet-800/75 font-bold">'+residents+'</p></div></div><p class="text-sm text-violet-950/75 font-semibold mt-3">'+zone.desc+'</p><div class="mt-4 inline-flex bg-white/80 text-violet-800 font-black text-xs py-2 px-4 rounded-full">Explore habitat →</div>';
       card.addEventListener('click',function(){openPanel(zone,card);});
       grid.appendChild(card);
     });
