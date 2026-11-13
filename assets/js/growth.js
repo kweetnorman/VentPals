@@ -381,6 +381,14 @@
    * Draw the child's own bird at its current stage, wearing whatever it owns.
    * opts: { height: px, stage: 'baby' (override), bare: true (ignore clothes), class: 'extra classes' }
    */
+  // Bird colour choices from the avatar builder (free). Applied to the bird art everywhere it is drawn.
+  var COLOR_FILTERS = {
+    default: 'none',
+    blue: 'hue-rotate(165deg) saturate(1.25)',
+    pink: 'hue-rotate(285deg) saturate(1.2)',
+    green: 'hue-rotate(75deg) saturate(1.25)',
+    gold: 'sepia(.65) saturate(1.8) hue-rotate(355deg)'
+  };
   function renderAvatar(el, opts) {
     if (!el) return;
     opts = opts || {};
@@ -392,6 +400,7 @@
     var img = document.createElement('img');
     img.src = 'assets/images/' + b.id + '-' + file + '.png';
     img.alt = ''; img.style.cssText = 'height:100%;width:auto;display:block';
+    var ap = getUser().appearance || {}; if (!opts.bare && COLOR_FILTERS[ap.color]) img.style.filter = COLOR_FILTERS[ap.color];
     img.onerror = function () { box.innerHTML = '<span style="font-size:' + Math.round(h * .6) + 'px;line-height:1">' + (stage === 'egg' ? '🥚' : b.emoji) + '</span>'; };
     box.appendChild(img);
     if (!opts.bare && stage !== 'egg') {
@@ -445,7 +454,7 @@
     getBird: getBird, getProgress: getProgress, getLog: getLog,
     award: award, getBasket: getBasket, basketTotal: basketTotal, feed: feed, feedAll: feedAll,
     getFeathers: getFeathers, getCloset: getCloset, setGoal: setGoal, buy: buy, wear: wear, item: item,
-    renderAvatar: renderAvatar, renderStagesGrid: renderStagesGrid, toast: toast,
+    renderAvatar: renderAvatar, COLOR_FILTERS: COLOR_FILTERS, renderStagesGrid: renderStagesGrid, toast: toast,
     totalFed: function () { return totalFed(getState()); },
   };
 

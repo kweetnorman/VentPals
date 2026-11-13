@@ -129,7 +129,8 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:radial-g
    text('profileNextStage','Next stage');
   }
  })();
- const colour=user.avatarColour||'#c084fc';
+ const ap=user.appearance||{};const swatchByColor={default:'#c084fc',blue:'#60a5fa',pink:'#f9a8d4',green:'#4ade80',gold:'#fbbf24'};
+ const colour=swatchByColor[ap.color]||user.avatarColour||'#c084fc';
  const swatch=$('profileColourSwatch');if(swatch)swatch.style.backgroundColor=colour;
  const colourNames={'#c084fc':'Default','#60a5fa':'Blue','#f9a8d4':'Pink','#4ade80':'Green','#fbbf24':'Gold','#2dd4bf':'Teal','#fb923c':'Orange'};
  text('profileColourName',colourNames[colour]||'Custom colour');

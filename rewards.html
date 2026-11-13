@@ -53,6 +53,23 @@
       <div class="bg-white rounded-2xl shadow p-4"><div class="text-2xl" aria-hidden="true">🎁</div><p id="balKeepsakes" class="text-2xl font-extrabold text-purple-700">0</p><p class="text-xs text-gray-500">Digital keepsakes</p></div>
     </section>
 
+    <!-- AVATAR + WALLET -->
+    <section class="bg-white rounded-3xl shadow p-6">
+      <div class="flex items-center gap-4">
+        <div id="avatarThumb" class="shrink-0 flex items-center justify-center" style="min-width:96px"></div>
+        <div class="flex-1 text-sm">
+          <h2 class="text-lg font-bold text-purple-700">My avatar and feathers</h2>
+          <p class="text-gray-600"><b id="walBal" class="text-purple-700">0</b> feathers to spend</p>
+          <p class="text-xs text-gray-500"><span id="walEarned">0</span> earned · <span id="walSpent">0</span> spent · <span id="walOwned">0</span> accessories owned</p>
+          <p id="walGoal" class="text-xs text-purple-600 font-semibold mt-1"></p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mt-4 text-center text-sm font-bold">
+        <a href="avatar-customization.html" class="bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-full">Build my avatar</a>
+        <a href="closet.html" class="bg-purple-100 text-purple-700 py-3 rounded-full">Open the closet</a>
+      </div>
+    </section>
+
     <!-- WHAT'S NEXT -->
     <section class="bg-white rounded-3xl shadow p-6">
       <h2 class="text-lg font-bold text-purple-700 mb-3">What's next</h2>
@@ -112,6 +129,13 @@
       // balances
       var asked = S.keepsakes().length;
       $('balPoints').textContent = p.xp; $('balFeathers').textContent = fe.balance; $('balKeepsakes').textContent = asked;
+
+      // avatar + feather wallet
+      var cl = G.getCloset();
+      G.renderAvatar($('avatarThumb'), { height: 96, stage: p.stage.id === 'egg' ? 'baby' : undefined });
+      $('walBal').textContent = fe.balance; $('walEarned').textContent = fe.earned; $('walSpent').textContent = fe.spent; $('walOwned').textContent = cl.owned.length;
+      var goal = cl.goal && G.item(cl.goal);
+      $('walGoal').textContent = goal && cl.owned.indexOf(goal.id) === -1 ? 'Saving for: ' + goal.name + ' (' + Math.min(fe.balance, goal.cost) + ' of ' + goal.cost + ' feathers)' : '';
 
       // what's next
       var next = $('nextList');
