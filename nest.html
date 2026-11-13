@@ -10,7 +10,7 @@
 .shell{max-width:1120px;margin:auto}.soft-card{background:rgba(255,255,255,.9);border:1px solid rgba(118,81,181,.12);border-radius:28px;box-shadow:0 12px 34px rgba(65,48,94,.08)}
 .float{animation:float 4s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .bubble{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:112px;padding:14px 9px;border:2px solid rgba(118,81,181,.13);border-radius:28px 28px 34px 34px;background:linear-gradient(160deg,#fff 0%,var(--bubble,#f2eaff) 100%);box-shadow:0 7px 0 rgba(93,69,132,.09),0 12px 22px rgba(65,48,94,.07);color:#59427f;text-decoration:none;font-weight:800;text-align:center;transition:transform .18s}
-.bubble:hover,.bubble:focus-visible{transform:translateY(-4px);outline:3px solid rgba(118,81,181,.2);outline-offset:2px}.bubble .emoji{font-size:32px;line-height:1}.bubble small{font-size:11px;font-weight:600;opacity:.78}
+.bubble:hover,.bubble:focus-visible{transform:translateY(-4px);outline:3px solid rgba(118,81,181,.2);outline-offset:2px}.bubble .emoji{font-size:32px;line-height:1}.bubble small{font-size:11px;font-weight:600;opacity:.78}\n.destination-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}\n@media(min-width:640px){.destination-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}\n@media(min-width:900px){.destination-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}}\nmain{padding-bottom:180px!important}\n#vp-tabbar{min-height:96px;padding:10px 8px calc(10px + env(safe-area-inset-bottom))!important}\n@media(prefers-reduced-motion:reduce){.bubble{transition:none}}
 .bug-button{border:1px solid #d9c9ef;border-radius:18px;background:#fbf9ff;padding:10px 5px;font-weight:700;color:#5d4782}.bug-button:disabled{opacity:.4}
 .primary{border:0;border-radius:999px;background:#7651b5;color:white;font-weight:800;padding:12px 20px} .primary:disabled{opacity:.4}
 .reflection-fly{position:fixed;z-index:10000;pointer-events:none;font-size:28px;animation:reflectionFly 1.15s cubic-bezier(.2,.7,.2,1) forwards}@keyframes reflectionFly{0%{transform:translate(0,0) scale(1);opacity:1}70%{opacity:1}100%{transform:translate(150px,-180px) scale(.35);opacity:0}}
@@ -47,7 +47,7 @@
 <p id="feedMessage" class="text-center text-sm font-bold text-green-700 mt-3" aria-live="polite"></p><p class="text-xs text-gray-500 text-center mt-1">Your progress is never taken away.</p></div>
 </section>
 <section class="soft-card p-5 sm:p-7"><div class="text-center mb-5"><p class="text-2xl">🫧 🥚 ✨</p><h2 class="text-2xl font-black text-purple-800 mt-1">Where would you like to go?</h2><p class="text-sm text-gray-600 mt-1">Pick a bubble. You can always come back to your Nest.</p></div>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<div class="destination-grid">
 <a class="bubble" style="--bubble:#fff0c9" href="start-with-a-feeling.html"><span class="emoji">💜</span><span>Feelings</span><small>Check in with yourself</small></a>
 <a class="bubble" style="--bubble:#e7f7e7" href="feeling-reflection.html"><span class="emoji">📓</span><span>Reflect</span><small>Write what is on your mind</small></a>
 <a class="bubble" style="--bubble:#e7efff" href="calming-skills.html"><span class="emoji">🌬️</span><span>Calm Corner</span><small>Try a calming activity</small></a>
