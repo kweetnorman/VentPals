@@ -35,15 +35,16 @@
   let profiles=[];try{profiles=JSON.parse(localStorage.getItem('ventpals_demo_profiles')||'[]')}catch(e){}
   const key=personalName.toLocaleLowerCase();
   if(profiles.some(p=>String(p.username||'').trim().replace(/\s+/g,' ').toLocaleLowerCase()===key)){error('This VentPals name is already in use on this device.');return}
-  if(profiles.length){error('This development preview currently supports one child demo profile per browser.');return}
   user.username=personalName;user.hasPin=true;user.demoProfile=true;
-  const pinHash=btoa(pin),profile={username:personalName,pinHash,user,onboardingComplete:true};
+  const pinHash=btoa(pin),profile={username:personalName,pinHash,user,onboardingComplete:true,lastUsedAt:Date.now()};
   profiles.push(profile);
   localStorage.setItem('ventpals_demo_profiles',JSON.stringify(profiles));
+  localStorage.setItem('ventpals_active_profile',personalName);
   localStorage.setItem('ventpals_user',JSON.stringify(user));
   localStorage.setItem('ventpals_pin_hash',pinHash);
   localStorage.setItem('ventpals_logged_in','true');
   localStorage.setItem('ventpals_development_mode','true');
+  localStorage.setItem('ventpals_demo_last_activity',String(Date.now()));
   localStorage.setItem('ventpals_onboarding_complete','true');
   location.href='nest.html';
  });
