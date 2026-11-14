@@ -46,6 +46,7 @@
     guardian: ['I watch over the valley. You are safe here.', ['friends', 'nest', 'skills']],
     cove: ['Follow the water. It knows the way.', ['stream', 'rewards', 'water']]
   };
+  var PAINTED = ['nesting-tree', 'feelings-forest', 'quiet-caves', 'firefly-meadow', 'sky-bridge', 'sparkle-stream'];
   var ORDER = ['nesting-tree', 'feelings-forest', 'sparkle-stream', 'firefly-meadow', 'quiet-caves', 'sky-bridge'];
   var NAMES = { 'nesting-tree': 'Nesting Tree', 'feelings-forest': 'Feelings Forest', 'sparkle-stream': 'Sparkle Stream', 'firefly-meadow': 'Firefly Meadow', 'quiet-caves': 'Quiet Caves', 'sky-bridge': 'Sky Bridge', 'tools-shed': 'Tools Shed', 'reward-tracker': 'Reward Tracker' };
 
@@ -243,7 +244,7 @@
   function css() {
     if (document.getElementById('svCss')) return;
     var s = document.createElement('style'); s.id = 'svCss';
-    s.textContent = '#sceneView{position:fixed;inset:0;z-index:55;background:#222;opacity:0;pointer-events:none;transition:opacity .35s ease;font-family:Nunito,system-ui,sans-serif}' +
+    s.textContent = 'body.sv-open #vp-tabbar{display:none!important}#sceneView{position:fixed;inset:0;z-index:55;background:#222;opacity:0;pointer-events:none;transition:opacity .35s ease;font-family:Nunito,system-ui,sans-serif}' +
       '#sceneView.on{opacity:1;pointer-events:auto}#sceneView[hidden]{display:none}' +
       '.sv-stage{position:absolute;inset:0;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none}.sv-stage:active{cursor:grabbing}.sv-svg{width:100%;height:100%;display:block}' +
       '.sv-hud{position:absolute;top:0;left:0;right:0;display:flex;gap:10px;align-items:center;padding:12px;pointer-events:none}.sv-hud>*{pointer-events:auto}' +
@@ -411,6 +412,12 @@
     var gThings = mk('g', {}, gNear), gRes = mk('g', {}, gNear), gDisc = mk('g', {}, gNear); gFx = mk('g', { 'pointer-events': 'none' }, gNear);
     gFg.innerHTML = b.fg; gFg.setAttribute('pointer-events', 'none');
     S = { id: id, W: W, cam: 0, camT: 0, things: b.things, res: {}, b: b, ambient: [] };
+    // painted backdrops (tools/make_scene_art.py) replace the drawn far/mid layers once loaded; the drawn ones are the fallback
+    if (PAINTED.indexOf(id) > -1) ['far', 'mid'].forEach(function (k) {
+      var im = new Image();
+      im.onload = function () { if (!S || S.id !== id) return; (k === 'far' ? gFar : gMid).innerHTML = '<image href="' + im.src + '" x="0" y="0" width="' + (k === 'far' ? 2200 : 2800) + '" height="900" preserveAspectRatio="none"/>'; };
+      im.src = 'assets/world/scenes/' + id + '-' + k + '.webp';
+    });
     b.things.forEach(function (t, i) {
       var g = mk('g', { 'class': 'sv-thing', role: 'button', tabindex: 0, 'data-i': i, 'aria-label': t.label || 'Something to touch' }, gThings);
       g.innerHTML = '<g class="art" transform="translate(' + t.x + ' ' + t.y + ')">' + (t.art || '') + '</g>';
@@ -490,7 +497,7 @@
   }
 
   /* ───────── enter / travel / exit ───────── */
-  function tabbar(on) { var t = document.getElementById('vp-tabbar'); if (t) t.style.display = on ? 'flex' : 'none'; }
+  function tabbar(on) { document.body.classList.toggle('sv-open', !on); }
   var fading = false;
   function enter(id, opts) {
     if (!SCENES[id]) return; dom(); opts = opts || {};
