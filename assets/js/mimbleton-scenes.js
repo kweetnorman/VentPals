@@ -46,7 +46,7 @@
     guardian: ['I watch over the valley. You are safe here.', ['friends', 'nest', 'skills']],
     cove: ['Follow the water. It knows the way.', ['stream', 'rewards', 'water']]
   };
-  var PAINTED = ['nesting-tree', 'feelings-forest', 'quiet-caves', 'firefly-meadow', 'sky-bridge', 'sparkle-stream'];
+  var PAINTED = ['nesting-tree', 'feelings-forest', 'quiet-caves', 'firefly-meadow', 'sky-bridge', 'sparkle-stream', 'tools-shed', 'reward-tracker'];
   var ORDER = ['nesting-tree', 'feelings-forest', 'sparkle-stream', 'firefly-meadow', 'quiet-caves', 'sky-bridge'];
   var NAMES = { 'nesting-tree': 'Nesting Tree', 'feelings-forest': 'Feelings Forest', 'sparkle-stream': 'Sparkle Stream', 'firefly-meadow': 'Firefly Meadow', 'quiet-caves': 'Quiet Caves', 'sky-bridge': 'Sky Bridge', 'tools-shed': 'Tools Shed', 'reward-tracker': 'Reward Tracker' };
 
