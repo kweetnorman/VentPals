@@ -187,6 +187,7 @@
   <script src="assets/js/growth.js"></script>
   <script src="assets/js/mimbleton-map.js"></script>
   <script src="assets/js/mimbleton-episodes.js"></script>
+  <script src="assets/js/mimbleton-scenes.js"></script>
 
   <nav class="bg-white/85 backdrop-blur-xl shadow-sm sticky top-0 z-40 border-b border-white/80">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -211,8 +212,8 @@
 
     <section id="mimbleton-map" aria-labelledby="mapHeading" class="max-w-6xl mx-auto">
       <div class="flex flex-wrap items-end justify-between gap-3 mb-3 px-1">
-        <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-violet-950">Explore the world</h2><p class="text-sm text-violet-900/70 font-semibold">Choose a place on the map to see who calls it home.</p></div>
-        <span class="flex flex-wrap gap-2"><span class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✦ Tap a place, a home, or a sparkle</span><span id="discCount" class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✧ Sparkles found 0</span></span>
+        <div><h2 id="mapHeading" class="text-xl sm:text-2xl font-black text-violet-950">Explore the world</h2><p class="text-sm text-violet-900/70 font-semibold">Tap a place and walk right in. Say hello to the friends who live there.</p></div>
+        <span class="flex flex-wrap gap-2"><span class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✦ Tap a place to step inside</span><span id="discCount" class="map-caption rounded-full px-4 py-2 font-extrabold text-violet-800 shadow-sm">✧ Sparkles found 0</span></span>
       </div>
 
       <div class="map-frame">
@@ -445,7 +446,7 @@
           const visit=document.createElement('button');
           visit.type='button';
           visit.className='mt-3 inline-flex rounded-full bg-violet-600 text-white font-black text-xs py-2 px-4 hover:bg-violet-700';
-          visit.textContent='Step inside '+name+'’s home →';
+          visit.textContent='Go to '+name+' →';
           visit.addEventListener('click',function(){openHome(name,visit);});
           homeDetail.append(heading,description,visit);
           homeDetail.hidden=false;
@@ -473,7 +474,7 @@
       card.setAttribute('aria-label','Explore '+zone.name);
       const residents=zone.residents.join(' · ');
       card.innerHTML='<div class="flex items-center gap-4"><span class="text-4xl" aria-hidden="true">'+zone.emoji+'</span><div><h3 class="font-black text-violet-900 text-lg">'+zone.name+'</h3><p class="text-xs text-violet-800/75 font-bold">'+residents+'</p></div></div><p class="text-sm text-violet-950/75 font-semibold mt-3">'+zone.desc+'</p><div class="mt-4 inline-flex bg-white/80 text-violet-800 font-black text-xs py-2 px-4 rounded-full">Explore habitat →</div>';
-      card.addEventListener('click',function(){openPanel(zone,card);});
+      card.addEventListener('click',function(){enterScene(zone.id);});
       grid.appendChild(card);
     });
 
@@ -545,16 +546,17 @@
       if(infoTrigger&&typeof infoTrigger.focus==='function')infoTrigger.focus();
     }
     function episodeFor(key,val){return (window.VP_EPISODES||[]).find(function(e){return e[key]===val;});}
+    function zoneOfBird(name){return ZONES.find(function(z){return z.residents.indexOf(name)>-1;});}
     function openHome(name,trigger,ep){
       const h=HOME_DETAILS[name];if(!h)return;
       ep=ep||episodeFor('home',h.id);
-      const actions=[];
-      if(ep&&ep.youtube)actions.push({label:'Watch the episode ▶',href:ep.youtube,external:true,secondary:true});
-      const zone=ZONES.find(function(z){return z.residents.indexOf(name)>-1;});
-      showInfo({kicker:(zone?zone.name+' · ':'')+'A home in Mimbleton',title:name+'’s home',img:'assets/images/'+h.id+'-nestling.png',
-        body:h.style+'. '+h.description+' '+name+' says: “'+VOICE[name]+'”',device:DEVICES[name],
-        show:ep?'From the show: '+ep.title:'',
-        actions:DEVICES[name]?[{label:'Try it: '+DEVICES[name].tool+' →',href:DEVICES[name].href}].concat(actions):actions},trigger);
+      const z=zoneOfBird(name);if(!z)return;
+      if(panel.classList.contains('open'))closePanel();
+      enterScene(z.id,{focus:h.id,show:ep?ep.title:''});
+    }
+    function enterScene(id,o){
+      if(window.ctrl_)ctrl_.stop();
+      MimbletonScenes.enter(id,o||{});
     }
     function updateCount(){
       const n=Object.keys(found).length,total=ctrl.discoveryCount();
@@ -586,12 +588,15 @@
           showInfo({kicker:(z?z.name:'')+' · '+(first?'You found a place!':'A place you found'),emoji:z?z.emoji:'✨',title:p?p.name:'A little discovery',body:p?p.detail:'',actions:z?[{label:z.action.label+' →',href:z.action.href}]:[]},g);
         }
       },
+      onLandmark:function(u){enterScene(u.scene);},
       onUnexplored:function(u,g){showInfo({kicker:'Not explored yet',emoji:'🌫️',title:u.label.length>1?u.label+' Mountains':'A misty place',body:u.teaser},g);}
     });
+    window.ctrl_=ctrl;
+    MimbletonScenes.init({zones:ZONES,found:found,saveFound:saveFound,onFound:updateCount,onAbout:function(id){const z=ZONES.find(function(x){return x.id===id;});if(z)openPanel(z,document.getElementById('svAbout'));},onExit:function(){ctrl.start();updateCount();}});
     updateCount();
 
     document.querySelectorAll('.map-hotspot').forEach(function(hotspot){
-      function activate(){const zone=ZONES.find(function(item){return item.id===hotspot.dataset.zone;});if(zone)openPanel(zone,hotspot);}
+      function activate(){const zone=ZONES.find(function(item){return item.id===hotspot.dataset.zone;});if(zone)enterScene(zone.id);}
       hotspot.addEventListener('click',activate);
       hotspot.addEventListener('keydown',function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});
     });
@@ -615,15 +620,9 @@
       const q=new URLSearchParams(location.search);
       const ep=q.get('episode')?(window.VP_EPISODES||[]).find(function(e){return e.id===q.get('episode');}):null;
       const placeId=q.get('place')||(ep&&ep.place),homeId=q.get('home')||(ep&&ep.home);
-      const zone=ZONES.find(function(z){return z.id===placeId;});
-      if(homeId&&idToName[homeId]){setTimeout(function(){openHome(idToName[homeId],null,ep);},350);}
-      else if(zone){
-        setTimeout(function(){
-          openPanel(zone,null);
-          if(ep){const r=document.getElementById('showRibbon');r.textContent='From the show: '+ep.title;r.hidden=false;}
-          if(ctrl.focusZone)ctrl.focusZone(zone.id);
-        },350);
-      }
+      const zone=ZONES.find(function(z){return z.id===placeId;}),scenes=['tools-shed','reward-tracker'];
+      if(homeId&&idToName[homeId]){setTimeout(function(){openHome(idToName[homeId],null,ep);},300);}
+      else if(zone||scenes.indexOf(placeId)>-1){setTimeout(function(){enterScene(placeId,{show:ep?ep.title:''});},300);}
     })();
 
     document.getElementById('panelClose').addEventListener('click',closePanel);

@@ -74,9 +74,9 @@
   // places no one has explored yet: fog now, future adventures later
   var UNEXPLORED = [
     { id: 'beyond-peaks', x: 1490, y: 215, label: 'Beyond',   teaser: 'Snowy peaks rise out of the mist. No VentPal has been up there yet. A future adventure is waiting.' },
-    { id: 'west-mist',    x: 95,   y: 760, label: '?',        teaser: 'A soft mist hangs over the far west. Something is stirring in there.' },
+    { id: 'tools-shed',   x: 120,  y: 700, scene: 'tools-shed', label: 'Tools Shed', teaser: 'Every calming tool in Mimbleton hangs on the walls in here.' },
     { id: 'cloud-isles',  x: 560,  y: 100, label: '?',        teaser: 'Little clouds drift in a ring way up high. They look like they could hold a whole island.' },
-    { id: 'river-mouth',  x: 1490, y: 945, label: '?',        teaser: 'The Sparkle Stream flows out of the map here. Where does it go? Nobody knows yet.' }
+    { id: 'reward-tracker', x: 1480, y: 930, scene: 'reward-tracker', label: 'Reward Tracker', teaser: 'Jars of feathers, bugs and growth. Everything you have collected shines in here.' }
   ];
 
   /* ───────────────── helpers ───────────────── */
@@ -264,10 +264,17 @@
     // unexplored fog
     var gFog = el('g', { id: 'mmFog' }, scene);
     UNEXPLORED.forEach(function (u) {
-      var g = el('g', { 'class': 'map-unexplored', role: 'button', tabindex: 0, 'aria-label': 'Unexplored: ' + u.teaser, 'data-u': u.id }, gFog);
+      var g = el('g', { 'class': 'map-unexplored' + (u.scene ? ' map-landmark' : ''), role: 'button', tabindex: 0, 'aria-label': u.scene ? 'Visit the ' + u.label : 'Unexplored: ' + u.teaser, 'data-u': u.id }, gFog);
+      if (u.scene) {
+        var sh = u.scene === 'tools-shed';
+        g.innerHTML = '<ellipse cx="' + u.x + '" cy="' + (u.y + 6) + '" rx="78" ry="14" fill="#2d3a4a" opacity=".22"/>' +
+          (sh ? '<rect x="' + (u.x - 56) + '" y="' + (u.y - 70) + '" width="112" height="76" rx="6" fill="#d9a56e" stroke="#8a5d33" stroke-width="4"/><path d="M' + (u.x - 70) + ' ' + (u.y - 68) + ' L' + u.x + ' ' + (u.y - 118) + ' L' + (u.x + 70) + ' ' + (u.y - 68) + 'Z" fill="#b5533c" stroke="#7e3526" stroke-width="4"/><rect x="' + (u.x - 16) + '" y="' + (u.y - 40) + '" width="32" height="46" rx="4" fill="#7e5030"/><circle cx="' + (u.x + 8) + '" cy="' + (u.y - 16) + '" r="3" fill="#ffe08a"/><path d="M' + (u.x + 28) + ' ' + (u.y - 56) + 'l12 10m-12 0l12-10" stroke="#fff" stroke-width="4"/>'
+            : '<path d="M' + (u.x - 60) + ' ' + u.y + ' q0-70 60-70 q60 0 60 70z" fill="#cfeff5" stroke="#5aa7bd" stroke-width="4"/><ellipse cx="' + u.x + '" cy="' + (u.y - 28) + '" rx="34" ry="26" fill="#ffe9a0" stroke="#e0b24a" stroke-width="3" class="twinkle"/><path d="M' + u.x + ' ' + (u.y - 46) + 'l6 14 14 2-10 10 3 14-13-7-13 7 3-14-10-10 14-2z" fill="#fff" opacity=".9"/>') +
+          '<g class="hotspot-label"><rect x="' + (u.x - 78) + '" y="' + (u.y + 14) + '" width="156" height="34" rx="17" fill="#fffaf0" stroke="#c9a57a" stroke-width="3"/><text x="' + u.x + '" y="' + (u.y + 37) + '" text-anchor="middle" font-size="17" font-weight="900" fill="#6b4a2c">' + esc(u.label) + '</text></g>';
+      } else
       g.innerHTML = '<ellipse cx="' + u.x + '" cy="' + u.y + '" rx="130" ry="78" fill="#fff" opacity=".78" filter="url(#mmBlur)"/><ellipse cx="' + (u.x + 36) + '" cy="' + (u.y - 12) + '" rx="90" ry="50" fill="#efe6ff" opacity=".85" filter="url(#mmBlur)" class="mist"/><text x="' + u.x + '" y="' + (u.y + 12) + '" text-anchor="middle" font-size="' + (u.label.length > 1 ? 26 : 44) + '" font-weight="900" fill="#8d79b8" letter-spacing="3">' + esc(u.label) + '</text>';
-      g.addEventListener('click', function () { api.onUnexplored && api.onUnexplored(u, g); });
-      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); api.onUnexplored && api.onUnexplored(u, g); } });
+      g.addEventListener('click', function () { (u.scene && api.onLandmark ? api.onLandmark(u, g) : api.onUnexplored && api.onUnexplored(u, g)); });
+      g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); (u.scene && api.onLandmark ? api.onLandmark(u, g) : api.onUnexplored && api.onUnexplored(u, g)); } });
     });
 
     // habitat hit areas (hover glow); labels as the accessible buttons
