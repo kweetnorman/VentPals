@@ -289,8 +289,63 @@ def sparkle_stream():
     return far, mid
 
 
+def tools_shed():
+    far = Layer(FW, 71); far.gradient([(0, '#efca94'), (1, '#c99a5f')])
+    for i in range(0, FW, 110):  # painted planks
+        m = far.shapes([('r', i + 3, -10, i + 107, 940)], blur=.6)
+        t = far.rng.uniform(-10, 10); base = (int(222 + t), int(176 + t), int(112 + t))
+        far.paint(m, base, [base, mix(base, (150, 100, 56), .3), mix(base, (255, 224, 170), .3)], size=10, angle=(1.45, 1.7), seg=3.5, alpha=(50, 110), soft=0)
+        far.shade(m, (120, 80, 44), dx=5, dy=0, alpha=.35)
+    for x in (400, 1700):  # windows with a sunny view
+        fr = far.shapes([('r', x - 14, 106, x + 374, 434)], blur=1); far.paint(fr, (140, 94, 52), [(132, 88, 48), (152, 104, 60)], size=10, angle=(1.4, 1.7))
+        gl = far.shapes([('r', x, 120, x + 360, 420)], blur=.5); far.paint(gl, (196, 232, 252), [(186, 226, 250), (214, 240, 255), (255, 244, 200)], size=14, alpha=(50, 110))
+        far.glow(x + 180, 270, 340, (255, 244, 190), .6)
+        far.fill(far.poly([(x + 175, 120), (x + 185, 120), (x + 185, 420), (x + 175, 420)]), (140, 94, 52)); far.fill(far.poly([(x, 265), (x + 360, 265), (x + 360, 275), (x, 275)]), (140, 94, 52))
+        far.rays([x + 40], (255, 240, 190), .2, wtop=240, wbot=260, y1=900, lean=120)
+    far.haze(0, 900, (255, 224, 160), .0, .18); far.finish(5, .3)
+    mid = Layer(MW, 72)
+    for x in range(200, MW, 520):  # hanging herbs and lanterns
+        for k in range(4):
+            xx = x + k * 36; m = mid.poly([(xx, 0), (xx + 4, 0), (xx + 6, 170 + k * 26), (xx + 2, 170 + k * 26)]); mid.fill(m, (110, 76, 44))
+            leaf = mid.shapes([('e', xx + 2, 200 + k * 26, 16, 40)], blur=1); col = [(104, 164, 90), (128, 182, 100), (150, 120, 70), (112, 150, 84)][k]
+            mid.paint(leaf, col, [col, mix(col, (255, 255, 255), .2)], size=6, angle=(1.4, 1.8)); mid.rim(leaf, (255, 240, 180), alpha=.6)
+    for x in (900, 2000):
+        m = mid.shapes([('r', x - 22, 120, x + 22, 190)], blur=1); mid.paint(m, (255, 214, 120), [(255, 200, 100), (255, 226, 150)], size=8); mid.glow(x, 160, 200, (255, 226, 140), .6)
+    for x in (300, 1500, 2600):  # plants on the floor line
+        for k in range(5):
+            m = mid.poly([(x + k * 14 - 30, 740), (x + k * 24 - 40, 640 - k * 12), (x + k * 20 - 20, 740)], blur=.5); mid.paint(m, (92, 164, 96), [(84, 156, 90), (112, 184, 108)], size=7, angle=(1.2, 1.8))
+        pot = mid.shapes([('r', x - 46, 700, x + 46, 760)], blur=1); mid.paint(pot, (190, 100, 70), [(180, 92, 62), (206, 118, 84)], size=9); mid.rim(pot, (255, 210, 160), alpha=.6)
+    mid.finish(5)
+    return far, mid
+
+
+def reward_tracker():
+    far = Layer(FW, 81); far.gradient([(0, '#9fd8ff'), (.6, '#e3f4ff'), (1, '#fff3d4')])
+    far.glow(1100, 220, 520, (255, 252, 220), .7)
+    for i, c in enumerate(['#ff8a8a', '#ffb870', '#ffe27a', '#9be6a0', '#8ecbff', '#b79bff']):  # painted rainbow
+        r = 640 - i * 26; m = far.shapes([('e', 700, 700, r, r)]); inner = far.shapes([('e', 700, 700, r - 28, r - 28)])
+        band = ImageChops.subtract(m, inner); band = ImageChops.multiply(band, far.poly([(0, 0), (FW, 0), (FW, 700), (0, 700)]))
+        far.paint(band.filter(ImageFilter.GaussianBlur(3)), hexc(c), [hexc(c), mix(hexc(c), (255, 255, 255), .3)], size=12, alpha=(60, 110), angle=(-.3, .3), soft=0)
+    for x, y, s in [(240, 200, 1.5), (1000, 120, 1.3), (1700, 250, 1.6), (2050, 130, 1.1)]: cloud_puffs(far, x, y, s)
+    far.paint(far.ridge(540, 100, 3, FW), (176, 214, 238), [(168, 208, 232), (188, 224, 244)], size=20)
+    far.haze(400, 800, (245, 252, 255), 0, .4); far.finish(5, .1)
+    mid = Layer(MW, 82)
+    h = mid.ridge(640, 60, 7, MW); mid.paint(h, (118, 200, 150), [(108, 192, 142), (132, 212, 160), (98, 180, 132)], size=16); mid.rim(h, (255, 250, 200), alpha=.5)
+    for i in range(9):
+        x = 100 + i * 330 + mid.rng.uniform(-40, 40); tree(mid, x, 690 + mid.rng.uniform(-8, 16), mid.rng.uniform(.7, 1.0), (122, 91, 78), (123, 208, 154), (79, 174, 122), (164, 232, 176), rim=(255, 250, 200))
+    for x0 in range(0, MW, 700):  # bunting
+        pts = [(x0 + t * 7, 120 + 70 * math.sin(t / 100 * math.pi)) for t in range(0, 101)]
+        for k in range(0, 100, 8):
+            x, y = pts[k]; col = hexc(['#ff8a8a', '#ffe27a', '#8ecbff', '#9be6a0', '#ffb8d9'][(k // 8) % 5])
+            tri = mid.poly([(x, y), (x + 30, y + 4), (x + 14, y + 44)]); mid.paint(tri, col, [col, mix(col, (255, 255, 255), .3)], size=6)
+        mid.fill(mid.poly([(x0 + t * 7, 118 + 70 * math.sin(t / 100 * math.pi)) for t in range(0, 101)] + [(x0 + t * 7, 122 + 70 * math.sin(t / 100 * math.pi)) for t in range(100, -1, -1)]), (120, 90, 60))
+    g = mid.ridge(716, 14, 4, MW); mid.paint(g, (140, 208, 154), [(130, 200, 146), (154, 218, 164)], size=14)
+    mid.haze(560, 780, (245, 252, 255), 0, .22); mid.finish(5)
+    return far, mid
+
+
 BUILD = {'nesting-tree': nesting_tree, 'feelings-forest': feelings_forest, 'quiet-caves': quiet_caves,
-         'firefly-meadow': firefly_meadow, 'sky-bridge': sky_bridge, 'sparkle-stream': sparkle_stream}
+         'firefly-meadow': firefly_meadow, 'sky-bridge': sky_bridge, 'sparkle-stream': sparkle_stream, 'tools-shed': tools_shed, 'reward-tracker': reward_tracker}
 
 if __name__ == '__main__':
     ids = sys.argv[1:] or list(BUILD)
