@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900;1000&display=swap');
+
 /* Shared VentPals app theme — child-facing sandbox pages */
 :root {
   --vp-app-ink:#40394d;
@@ -14,7 +16,7 @@ body {
   background:
     radial-gradient(circle at 8% 4%,#fff 0,transparent 28%),
     linear-gradient(140deg,#f4efff,#eaf8f1 52%,#fff6e8) !important;
-  font-family:'Plus Jakarta Sans',Inter,system-ui,sans-serif !important;
+  font-family:'Nunito',system-ui,sans-serif !important;
   min-height:100vh;
 }
 h1,h2,h3,h4,.font-bold,.font-extrabold,.font-black {
