@@ -180,7 +180,8 @@
     <div class="dot"        id="dot-4"></div>
     <div class="dot"        id="dot-5"></div>
     <div class="dot"        id="dot-6"></div>
-  </div>
+</div>
+<p id="stepLabel" aria-live="polite" style="text-align:center;margin:30px 0 12px;font-size:12px;font-weight:800;color:#8b7bb5">Step 1 of 6</p>
 
   <!-- ═══════════════════════════════════
        STEP 1 — WELCOME
@@ -194,7 +195,7 @@
         Choose a bird you love, create your special name, and make your own Nest.
       </p>
       <p style="margin-bottom:28px; font-size:0.85rem; color:#a78bfa;">
-        No email or real name needed. Your VentPal is yours to choose.
+        No email or real name needed. It takes about two minutes.
       </p>
       <button class="btn-primary" onclick="goTo(2)">Let's Begin 🌱</button>
     </div>
@@ -230,21 +231,27 @@
   ════════════════════════════════════ -->
   <div class="step" id="step-3">
     <div class="card">
-      <h1 style="text-align:center; margin-bottom:6px;">Create Your Name ✨</h1>
-      <p style="text-align:center; margin-bottom:20px;">
-        Your VentPals name keeps you safe. Choose a fun nickname — not your real name.
-      </p>
-      <div id="alertName" class="alert"></div>
-      <div class="power-word-reveal" id="powerWordResult" style="display:none;">
-        <p style="font-size:13px;color:var(--muted);margin-bottom:4px;">Your selected PowerWord:</p>
-        <div class="power-word-big" id="powerWordDisplay"></div>
-        <p style="font-size:13px;color:var(--muted);margin-top:8px;">Your permanent VentPals name:</p>
-        <strong id="fullNamePreview" style="color:var(--purple);font-size:1.2rem;"></strong>
-      </div>
-      <p class="hint" style="text-align:center;margin:18px 0;">Create a nickname and explore powerful bird-inspired words in the name generator. Once you choose your name, it is saved to your profile and cannot be changed.</p>
-      <a class="btn-primary" href="../naming.html?return=onboarding" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">Open My Name Generator ✨</a>
-    </div>
-    <div style="display:flex; gap:10px;">
+<h1 style="text-align:center; margin-bottom:6px;">Create Your Name ✨</h1>
+<p style="text-align:center; margin-bottom:18px;">
+Your VentPals name keeps you safe. Pick a fun nickname (not your real name) and we'll add a bird-inspired PowerWord.
+</p>
+<div id="alertName" class="alert" role="alert"></div>
+<div id="nameMaker">
+<label for="nicknameInput" style="display:block;font-weight:700;margin-bottom:8px;">Your nickname</label>
+<input id="nicknameInput" maxlength="20" autocomplete="off" placeholder="e.g. Star, River, Moon" style="width:100%;padding:14px;border:2px solid #e2d6f5;border-radius:14px;font:inherit;font-size:16px">
+<p class="hint">3 to 20 letters. Please don't use your real name, numbers or contact details.</p>
+<button type="button" class="btn-secondary" id="genWordBtn" onclick="makePowerWord()" style="width:100%;margin-top:14px">Make my PowerWord ✨</button>
+</div>
+<div class="power-word-reveal" id="powerWordResult" style="display:none;">
+<p style="font-size:13px;color:var(--muted);margin-bottom:4px;">Your PowerWord:</p>
+<div class="power-word-big" id="powerWordDisplay"></div>
+<p style="font-size:13px;color:var(--muted);margin-top:8px;">Your VentPals name:</p>
+<strong id="fullNamePreview" style="color:var(--purple);font-size:1.2rem;"></strong>
+<p class="hint" style="margin-top:10px">Not feeling it? Tap “Try another PowerWord” for a new one.</p>
+</div>
+<p id="lockNote" class="hint" style="text-align:center;margin-top:14px">Once you choose your name, it stays yours. It can't be changed later.</p>
+</div>
+<div style="display:flex; gap:10px;">
       <button class="btn-secondary" onclick="goTo(2)">← Back</button>
       <button class="btn-primary"   onclick="confirmName()" id="nameNextBtn" disabled>I love this name →</button>
     </div>
@@ -261,7 +268,8 @@
       </p>
 
       <!-- Bird colour -->
-      <label style="margin-bottom:10px;">Bird Colour</label>
+      <div style="text-align:center;margin-bottom:14px"><img id="avatarPreview" src="" alt="" style="height:130px;width:auto;border-radius:50%;padding:10px;background:#f6f0ff;transition:box-shadow .2s"></div>
+<label style="margin-bottom:10px;">Bird Colour</label>
       <div class="colour-grid" id="colourGrid" style="margin-bottom:20px;"></div>
 
     </div>
@@ -317,8 +325,9 @@
         </div>
       </div>
 
-      <div style="margin-top:20px; display:flex; align-items:center; gap:10px;">
-        <input type="checkbox" id="privacyCheck" style="width:20px;height:20px;flex-shrink:0;cursor:pointer;" />
+      <p id="privacyMsg" class="alert" role="alert" style="margin-top:16px">Please tick the box to say you have read these notes.</p>
+<div style="margin-top:20px; display:flex; align-items:center; gap:10px;">
+<input type="checkbox" id="privacyCheck" style="width:20px;height:20px;flex-shrink:0;cursor:pointer;" />
         <label for="privacyCheck" style="cursor:pointer; font-size:14px; font-weight:600; color:#5B4B8A;">
           I understand these preview and safety notes.
         </label>
@@ -336,7 +345,7 @@
       <div class="card-icon">🪺</div>
       <h1>Your Nest is ready!</h1>
       <p style="margin:12px 0 20px;">
-        You chose your VentPal, made your name, and set up your space. Your bird stays yours through every feeling.
+        You chose your VentPal, made your name, and set up your space. One last thing: a secret PIN so only you can open your Nest.
       </p>
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:16px;text-align:left;">
         <p style="font-size:13px;color:#166534;">
@@ -347,7 +356,7 @@
     </div>
     <div style="display:flex;gap:10px;margin-top:4px;">
       <button class="btn-secondary" onclick="goTo(5)">← Back</button>
-      <button class="btn-primary" onclick="finishOnboarding()">Enter My Nest 🪺</button>
+      <button class="btn-primary" onclick="finishOnboarding()">Make my secret PIN →</button>
     </div>
   </div>
 
@@ -382,9 +391,24 @@
       { name:'Orange',  hex:'#fb923c' },
     ];
 
-    /* ───────────────────────────────
-       STATE
-    ─────────────────────────────── */
+    /* Fresh start guard: a finished profile left on this device must never leak into a new child's setup. */
+let _redirecting = false;
+try {
+if (localStorage.getItem('ventpals_logged_in') === 'true' && localStorage.getItem('ventpals_onboarding_complete') === 'true') {
+_redirecting = true; window.location.replace('../nest.html');
+} else if (!sessionStorage.getItem('vp_onb_session')) {
+const prev = JSON.parse(localStorage.getItem('ventpals_user') || '{}');
+if (prev.demoProfile || prev.hasPin || localStorage.getItem('ventpals_onboarding_complete') === 'true') {
+['ventpals_user','ventpals_pin_hash','ventpals_active_profile','ventpals_onboarding_choice'].forEach(k => localStorage.removeItem(k));
+localStorage.setItem('ventpals_onboarding_complete', 'false');
+}
+sessionStorage.setItem('vp_onb_session', '1');
+}
+} catch (e) {}
+
+/* ───────────────────────────────
+STATE
+─────────────────────────────── */
     const state = {
       step:          1,
       selectedBird:  null,
@@ -411,7 +435,7 @@
         if (wordDisplay) wordDisplay.textContent = state.powerWord;
         if (namePreview) namePreview.textContent = state.displayName;
         if (result) result.style.display = 'block';
-        if (next) { next.disabled = false; next.textContent = 'Name saved ✓'; }
+        if (next) { next.disabled = false; next.textContent = 'Next →'; }
         if (generate) generate.disabled = true;
       }
     } catch (e) {}
@@ -425,7 +449,9 @@
       if (n > state.step) document.getElementById('dot-' + state.step).classList.add('complete');
 
       state.step = n;
-      document.getElementById('step-' + n).classList.add('active');
+const lbl = document.getElementById('stepLabel'); if (lbl) lbl.textContent = 'Step ' + n + ' of 6';
+if (n === 4) paintAvatar();
+document.getElementById('step-' + n).classList.add('active');
       document.getElementById('dot-'  + n).classList.add('active');
       window.scrollTo({ top:0, behavior:'smooth' });
     }
@@ -489,13 +515,33 @@
     /* ───────────────────────────────
        STEP 3 — NAME
     ─────────────────────────────── */
-    function generatePowerWord() { window.location.href = '../naming.html?return=onboarding'; }
+    const WORDS = ['Brightcrest','Stormwing','Starfeather','Embercrest','Skybound','Dawnkeeper','Moonwing','Swiftwind','Sunstride','Cloudbreaker','Wildheart','Boldflight','Firecrest','Skydancer','Thunderfeather','Dreamwing','Goldensong','Bravebloom','Windrider','Starlight','Everwing','Trueflight','Hopecrest','Stormfeather','Silverwing','Flamekeeper','Radiantwing','Fearlessflight','Skyspark','Horizonheart','Featherstone','Sunflare'];
+function nameTaken(full) {
+try { return JSON.parse(localStorage.getItem('ventpals_demo_profiles') || '[]').some(p => String(p.username || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase() === full.toLocaleLowerCase()); } catch (e) { return false; }
+}
+function showNameAlert(msg) { const a = document.getElementById('alertName'); a.textContent = msg; a.classList.toggle('show', !!msg); }
+function makePowerWord() {
+if (state.nameLocked) return;
+const nick = document.getElementById('nicknameInput').value.trim().replace(/\s+/g, ' ');
+if (nick.length < 3) { showNameAlert('Please type a nickname with at least 3 letters.'); document.getElementById('nicknameInput').focus(); return; }
+if (!/^[A-Za-z][A-Za-z '\-]{1,18}[A-Za-z]$/.test(nick)) { showNameAlert('Nicknames can only use letters. Please skip numbers, symbols and contact details.'); return; }
+showNameAlert('');
+const options = WORDS.filter(w => w !== state.powerWord && !nameTaken(nick + ' ' + w));
+if (!options.length) { showNameAlert('That nickname is used up on this device. Try a different one.'); return; }
+state.nickname = nick;
+state.powerWord = options[Math.floor(Math.random() * options.length)];
+state.displayName = nick + ' ' + state.powerWord;
+document.getElementById('powerWordDisplay').textContent = state.powerWord;
+document.getElementById('fullNamePreview').textContent = state.displayName;
+document.getElementById('powerWordResult').style.display = 'block';
+document.getElementById('genWordBtn').textContent = 'Try another PowerWord 🔄';
+document.getElementById('nameNextBtn').disabled = false;
+}
 
     function confirmName() {
       if (!state.powerWord) {
-        document.getElementById('alertName').textContent = 'Please generate your PowerWord first.';
-        document.getElementById('alertName').classList.add('show');
-        return;
+        showNameAlert('Tap “Make my PowerWord” first.');
+return;
       }
       // Save the selected name immediately and lock it. Going back later cannot change it.
       const raw = localStorage.getItem('ventpals_user');
@@ -508,8 +554,9 @@
       const nextButton = document.getElementById('nameNextBtn');
       if (nicknameInput) nicknameInput.disabled = true;
       if (generatorButton) generatorButton.disabled = true;
-      if (nextButton) nextButton.textContent = 'Name saved ✓';
-      goTo(4);
+      if (nextButton) nextButton.textContent = 'Next →';
+const lockNote = document.getElementById('lockNote'); if (lockNote) lockNote.textContent = 'Your name is saved. It stays yours. 🔒';
+goTo(4);
     }
 
     /* ───────────────────────────────
@@ -518,30 +565,41 @@
     function buildColourGrid() {
       const grid = document.getElementById('colourGrid');
       COLOURS.forEach((c, i) => {
-        const chip = document.createElement('div');
-        chip.className = 'colour-chip' + (i === 0 ? ' selected' : '');
-        chip.style.background = c.hex;
-        chip.title = c.name;
+        const chip = document.createElement('button');
+chip.type = 'button';
+chip.className = 'colour-chip' + (i === 0 ? ' selected' : '');
+chip.style.background = c.hex;
+chip.title = c.name;
+chip.setAttribute('aria-label', c.name);
+chip.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
         chip.addEventListener('click', () => {
-          document.querySelectorAll('.colour-chip').forEach(x => x.classList.remove('selected'));
-          chip.classList.add('selected');
-          state.colour = c.hex;
+          document.querySelectorAll('.colour-chip').forEach(x => { x.classList.remove('selected'); x.setAttribute('aria-pressed', 'false'); });
+chip.classList.add('selected');
+chip.setAttribute('aria-pressed', 'true');
+state.colour = c.hex;
+paintAvatar();
         });
         grid.appendChild(chip);
       });
     }
 
-    function confirmAvatar() {
+    function paintAvatar() {
+const img = document.getElementById('avatarPreview'); if (!img) return;
+if (state.selectedBird) { img.src = '../assets/images/' + state.selectedBird.id + '-baby.png'; img.alt = state.selectedBird.name; }
+img.style.boxShadow = '0 0 0 6px ' + state.colour + ', 0 0 28px ' + state.colour;
+}
+function confirmAvatar() {
       goTo(5);
     }
 
     /* ───────────────────────────────
        STEP 5 — PRIVACY
     ─────────────────────────────── */
-    function confirmPrivacy() {
+    document.addEventListener('change', e => { if (e.target && e.target.id === 'privacyCheck') document.getElementById('privacyMsg').classList.remove('show'); });
+function confirmPrivacy() {
       if (!document.getElementById('privacyCheck').checked) {
-        alert('Please read and check the safety rules before continuing.');
-        return;
+        document.getElementById('privacyMsg').classList.add('show'); document.getElementById('privacyCheck').focus();
+return;
       }
       goTo(6);
     }
@@ -569,8 +627,9 @@
       localStorage.setItem('ventpals_growth', JSON.stringify({ xp: 0, badges: {}, daily: {}, days: [] }));
 
       localStorage.setItem('ventpals_user',               JSON.stringify(user));
-      localStorage.setItem('ventpals_onboarding_complete','true');
-      localStorage.removeItem('ventpals_onboarding_choice');
+      localStorage.setItem('ventpals_onboarding_complete','false');
+localStorage.removeItem('ventpals_onboarding_choice');
+try { sessionStorage.removeItem('vp_onb_session'); } catch (e) {}
       localStorage.removeItem('ventpals_logged_in');
 
       // Credentials are created only after the child has completed the experience setup.
@@ -581,9 +640,11 @@
     /* ───────────────────────────────
        INIT
     ─────────────────────────────── */
-    buildColourGrid();
-    buildBirdChoices();
-    if (loadBirdChoice()) {
+    if (!_redirecting) {
+buildColourGrid();
+buildBirdChoices();
+}
+if (!_redirecting && loadBirdChoice()) {
       // The bird choice is already saved. Return directly to the name step.
       document.getElementById('dot-1').classList.add('complete');
       document.getElementById('dot-2').classList.add('complete');

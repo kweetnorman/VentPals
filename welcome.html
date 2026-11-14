@@ -126,8 +126,16 @@
       <section class="login-card" aria-labelledby="welcomeHeading">
         <nav class="switch" aria-label="Account options">
           <a href="onboarding/onboarding.html">🌱 I'm new here</a>
-          <span>🪺 I have a Nest</span>
+          <span id="haveNest">🪺 I have a Nest</span>
         </nav>
+        <div id="newVisitor" class="hidden">
+          <p class="eyebrow">Let's get started</p>
+          <h2>Hi there, new friend!</h2>
+          <p class="lead">Pick your very own bird, make a special name, and set up your Nest. It takes about two minutes, and you don't need an email or your real name.</p>
+          <a class="primary" href="onboarding/onboarding.html" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Meet my bird 🐦</a>
+          <p class="hint">Already made a Nest on this device? It will show up here the next time you visit.</p>
+        </div>
+        <div id="returning">
         <p class="eyebrow">Good to see you again</p>
         <h2 id="welcomeHeading">Welcome back!</h2>
         <p class="lead">Let's find your Nest and pick up right where you left off.</p>
@@ -159,6 +167,7 @@
         </form>
 
         <div class="foot">New to VentPals? <a href="onboarding/onboarding.html">Create your Nest</a></div>
+        </div>
       </section>
     </div>
 
@@ -195,7 +204,7 @@
   localStorage.setItem('ventpals_demo_last_activity',String(Date.now()));
   location.href=selected.onboardingComplete?'app-switcher.html':'onboarding/onboarding.html';
  });
- if(!profiles.length)showError('No saved Nest yet. Select “I’m new here” to get started.');
+ if(!profiles.length){$('returning').classList.add('hidden');$('newVisitor').classList.remove('hidden');$('errorBox').classList.remove('show');document.querySelector('.switch').classList.add('hidden')}
 })();
 </script>
 </body>

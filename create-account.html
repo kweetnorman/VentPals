@@ -12,7 +12,7 @@
 </head><body><main>
 <div style="text-align:center;font-size:48px" aria-hidden="true">🪺</div>
 <h1>Protect Your Nest!</h1>
-<p>Your personal VentPals name is already your username. You only need to create a 4-digit secret PIN so you can return to your Nest.</p>
+<p>Last step! Your VentPals name is already your username. Make a 4-digit secret PIN so only you can open your Nest. Pick numbers you will remember.</p>
 <div class="identity"><small>Your VentPals username</small><strong id="personalName">Loading your name…</strong></div>
 <form id="accountForm" novalidate><div id="errorBox" class="error" role="alert"></div>
 <label for="pin">Create your 4-digit secret PIN</label><input class="pin" id="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="new-password" placeholder="••••" required>
@@ -24,7 +24,8 @@
  const $=id=>document.getElementById(id);
  let user={};try{user=JSON.parse(localStorage.getItem('ventpals_user')||'{}')}catch(e){}
  const personalName=String(user.displayName||'').trim().replace(/\s+/g,' ');
- if(!user.birdLocked||!user.namesLocked||!personalName){location.replace('onboarding/onboarding.html');return}
+ if(localStorage.getItem('ventpals_logged_in')==='true'&&localStorage.getItem('ventpals_onboarding_complete')==='true'){location.replace('nest.html');return}
+if(!user.birdLocked||!user.namesLocked||!personalName){location.replace('onboarding/onboarding.html');return}
  $('personalName').textContent=personalName;
  function error(message){$('errorBox').textContent=message;$('errorBox').classList.add('show')}
  $('accountForm').addEventListener('submit',function(e){
