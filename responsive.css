@@ -1,35 +1,129 @@
-/* VentPals responsive foundation — shared across child and guide experiences. */
-*,*::before,*::after{box-sizing:border-box}
-html{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{width:100%;min-width:0;max-width:100%;margin-inline:0;overflow-x:hidden}
-main,header,footer,section,article,aside,nav,form,fieldset{min-width:0;max-width:100%}
-img,svg,video,canvas,iframe{max-width:100%}
-img,video{height:auto}
-button,input,select,textarea{max-width:100%;min-width:0}
-input,select,textarea{font-size:16px}
-pre,code{max-width:100%;overflow-wrap:anywhere;white-space:pre-wrap}
-table{max-width:100%;border-collapse:collapse}
-:where(.shell,.page,.wrap,.content,.main-content,.layout,.panel,.card,.soft-card){min-width:0;max-width:100%}
-:where(.flex,.d-flex,.grid)>*{min-width:0}
-:where(h1,h2,h3,h4,p,a,button,label,small,strong,span){overflow-wrap:break-word}
-@media(max-width:760px){
-  .shell{width:calc(100% - 32px);margin-inline:auto}
-  .container{width:100%;max-width:100%;padding-inline:clamp(12px,3vw,24px)}
-  .flex,.d-flex{min-width:0;flex-wrap:wrap}
-  [style*="display:flex"],[style*="display: flex"]{min-width:0;flex-wrap:wrap}
-  .grid,.grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .w-screen{width:100%;max-width:100%}
-  [style*="width:"]{max-width:100%}
-  table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .overflow-x-auto{max-width:100%;overscroll-behavior-x:contain}
-  iframe{width:100%;height:auto}
+/* VentPals responsive foundation.
+   Keep this layer deliberately non-invasive: page components own their layout
+   and breakpoints; this file prevents overflow without rewriting every grid/flex. */
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
-@media(max-width:480px){
-  .shell{width:calc(100% - 24px)}
-  .grid,.grid-cols-2,.grid-cols-3,.grid-cols-4,.grid-cols-5,.grid-cols-6,.grid-cols-7,.grid-cols-8{grid-template-columns:minmax(0,1fr)}
-  .text-5xl{font-size:2.25rem;line-height:1.15}
-  .text-4xl{font-size:1.9rem;line-height:1.2}
-  .rounded-3xl{border-radius:1.25rem}
-  [style*="width:"]{max-width:100%}
-  button,a{overflow-wrap:anywhere}
+
+html {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin-inline: 0;
+}
+
+:where(main, header, footer, section, article, aside, nav, form, fieldset) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+:where(img, svg, video, canvas, iframe) {
+  max-inline-size: 100%;
+}
+
+:where(img, video) {
+  block-size: auto;
+}
+
+:where(button, input, select, textarea) {
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  font: inherit;
+}
+
+:where(input, select, textarea) {
+  font-size: 16px;
+}
+
+:where(pre, code) {
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
+}
+
+pre {
+  overflow-x: auto;
+}
+
+:where(table) {
+  max-inline-size: 100%;
+  border-collapse: collapse;
+}
+
+:where(.shell, .page, .wrap, .content, .main-content, .layout, .panel, .card, .soft-card) {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+:where(.flex, .d-flex, .grid) > * {
+  min-inline-size: 0;
+}
+
+:where(h1, h2, h3, h4, p, a, button, label, small, strong, span) {
+  overflow-wrap: break-word;
+}
+
+/* Opt-in helpers. Use these on components that need a predictable mobile layout. */
+.vp-fluid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1rem;
+}
+
+.vp-scroll-region {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 760px) {
+  .shell {
+    inline-size: min(100% - 2rem, 100%);
+    margin-inline: auto;
+  }
+
+  .container {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    padding-inline: clamp(0.75rem, 3vw, 1.5rem);
+  }
+
+  :where(table).vp-scroll-region,
+  .vp-scroll-region > table {
+    display: block;
+    inline-size: 100%;
+    overflow-x: auto;
+  }
+
+  iframe {
+    inline-size: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .shell {
+    inline-size: min(100% - 1.5rem, 100%);
+  }
+
+  .text-5xl {
+    font-size: 2.25rem;
+    line-height: 1.15;
+  }
+
+  .text-4xl {
+    font-size: 1.9rem;
+    line-height: 1.2;
+  }
+
+  .rounded-3xl {
+    border-radius: 1.25rem;
+  }
 }
