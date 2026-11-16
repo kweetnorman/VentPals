@@ -180,6 +180,31 @@
     .device b{font-size:17px;line-height:1.15;text-shadow:0 2px 0 rgba(0,0,0,.18)}
     @keyframes devglow{from{box-shadow:0 0 0 3px var(--dev,#9675d4),0 0 14px var(--dev,#9675d4),inset 0 -10px 22px rgba(0,0,0,.18)}to{box-shadow:0 0 0 3px var(--dev,#9675d4),0 0 34px var(--dev,#9675d4),inset 0 -10px 22px rgba(0,0,0,.18)}}
   </style>
+
+  <style id="vp-world-responsive-phase-2">
+    html,body{width:100%;max-width:100%;overflow-x:hidden}
+    .world-shell{width:min(100% - 32px,1280px);margin-inline:auto;min-width:0}
+    .world-shell *{min-width:0}
+    .map-frame{width:100%;max-width:100%;min-width:0}
+    .world-map{display:block;width:100%;max-width:100%;height:auto;min-height:0}
+    .panel-card{width:min(100%,680px);max-width:100%;min-width:0;overflow:auto;overscroll-behavior:contain}
+    #zonePanel,#infoModal{padding:12px}
+    .device-wrap,.home-detail{max-width:100%;overflow-wrap:anywhere}
+    @media(max-width:640px){
+      .world-shell{width:calc(100% - 24px)}
+      header{padding-inline:12px}
+      header h1{font-size:clamp(2.25rem,11vw,3.6rem)!important;line-height:1.02;overflow-wrap:anywhere}
+      header p{max-width:100%;overflow-wrap:anywhere}
+      .map-frame{border-width:3px!important;border-radius:20px!important}
+      .world-map{min-height:0!important}
+      .panel-card{max-height:calc(100dvh - 24px);padding:18px!important;border-width:3px}
+      #zonePanel,#infoModal{align-items:flex-end;padding:10px}
+      #birdBubble{max-width:min(220px,75vw);font-size:12px}
+      .device{width:min(210px,65vw)}
+    }
+    @media(max-width:360px){.world-shell{width:calc(100% - 16px)}.panel-card{padding:14px!important}}
+  </style>
+
 </head>
 <body class="text-slate-800">
   <script>if(localStorage.getItem('ventpals_logged_in')!=='true'){window.location.replace('welcome.html');}</script>
