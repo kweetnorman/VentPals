@@ -304,6 +304,71 @@
   </style>
   <script>document.documentElement.classList.add('js')</script>
   <link rel="stylesheet" href="responsive.css">
+
+  <style id="vp-home-responsive-phase-2">
+    html,body{width:100%;max-width:100%;overflow-x:hidden}
+    .wrap{min-width:0}
+    .nav,.nav-actions,.hero-grid,.hero-actions,.foot-grid{min-width:0}
+    .hero-grid>*{min-width:0}
+    .hero h1,.section-head h2,.grownups-banner h2{overflow-wrap:anywhere}
+    .hero-art-card,.grownups-banner,.growth-container{min-width:0;max-width:100%}
+    .stage-card,.feature-card-compact,.bird-card,.fact-item{min-width:0;overflow-wrap:anywhere}
+    .stage-card img{max-width:100%}
+    .flock-slider-grid{min-width:0}
+    .btn{max-width:100%;white-space:normal;text-align:center;line-height:1.2;padding:10px 18px}
+    @media(max-width:900px){
+      .nav{gap:12px;flex-wrap:wrap;padding-block:10px}
+      .brand{flex-shrink:0}
+      .nav-actions{margin-left:auto}
+      .hero-grid{grid-template-columns:minmax(0,1fr);}
+      .hero-grid>div{min-width:0}
+      .hero-art-card{width:min(100%,560px);margin-inline:auto}
+      .ladder{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:600px){
+      .wrap{padding-inline:16px}
+      .nav{min-height:64px;flex-wrap:nowrap}
+      .brand{font-size:1.35rem}
+      .brand img{height:38px}
+      .menu-btn{padding-inline:11px;font-size:.85rem}
+      .hero{padding-top:28px}
+      .hero-badge{font-size:.75rem;max-width:100%;text-align:center}
+      .hero h1{font-size:clamp(2.1rem,10vw,3rem)}
+      .hero .lede{font-size:1rem}
+      .hero-actions{display:grid;grid-template-columns:minmax(0,1fr);width:100%}
+      .hero-actions .btn{width:100%}
+      .hero-art-card{padding:16px;border-radius:22px}
+      .hero-main-avatar{max-width:min(70vw,240px)}
+      .feeling-bubbles{gap:7px}
+      .feeling-chip{font-size:.78rem;padding:7px 10px}
+      .section{padding-block:52px}
+      .section-head{margin-bottom:28px}
+      .section-head h2{font-size:clamp(1.9rem,8vw,2.5rem)}
+      .section-head .intro{font-size:1rem}
+      .growth-container{padding:16px;border-radius:22px}
+      .ladder{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .stage-card{padding:12px 8px}
+      .stage-card img{height:88px}
+      .cards-row-4{grid-template-columns:minmax(0,1fr)}
+      .flock-slider-container{gap:5px}
+      .flock-slider-grid{grid-template-columns:minmax(0,1fr);}
+      .slider-btn{width:34px;height:34px;flex:0 0 34px}
+      .grownups-banner{padding:22px 16px;border-radius:24px}
+      .grownups-banner>div:last-child{display:grid!important;grid-template-columns:minmax(0,1fr);gap:10px}
+      .foot-grid{grid-template-columns:minmax(0,1fr);gap:26px}
+      footer{padding:42px 0 26px}
+      .legal{margin-top:28px;font-size:.78rem;overflow-wrap:anywhere}
+    }
+    @media(max-width:360px){
+      .wrap{padding-inline:12px}
+      .nav{gap:6px}
+      .brand{gap:7px;font-size:1.2rem}
+      .menu-btn{padding-inline:8px}
+      .ladder{grid-template-columns:minmax(0,1fr)}
+      .slider-btn{width:30px;height:30px;flex-basis:30px}
+    }
+  </style>
+
 </head>
 <body>
   <a class="skip" href="#main">Skip to main content</a>

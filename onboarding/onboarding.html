@@ -169,6 +169,41 @@
     }
   </style>
   <link rel="stylesheet" href="../responsive.css">
+
+  <style id="vp-onboarding-responsive-phase-2">
+    html,body{width:100%;max-width:100%;overflow-x:hidden}
+    .step{width:100%;max-width:580px;margin-inline:auto;min-width:0}
+    .step .card{min-width:0;overflow-wrap:anywhere}
+    .step img{max-width:100%;height:auto}
+    .step .card-icon{width:min(112px,34vw);height:auto;aspect-ratio:1;object-fit:contain}
+    .bird-grid{grid-template-columns:repeat(auto-fit,minmax(0,1fr));}
+    .bird-option{min-width:0;padding:12px 8px;overflow-wrap:anywhere}
+    .bird-option .bird-art{width:min(88px,100%);height:auto;aspect-ratio:1}
+    .step > div[style*="display:flex"]{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important;min-width:0}
+    .step > div[style*="display:flex"] button{width:100%;min-width:0;padding-inline:10px;white-space:normal}
+    .privacy-item{min-width:0;align-items:flex-start}
+    .privacy-item>div:last-child{min-width:0;overflow-wrap:anywhere}
+    input,select,button{max-width:100%;min-width:0}
+    @media(max-width:480px){
+      .progress-bar{gap:7px;padding-top:14px}
+      #stepLabel{margin:18px 0 10px!important}
+      .step{padding:12px 12px 28px}
+      .step .card{padding:22px 16px;border-radius:20px}
+      .bird-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .bird-option .bird-art{width:72px}
+      .privacy-item{gap:9px;padding:11px}
+      .privacy-icon{font-size:19px}
+      .step p{overflow-wrap:anywhere}
+      .power-word-big{font-size:1.5rem;overflow-wrap:anywhere}
+    }
+    @media(max-width:340px){
+      .step{padding-inline:8px}
+      .step .card{padding:18px 12px}
+      .step > div[style*="display:flex"]{grid-template-columns:1fr}
+      .bird-option .bird-art{width:60px}
+    }
+  </style>
+
 </head>
 <body>
 
