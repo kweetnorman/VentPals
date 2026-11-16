@@ -102,6 +102,40 @@
     @media(max-width:380px){.login-card{padding:18px 15px}.story-pills span{font-size:10px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
+
+  <style id="vp-welcome-responsive-phase-2">
+    html,body{width:100%;max-width:100%;overflow-x:hidden}
+    .page,.layout,.story,.login-card{min-width:0;max-width:100%}
+    .story-copy,.lead,.dev{overflow-wrap:anywhere}
+    .hero-bird{max-width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+    input,select,button{max-width:100%;min-width:0}
+    .identity strong{overflow-wrap:anywhere}
+    @media(max-width:760px){
+      .page{width:100%}
+      .layout{width:100%;grid-template-columns:minmax(0,1fr);}
+      .story,.login-card{width:100%}
+      .story{min-height:0}
+      .hero-bird{width:min(145px,45vw);height:auto;aspect-ratio:1}
+    }
+    @media(max-width:480px){
+      body{padding:12px 10px 20px}
+      .topbar{margin-bottom:12px}
+      .brand img{width:44px;height:44px}
+      .brand-name{font-size:23px}
+      .story{padding:18px 14px;border-radius:22px}
+      .story h1{font-size:clamp(25px,8vw,29px)}
+      .story-pills{gap:6px}
+      .story-pills span{padding:7px 9px}
+      .login-card{padding:19px 14px;border-radius:22px}
+      .switch{gap:4px;padding:4px}
+      .switch a,.switch span{font-size:11px;padding:8px 5px}
+      h2{font-size:clamp(23px,7vw,26px)}
+      .pin{letter-spacing:.35em}
+      .dev{padding:10px 12px}
+    }
+    @media(max-width:340px){body{padding-inline:8px}.login-card{padding:16px 11px}.identity{padding:14px 10px}.identity strong{font-size:23px}}
+  </style>
+
 </head>
 <body>
   <main class="page">
